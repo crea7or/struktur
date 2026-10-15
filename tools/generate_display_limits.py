@@ -8,6 +8,7 @@ import argparse
 from decimal import Decimal, ROUND_HALF_UP
 import json
 import re
+from functools import lru_cache
 from pathlib import Path
 from header_text import unit_header
 
@@ -18,11 +19,12 @@ GROUPS = [
     dict(id='wide', title='1030/1040', products=['edge1030','edge1040']),
     dict(id='large', title='1050', products=['edge1050']),
 ]
-EFFECTS = {'grade','temperature','current_heart_rate','average_heart_rate','heart_rate_3s',
-           'current_power','average_power','power_3s'}
 
 
 def read(name): return json.loads((ROOT/name).read_text(encoding='utf-8-sig'))
+
+# All selectable fields can have a semantic or neutral label-band outline.
+EFFECTS = {field['id'] for field in read('config/catalogue.json')['fields']}
 
 
 def rounded(value, places):
@@ -86,15 +88,34 @@ def bounds(text, font, envelope=False):
     return (min(c['top'] for c in visible),max(c['bottom'] for c in visible)) if visible else (0,0)
 
 
+@lru_cache(maxsize=2)
+def shared_band_height(glyph_bounds):
+    font={ch:dict(top=top,bottom=bottom) for ch,top,bottom in glyph_bounds}
+    headers=set()
+    for field in read('config/catalogue.json')['fields']:
+        headers.add(field['label'])
+        for statute in [False,True]:
+            header=unit_header(field,units(field,statute),True)
+            headers.add(header)
+            if field['format']=='clock':headers.update([header+' | am',header+' | pm'])
+    minimum=min(6+sum(bounds(header,font)) for header in headers)
+    safe=max(3+bounds(header,font)[1]+1 for header in headers)
+    return max(minimum,safe)
+
+
+def header_band_height(font):
+    return shared_band_height(tuple((ch,m['top'],m['bottom']) for ch,m in sorted(font.items())))
+
+
 def fits(text, secondary, label, numeric, labels, line_height, w, h, radius, label_effect=False):
     margin=4+radius
     if width(label,labels)>w-2*margin: return False
     ink=bounds(text,numeric,True); unit_ink=bounds(secondary,labels,True)
-    top=int(rounded(line_height+(h-line_height-(ink[1]-ink[0]))/2,0))
+    header_height=max(line_height,header_band_height(labels))
+    top=int(rounded(header_height+(h-header_height-(ink[1]-ink[0]))/2,0))
     total=width(text,numeric)+(width(secondary,labels)+2 if secondary else 0)
-    label_bounds=bounds(label,labels)
-    band_height=6+label_bounds[0]+label_bounds[1] if label_effect else 0
-    return (total<=w-2*margin and top>=band_height and top-radius>=line_height and
+    band_height=header_band_height(labels) if label_effect else 0
+    return (total<=w-2*margin and top>=band_height and top-radius>=header_height and
             top-radius>=4+bounds(label,labels)[1]+radius+2 and
             top+ink[1]-ink[0]+radius<=h and top+unit_ink[1]-unit_ink[0]+radius<=h)
 
@@ -166,14 +187,15 @@ def generate():
                     for shown in [False,True]:
                         for clock24 in ([True,False] if field['format']=='clock' else [True]):
                             header=unit_header(field,unit,shown)
-                            radius=int(field['id'] in EFFECTS); bands=[]; samples=[]
+                            # Every known field can now paint a semantic or neutral band.
+                            radius=1; bands=[]; samples=[]
                             for low,high,step in segments(field,*domain,clock24):
                                 points=examples(low,high,step); prepared=[]; accepted=True
                                 for value in points:
                                     label=header
                                     if field['format']=='clock' and not clock24: label+=' | '+('am' if value<720 else 'pm')
                                     text,secondary=formatted(field,value,clock24)
-                                    if not fits(text,secondary,label,numeric,labels,label_record['line_height'],w,h,radius,field['id'] in EFFECTS and field['id']!='grade'): accepted=False
+                                    if not fits(text,secondary,label,numeric,labels,label_record['line_height'],w,h,radius,field['id']!='grade'): accepted=False
                                     prepared.append([value*1000 if field['format']=='duration' else value,text,secondary])
                                 if accepted:
                                     if bands and abs(bands[-1]['max']+step-low)<0.000001: bands[-1]['max']=high

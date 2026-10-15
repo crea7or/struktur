@@ -86,8 +86,7 @@ function composedHeaderWidthAudit(logger) {
             Test.assertEqual(plainWidth,FontMetrics.width(plain,metrics));
             Test.assertEqual(headerWidth,FontMetrics.width(header,metrics));
             for(var big=0;big<=1;big+=1) {
-                var available=(big==1?profileDrawWidth():profileDrawWidth()/2)-8;
-                if(index==4 || index==5 || index==7 || index==8 || index==9 || index==15 || index==20 || index==25) { available-=2; }
+                var available=(big==1?profileDrawWidth():profileDrawWidth()/2)-10;
                 var fits=headerWidth<=available;
                 checked+=1;
                 if(unit.length()>0) { Test.assert(fits); }
@@ -275,6 +274,8 @@ function normalPresentationDrawAndAlignment(logger) {
         }
     }
     verifyWhiteTemperatureContrast();
+    verifyNeutralLabelBands();
+    for(var neutralCase=0;neutralCase<12;neutralCase+=1) { new NeutralBandScenario(neutralCase).run(); }
     for(var caseIndex=0;caseIndex<384;caseIndex+=1) { new ColoredFieldScenario(caseIndex).run(); }
     return true;
 }

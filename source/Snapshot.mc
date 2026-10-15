@@ -76,6 +76,10 @@ class SnapshotEngine {
             else if("elevation".equals(id)) { text=Formatting.integral(value); }
             else { text="heading".equals(id)?Formatting.heading(value):("float".equals(fmt) ? Formatting.floating(value) : Formatting.integral(value)); }
             var band=null; var angle=null;
+            // APP-49/DVS-6: neutral headers are independent of reading availability.
+            if(settings.effects[i] && idx!=null && !Effects.hasCustomBackground(id)) {
+                band=FieldPresentation.effectiveNight(night,i<settings.enlarged,settings.inverseEnlargedTheme)?"dark_gray":"light_gray";
+            }
             if(settings.effects[i] && value!=null) {
                 if("grade".equals(id)) { band=Effects.gradeBand(rawValue(raw,id)); angle=Effects.horizonAngle(rawValue(raw,id)); }
                 else if("temperature".equals(id)) { band=Effects.temperatureBand(rawValue(raw,id)); }

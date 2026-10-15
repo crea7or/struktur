@@ -89,6 +89,9 @@ function normalRangeCellBounds(logger) {
             var run=renderer.fitRun(cell,value,DeviceProfile.LABEL_SIZE,value[:text],value[:unit]);
             if(run==null) { logger.debug("NORMAL_GUARANTEE_FAIL field="+Catalog.IDS[row[0]]+" case="+c+" point="+s); }
             Test.assert(run!=null);Test.assertEqual(point[1],run[:text]);
+            if(value[:band]!=null && value[:angle]==null) {
+                Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,run[:labelBand]);
+            }
             Test.assert(!PresentationPolicy.OVERFLOW.equals(run[:text]));
             Test.assertEqual(dc.getTextWidthInPixels(run[:text],numericFonts[role]),run[:width]);
             Test.assertEqual(dc.getTextWidthInPixels(run[:unit],labelFont),run[:unitWidth]);
@@ -97,7 +100,8 @@ function normalRangeCellBounds(logger) {
                 var x=align==1?cell[:w]-run[:margin]-run[:total]:(cell[:w]-run[:total])/2;
                 Test.assert(x-run[:radius]>=4 && x+run[:total]+run[:radius]<=cell[:w]-4);
             }
-            Test.assert(run[:top]-run[:radius]>=FontSelection.height(DeviceProfile.LABEL_SIZE,true));
+            Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,renderer._headerHeight);
+            Test.assert(run[:top]-run[:radius]>=renderer._headerHeight);
             Test.assert(run[:top]+run[:ink][1]-run[:ink][0]+run[:radius]<=cell[:h]);
             checked+=1;
         }

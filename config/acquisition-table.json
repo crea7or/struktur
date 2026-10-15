@@ -264,7 +264,7 @@
   {
     "identifier": "power_zone",
     "requirement": "DVS-24",
-    "version": 25,
+    "version": 27,
     "source": "UserProfile.getPowerZones(Activity.SPORT_CYCLING)",
     "context": "Foreground UserProfile permission; power method guarded and unavailable on older APIs; metadata loaded at initialization/settings reload.",
     "raw_type": "nullable numeric",
@@ -343,7 +343,7 @@
   {
     "identifier": "total_ascent",
     "requirement": "DVS-27",
-    "version": 27,
+    "version": 28,
     "source": "Activity.Info.totalAscent",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -369,7 +369,7 @@
   {
     "identifier": "total_descent",
     "requirement": "DVS-28",
-    "version": 27,
+    "version": 28,
     "source": "Activity.Info.totalDescent",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -503,7 +503,7 @@
   {
     "identifier": "calories",
     "requirement": "DVS-33",
-    "version": 31,
+    "version": 32,
     "source": "Activity.Info.calories",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",

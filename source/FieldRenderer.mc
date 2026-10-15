@@ -20,6 +20,8 @@ class FieldRenderer {
     var _labels=null;
     var _labelHeight=0;
     var _labelTop=3;
+    var _labelBandHeight=0;
+    var _headerHeight=0;
     var _labelMetrics=null;
     var _compactText="full grid needs larger area";
     var _compactLines=[];
@@ -28,7 +30,11 @@ class FieldRenderer {
     var _compactTop=0;
     var layoutCount=0;
     var fontLoads=0;
-    function initialize() {}
+    function initialize() {
+        _labelBandHeight=FieldPresentation.headerBandHeight(metric(DeviceProfile.LABEL_SIZE,true),_labelTop);
+        var line=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
+        _headerHeight=line>_labelBandHeight?line:_labelBandHeight;
+    }
     function needsLayout() { return _needsLayout; }
     function painted(value) { return value[:band]!=null || value[:angle]!=null; }
     function numericSizes(enlarged) {
@@ -55,10 +61,10 @@ class FieldRenderer {
         return text==null?PresentationPolicy.UNAVAILABLE:("overflow".equals(text)?PresentationPolicy.OVERFLOW:text);
     }
     function fitRun(cell,value,labelSize,text,unit) {
-        var lm=metric(labelSize,true); var lh=FontSelection.height(labelSize,true);
+        var lm=metric(labelSize,true);
         var labelInk=FontMetrics.bounds(value[:label],lm);
         var radius=painted(value)?1:0; var margin=4+radius;
-        var labelBand=value[:band]!=null && value[:angle]==null?2*_labelTop+labelInk[0]+labelInk[1]:0;
+        var labelBand=value[:band]!=null && value[:angle]==null?_labelBandHeight:0;
         if(FontMetrics.width(value[:label],lm)>cell[:w]-2*margin) { return null; }
         var sizes=numericSizes(cell[:enlarged]);
         var maximum=cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE;
@@ -72,10 +78,10 @@ class FieldRenderer {
                 secondary=expanded;unitWidth=FontMetrics.width(secondary,lm);
             }
             var total=valueWidth+(unitWidth>0?unitWidth+2:0);
-            var top=Numeric.rounded(lh+(cell[:h]-lh-(ink[1]-ink[0]))/2.0);
+            var top=Numeric.rounded(_headerHeight+(cell[:h]-_headerHeight-(ink[1]-ink[0]))/2.0);
             var unitInk=FontMetrics.bounds(secondary,lm);
             var secondaryHeight=unitInk[1]-unitInk[0];
-            if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=lh && top-radius>=4+labelInk[1]+radius+2 &&
+            if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=_headerHeight && top-radius>=4+labelInk[1]+radius+2 &&
                 top+ink[1]-ink[0]+radius<=cell[:h] && top+secondaryHeight+radius<=cell[:h]) {
                 return {:size=>size,:text=>text,:unit=>secondary,:width=>valueWidth,:unitWidth=>unitWidth,
                     :total=>total,:top=>top,:ink=>ink,:unitInk=>unitInk,:margin=>margin,:radius=>radius,:labelBand=>labelBand};
@@ -205,6 +211,7 @@ class FieldRenderer {
         }
     }
     function color(name) {
+        if("light_gray".equals(name)) { return 0xCCCCCC; } if("dark_gray".equals(name)) { return 0x333333; }
         if("blue".equals(name)) { return Graphics.COLOR_BLUE; } if("green".equals(name)) { return Graphics.COLOR_GREEN; }
         if("yellow".equals(name)) { return Graphics.COLOR_YELLOW; } if("orange".equals(name)) { return Graphics.COLOR_ORANGE; }
         if("red".equals(name)) { return Graphics.COLOR_RED; } if("dark_red".equals(name)) { return Graphics.COLOR_DK_RED; }
@@ -239,7 +246,7 @@ class FieldRenderer {
                 dc.setColor(color(v[:band]),Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
             }
             var darkText=!labelEffect?!night:
-                ("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]));
+                ("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
             var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
             var valueForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
             var valueRadius=v[:angle]!=null?run[:radius]:0;

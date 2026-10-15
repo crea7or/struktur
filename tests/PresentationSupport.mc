@@ -180,8 +180,7 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
             var band=record[:rectangles][1];
             Test.assertEqual(record[:x],band[0]);Test.assertEqual(record[:y],band[1]);
             Test.assertEqual(record[:w],band[2]);
-            var labelBounds=FontMetrics.bounds(value[:label],renderer._labelMetrics);
-            Test.assertEqual(6+labelBounds[0]+labelBounds[1],band[3]);
+            Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,band[3]);
             Test.assertEqual(renderer.color(value[:band]),record[:fills][1]);
         }
         if(value[:angle]!=null) {
@@ -196,24 +195,26 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         var headerBackground=labelEffect?renderer.color(value[:band]):expectedBackground;
         Test.assert(texts[0][:color]!=headerBackground);
         var headerDark=labelEffect?("yellow".equals(value[:band]) || "cyan".equals(value[:band]) ||
-            "white".equals(value[:band]) || "green".equals(value[:band])):!night;
+            "white".equals(value[:band]) || "green".equals(value[:band]) || "light_gray".equals(value[:band])):!night;
         Test.assertEqual(headerDark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,texts[0][:color]);
         Test.assertEqual(ordinaryForeground,texts[1][:color]);
         if(texts.size()==3) { Test.assertEqual(ordinaryForeground,texts[2][:color]); }
         Test.assertEqual(record[:h],texts[1][:clip][3]);
         if(labelEffect) {
             Test.assertEqual(record[:rectangles][1][3],texts[0][:clip][3]);
-            Test.assertEqual(texts[0][:inkTop]-record[:y],record[:y]+record[:rectangles][1][3]-texts[0][:inkBottom]);
+            Test.assert(record[:rectangles][1][3]>=texts[0][:inkBottom]-record[:y]+radius);
             Test.assert(texts[0][:inkTop]-radius>=record[:y]);
             Test.assert(texts[0][:inkBottom]+radius<=record[:y]+record[:rectangles][1][3]);
             Test.assert(texts[1][:inkTop]>=record[:y]+record[:rectangles][1][3]);
             if(texts.size()==3) { Test.assert(texts[2][:inkTop]>=record[:y]+record[:rectangles][1][3]); }
         }
         verifyGlyphHalo(record,radius,value[:angle]!=null);
-        var center=record[:y]+renderer._labelHeight+(record[:h]-renderer._labelHeight)/2.0;
+        var inset=DeviceProfile.LABEL_SIZE==21?30:46;
+        Test.assertEqual(inset,renderer._headerHeight);
+        var center=record[:y]+inset+(record[:h]-inset)/2.0;
         Test.assert(((texts[1][:inkTop]+texts[1][:inkBottom])/2.0-center).abs()<=1);
         Test.assert(texts[1][:inkTop]-radius>=texts[0][:inkBottom]+radius+2);
-        Test.assert(texts[1][:inkTop]-radius>=record[:y]+renderer._labelHeight);
+        Test.assert(texts[1][:inkTop]-radius>=record[:y]+inset);
         Test.assert(texts[1][:inkBottom]+radius<=record[:y]+record[:h]);
         var total=texts[1][:width];
         if(texts.size()==3) {
@@ -342,6 +343,68 @@ function normalDisplayRaw(index,displayed,statute) {
     return displayed;
 }
 
+
+// APP-49/DVS-6: classify all fields, then exercise neutral repaint transitions.
+(:testSupport)
+function verifyNeutralLabelBands() {
+    var custom=[4,5,7,8,9,15,20,25];
+    var engine=new SnapshotEngine();var settings=new DisplaySettings();
+    for(var index=0;index<Catalog.IDS.size();index+=1) {
+        var expectedCustom=false;
+        for(var k=0;k<custom.size();k+=1) { if(index==custom[k]) { expectedCustom=true; } }
+        Test.assertEqual(expectedCustom,Effects.hasCustomBackground(Catalog.IDS[index]));
+        settings.apply({"slot_1_value"=>Catalog.IDS[index],"slot_1_background_effects"=>true});
+        var missing=engine.prepareWithPreferences({},settings,false,new PresentationDevice(false,true,false),null)[:values][0];
+        if(expectedCustom) { Test.assert(missing[:band]==null && missing[:angle]==null); }
+        else { Test.assertEqual("light_gray",missing[:band]);Test.assert(missing[:angle]==null); }
+    }
+    settings.apply({"slot_1_value"=>"unknown_field","slot_1_background_effects"=>true});
+    Test.assert(engine.initial(settings)[:values][0][:band]==null);
+}
+
+// Keep scenario state off the constrained VM stack, as in ColoredFieldScenario.
+(:testSupport)
+class NeutralBandScenario {
+    var night;var inverse;var big;var props;var settings;var renderer;var engine;
+    var raw;var snapshot;var gray;var dc;var cells;var fixedBand;
+    function initialize(caseIndex) {
+        big=caseIndex%3;caseIndex/=3;inverse=caseIndex%2;night=caseIndex/2;
+        props={"theme_mode"=>night==1?2:1,"inverse_enlarged_theme"=>inverse==1,
+            "enlarged_field_count"=>big,"alignment"=>(big+inverse)%2,"hide_value_units"=>inverse==0,
+            "slot_1_value"=>"current_speed","slot_2_value"=>"current_speed",
+            "slot_1_background_effects"=>true,"slot_2_background_effects"=>false,
+            "slot_10_value"=>"current_speed","slot_10_background_effects"=>true};
+        settings=new DisplaySettings();renderer=new FieldRenderer();engine=new SnapshotEngine();
+        fixedBand=renderer._labelBandHeight;
+        Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,fixedBand);
+        gray=(night==1)!=(big>0 && inverse==1)?"dark_gray":"light_gray";
+    }
+    function run() {
+        for(var state=0;state<6;state+=1) {
+            props["slot_1_value"]=state>=3?(state==5?"lap_speed":"grade"):"current_speed";
+            props["slot_1_background_effects"]=state!=2;
+            settings.apply(props);
+            raw=state==1 || state==3?{}:{"current_speed"=>1,"grade"=>1,"lap_speed"=>1};
+            snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
+            if(state==0 || state==1 || state==5) { Test.assertEqual(gray,snapshot[:values][0][:band]); }
+            if(state==2 || state==3) { Test.assert(snapshot[:values][0][:band]==null); }
+            Test.assert(snapshot[:values][1][:band]==null);
+            Test.assertEqual(night==1?"dark_gray":"light_gray",snapshot[:values][9][:band]);
+            dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
+            for(var n=0;n<snapshot[:values].size();n+=1) { dc.paintEffects.add(snapshot[:values][n][:band]!=null || snapshot[:values][n][:angle]!=null); }
+            renderer.prepare(snapshot);
+            if(state==0) { renderer.layout(dc,settings); }
+            renderer.draw(dc,snapshot,settings);
+            Test.assertEqual(fixedBand,renderer._labelBandHeight);
+            cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
+            Test.assertEqual(cells.size(),renderer._runs.size());
+            verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,(big+inverse)%2);
+            if(state==0 || state==1 || state==5) {
+                Test.assertEqual("dark_gray".equals(gray)?0x333333:0xCCCCCC,dc.records[0][:fills][1]);
+            }
+        }
+    }
+}
 
 // Supported native assignments exercise real drawing in all layouts/alignments.
 // Other fields' narrower ranges and unavailable contexts are tested separately.

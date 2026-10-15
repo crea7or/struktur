@@ -95,10 +95,11 @@ class DurationDrawDc {
             _mainX=x; _mainY=y; _mainWidth=getTextWidthInPixels(text,font); _mainHeight=Graphics.getFontHeight(font);
             var ink=FontMetrics.bounds(text,FontMetrics.numeric(_mainHeight));
             _mainVisibleTop=y+ink[0];
-            var center=_clip[:y]+_labelHeight+(_clip[:h]-_labelHeight)/2.0;
+            var inset=DeviceProfile.LABEL_SIZE==21?30:46;
+            var center=_clip[:y]+inset+(_clip[:h]-inset)/2.0;
             Test.assert((_mainVisibleTop+(ink[1]-ink[0])/2.0-center).abs()<=1);
             Test.assert(x>=_clip[:x]+4 && x+_mainWidth<=_clip[:x]+_clip[:w]-4);
-            Test.assert(_mainVisibleTop>=_clip[:y]+_labelHeight && y+ink[1]<=_clip[:y]+_clip[:h]);
+            Test.assert(_mainVisibleTop>=_clip[:y]+inset && y+ink[1]<=_clip[:y]+_clip[:h]);
             mainCount+=1;
         } else if(_secondaryText.equals(text)) {
             var secondaryWidth=getTextWidthInPixels(text,font);
