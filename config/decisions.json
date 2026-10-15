@@ -216,7 +216,7 @@
     "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
     "requirement_revisions": {
       "APP-46": 37,
-      "SPEC-155": 24,
+      "SPEC-155": 25,
       "DVS-50": 22
     }
   },

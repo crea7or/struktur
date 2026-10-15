@@ -12,7 +12,7 @@ class DisplaySettings {
     var inverseEnlargedTheme;
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
-        slots = Catalog.defaultSlots(); effects = [true,true,true,true,true,true,true,true,true,true];
+        slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
         hideValueUnits=true; inverseEnlargedTheme=true;
     }
     function load() {
@@ -44,7 +44,7 @@ class DisplaySettings {
             // A valid unknown identifier is retained and renders unavailable; malformed -> slot default.
             slots[i] = selected instanceof Lang.String && selected.length() > 0 ? selected : defaults[i];
             var enabled = get(values, "slot_" + (i+1).toString() + "_background_effects");
-            effects[i] = enabled instanceof Lang.Boolean ? enabled : true;
+            effects[i] = enabled instanceof Lang.Boolean ? enabled : false;
         }
     }
 }

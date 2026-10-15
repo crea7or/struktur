@@ -1,8 +1,8 @@
 {
   "workspace_id": 7,
   "baseline_id": null,
-  "baseline_name": "Vertical-bar header working specification after baseline 12",
-  "status": "Exact live definitions. Vertical-bar header separators and updated width fixtures are implemented; require matching-source Core results. No current pass asserted for changed revisions.",
+  "baseline_name": "Background-effects off-default working specification after baseline 12",
+  "status": "Exact live definitions and revisions. Off defaults and settings regressions are implemented; matching-source results are separate.",
   "cases": [
     {
       "key": "floatingBoundaries",
@@ -94,7 +94,7 @@
       "requirement_revisions": {
         "DVS-43": 34,
         "DVS-44": 25,
-        "DVS-49": 23
+        "DVS-49": 24
       },
       "definition": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-43]], [[DVS-44]], [[DVS-49]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-4",
@@ -116,19 +116,20 @@
         "APP-49",
         "SPEC-155"
       ],
-      "procedure": "Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and effect defaults. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.",
+      "procedure": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and false/off effect defaults for every slot, including constructor initialization and missing/null/malformed properties. Check valid saved true and false choices across restart, hidden slots, duplicate assignments and field reassignment; neither choice may be overwritten by the new default. Keep hide_value_units and inverse_enlarged_theme defaults unchanged. Require neutral effect backgrounds with fresh settings, and verify that explicitly enabling individual slots still activates the appropriate effect. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "APP-20": 28,
         "APP-30": 15,
         "APP-31": 33,
-        "APP-49": 28,
-        "SPEC-155": 24
+        "APP-49": 29,
+        "SPEC-155": 25
       },
-      "definition": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and effect defaults. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and false/off effect defaults for every slot, including constructor initialization and missing/null/malformed properties. Check valid saved true and false choices across restart, hidden slots, duplicate assignments and field reassignment; neither choice may be overwritten by the new default. Keep hide_value_units and inverse_enlarged_theme defaults unchanged. Require neutral effect backgrounds with fresh settings, and verify that explicitly enabling individual slots still activates the appropriate effect. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-5",
-      "revision": 14,
-      "status": "approved",
-      "suite": "Core"
+      "revision": 16,
+      "status": "draft",
+      "suite": "Core",
+      "implementation_status": "Implemented all-slot off defaults, malformed fallback, saved choices and hidden/reassigned slot preservation; matching-source results are separate."
     },
     {
       "key": "unitsAndExplicitFormatPolicy",
@@ -208,7 +209,7 @@
         "DVS-13": 22,
         "DVS-5": 15,
         "DVS-50": 22,
-        "SPEC-155": 24
+        "SPEC-155": 25
       },
       "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 32 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.",
       "stable_id": "TFNC-8",
@@ -240,7 +241,7 @@
       "requirement_revisions": {
         "APP-32": 13,
         "APP-45": 27,
-        "DVS-51": 17
+        "DVS-51": 18
       },
       "definition": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-9",
@@ -299,16 +300,16 @@
         "FUNC-8",
         "SPEC-157"
       ],
-      "procedure": "Verify exact normal values, current APP-24 clock/timer targets and native-cell glyph/halo bounds; unsupported contexts are explicitly reported and their assertions belong to request-only Placement.",
+      "procedure": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check label-height inset, separators and theme inversion. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with equal pixel gaps between the cell top and visible label top and between the visible label bottom and the band's bottom edge in regular and enlarged cells; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. Check effect-band header contrast and label-only clipped halos, plus grade's unchanged sky/ground geometry and text halos. No `!` or compact substitution may pass a guaranteed normal case.\n\nPlacement procedure (explicit request only): Run presentationDrawAndAlignment, proportionalCaptionFit, actualValueFitAndCompactCache and documentedUnsupportedCombinations for unsupported contexts, reduced areas, overflow, compact wrapping and background-only behavior. Memory is a separate explicitly requested suite.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc, tests/PlacementTests.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.",
       "requirement_revisions": {
         "APP-21": 23,
         "APP-22": 27,
         "APP-24": 45,
         "APP-34": 31,
-        "APP-36": 30,
+        "APP-36": 31,
         "DVS-10": 29,
         "DVS-11": 31,
-        "DVS-12": 76,
+        "DVS-12": 77,
         "DVS-18": 36,
         "DVS-19": 36,
         "DVS-20": 25,
@@ -332,8 +333,8 @@
         "DVS-39": 34,
         "DVS-43": 34,
         "DVS-47": 40,
-        "DVS-51": 17,
-        "DVS-6": 38,
+        "DVS-51": 18,
+        "DVS-6": 41,
         "DVS-8": 37,
         "DVS-9": 29,
         "FUNC-3": 15,
@@ -344,9 +345,9 @@
         "FUNC-8": 15,
         "SPEC-157": 32
       },
-      "definition": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check label-height inset, separators, theme inversion, white-band contrast, grade sky/ground geometry and transparent one-pixel contour drawing. No `!` or compact substitution may pass a guaranteed normal case.\n\nPlacement procedure (explicit request only): Run presentationDrawAndAlignment, proportionalCaptionFit, actualValueFitAndCompactCache and documentedUnsupportedCombinations for unsupported contexts, reduced areas, overflow, compact wrapping and background-only behavior. Memory is a separate explicitly requested suite.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc, tests/PlacementTests.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.",
+      "definition": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check label-height inset, separators and theme inversion. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with equal pixel gaps between the cell top and visible label top and between the visible label bottom and the band's bottom edge in regular and enlarged cells; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. Check effect-band header contrast and label-only clipped halos, plus grade's unchanged sky/ground geometry and text halos. No `!` or compact substitution may pass a guaranteed normal case.\n\nPlacement procedure (explicit request only): Run presentationDrawAndAlignment, proportionalCaptionFit, actualValueFitAndCompactCache and documentedUnsupportedCombinations for unsupported contexts, reduced areas, overflow, compact wrapping and background-only behavior. Memory is a separate explicitly requested suite.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc, tests/PlacementTests.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.",
       "stable_id": "TUI-1",
-      "revision": 55,
+      "revision": 57,
       "status": "draft",
       "additional_functions": [
         "normalRangeCellBounds",
@@ -357,7 +358,8 @@
         "tests/NormalRangeTests.mc",
         "tests/limits"
       ],
-      "suite": "Core"
+      "suite": "Core",
+      "implementation_status": "Implemented equal visible padding and complete header/halo bounds, padded-band/value separation, effective theme colors, enlargement, alignment, header visibility, independent duplicate slots and disabled/unavailable transitions. Current-source results are separate."
     },
     {
       "key": "gradeRegression",
@@ -684,7 +686,7 @@
       "procedure": "Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.",
       "requirement_revisions": {
         "SPEC-153": 8,
-        "SPEC-155": 24,
+        "SPEC-155": 25,
         "SPEC-162": 11
       },
       "definition": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",

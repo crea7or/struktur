@@ -92,11 +92,11 @@ function typedSettingsAndHiddenSlots(logger) {
     Test.assertEqual(0,s.enlarged);
     var defaults=["current_speed","distance","activity_timer","time_of_day","current_heart_rate",
                   "power_3s","elevation","grade","total_ascent","temperature"];
-    for(var i=0;i<10;i+=1) { Test.assertEqual(defaults[i],s.slots[i]);Test.assertEqual(true,s.effects[i]); }
+    for(var i=0;i<10;i+=1) { Test.assertEqual(defaults[i],s.slots[i]);Test.assertEqual(false,s.effects[i]); }
     s.apply({"field_count"=>"10","enlarged_field_count"=>9,"slot_1_value"=>"future_metric","slot_2_value"=>999,
              "slot_1_background_effects"=>false,"slot_2_background_effects"=>"false","slot_10_value"=>"current_power"});
     Test.assertEqual(0,s.enlarged);Test.assertEqual("future_metric",s.slots[0]);
-    Test.assert(Catalog.index(s.slots[1])==null);Test.assertEqual(false,s.effects[0]);Test.assertEqual(true,s.effects[1]);
+    Test.assert(Catalog.index(s.slots[1])==null);Test.assertEqual(false,s.effects[0]);Test.assertEqual(false,s.effects[1]);
     var unknown=new SnapshotEngine().initial(s)[:values][1];
     Test.assertEqual("field",unknown[:label]);Test.assert(unknown[:text]==null);
     Test.assertEqual("current_power",s.slots[9]); // validation does not delete hidden assignments
@@ -115,6 +115,7 @@ function typedSettingsAndHiddenSlots(logger) {
             }
         }
     }
+    verifyEffectDefaultContract();
     return true;
 }
 
@@ -182,7 +183,7 @@ function requestedFieldPrecision(logger) {
         Test.assertEqual("36.0",metric[:values][0][:text]);
         Test.assertEqual("22.4",statute[:values][0][:text]);
     }
-    settings.apply({"slot_1_value"=>"grade","slot_2_value"=>"elevation","slot_3_value"=>"total_ascent","slot_4_value"=>"total_descent"});
+    settings.apply({"slot_1_value"=>"grade","slot_1_background_effects"=>true,"slot_2_value"=>"elevation","slot_3_value"=>"total_ascent","slot_4_value"=>"total_descent"});
     var value=engine.prepareWithPreferences({"grade"=>2.01,"elevation"=>1785.6,"total_ascent"=>100.6,"total_descent"=>42.4},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
     Test.assertEqual("2.0",value[:values][0][:text]);
     Test.assertEqual("yellow",value[:values][0][:band]); // canonical effect input remains 2.01

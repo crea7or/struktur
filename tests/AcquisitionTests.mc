@@ -205,7 +205,8 @@ function approvedZoneSnapshot(logger) {
     var e=new SnapshotEngine();e._hrZones=ZoneMetadata.heart(bounds);
     // Qualified normalized power fixture; it does not qualify the production API adapter.
     e._powerZones=ZoneMetadata.power([0,110,200,300],true);
-    var s=new DisplaySettings();s.apply({"slot_1_value"=>4,"slot_2_value"=>6,"slot_3_value"=>7,"slot_4_value"=>10});
+    var s=new DisplaySettings();s.apply({"slot_1_value"=>4,"slot_2_value"=>6,"slot_3_value"=>7,"slot_4_value"=>10,
+        "slot_1_background_effects"=>true,"slot_3_background_effects"=>true});
     var snapshot=e.compute({"current_heart_rate"=>110.4,"current_power"=>110.4},s);
     Test.assertEqual("110",snapshot[:values][0][:text]);Test.assertEqual("1",snapshot[:values][1][:text]);
     Test.assertEqual("blue",snapshot[:values][0][:band]);Test.assertEqual("blue",snapshot[:values][2][:band]);
@@ -281,7 +282,8 @@ function acquisitionToSnapshot(logger) {
     raw=acquisition.read(info,{}); Test.assertEqual(10.0d,raw["grade"]);
     acquisition.laps.onLap(); raw=acquisition.read(info,{}); Test.assertEqual(1,raw["completed_laps"]);
     var s=new DisplaySettings();
-    s.apply({"slot_1_value"=>15,"slot_2_value"=>15,"slot_3_value"=>24,"slot_4_value"=>24,"slot_5_value"=>20,"slot_6_value"=>20});
+    s.apply({"slot_1_value"=>15,"slot_2_value"=>15,"slot_3_value"=>24,"slot_4_value"=>24,"slot_5_value"=>20,"slot_6_value"=>20,
+        "slot_1_background_effects"=>true,"slot_2_background_effects"=>true,"slot_5_background_effects"=>true,"slot_6_background_effects"=>true});
     var cache=new TemperatureCache(); cache.receive([1,0,1000,"onboard-v1"],1000,0,true);
     raw["temperature"]=cache.value(1000,0);
     var e=new SnapshotEngine(); var snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(false,true,false),new PresentationClock());

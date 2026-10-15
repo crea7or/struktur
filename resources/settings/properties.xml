@@ -7,24 +7,24 @@
     <property id="hide_value_units" type="boolean">true</property>
     <property id="inverse_enlarged_theme" type="boolean">true</property>
     <property id="slot_1_value" type="number">0</property>
-    <property id="slot_1_background_effects" type="boolean">true</property>
+    <property id="slot_1_background_effects" type="boolean">false</property>
     <property id="slot_2_value" type="number">11</property>
-    <property id="slot_2_background_effects" type="boolean">true</property>
+    <property id="slot_2_background_effects" type="boolean">false</property>
     <property id="slot_3_value" type="number">16</property>
-    <property id="slot_3_background_effects" type="boolean">true</property>
+    <property id="slot_3_background_effects" type="boolean">false</property>
     <property id="slot_4_value" type="number">18</property>
-    <property id="slot_4_background_effects" type="boolean">true</property>
+    <property id="slot_4_background_effects" type="boolean">false</property>
     <property id="slot_5_value" type="number">4</property>
-    <property id="slot_5_background_effects" type="boolean">true</property>
+    <property id="slot_5_background_effects" type="boolean">false</property>
     <property id="slot_6_value" type="number">8</property>
-    <property id="slot_6_background_effects" type="boolean">true</property>
+    <property id="slot_6_background_effects" type="boolean">false</property>
     <property id="slot_7_value" type="number">12</property>
-    <property id="slot_7_background_effects" type="boolean">true</property>
+    <property id="slot_7_background_effects" type="boolean">false</property>
     <property id="slot_8_value" type="number">15</property>
-    <property id="slot_8_background_effects" type="boolean">true</property>
+    <property id="slot_8_background_effects" type="boolean">false</property>
     <property id="slot_9_value" type="number">13</property>
-    <property id="slot_9_background_effects" type="boolean">true</property>
+    <property id="slot_9_background_effects" type="boolean">false</property>
     <property id="slot_10_value" type="number">20</property>
-    <property id="slot_10_background_effects" type="boolean">true</property>
+    <property id="slot_10_background_effects" type="boolean">false</property>
   </properties>
 </resources>

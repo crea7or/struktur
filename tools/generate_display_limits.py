@@ -86,13 +86,15 @@ def bounds(text, font, envelope=False):
     return (min(c['top'] for c in visible),max(c['bottom'] for c in visible)) if visible else (0,0)
 
 
-def fits(text, secondary, label, numeric, labels, line_height, w, h, radius):
+def fits(text, secondary, label, numeric, labels, line_height, w, h, radius, label_effect=False):
     margin=4+radius
     if width(label,labels)>w-2*margin: return False
     ink=bounds(text,numeric,True); unit_ink=bounds(secondary,labels,True)
     top=int(rounded(line_height+(h-line_height-(ink[1]-ink[0]))/2,0))
     total=width(text,numeric)+(width(secondary,labels)+2 if secondary else 0)
-    return (total<=w-2*margin and top-radius>=line_height and
+    label_bounds=bounds(label,labels)
+    band_height=6+label_bounds[0]+label_bounds[1] if label_effect else 0
+    return (total<=w-2*margin and top>=band_height and top-radius>=line_height and
             top-radius>=4+bounds(label,labels)[1]+radius+2 and
             top+ink[1]-ink[0]+radius<=h and top+unit_ink[1]-unit_ink[0]+radius<=h)
 
@@ -171,7 +173,7 @@ def generate():
                                     label=header
                                     if field['format']=='clock' and not clock24: label+=' | '+('am' if value<720 else 'pm')
                                     text,secondary=formatted(field,value,clock24)
-                                    if not fits(text,secondary,label,numeric,labels,label_record['line_height'],w,h,radius): accepted=False
+                                    if not fits(text,secondary,label,numeric,labels,label_record['line_height'],w,h,radius,field['id'] in EFFECTS and field['id']!='grade'): accepted=False
                                     prepared.append([value*1000 if field['format']=='duration' else value,text,secondary])
                                 if accepted:
                                     if bands and abs(bands[-1]['max']+step-low)<0.000001: bands[-1]['max']=high

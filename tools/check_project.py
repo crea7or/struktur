@@ -71,13 +71,16 @@ def main():
     assert len(props)==25 and len({p['key'] for p in props})==25
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
+    assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
+    assert '| slot_1_background_effects through slot_10_background_effects | Boolean | false |' in by_id['SPEC-155']['description']
     assert {'field_count','use_units_as_labels'}.isdisjoint(p['key'] for p in props)
     tree=ET.parse(ROOT/'resources/settings/properties.xml')
     xml={p.attrib['id']:p for p in tree.findall('.//property')}
     assert set(xml)=={p['key'] for p in props}
     for p in props:
         assert xml[p['key']].attrib['type']==p['type']
-        assert xml[p['key']].text==('true' if p['default'] is True else str(p['default']))
+        expected_default=('true' if p['default'] else 'false') if p['type']=='boolean' else str(p['default'])
+        assert xml[p['key']].text==expected_default
     settings=ET.parse(ROOT/'resources/settings/settings.xml')
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
     assert set(configured)==set(xml)

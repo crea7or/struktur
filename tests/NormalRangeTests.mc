@@ -58,7 +58,7 @@ function smallestNormalCell(enlarged) {
 (:testSupport)
 function normalFixtureValue(row,point,engine,settings) {
     var index=row[0];var displayed=point[0];
-    settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>row[2]});
+    settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>row[2],"slot_1_background_effects"=>true});
     var raw={};raw[Catalog.IDS[index]]=normalDisplayRaw(index,displayed,row[1]);
     var clock=new PresentationClock();
     if("clock".equals(Catalog.FORMATS[index])) { var minutes=displayed.toNumber();clock.hour=minutes/60;clock.min=minutes%60; }

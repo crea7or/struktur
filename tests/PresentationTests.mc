@@ -169,6 +169,9 @@ function sampleDefaultUnitHeaderGrid(logger) {
                 var raw={"current_speed"=>27.3/3.6,"distance"=>12340,"activity_timer"=>5025000,"current_heart_rate"=>154,
                     "power_3s"=>245,"elevation"=>1456,"grade"=>6.8,"total_ascent"=>456,"temperature"=>24.5};
                 var snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
+                for(var fresh=0;fresh<snapshot[:values].size();fresh+=1) {
+                    Test.assert(snapshot[:values][fresh][:band]==null && snapshot[:values][fresh][:angle]==null);
+                }
                 var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
                 for(var p=0;p<snapshot[:values].size();p+=1) { dc.paintEffects.add(snapshot[:values][p][:band]!=null || snapshot[:values][p][:angle]!=null); }
                 var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.draw(dc,snapshot,settings);
@@ -233,22 +236,24 @@ function fixedThreeRoleFonts(logger) {
 function approvedForegroundAndMetricWidths(logger) {
     var e=new SnapshotEngine();var clock=new PresentationClock();
     for(var night=0;night<2;night+=1) {
-        var s=new DisplaySettings();s.apply({"slot_1_value"=>15,"theme_mode"=>night==1?2:1});
+        var s=new DisplaySettings();s.apply({"slot_1_value"=>15,"slot_1_background_effects"=>true,"theme_mode"=>night==1?2:1});
         var snapshot=e.prepareWithPreferences({"grade"=>1},s,true,new PresentationDevice(false,true,night==1),clock);
         var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
         for(var f=0;f<snapshot[:values].size();f+=1) { dc.paintEffects.add(snapshot[:values][f][:band]!=null || snapshot[:values][f][:angle]!=null); }
         var r=new FieldRenderer();r.prepare(snapshot);r.layout(dc,s);r.draw(dc,snapshot,s);
         Test.assertEqual(night==1?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,dc.records[0][:texts][0][:color]);
     }
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>4});
+    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>4,"slot_1_background_effects"=>true});
     var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
     var orange=engine.compute({"current_heart_rate"=>160},settings);
     var out=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
     for(var g=0;g<orange[:values].size();g+=1) { out.paintEffects.add(orange[:values][g][:band]!=null || orange[:values][g][:angle]!=null); }
     var renderer=new FieldRenderer();
     renderer.prepare(orange);renderer.layout(out,settings);renderer.draw(out,orange,settings);
-    Test.assertEqual(Graphics.COLOR_ORANGE,out.records[0][:background]);
-    Test.assertEqual(Graphics.COLOR_WHITE,out.records[0][:texts][1][:color]);
+    Test.assertEqual(Graphics.COLOR_ORANGE,out.records[0][:fills][1]);
+    Test.assertEqual(Graphics.COLOR_WHITE,out.records[0][:background]);
+    Test.assertEqual(Graphics.COLOR_WHITE,out.records[0][:texts][0][:color]);
+    Test.assertEqual(Graphics.COLOR_BLACK,out.records[0][:texts][1][:color]);
     // Verify cached widths against Garmin's actual font measurement, not a duplicate algorithm.
     var sizes=renderer.numericSizes(false);
     for(var n=0;n<sizes.size();n+=1) {
@@ -270,7 +275,7 @@ function normalPresentationDrawAndAlignment(logger) {
         }
     }
     verifyWhiteTemperatureContrast();
-    verifyColoredFields();
+    for(var caseIndex=0;caseIndex<384;caseIndex+=1) { new ColoredFieldScenario(caseIndex).run(); }
     return true;
 }
 

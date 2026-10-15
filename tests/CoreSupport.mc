@@ -3,6 +3,34 @@ using Toybox.Math;
 using Toybox.Graphics;
 using Toybox.WatchUi;
 
+(:testSupport)
+function verifyEffectDefaultContract() {
+    var settings=new DisplaySettings();
+    for(var initial=0;initial<10;initial+=1) { Test.assertEqual(false,settings.effects[initial]); }
+    Test.assertEqual(true,settings.hideValueUnits);Test.assertEqual(true,settings.inverseEnlargedTheme);
+    var invalid=[null,0,1,"true","false",1.0];
+    var properties={"enlarged_field_count"=>2};
+    for(var candidate=0;candidate<invalid.size();candidate+=1) {
+        for(var slot=1;slot<=10;slot+=1) { properties["slot_"+slot.toString()+"_background_effects"]=invalid[candidate]; }
+        settings.apply(properties);
+        for(var index=0;index<10;index+=1) { Test.assertEqual(false,settings.effects[index]); }
+    }
+    for(var saved=1;saved<=10;saved+=1) {
+        properties["slot_"+saved.toString()+"_value"]="power_3s";
+        properties["slot_"+saved.toString()+"_background_effects"]=saved%2==0;
+    }
+    settings.apply(properties);
+    var restarted=new DisplaySettings();restarted.apply(properties);
+    for(var retained=0;retained<10;retained+=1) {
+        Test.assertEqual(retained%2==1,settings.effects[retained]);
+        Test.assertEqual(settings.effects[retained],restarted.effects[retained]);
+    }
+    properties["enlarged_field_count"]=0;properties["slot_10_value"]="grade";
+    restarted.apply(properties);
+    Test.assertEqual(true,restarted.effects[9]);Test.assertEqual(false,restarted.effects[0]);
+    Test.assertEqual("grade",restarted.slots[9]);
+}
+
 // Executable tests call production modules. They require the actual Connect IQ simulator.
 
 

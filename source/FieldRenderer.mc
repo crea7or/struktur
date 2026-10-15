@@ -19,6 +19,7 @@ class FieldRenderer {
     var _metrics={};
     var _labels=null;
     var _labelHeight=0;
+    var _labelTop=3;
     var _labelMetrics=null;
     var _compactText="full grid needs larger area";
     var _compactLines=[];
@@ -57,6 +58,7 @@ class FieldRenderer {
         var lm=metric(labelSize,true); var lh=FontSelection.height(labelSize,true);
         var labelInk=FontMetrics.bounds(value[:label],lm);
         var radius=painted(value)?1:0; var margin=4+radius;
+        var labelBand=value[:band]!=null && value[:angle]==null?2*_labelTop+labelInk[0]+labelInk[1]:0;
         if(FontMetrics.width(value[:label],lm)>cell[:w]-2*margin) { return null; }
         var sizes=numericSizes(cell[:enlarged]);
         var maximum=cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE;
@@ -73,10 +75,10 @@ class FieldRenderer {
             var top=Numeric.rounded(lh+(cell[:h]-lh-(ink[1]-ink[0]))/2.0);
             var unitInk=FontMetrics.bounds(secondary,lm);
             var secondaryHeight=unitInk[1]-unitInk[0];
-            if(total<=cell[:w]-2*margin && top-radius>=lh && top-radius>=4+labelInk[1]+radius+2 &&
+            if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=lh && top-radius>=4+labelInk[1]+radius+2 &&
                 top+ink[1]-ink[0]+radius<=cell[:h] && top+secondaryHeight+radius<=cell[:h]) {
                 return {:size=>size,:text=>text,:unit=>secondary,:width=>valueWidth,:unitWidth=>unitWidth,
-                    :total=>total,:top=>top,:ink=>ink,:unitInk=>unitInk,:margin=>margin,:radius=>radius};
+                    :total=>total,:top=>top,:ink=>ink,:unitInk=>unitInk,:margin=>margin,:radius=>radius,:labelBand=>labelBand};
             }
         }
         return null;
@@ -226,21 +228,30 @@ class FieldRenderer {
         for(var i=0;i<_cells.size();i+=1) {
             var c=_cells[i];var v=snapshot[:values][i];var run=_runs[i];var night=_cellNights[i];
             var background=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-            if(v[:band]!=null && v[:angle]==null) { background=color(v[:band]); }
+            var labelEffect=v[:band]!=null && v[:angle]==null;
+            var bandHeight=run[:labelBand];
             dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(background,Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
+            if(labelEffect) {
+                dc.setColor(color(v[:band]),Graphics.COLOR_TRANSPARENT);
+                dc.fillRectangle(c[:x],c[:y],c[:w],bandHeight);
+            }
             if(v[:angle]!=null && _polygons[i]!=null && _polygons[i].size()>=3) {
                 dc.setColor(color(v[:band]),Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
             }
-            var darkText=v[:band]==null || v[:angle]!=null?!night:
+            var darkText=!labelEffect?!night:
                 ("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]));
-            var foreground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+            var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+            var valueForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
+            var valueRadius=v[:angle]!=null?run[:radius]:0;
             var right="right".equals(settings.alignment);
             var x=right?c[:x]+c[:w]-run[:margin]-run[:total]:c[:x]+(c[:w]-run[:total])/2;
-            MaskedText.draw(dc,right?c[:x]+c[:w]-run[:margin]:c[:x]+c[:w]/2,c[:y]+4,_labels,v[:label],
-                right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,foreground,run[:radius]);
-            MaskedText.draw(dc,x,c[:y]+run[:top]-run[:ink][0],run[:font],run[:text],Graphics.TEXT_JUSTIFY_LEFT,foreground,run[:radius]);
+            if(labelEffect) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
+            MaskedText.draw(dc,right?c[:x]+c[:w]-run[:margin]:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],
+                right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run[:radius]);
+            if(labelEffect) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
+            MaskedText.draw(dc,x,c[:y]+run[:top]-run[:ink][0],run[:font],run[:text],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,valueRadius);
             if(run[:unitWidth]>0) {
-                MaskedText.draw(dc,x+run[:width]+2,c[:y]+run[:top]-run[:unitInk][0],_labels,run[:unit],Graphics.TEXT_JUSTIFY_LEFT,foreground,run[:radius]);
+                MaskedText.draw(dc,x+run[:width]+2,c[:y]+run[:top]-run[:unitInk][0],_labels,run[:unit],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,valueRadius);
             }
             dc.clearClip();
         }

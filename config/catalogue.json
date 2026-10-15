@@ -418,7 +418,7 @@
     {
       "key": "slot_1_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_2_value",
@@ -496,7 +496,7 @@
     {
       "key": "slot_2_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_3_value",
@@ -574,7 +574,7 @@
     {
       "key": "slot_3_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_4_value",
@@ -652,7 +652,7 @@
     {
       "key": "slot_4_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_5_value",
@@ -730,7 +730,7 @@
     {
       "key": "slot_5_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_6_value",
@@ -808,7 +808,7 @@
     {
       "key": "slot_6_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_7_value",
@@ -886,7 +886,7 @@
     {
       "key": "slot_7_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_8_value",
@@ -964,7 +964,7 @@
     {
       "key": "slot_8_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_9_value",
@@ -1042,7 +1042,7 @@
     {
       "key": "slot_9_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     {
       "key": "slot_10_value",
@@ -1120,7 +1120,7 @@
     {
       "key": "slot_10_background_effects",
       "type": "boolean",
-      "default": true
+      "default": false
     }
   ]
 }

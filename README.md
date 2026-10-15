@@ -10,7 +10,7 @@ The project was developed using the [AI Architect requirement service](https://a
 - Full-capacity layouts with zero, one or two enlarged fields. Ten ordered assignments are retained, including temporarily hidden slots; repeated values are supported.
 - Default slot order: speed, distance, timer, time, heart rate, 3s power, elevation, grade, ascent and temperature. Valid saved assignments take precedence; four-row layouts initially show the first eight.
 - Center or Right alignment, with Right as the first-install default.
-- Day/Night themes, optional enlarged-field theme inversion, and per-slot background-effects controls.
+- Day/Night themes, optional enlarged-field theme inversion, and per-slot background-effects controls, off by default.
 - Metric/statute physical units in optional `label | unit` headers; lowercase am/pm in 12-hour clock headers.
 - Duration values with smaller `.SS` seconds below ten hours; multi-digit hours such as `100:00` omit seconds.
 - Roboto Condensed font sprites with explicit glyph inventories and reproducible generation.
@@ -35,6 +35,10 @@ The assigned drawing area determines fitting. A compact fallback is used when ne
 ## Development status
 
 The application is a development build with nine candidate device profiles. Build and execution reports are generated locally and excluded from Git. Requirement approval and successful compilation do not establish complete product qualification.
+
+Background effects now default to off for all ten slots, including grade. Missing or malformed effect properties also fall back to off; valid saved choices are retained. See [the default-setting review](requirements/effects-default-off-review-20261015.json).
+
+The renderer implements DVS-6's padded label bands for non-grade effects in regular and enlarged fields. Visible top and bottom padding are equal, value areas retain the ordinary effective palette, and grade keeps its separate horizon background. The three-pixel header origin preserves the existing fonts and normal-value guarantees. Matching-source Core results and synthetic simulator screenshots are recorded separately. See [the implementation review](requirements/label-band-review-20261015.json).
 
 The implementation supports per-field `Header text with units`, including exact
 literal headers such as `watts` and `kcal`, and optional `{unit}` substitution

@@ -16,8 +16,14 @@ class SamplePreviewField extends StrukturField {
     var _reported="";
     function initialize() {
         StrukturField.initialize();
-        _settings.apply({"hide_value_units"=>false,"theme_mode"=>1,"alignment"=>1});
+        var props={"hide_value_units"=>false,"theme_mode"=>1,"alignment"=>1,"enlarged_field_count"=>1};
+        var ids=["power_3s","current_speed","current_heart_rate","grade","temperature","distance","elevation",
+            "activity_timer","time_of_day","total_ascent"];
+        for(var slot=0;slot<ids.size();slot+=1) { props["slot_"+(slot+1).toString()+"_value"]=ids[slot]; }
+        _settings.apply(props);
         _engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
+        // Synthetic thresholds for color presentation only; production qualification is unchanged.
+        _engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,650,1000],true);
         refreshPresentation();
     }
     // Background deliveries/settings callbacks must also retain sample data.
@@ -37,14 +43,20 @@ class SamplePreviewField extends StrukturField {
             var first=_renderer._runs[0];var numericInfo=FontSelection.info(first[:size],false);
             if(Graphics.getFontHeight(labelFont)!=labelInfo[1] || Graphics.getFontHeight(first[:font])!=numericInfo[1] ||
                 dc.getTextWidthInPixels("speed | km/h",labelFont)!=FontMetrics.width("speed | km/h",FontMetrics.label(labelInfo[1])) ||
-                dc.getTextWidthInPixels("27.3",first[:font])!=FontMetrics.width("27.3",FontMetrics.numeric(numericInfo[1]))) {
+                dc.getTextWidthInPixels("245",first[:font])!=FontMetrics.width("245",FontMetrics.numeric(numericInfo[1]))) {
                 throw new Lang.InvalidValueException("Sample font resource mismatch");
+            }
+            if(_settings.enlarged!=1 || !_renderer._cells[0][:enlarged] || first[:size]!=DeviceProfile.BIG_SIZE ||
+                !"245".equals(first[:text]) || !"3s watts".equals(_snapshot[:values][0][:label]) ||
+                _renderer._runs.size()!=Grid.capacity(DeviceProfile.DESIGN_ROWS,1)) {
+                throw new Lang.InvalidValueException("Sample enlarged power layout mismatch");
             }
         }
         var signature=dc.getWidth()+"x"+dc.getHeight()+":"+_renderer._runs.size();
         if(!signature.equals(_reported)) {
             System.println("SAMPLE_FRAME product="+DeviceProfile.ID+" width="+dc.getWidth()+" height="+dc.getHeight()+" fields="+_renderer._runs.size());
-            System.println("SAMPLE_DATA clock="+_snapshot[:values][3][:text]+" temperature="+_snapshot[:values][9][:text]);
+            System.println("SAMPLE_DATA clock="+_snapshot[:values][8][:text]+" temperature="+_snapshot[:values][4][:text]+
+                " enlarged=1 field=power_3s power="+_snapshot[:values][0][:text]);
             _reported=signature;
         }
     }

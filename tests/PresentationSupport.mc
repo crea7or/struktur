@@ -69,6 +69,7 @@ class PresentationDrawDc {
     var paintEffects=[];
     var _drawCount=0;
     var _cellIndex=-1;
+    var _clip=null;
     function initialize(width,height) {
         _width=width; _height=height;
         if(Graphics has :createBufferedBitmap) {
@@ -87,25 +88,31 @@ class PresentationDrawDc {
     function setColor(color,background) { _color=color; _background=background; }
     function clear() { clearBackground=_background; }
     function setClip(x,y,w,h) {
-        _cellIndex+=1; _drawCount=0;
-        _record={:x=>x,:y=>y,:w=>w,:h=>h,:background=>null,:texts=>[],:halos=>[],:rectangles=>[],:polygons=>[]};records.add(_record);
+        if(_record==null) {
+            _cellIndex+=1; _drawCount=0;
+            _record={:x=>x,:y=>y,:w=>w,:h=>h,:background=>null,:texts=>[],:halos=>[],:rectangles=>[],:fills=>[],:polygons=>[]};records.add(_record);
+        }
+        _clip=[x,y,w,h];
     }
-    function clearClip() {}
+    function clearClip() { _record=null;_clip=null; }
     function fillRectangle(x,y,w,h) {
         if(_record[:background]==null) { _record[:background]=_color; }
         _record[:rectangles].add([x,y,w,h]);
+        _record[:fills].add(_color);
     }
     function fillPolygon(points) { _record[:polygons].add({:color=>_color,:points=>points}); }
     function drawLine(x1,y1,x2,y2) { lines.add(_color); }
     function drawText(x,y,font,text,flags) {
         if(_record!=null) {
             Test.assertEqual(Graphics.COLOR_TRANSPARENT,_background);
-            var count=_cellIndex<paintEffects.size() && paintEffects[_cellIndex]?9:1;
-            var logical=_drawCount/count;
+            var effect=_cellIndex<paintEffects.size() && paintEffects[_cellIndex];
+            var grade=_record[:polygons].size()>0;
+            var count=effect && (grade || _drawCount<9)?9:1;
+            var logical=grade?_drawCount/count:(effect?(_drawCount<9?0:_drawCount-8):_drawCount);
             var height=Graphics.getFontHeight(font);
             var metrics=logical==1?FontMetrics.numeric(height):FontMetrics.label(height);
             var ink=FontMetrics.bounds(text,metrics);
-            var drawing={:inkTop=>y+ink[0],:inkBottom=>y+ink[1],:x=>x,:y=>y,:width=>getTextWidthInPixels(text,font),:height=>height,:text=>text,:color=>_color,:group=>logical,:flags=>flags};
+            var drawing={:inkTop=>y+ink[0],:inkBottom=>y+ink[1],:x=>x,:y=>y,:width=>getTextWidthInPixels(text,font),:height=>height,:text=>text,:color=>_color,:group=>logical,:flags=>flags,:clip=>_clip};
             if(_drawCount%count==count-1) { _record[:texts].add(drawing); }
             else { _record[:halos].add(drawing); }
             _drawCount+=1;
@@ -160,13 +167,23 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         var record=dc.records[i];var value=snapshot[:values][i];
         var night=(baseNight==1)!=(cells[i][:enlarged] && inverse==1);
         var radius=value[:band]!=null || value[:angle]!=null?1:0;
-        var expectedBackground=value[:band]==null || value[:angle]!=null?(night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE):renderer.color(value[:band]);
+        var labelEffect=value[:band]!=null && value[:angle]==null;
+        var expectedBackground=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+        var ordinaryForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
         Test.assertEqual(expectedBackground,record[:background]);
-        Test.assertEqual(1,record[:rectangles].size()); // No opaque text panels.
+        Test.assertEqual(labelEffect?2:1,record[:rectangles].size()); // Cell plus optional label band; no text panels.
         Test.assertEqual(record[:x],record[:rectangles][0][0]);
         Test.assertEqual(record[:y],record[:rectangles][0][1]);
         Test.assertEqual(record[:w],record[:rectangles][0][2]);
         Test.assertEqual(record[:h],record[:rectangles][0][3]);
+        if(labelEffect) {
+            var band=record[:rectangles][1];
+            Test.assertEqual(record[:x],band[0]);Test.assertEqual(record[:y],band[1]);
+            Test.assertEqual(record[:w],band[2]);
+            var labelBounds=FontMetrics.bounds(value[:label],renderer._labelMetrics);
+            Test.assertEqual(6+labelBounds[0]+labelBounds[1],band[3]);
+            Test.assertEqual(renderer.color(value[:band]),record[:fills][1]);
+        }
         if(value[:angle]!=null) {
             Test.assertEqual(1,record[:polygons].size());
             Test.assertEqual(renderer.color(value[:band]),record[:polygons][0][:color]);
@@ -174,9 +191,25 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         var texts=record[:texts];
         Test.assertEqual(renderer._runs[i][:unit].length()>0?3:2,texts.size());
         Test.assertEqual(value[:label],texts[0][:text]);
+        Test.assertEqual(record[:y]+3,texts[0][:y]);
         Test.assertEqual(renderer._runs[i][:text],texts[1][:text]);
-        if(value[:angle]==null) { Test.assert(texts[0][:color]!=expectedBackground && texts[1][:color]!=expectedBackground); }
-        verifyGlyphHalo(record,radius);
+        var headerBackground=labelEffect?renderer.color(value[:band]):expectedBackground;
+        Test.assert(texts[0][:color]!=headerBackground);
+        var headerDark=labelEffect?("yellow".equals(value[:band]) || "cyan".equals(value[:band]) ||
+            "white".equals(value[:band]) || "green".equals(value[:band])):!night;
+        Test.assertEqual(headerDark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,texts[0][:color]);
+        Test.assertEqual(ordinaryForeground,texts[1][:color]);
+        if(texts.size()==3) { Test.assertEqual(ordinaryForeground,texts[2][:color]); }
+        Test.assertEqual(record[:h],texts[1][:clip][3]);
+        if(labelEffect) {
+            Test.assertEqual(record[:rectangles][1][3],texts[0][:clip][3]);
+            Test.assertEqual(texts[0][:inkTop]-record[:y],record[:y]+record[:rectangles][1][3]-texts[0][:inkBottom]);
+            Test.assert(texts[0][:inkTop]-radius>=record[:y]);
+            Test.assert(texts[0][:inkBottom]+radius<=record[:y]+record[:rectangles][1][3]);
+            Test.assert(texts[1][:inkTop]>=record[:y]+record[:rectangles][1][3]);
+            if(texts.size()==3) { Test.assert(texts[2][:inkTop]>=record[:y]+record[:rectangles][1][3]); }
+        }
+        verifyGlyphHalo(record,radius,value[:angle]!=null);
         var center=record[:y]+renderer._labelHeight+(record[:h]-renderer._labelHeight)/2.0;
         Test.assert(((texts[1][:inkTop]+texts[1][:inkBottom])/2.0-center).abs()<=1);
         Test.assert(texts[1][:inkTop]-radius>=texts[0][:inkBottom]+radius+2);
@@ -189,20 +222,27 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
             Test.assertEqual(texts[1][:inkTop],texts[2][:inkTop]);
             total+=texts[2][:width]+2;
         }
-        Test.assertEqual(align==1?record[:x]+record[:w]-4-radius-total:record[:x]+(record[:w]-total)/2,texts[1][:x]);
+        var expectedX=align==1?record[:x]+record[:w]-4-radius-total:record[:x]+(record[:w]-total)/2;
+        if(expectedX!=texts[1][:x]) {
+            System.println("DRAW_ALIGN field="+i+" header="+value[:label]+" band="+value[:band]+" align="+align+
+                " expected="+expectedX+" actual="+texts[1][:x]+" margin="+renderer._runs[i][:margin]);
+        }
+        Test.assertEqual(expectedX,texts[1][:x]);
         Test.assert(texts[1][:x]-radius>=record[:x]+4 && texts[1][:x]+total+radius<=record[:x]+record[:w]-4);
     }
 }
 
 (:testSupport)
-function verifyGlyphHalo(record,radius) {
-    Test.assertEqual(radius==1?record[:texts].size()*8:0,record[:halos].size());
-    for(var group=0;group<record[:texts].size() && radius==1;group+=1) {
+function verifyGlyphHalo(record,radius,grade) {
+    var groups=grade?record[:texts].size():1;
+    Test.assertEqual(radius==1?groups*8:0,record[:halos].size());
+    for(var group=0;group<groups && radius==1;group+=1) {
         var main=record[:texts][group]; var offsets=[];
         for(var i=0;i<record[:halos].size();i+=1) {
             var halo=record[:halos][i]; if(halo[:group]!=group) { continue; }
             Test.assertEqual(main[:text],halo[:text]); Test.assertEqual(main[:height],halo[:height]);
             Test.assertEqual(main[:flags],halo[:flags]);
+            Test.assertEqual(main[:clip][3],halo[:clip][3]);
             Test.assertEqual(main[:color]==Graphics.COLOR_BLACK?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,halo[:color]);
             var dx=halo[:x]-main[:x];var dy=halo[:y]-main[:y];
             Test.assert(dx.abs()<=1 && dy.abs()<=1 && (dx!=0 || dy!=0));
@@ -216,35 +256,49 @@ function verifyGlyphHalo(record,radius) {
 
 // Synthetic effect snapshots verify rendering, not personal-zone/sensor qualification.
 (:testSupport)
-function verifyColoredFields() {
-    var ids=["grade","current_power","power_3s","average_power","current_heart_rate","heart_rate_3s","average_heart_rate","temperature"];
-    for(var field=0;field<ids.size();field+=1) {
-        for(var night=0;night<2;night+=1) {
-            for(var align=0;align<2;align+=1) {
-                for(var big=0;big<=2;big+=1) {
-                    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>ids[field],"enlarged_field_count"=>big,"alignment"=>align,
-                        "theme_mode"=>night==1?2:1,"use_units_as_labels"=>false,"hide_value_units"=>false});
-                    var raw={};raw[ids[field]]=10;
-                    var engine=new SnapshotEngine();
-                    var snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
-                    // A declared valid effect fixture; no real threshold/source claim.
-                    if(field>0 && field<7) { snapshot[:values][0][:band]="green"; }
-                    // A wide synthetic context isolates every colored-field drawing contract,
-                    // including labels that exceed the fixed font's native regular-cell width.
-                    var dc=new PresentationDrawDc(profileDrawWidth()*2,profileDrawHeight());
-                    for(var n=0;n<snapshot[:values].size();n+=1) { dc.paintEffects.add(snapshot[:values][n][:band]!=null || snapshot[:values][n][:angle]!=null); }
-                    var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.prepare(snapshot);renderer.draw(dc,snapshot,settings);
-                    verifyDrawRecords(dc,renderer,snapshot,Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big),night,1,align);
-                    // Removing the effect must discard its contour and repaint the ordinary cell.
-                    var ordinary=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
-                    ordinary[:values][0][:band]=null;ordinary[:values][0][:angle]=null;
-                    renderer.prepare(ordinary);Test.assert(!renderer.needsLayout());
-                    var plain=new PresentationDrawDc(dc.getWidth(),dc.getHeight());
-                    for(var p=0;p<ordinary[:values].size();p+=1) { plain.paintEffects.add(ordinary[:values][p][:band]!=null || ordinary[:values][p][:angle]!=null); }
-                    renderer.draw(plain,ordinary,settings);
-                    Test.assertEqual(0,plain.records[0][:halos].size());
-                }
-            }
+class ColoredFieldScenario {
+    var settings;var properties;var raw;var engine;var device;var clock;var snapshot;var dc;var renderer;var cells;
+    var night;var align;var big;var inverse;
+    function initialize(caseIndex) {
+        var hideUnits=caseIndex%2;caseIndex/=2;
+        inverse=caseIndex%2;caseIndex/=2;
+        big=caseIndex%3;caseIndex/=3;
+        align=caseIndex%2;caseIndex/=2;
+        night=caseIndex%2;caseIndex/=2;
+        var field=caseIndex;
+        var ids=["grade","current_power","power_3s","average_power","current_heart_rate","heart_rate_3s","average_heart_rate","temperature"];
+        var id=ids[field];
+        settings=new DisplaySettings();
+        properties={"slot_1_value"=>id,"slot_2_value"=>id,"slot_1_background_effects"=>true,"slot_2_background_effects"=>false,
+            "enlarged_field_count"=>big,"alignment"=>align,"theme_mode"=>night==1?2:1,
+            "inverse_enlarged_theme"=>inverse==1,"hide_value_units"=>hideUnits==1};
+        settings.apply(properties);
+        raw={};raw[id]=10;
+        engine=new SnapshotEngine();device=new PresentationDevice(false,true,night==1);clock=new PresentationClock();
+        snapshot=engine.prepareWithPreferences(raw,settings,true,device,clock);
+        var colors=["green","yellow","cyan","white","blue","orange","red","dark_red","black"];
+        if(field>0) { snapshot[:values][0][:band]=colors[(field+night+align+inverse+hideUnits)%colors.size()]; }
+    }
+    function run() {
+        Test.assert(snapshot[:values][0][:band]!=null);
+        Test.assert(snapshot[:values][1][:band]==null && snapshot[:values][1][:angle]==null);
+        dc=new PresentationDrawDc(profileDrawWidth()*2,profileDrawHeight());
+        for(var n=0;n<snapshot[:values].size();n+=1) { dc.paintEffects.add(snapshot[:values][n][:band]!=null || snapshot[:values][n][:angle]!=null); }
+        renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.draw(dc,snapshot,settings);
+        cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
+        Test.assertEqual(cells.size(),renderer._runs.size());
+        verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,align);
+        for(var state=0;state<2;state+=1) {
+            properties["slot_1_background_effects"]=state==1;settings.apply(properties);
+            snapshot=engine.prepareWithPreferences(state==1?{}:raw,settings,true,device,clock);
+            Test.assert(snapshot[:values][0][:band]==null && snapshot[:values][0][:angle]==null);
+            renderer.prepare(snapshot);
+            dc=new PresentationDrawDc(dc.getWidth(),dc.getHeight());
+            for(var p=0;p<snapshot[:values].size();p+=1) { dc.paintEffects.add(snapshot[:values][p][:band]!=null || snapshot[:values][p][:angle]!=null); }
+            renderer.draw(dc,snapshot,settings);
+            verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,align);
+            Test.assertEqual(0,dc.records[0][:halos].size());
+            Test.assertEqual(1,dc.records[0][:rectangles].size());
         }
     }
 }
@@ -255,7 +309,10 @@ function verifyWhiteTemperatureContrast() {
     // White semantic temperature band must survive both inversion directions.
     for(var night=0;night<2;night+=1) {
         var settings=new DisplaySettings();var props={"enlarged_field_count"=>0,"theme_mode"=>night==1?2:1};
-        for(var slot=1;slot<=10;slot+=1) { props["slot_"+slot.toString()+"_value"]="temperature"; }
+        for(var slot=1;slot<=10;slot+=1) {
+            props["slot_"+slot.toString()+"_value"]="temperature";
+            props["slot_"+slot.toString()+"_background_effects"]=true;
+        }
         settings.apply(props);
         var snapshot=engine.prepareWithPreferences({"temperature"=>5},settings,true,new PresentationDevice(false,true,night==1),clock);
         var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
@@ -263,8 +320,10 @@ function verifyWhiteTemperatureContrast() {
         var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.prepare(snapshot);renderer.draw(dc,snapshot,settings);
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,0),renderer._runs.size());
         for(var f=0;f<renderer._runs.size();f+=1) { Test.assertEqual("5.00",renderer._runs[f][:text]); }
-        Test.assertEqual(Graphics.COLOR_WHITE,dc.records[0][:background]);
+        Test.assertEqual(night==1?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,dc.records[0][:background]);
+        Test.assertEqual(Graphics.COLOR_WHITE,dc.records[0][:fills][1]);
         Test.assertEqual(Graphics.COLOR_BLACK,dc.records[0][:texts][0][:color]);
+        Test.assertEqual(night==1?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,dc.records[0][:texts][1][:color]);
 
     }
 
@@ -291,7 +350,10 @@ function verifyGuaranteedNormalDraw(night,big,align) {
     var settings=new DisplaySettings();
     var props={"theme_mode"=>night==1?2:1,"enlarged_field_count"=>big,"alignment"=>align,"hide_value_units"=>true};
     var ids=["current_speed","current_heart_rate","activity_timer","battery","current_power","grade"];
-    for(var slot=0;slot<10;slot+=1) { props["slot_"+(slot+1).toString()+"_value"]=ids[slot%ids.size()]; }
+    for(var slot=0;slot<10;slot+=1) {
+        props["slot_"+(slot+1).toString()+"_value"]=ids[slot%ids.size()];
+        props["slot_"+(slot+1).toString()+"_background_effects"]=true;
+    }
     settings.apply(props);
     var snapshot=new SnapshotEngine().prepareWithPreferences({"current_speed"=>1,"current_heart_rate"=>150,"activity_timer"=>65000,
         "battery"=>50,"current_power"=>250,"grade"=>5.1},settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());

@@ -71,7 +71,7 @@ def main():
            dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged fields')]
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
-                      dict(key=f'slot_{i+1}_background_effects',type='boolean',default=True)])
+                      dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False)])
     (ROOT/'config/catalogue.json').write_text(json.dumps(dict(language='eng',status='full-capacity APP-20 layouts; APP-31 defines all ten defaults; SDK numeric mappings remain recorded implementation choices',fields=fields,properties=props),indent=2)+'\n',encoding='utf-8')
     resources=ET.Element('resources'); strings=ET.SubElement(resources,'strings')
     ET.SubElement(strings,'string',id='AppName').text='Struktur'

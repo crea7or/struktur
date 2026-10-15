@@ -71,7 +71,7 @@ public static class SampleCaptureWindows {
                 $frameMatches=[regex]::Matches($text,('SAMPLE_FRAME product='+$id+' width=(\d+) height=(\d+) fields=(\d+)'))
                 if($frameMatches.Count){
                     $latest=$frameMatches[$frameMatches.Count-1]
-                    if($simulator -and [int]$latest.Groups[1].Value -eq $target.design_width -and [int]$latest.Groups[2].Value -eq $target.design_height -and [int]$latest.Groups[3].Value -eq 2*$target.design_rows -and $text.Contains('SAMPLE_DATA clock=13:05 temperature=24.50')){$frame=$latest;break}
+                    if($simulator -and [int]$latest.Groups[1].Value -eq $target.design_width -and [int]$latest.Groups[2].Value -eq $target.design_height -and [int]$latest.Groups[3].Value -eq 2*$target.design_rows-3 -and $text.Contains('SAMPLE_DATA clock=13:05 temperature=24.50 enlarged=1 field=power_3s power=245')){$frame=$latest;break}
                 }
                 if($runner.HasExited){throw ('Sample runner exited before a full native frame: '+$id)}
                 Start-Sleep -Milliseconds 250
@@ -85,7 +85,7 @@ public static class SampleCaptureWindows {
             $graphics=[Drawing.Graphics]::FromImage($bitmap);$hdc=$graphics.GetHdc()
             try{if(![SampleCaptureWindows]::PrintWindow($simulator.MainWindowHandle,$hdc,2)){throw 'Simulator image capture failed.'}}finally{$graphics.ReleaseHdc($hdc);$graphics.Dispose()}
             try{$bitmap.Save($imagePath,[Drawing.Imaging.ImageFormat]::Png)}finally{$bitmap.Dispose()}
-            $images+=[pscustomobject]@{product=$id;image=$imagePath;image_sha256=(Get-FileHash -LiteralPath $imagePath -Algorithm SHA256).Hash.ToLowerInvariant();sample_binary_sha256=(Get-FileHash -LiteralPath $program -Algorithm SHA256).Hash.ToLowerInvariant();width=[int]$frame.Groups[1].Value;height=[int]$frame.Groups[2].Value;visible_fields=[int]$frame.Groups[3].Value;units_shown=$true;alignment='right';theme='day';data='synthetic sample ride; production formatting and renderer';log=$log}
+            $images+=[pscustomobject]@{product=$id;image=$imagePath;image_sha256=(Get-FileHash -LiteralPath $imagePath -Algorithm SHA256).Hash.ToLowerInvariant();sample_binary_sha256=(Get-FileHash -LiteralPath $program -Algorithm SHA256).Hash.ToLowerInvariant();width=[int]$frame.Groups[1].Value;height=[int]$frame.Groups[2].Value;visible_fields=[int]$frame.Groups[3].Value;enlarged_fields=1;enlarged_metric='power_3s';units_shown=$true;alignment='right';theme='day';data='synthetic sample ride; production formatting and renderer';log=$log}
             Write-Output ('Captured '+$id+': '+$frame.Groups[3].Value+' fields, '+$frame.Groups[1].Value+'x'+$frame.Groups[2].Value)
         } finally {
             if(!$runner.HasExited){
