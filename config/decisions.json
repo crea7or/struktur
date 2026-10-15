@@ -43,8 +43,8 @@
     },
     "implementation": "Implemented in production and deterministic fixtures; source-matched validation is recorded separately in artifacts. Requirement review states are preserved.",
     "requirement_revisions": {
-      "DVS-13": 22,
-      "SPEC-161": 15
+      "DVS-13": 62,
+      "SPEC-161": 17
     }
   },
   {
@@ -99,11 +99,11 @@
     "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 52,
-      "DVS-43": 35,
-      "FUNC-12": 7,
-      "FUNC-13": 8,
-      "FUNC-14": 5
+      "DVS-29": 127,
+      "DVS-43": 57,
+      "FUNC-12": 9,
+      "FUNC-13": 10,
+      "FUNC-14": 7
     }
   },
   {
@@ -198,26 +198,28 @@
       "SPEC-155",
       "DVS-50"
     ],
-    "status": "draft",
+    "status": "approved",
     "owner": "product reviewer",
-    "implementation": "The 25 user settings are retained. Field overrides support exact literals and optional {unit} substitution. Catalogue, runtime, glyph tracing and Core fixtures are updated; validation is source-matched in artifacts.",
+    "implementation": "The 26 settings include independent Grid type; field headers, saved slots and other selections are preserved.",
     "decision": {
-      "active_properties": 25,
+      "active_properties": 26,
       "saved_slots": 10,
       "existing_codes": "0..25 retained",
       "lap_codes": "26..31 retained",
       "retired_keys": [
         "use_units_as_labels",
-        "field_count"
+        "field_count",
+        "show_grid"
       ],
-      "physical_units": "header decoration controlled by hide_value_units"
+      "physical_units": "header decoration controlled by hide_value_units",
+      "grid_type": "0 None, 1 Horizontal lines (default), 2 Full grid; independent of alignment"
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
-    "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
+    "approval_status": "Explicit user approval; linked specifications are Approved in baseline 13. Qualification remains separate.",
     "requirement_revisions": {
-      "APP-46": 38,
-      "SPEC-155": 27,
-      "DVS-50": 22
+      "APP-46": 40,
+      "SPEC-155": 52,
+      "DVS-50": 46
     }
   },
   {

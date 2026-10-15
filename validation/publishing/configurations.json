@@ -1,6 +1,6 @@
 {
   "product": "edge1050",
-  "scope": "Six real simulator frames using production formatting and rendering with deterministic sample data. All 32 selectable types are represented; unavailable temperature and power-zone readings remain unavailable. Display examples do not qualify acquisition, physical devices or memory.",
+  "scope": "Nine native simulator frames covering all 32 fields and all six grid-type/alignment combinations.",
   "configurations": [
     {
       "id": "01-default",
@@ -41,7 +41,9 @@
         "",
         ""
       ],
-      "settings": {},
+      "settings": {
+        "grid_type": 1
+      },
       "statute": false,
       "clock24": true,
       "raw": {
@@ -83,12 +85,13 @@
         "Physical units hidden",
         "All effects off",
         "Secondary seconds",
-        "24-hour clock"
+        "24-hour clock",
+        "Grid on (factory default)"
       ]
     },
     {
       "id": "02-ride-metrics",
-      "title": "Ride metrics and zones",
+      "title": "Ride metrics - Full grid",
       "fields": [
         "average_speed",
         "current_cadence",
@@ -127,7 +130,8 @@
       ],
       "settings": {
         "hide_value_units": false,
-        "theme_mode": 1
+        "theme_mode": 1,
+        "grid_type": 2
       },
       "statute": false,
       "clock24": true,
@@ -215,7 +219,8 @@
       "settings": {
         "hide_value_units": false,
         "theme_mode": 2,
-        "alignment": 0
+        "alignment": 0,
+        "grid_type": 0
       },
       "statute": false,
       "clock24": true,
@@ -257,7 +262,8 @@
         "Elapsed time",
         "Heading and cardinal direction",
         "Next waypoint",
-        "Completed laps"
+        "Completed laps",
+        "Grid off"
       ]
     },
     {
@@ -296,7 +302,9 @@
         "theme_mode": 1,
         "slot_2_background_effects": true,
         "slot_5_background_effects": true,
-        "slot_6_background_effects": true
+        "slot_6_background_effects": true,
+        "slot_1_background_effects": true,
+        "grid_type": 1
       },
       "statute": false,
       "clock24": true,
@@ -339,7 +347,8 @@
         "Independent per-slot opt-in effects",
         "Symmetric label-band padding",
         "Grade sky and ground",
-        "Unavailable temperature"
+        "Unavailable temperature",
+        "Enlarged neutral-gray label band"
       ]
     },
     {
@@ -369,7 +378,8 @@
         "theme_mode": 2,
         "alignment": 0,
         "inverse_enlarged_theme": false,
-        "slot_2_background_effects": true
+        "slot_2_background_effects": true,
+        "grid_type": 2
       },
       "statute": true,
       "clock24": false,
@@ -447,7 +457,8 @@
         "enlarged_field_count": 1,
         "hide_value_units": false,
         "theme_mode": 1,
-        "inverse_enlarged_theme": false
+        "inverse_enlarged_theme": false,
+        "grid_type": 0
       },
       "statute": true,
       "clock24": true,
@@ -488,7 +499,263 @@
         "Day colors with inversion off",
         "Imperial distance",
         "Optional compass cardinal",
-        "All effects off"
+        "All effects off",
+        "Grid off"
+      ]
+    },
+    {
+      "id": "07-right-grid-off",
+      "title": "Right, grid off",
+      "fields": [
+        "current_speed",
+        "distance",
+        "activity_timer",
+        "time_of_day",
+        "current_heart_rate",
+        "power_3s",
+        "elevation",
+        "grade",
+        "total_ascent",
+        "temperature"
+      ],
+      "expected_primary": [
+        "27.3",
+        "42.12",
+        "1:23",
+        "13:05",
+        "154",
+        "245",
+        "1456",
+        "6.8",
+        "456",
+        null
+      ],
+      "expected_secondary": [
+        "",
+        "",
+        ".45",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "settings": {
+        "alignment": 1,
+        "grid_type": 0
+      },
+      "statute": false,
+      "clock24": true,
+      "raw": {
+        "current_speed": 7.583333333333333,
+        "average_speed": 7.416666666666666,
+        "current_cadence": 88,
+        "average_cadence": 84,
+        "current_heart_rate": 154,
+        "average_heart_rate": 146,
+        "heart_rate_3s": 152,
+        "heart_rate_zone": 4,
+        "current_power": 278,
+        "power_3s": 245,
+        "average_power": 210,
+        "distance": 42120,
+        "elevation": 1456,
+        "total_ascent": 456,
+        "total_descent": 678,
+        "grade": 6.8,
+        "activity_timer": 5025000,
+        "elapsed_time": 6019000,
+        "calories": 1534,
+        "battery": 78,
+        "heading": 3.9269908169872414,
+        "distance_next_waypoint": 7500,
+        "completed_laps": 3,
+        "lap_distance": 5000,
+        "lap_time": 600000,
+        "lap_speed": 8.333333333333334,
+        "lap_heart_rate": 150,
+        "lap_power": 230,
+        "lap_cadence": 85
+      },
+      "features": [
+        "Same sample ride and default field assignments",
+        "Right alignment",
+        "Grid off",
+        "Physical units hidden",
+        "All effects off",
+        "Auto theme in Day"
+      ]
+    },
+    {
+      "id": "08-center-grid-on",
+      "title": "Center - Horizontal lines",
+      "fields": [
+        "current_speed",
+        "distance",
+        "activity_timer",
+        "time_of_day",
+        "current_heart_rate",
+        "power_3s",
+        "elevation",
+        "grade",
+        "total_ascent",
+        "temperature"
+      ],
+      "expected_primary": [
+        "27.3",
+        "42.12",
+        "1:23",
+        "13:05",
+        "154",
+        "245",
+        "1456",
+        "6.8",
+        "456",
+        null
+      ],
+      "expected_secondary": [
+        "",
+        "",
+        ".45",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "settings": {
+        "alignment": 0,
+        "grid_type": 1
+      },
+      "statute": false,
+      "clock24": true,
+      "raw": {
+        "current_speed": 7.583333333333333,
+        "average_speed": 7.416666666666666,
+        "current_cadence": 88,
+        "average_cadence": 84,
+        "current_heart_rate": 154,
+        "average_heart_rate": 146,
+        "heart_rate_3s": 152,
+        "heart_rate_zone": 4,
+        "current_power": 278,
+        "power_3s": 245,
+        "average_power": 210,
+        "distance": 42120,
+        "elevation": 1456,
+        "total_ascent": 456,
+        "total_descent": 678,
+        "grade": 6.8,
+        "activity_timer": 5025000,
+        "elapsed_time": 6019000,
+        "calories": 1534,
+        "battery": 78,
+        "heading": 3.9269908169872414,
+        "distance_next_waypoint": 7500,
+        "completed_laps": 3,
+        "lap_distance": 5000,
+        "lap_time": 600000,
+        "lap_speed": 8.333333333333334,
+        "lap_heart_rate": 150,
+        "lap_power": 230,
+        "lap_cadence": 85
+      },
+      "features": [
+        "Same sample ride and default field assignments",
+        "Center alignment",
+        "Grid on",
+        "Physical units hidden",
+        "All effects off",
+        "Auto theme in Day"
+      ]
+    },
+    {
+      "id": "09-center-grid-off",
+      "title": "Center, grid off",
+      "fields": [
+        "current_speed",
+        "distance",
+        "activity_timer",
+        "time_of_day",
+        "current_heart_rate",
+        "power_3s",
+        "elevation",
+        "grade",
+        "total_ascent",
+        "temperature"
+      ],
+      "expected_primary": [
+        "27.3",
+        "42.12",
+        "1:23",
+        "13:05",
+        "154",
+        "245",
+        "1456",
+        "6.8",
+        "456",
+        null
+      ],
+      "expected_secondary": [
+        "",
+        "",
+        ".45",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "settings": {
+        "alignment": 0,
+        "grid_type": 0
+      },
+      "statute": false,
+      "clock24": true,
+      "raw": {
+        "current_speed": 7.583333333333333,
+        "average_speed": 7.416666666666666,
+        "current_cadence": 88,
+        "average_cadence": 84,
+        "current_heart_rate": 154,
+        "average_heart_rate": 146,
+        "heart_rate_3s": 152,
+        "heart_rate_zone": 4,
+        "current_power": 278,
+        "power_3s": 245,
+        "average_power": 210,
+        "distance": 42120,
+        "elevation": 1456,
+        "total_ascent": 456,
+        "total_descent": 678,
+        "grade": 6.8,
+        "activity_timer": 5025000,
+        "elapsed_time": 6019000,
+        "calories": 1534,
+        "battery": 78,
+        "heading": 3.9269908169872414,
+        "distance_next_waypoint": 7500,
+        "completed_laps": 3,
+        "lap_distance": 5000,
+        "lap_time": 600000,
+        "lap_speed": 8.333333333333334,
+        "lap_heart_rate": 150,
+        "lap_power": 230,
+        "lap_cadence": 85
+      },
+      "features": [
+        "Same sample ride and default field assignments",
+        "Center alignment",
+        "Grid off",
+        "Physical units hidden",
+        "All effects off",
+        "Auto theme in Day"
       ]
     }
   ]

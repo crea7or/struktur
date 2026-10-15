@@ -9,6 +9,7 @@ function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
     Test.assertEqual(26,SettingsCatalogue.keys().size());
+    Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
     var engine=new SnapshotEngine();var clock=new PresentationClock();
@@ -100,6 +101,8 @@ function composedHeaderWidthAudit(logger) {
     }
     // Exact shortened headers, using actual compiled Garmin font resources.
     var regular=profileDrawWidth()/2-8;
+    Test.assert(dc.getTextWidthInPixels("average hr",font)<=profileDrawWidth()/2-10);
+    Test.assert(dc.getTextWidthInPixels("hr zone",font)<=profileDrawWidth()/2-10);
     Test.assert(dc.getTextWidthInPixels("lap dist | km",font)<=regular);
     Test.assertEqual(DeviceProfile.LABEL_SIZE==21?68:113,dc.getTextWidthInPixels("hr | bpm",font));
     Test.assertEqual(DeviceProfile.LABEL_SIZE==21?75:125,dc.getTextWidthInPixels("temp | °c",font));
@@ -281,18 +284,22 @@ function normalPresentationDrawAndAlignment(logger) {
     return true;
 }
 
-// APP-22/SPEC-155: visibility toggles remove only separator drawing calls.
+// APP-22/SPEC-155: all grid styles are independent of text alignment.
 (:test)
-function gridVisibilityAndRepaint(logger) {
-    var settings=new DisplaySettings();Test.assert(settings.showGrid);
-    var invalid=[null,0,1,"true","false",1.0,[],{}];
+function gridTypeAndRepaint(logger) {
+    var settings=new DisplaySettings();Test.assertEqual("horizontal",settings.gridType);
+    var invalid=[null,-1,3,1.0,true,false,"true","bad",[],{}];
     for(var i=0;i<invalid.size();i+=1) {
-        settings.apply({"show_grid"=>invalid[i]});Test.assert(settings.showGrid);
+        settings.apply({"grid_type"=>invalid[i]});Test.assertEqual("horizontal",settings.gridType);
     }
-    settings.apply({"show_grid"=>false});Test.assert(!settings.showGrid);
-    settings.apply({"show_grid"=>true});Test.assert(settings.showGrid);
-    settings.apply({});Test.assert(settings.showGrid);
-    for(var scenario=0;scenario<24;scenario+=1) { new GridVisibilityScenario(scenario).run(); }
+    var ids=["none","horizontal","full"];
+    for(var type=0;type<3;type+=1) {
+        settings.apply({"grid_type"=>type});Test.assertEqual(ids[type],settings.gridType);
+        settings.apply({"grid_type"=>ids[type]});Test.assertEqual(ids[type],settings.gridType);
+    }
+    settings.apply({"show_grid"=>false});Test.assertEqual("horizontal",settings.gridType);
+    settings.apply({});Test.assertEqual("horizontal",settings.gridType);
+    for(var scenario=0;scenario<24;scenario+=1) { new GridTypeScenario(scenario).run(); }
     return true;
 }
 

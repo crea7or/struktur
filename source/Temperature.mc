@@ -43,6 +43,7 @@ class TemperatureCache {
         if(wall-_readTime>360 || _deliveryAge+(mono-_receiptMono)/1000.0>360) { _value=null; }
         return _value;
     }
+    function hasValue() { return _value!=null; }
 }
 
 (:background)

@@ -10,11 +10,13 @@ class DisplaySettings {
     var effects;
     var hideValueUnits;
     var inverseEnlargedTheme;
-    var showGrid;
+    var gridType;
+    var usesBattery;
+    var usesClock;
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
-        hideValueUnits=true; inverseEnlargedTheme=true; showGrid=true;
+        hideValueUnits=true; inverseEnlargedTheme=true; gridType="horizontal"; usesBattery=false; usesClock=true;
     }
     function load() {
         var values = {} as Lang.Dictionary;
@@ -38,13 +40,17 @@ class DisplaySettings {
         var mode = SettingsCatalogue.decode("theme_mode",get(values, "theme_mode")); theme = "day".equals(mode) || "night".equals(mode) ? mode : "auto";
         hideValueUnits=booleanValue(values,"hide_value_units");
         inverseEnlargedTheme=booleanValue(values,"inverse_enlarged_theme");
-        showGrid=booleanValue(values,"show_grid");
+        var grid=SettingsCatalogue.decode("grid_type",get(values,"grid_type"));
+        gridType="none".equals(grid)?"none":("full".equals(grid)?"full":"horizontal");
         var defaults = Catalog.defaultSlots();
+        usesBattery=false;usesClock=false;
         for (var i = 0; i < 10; i += 1) {
             var key = "slot_" + (i+1).toString() + "_value";
             var selected = SettingsCatalogue.decode(key,get(values,key));
             // A valid unknown identifier is retained and renders unavailable; malformed -> slot default.
             slots[i] = selected instanceof Lang.String && selected.length() > 0 ? selected : defaults[i];
+            if("battery".equals(slots[i])) { usesBattery=true; }
+            if("time_of_day".equals(slots[i])) { usesClock=true; }
             var enabled = get(values, "slot_" + (i+1).toString() + "_background_effects");
             effects[i] = enabled instanceof Lang.Boolean ? enabled : false;
         }

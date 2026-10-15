@@ -17,15 +17,15 @@ class StrukturField extends WatchUi.DataField {
         _settings=new DisplaySettings(); _settings.load();
         _acquisition=new ActivityAcquisition();
         _engine=new SnapshotEngine(); _engine.metadata();
-        _snapshot=_engine.initial(_settings); _renderer=new FieldRenderer(); _layoutDirty=true; _samplingEnabled=false;
+        _snapshot=_engine.initial(_settings); _renderer=new FieldRenderer(); _renderer.prepare(_snapshot); _layoutDirty=true; _samplingEnabled=false;
     }
     function compute(info) {
         processActivity(info);
     }
     // Fixture entry shares the entire delivered-sample path without subclassing SDK Info.
     function processActivity(info) {
-        var started=System.getTimer();
-        var raw=ActivityReader.read(info);
+        var started=RuntimeMetrics.enabled?System.getTimer():0;
+        var raw=ActivityReader.readWithBattery(info,_settings.usesBattery);
         _acquisition.read(info,raw);
         raw["temperature"]=Application.getApp().temperatureValue();
         if(info has :timerState) { _samplingEnabled=info.timerState==Activity.TIMER_STATE_ON; }
@@ -34,9 +34,9 @@ class StrukturField extends WatchUi.DataField {
         // Publish only after all transformations and formatting are complete.
         _snapshot=complete;
         _renderer.prepare(_snapshot);
-        RuntimeMetrics.sampleCompute(System.getTimer()-started);
+        if(RuntimeMetrics.enabled) { RuntimeMetrics.sampleCompute(System.getTimer()-started); }
     }
-    function onLayout(dc) { _renderer.prepare(_snapshot); _renderer.layout(dc,_settings); _renderer.prepare(_snapshot); _layoutDirty=false; }
+    function onLayout(dc) { _renderer.layout(dc,_settings); _layoutDirty=false; }
     function onUpdate(dc) {
         // Settings can change without a Garmin onLayout callback; metrics only, no sensor transforms.
         if(_layoutDirty || _renderer.needsLayout()) { onLayout(dc); }
@@ -44,7 +44,8 @@ class StrukturField extends WatchUi.DataField {
     }
     function reloadSettings() {
         var next=new DisplaySettings(); next.load(); _settings=next;
-        _engine.metadata(); refreshPresentation(); _layoutDirty=true;
+        _renderer.configure(_settings);
+        _engine.metadata(); refreshPresentation(); _layoutDirty=_renderer.needsLayout();
     }
     function refreshPresentation() {
         var raw=_snapshot[:raw]; raw["temperature"]=Application.getApp().temperatureValue();

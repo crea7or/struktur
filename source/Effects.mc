@@ -2,6 +2,7 @@ using Toybox.Math;
 using Toybox.Lang;
 // DVS-43/44 use the canonical rounded grade; DVS-49 uses raw Celsius.
 module Effects {
+    const ZONE_COLORS=["blue","green","yellow","orange","red","dark_red"];
     function hasCustomBackground(id) {
         return "grade".equals(id) || "temperature".equals(id) ||
             "current_heart_rate".equals(id) || "average_heart_rate".equals(id) || "heart_rate_3s".equals(id) ||
@@ -23,8 +24,7 @@ module Effects {
     function horizonAngle(g) { return Numeric.finite(g) ? Numeric.clamp(2.0 * g, -45.0, 45.0) : null; }
     function zoneColor(zone) {
         if (zone == null || zone < 1) { return null; }
-        var names = ["blue", "green", "yellow", "orange", "red", "dark_red"];
-        return zone > 6 ? "black" : names[zone - 1];
+        return zone > 6 ? "black" : ZONE_COLORS[zone - 1];
     }
     // Zone equality requires a reviewed policy; no inferred FTP thresholds.
     function zone(value, thresholds, upperInclusive) {

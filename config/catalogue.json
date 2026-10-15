@@ -49,7 +49,7 @@
     },
     {
       "id": "average_heart_rate",
-      "label": "avg heart rate",
+      "label": "average hr",
       "requirement": "DVS-19",
       "member": "averageHeartRate",
       "format": "integer",
@@ -58,7 +58,7 @@
     },
     {
       "id": "heart_rate_zone",
-      "label": "heart rate zone",
+      "label": "hr zone",
       "requirement": "DVS-20",
       "member": null,
       "format": "integer",
@@ -343,10 +343,25 @@
       "title": "Inverse theme for enlarged fields"
     },
     {
-      "key": "show_grid",
-      "type": "boolean",
-      "default": true,
-      "title": "Show grid"
+      "key": "grid_type",
+      "type": "number",
+      "default": 1,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "identifiers": [
+        "none",
+        "horizontal",
+        "full"
+      ],
+      "choice_labels": [
+        "None",
+        "Horizontal lines",
+        "Full grid"
+      ],
+      "title": "Grid type"
     },
     {
       "key": "slot_1_value",

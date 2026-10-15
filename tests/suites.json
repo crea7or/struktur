@@ -8,7 +8,8 @@
         "tests/CoreTests.mc",
         "tests/PresentationTests.mc",
         "tests/AcquisitionTests.mc",
-        "tests/NormalRangeTests.mc"
+        "tests/NormalRangeTests.mc",
+        "tests/PerformanceTests.mc"
       ],
       "support": [
         "tests/CoreSupport.mc",

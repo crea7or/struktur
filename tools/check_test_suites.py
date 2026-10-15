@@ -35,6 +35,25 @@ def validate_suites():
     for script in ['run-tests.ps1', 'ci.ps1', 'compile-tests.ps1']:
         text = (ROOT / 'scripts' / script).read_text()
         assert "[string]$Suite='Core'" in text, script
+    # Native service collections are exported metadata, never an execution trigger.
+    inventory_path = ROOT / 'requirements/export/test-suites.json'
+    if inventory_path.exists():
+        inventory = json.loads(inventory_path.read_text(encoding='utf-8'))
+        cases = json.loads((ROOT / 'tests/service-cases.json').read_text(encoding='utf-8'))['cases']
+        native = {suite['title']: suite for suite in inventory['suites']}
+        assert inventory['default'] == config['default'] and set(native) == set(result)
+        assert inventory['policy'] == config['policy']
+        for name, names in result.items():
+            selected = [case for case in cases if case['suite'] == name]
+            executable = [case for case in selected if case['source'] in config['suites'][name]['files']]
+            assert {case['function'] for case in executable} == set(names), ('Service case inventory drift', name)
+            suite = native[name]
+            assert {case['stable_id'] for case in selected} == {member['stable_id'] for member in suite['members']}
+            assert all(case['suite_stable_id'] == suite['stable_id'] for case in selected)
+            assert suite['member_count'] == len(selected) == suite['covered_member_count']
+            assert not suite['readiness_warnings']
+            assert all(member['type_code'] == 'test' and member['verified_target_count'] > 0 for member in suite['members'])
+        assert inventory['tests_executed'] == 0
     return result
 
 

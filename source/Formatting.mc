@@ -3,6 +3,7 @@ using Toybox.Math;
 // Pure production formatting. Presentation markers are supplied by a reviewed contract.
 // null means unavailable; "overflow" is an internal status, never the visible glyph.
 module Formatting {
+    const DIRECTIONS=["N","NE","E","SE","S","SW","W","NW"];
     // Explicit field precision; never discard requested decimal digits to fit.
     function fixed(value, precision) {
         if (!Numeric.finite(value)) { return null; }
@@ -75,8 +76,7 @@ module Formatting {
     function heading(degrees) { return Numeric.finite(degrees)?(Numeric.rounded(degrees)%360).toString():null; }
     function cardinal(degrees) {
         if(!Numeric.finite(degrees)) { return null; }
-        var directions=["N","NE","E","SE","S","SW","W","NW"];
         var normalized=degrees-Math.floor(degrees/360.0)*360.0;
-        return directions[Numeric.rounded(normalized/45.0)%8];
+        return DIRECTIONS[Numeric.rounded(normalized/45.0)%8];
     }
 }

@@ -23,6 +23,27 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 public static class StoreCaptureWindows {
+ public delegate bool WindowCallback(IntPtr hwnd,IntPtr arg);
+ [DllImport("user32.dll")] public static extern bool EnumWindows(WindowCallback callback,IntPtr arg);
+ [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hwnd,out uint pid);
+ [DllImport("user32.dll",CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr hwnd,StringBuilder text,int length);
+ [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr hwnd);
+ [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hwnd,int command);
+ public static IntPtr SimulatorWindow(uint processId) {
+  var found=IntPtr.Zero;
+  EnumWindows((hwnd,arg)=>{
+   uint owner;GetWindowThreadProcessId(hwnd,out owner);
+   if(owner==processId) {
+    var title=new StringBuilder(512);GetWindowText(hwnd,title,512);
+    if(title.ToString().StartsWith("CIQ Simulator")) { found=hwnd;return false; }
+   }
+   return true;
+  },IntPtr.Zero);
+  // PrintWindow needs a rendered native surface. Reveal only this simulator,
+  // without activating it or changing any other application window.
+  if(found!=IntPtr.Zero && !IsWindowVisible(found)) ShowWindow(found,4);
+  return found;
+ }
  [StructLayout(LayoutKind.Sequential)] public struct POINT { public int x,y; }
  [DllImport("user32.dll")] public static extern bool ClientToScreen(IntPtr hwnd,ref POINT point);
  [StructLayout(LayoutKind.Sequential)] public struct RECT { public int left,top,right,bottom; }
@@ -69,18 +90,19 @@ public static class StoreCaptureWindows {
         $sdkShell=Join-Path $environment.sdk 'bin/shell.exe'
         $arguments=@('-classpath',('"'+$jar+'"'),'com.garmin.monkeybrains.monkeydodeux.MonkeyDoDeux','-f',('"'+$program+'"'),'-d',$product,'-s',('"'+$sdkShell+'"'))
         $runner=Start-Process -FilePath $java -ArgumentList $arguments -PassThru -WindowStyle Hidden -RedirectStandardOutput $log -RedirectStandardError $err
-        $watch=[Diagnostics.Stopwatch]::StartNew();$selected=$false;$ready=$false;$simulator=$null
+        $watch=[Diagnostics.Stopwatch]::StartNew();$selected=$false;$ready=$false;$simulator=$null;$window=[IntPtr]::Zero
         try {
             while($watch.Elapsed.TotalSeconds -lt $TimeoutSeconds){
-                $simulator=Get-Process -Name simulator -ErrorAction SilentlyContinue|Where-Object{$_.Path -eq $sdkSimulator -and $_.MainWindowHandle -ne [IntPtr]::Zero}|Select-Object -First 1
-                if($simulator -and !$selected){
-                    $command=[StoreCaptureWindows]::FullFieldCommand([StoreCaptureWindows]::GetMenu($simulator.MainWindowHandle),'')
-                    if($command -ge 0){[StoreCaptureWindows]::PostMessage($simulator.MainWindowHandle,273,[IntPtr]$command,[IntPtr]::Zero)|Out-Null;$selected=$true}
+                $simulator=Get-Process -Name simulator -ErrorAction SilentlyContinue|Where-Object{$_.Path -eq $sdkSimulator}|Select-Object -First 1
+                if($simulator){$window=[StoreCaptureWindows]::SimulatorWindow([uint32]$simulator.Id)}
+                if($window -ne [IntPtr]::Zero -and !$selected){
+                    $command=[StoreCaptureWindows]::FullFieldCommand([StoreCaptureWindows]::GetMenu($window),'')
+                    if($command -ge 0){[StoreCaptureWindows]::PostMessage($window,273,[IntPtr]$command,[IntPtr]::Zero)|Out-Null;$selected=$true}
                 }
                 $text=[string]$(if(Test-Path -LiteralPath $log){Get-Content -Raw -LiteralPath $log}else{''})
                 if($text -match '(?m)^Error:|^Exception:'){throw ('Publishing screenshot runtime error: '+$id+'; '+$log)}
                 $expected='STORE_OK id='+$id+' product='+$product+' width='+$target.design_width+' height='+$target.design_height+' fields='+$configuration.fields.Count
-                if($simulator -and ![string]::IsNullOrEmpty($text) -and $text.Contains($expected)){$ready=$true;break}
+                if($window -ne [IntPtr]::Zero -and ![string]::IsNullOrEmpty($text) -and $text.Contains($expected)){$ready=$true;break}
                 if($runner.HasExited){throw ('Publishing preview exited before a verified frame: '+$id)}
                 Start-Sleep -Milliseconds 200
             }
@@ -88,10 +110,10 @@ public static class StoreCaptureWindows {
             Start-Sleep -Milliseconds 1200
             $rect=New-Object StoreCaptureWindows+RECT
             $origin=New-Object StoreCaptureWindows+POINT
-            if(![StoreCaptureWindows]::GetWindowRect($simulator.MainWindowHandle,[ref]$rect) -or ![StoreCaptureWindows]::ClientToScreen($simulator.MainWindowHandle,[ref]$origin)){throw 'Cannot resolve native screenshot rectangle.'}
+            if(![StoreCaptureWindows]::GetWindowRect($window,[ref]$rect) -or ![StoreCaptureWindows]::ClientToScreen($window,[ref]$origin)){throw 'Cannot resolve native screenshot rectangle.'}
             $bitmap=New-Object Drawing.Bitmap(($rect.right-$rect.left),($rect.bottom-$rect.top))
             $graphics=[Drawing.Graphics]::FromImage($bitmap);$hdc=$graphics.GetHdc()
-            try{if(![StoreCaptureWindows]::PrintWindow($simulator.MainWindowHandle,$hdc,2)){throw 'Publishing screenshot capture failed.'}}finally{$graphics.ReleaseHdc($hdc);$graphics.Dispose()}
+            try{if(![StoreCaptureWindows]::PrintWindow($window,$hdc,2)){throw 'Publishing screenshot capture failed.'}}finally{$graphics.ReleaseHdc($hdc);$graphics.Dispose()}
             $image=Join-Path $projectRoot ('dist/Struktur-publishing/screenshots/'+$id+'.png')
             $full=Join-Path $projectRoot ('artifacts/publishing/'+$id+'-simulator.png')
             $x=$origin.x-$rect.left+$location.x;$y=$origin.y-$rect.top+$location.y

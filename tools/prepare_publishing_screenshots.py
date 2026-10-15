@@ -1,4 +1,4 @@
-"""Prepare six isolated simulator apps; production sources are copied verbatim."""
+"""Prepare nine isolated simulator apps; production sources are copied verbatim."""
 import hashlib
 import json
 import re
@@ -54,7 +54,7 @@ def main():
             w=device['design_width'] if enlarged else device['design_width']//2;h=(2 if enlarged else 1)*device['design_height']//device['design_rows']
             assert fits(config['expected_primary'][slot] or '--',config['expected_secondary'][slot],header,metrics(fonts['Value'+str(size)]),lm,label['line_height'],w,h,int(effect),effect and field_id!='grade'),(key,field_id,'does not fit')
         code='module StoreConfig {\n'
-        for name,value in dict(ID=key,WIDTH=device['design_width'],HEIGHT=device['design_height'],DEFAULT=index==0,STATUTE=config['statute'],CLOCK24=config['clock24'],PRIMARY=config['expected_primary'],SECONDARY=config['expected_secondary'],HEADERS=headers).items():code+='const '+name+' = '+mc(value)+';\n'
+        for name,value in dict(ID=key,WIDTH=device['design_width'],HEIGHT=device['design_height'],DEFAULT=index==0,STATUTE=config['statute'],CLOCK24=config['clock24'],GRID_TYPE=['none','horizontal','full'][settings.get('grid_type',props['grid_type'])],ALIGNMENT='center' if settings.get('alignment',props['alignment'])==0 else 'right',PRIMARY=config['expected_primary'],SECONDARY=config['expected_secondary'],HEADERS=headers).items():code+='const '+name+' = '+mc(value)+';\n'
         code+='function settings() { return '+mc(settings)+'; }\nfunction raw() { return '+mc(config['raw'])+'; }\n}\n'
         (directory/'StoreConfig.mc').write_text(code,'utf-8')
         seed=''.join(r['preview_sha256'] for r in sources)+sha(ROOT/'config/font-manifest.json')+sha(ROOT/'validation/publishing/StorePreview.mc')+code+product
@@ -62,9 +62,10 @@ def main():
         (directory/'manifest.xml').write_text(manifest.replace('id="'+app_id+'"','id="'+preview_id+'"',1),'utf-8')
         (directory/'preview.jungle').write_text('project.manifest = manifest.xml\nbase.sourcePath = ../source;../../../validation/publishing;.\nbase.resourcePath = ../../../resources/strings;../../../resources/settings;../../../resources/drawables\nbase.excludeAnnotations = test;testSupport\n'+product+'.sourcePath = $(base.sourcePath);../../../profiles/'+product+'\n'+product+'.resourcePath = $(base.resourcePath);../../../profiles/'+product+'/fonts\n','utf-8')
         identities.append(dict(id=key,application_id=preview_id,visible_fields=len(selected),jungle=(directory/'preview.jungle').relative_to(ROOT).as_posix(),headers=headers))
-    assert len(identities)==6 and len({r['application_id'] for r in identities})==6 and covered==set(catalog)
+    assert len(identities)==9 and len({r['application_id'] for r in identities})==9 and covered==set(catalog)
+    assert {(c['settings'].get('alignment',props['alignment']),c['settings'].get('grid_type',props['grid_type'])) for c in definition['configurations']}=={(a,g) for a in [0,1] for g in [0,1,2]}
     record=dict(product=product,scope=definition['scope'],sources=sources,configurations=identities,covered_fields=sorted(covered),unavailable_fields=['temperature','power_zone'],fixture_sha256=sha(ROOT/'validation/publishing/StorePreview.mc'),definition_sha256=sha(ROOT/'validation/publishing/configurations.json'))
     (ROOT/'artifacts/publishing-preview-inputs.json').write_text(json.dumps(record,indent=2)+'\n','utf-8')
-    print('Prepared six isolated configurations; all 32 field types covered and every expected value/header fits.')
+    print('Prepared nine isolated configurations; all six alignment/grid-type combinations, all 32 fields and every expected value/header fit.')
 
 if __name__=='__main__':main()

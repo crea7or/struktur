@@ -70,11 +70,13 @@ def main():
     assert {f['requirement'] for f in fields}==expected
     assert len(props)==26 and len({p['key'] for p in props})==26
     assert next(p for p in props if p['key']=='alignment')['default']==1
-    assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme','show_grid'])
-    assert '| show_grid | Boolean | true |' in by_id['SPEC-155']['description']
+    assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
+    assert '| grid_type | number: 0 None, 1 Horizontal lines, 2 Full grid | 1 |' in by_id['SPEC-155']['description']
+    grid=next(p for p in props if p['key']=='grid_type')
+    assert grid['default']==1 and grid['choices']==[0,1,2] and grid['identifiers']==['none','horizontal','full']
     assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
     assert '| slot_1_background_effects through slot_10_background_effects | Boolean | false |' in by_id['SPEC-155']['description']
-    assert {'field_count','use_units_as_labels'}.isdisjoint(p['key'] for p in props)
+    assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
     tree=ET.parse(ROOT/'resources/settings/properties.xml')
     xml={p.attrib['id']:p for p in tree.findall('.//property')}
     assert set(xml)=={p['key'] for p in props}
@@ -155,6 +157,10 @@ def main():
     assert 'Math.abs(' not in production+tests
     assert 'Graphics.COLOR_CYAN' not in production
     assert 'loadResource' not in production.split('function draw(dc,snapshot,settings) {',1)[1].split('\n}',1)[0]
+    draw=(ROOT/'source/FieldRenderer.mc').read_text(encoding='utf-8').split('function draw(dc,snapshot,settings) {',1)[1]
+    assert not any(call in draw for call in ['Math.','FontMetrics.','Formatting.','MaskedText.prepare(', 'color(', 'effectiveNight(', 'fitRun(', 'getWidth(', 'getHeight(', 'getSystemStats('])
+    assert 'var enabled=false;' in (ROOT/'source/RuntimeMetrics.mc').read_text(encoding='utf-8')
+    assert 'RuntimeMetrics.enabled=true;' in (ROOT/'validation/memory/MemoryValidation.mc').read_text(encoding='utf-8')
     assert all((ROOT/path).exists() for row in trace for path in row['source'])
     assert 'const PAD_LEADING_MINUTES = null' in production or 'const PAD_LEADING_MINUTES = true' in production or 'const PAD_LEADING_MINUTES = false' in production
     result=dict(status='passed project input consistency checks',reviewed_workspace_requirements=len(by_id),approved_requirements=sum(r['status']=='approved' for r in by_id.values()),approved_supporting_records=sum(r['status']=='approved' for r in supporting),draft_requirements=[r['stable_id'] for r in by_id.values() if r['status']=='draft'],candidate_products=9,

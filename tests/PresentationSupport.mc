@@ -133,9 +133,18 @@ function assertGridDrawingEqual(expected,actual) {
 }
 
 (:testSupport)
-class GridVisibilityScenario {
+class GridTypeDrawDc extends PresentationDrawDc {
+    var segments=[];
+    function initialize(width,height) { PresentationDrawDc.initialize(width,height); }
+    function drawLine(x1,y1,x2,y2) {
+        PresentationDrawDc.drawLine(x1,y1,x2,y2);segments.add([x1,y1,x2,y2,_color]);
+    }
+}
+
+(:testSupport)
+class GridTypeScenario {
     var props;var settings;var snapshot;var renderer;var baseline;var dc;
-    var expectedLines=0;var layouts;var loads;var expectedColors;
+    var layouts;var loads;var fits;var geometry;
     function initialize(index) {
         props={"alignment"=>index%2,"enlarged_field_count"=>(index/2)%3,
             "theme_mode"=>(index/6)%2==1?2:1,"inverse_enlarged_theme"=>(index/12)%2==1,
@@ -148,29 +157,47 @@ class GridVisibilityScenario {
         renderer=new FieldRenderer();renderer.prepare(snapshot);
     }
     function drawing() {
-        dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
+        dc=new GridTypeDrawDc(profileDrawWidth(),profileDrawHeight());
         for(var i=0;i<snapshot[:values].size();i+=1) {
             dc.paintEffects.add(snapshot[:values][i][:band]!=null || snapshot[:values][i][:angle]!=null);
         }
         renderer.draw(dc,snapshot,settings);
     }
-    function run() {
-        dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
-        Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,settings.enlarged),renderer._cells.size());
+    function checkSegments(type) {
+        var expected=0;
         for(var i=0;i<renderer._cells.size();i+=1) {
-            var c=renderer._cells[i];if(c[:enlarged]) { continue; }
-            if("right".equals(settings.alignment) || c[:y]+c[:h]<profileDrawHeight()) { expectedLines+=16; }
-            if("center".equals(settings.alignment) && c[:x]>0) { expectedLines+=16; }
+            var c=renderer._cells[i];if(c[:enlarged] || type==0) { continue; }
+            if(type==1 || c[:y]+c[:h]<profileDrawHeight()) { expected+=16; }
+            if(type==2 && c[:x]>0) { expected+=16; }
         }
-        drawing();baseline=dc.records;expectedColors=dc.lines;
-        Test.assertEqual(expectedLines,dc.lines.size());
-        layouts=renderer.layoutCount;loads=renderer.fontLoads;
-        for(var pass=0;pass<3;pass+=1) {
-            props["show_grid"]=pass==1;settings.apply(props);drawing();
-            Test.assertEqual(pass==1?expectedLines:0,dc.lines.size());
-            if(pass==1) { assertGridDrawingEqual(expectedColors,dc.lines); }
-            assertGridDrawingEqual(baseline,dc.records);
+        Test.assertEqual(expected,dc.segments.size());
+        for(var n=0;n<dc.segments.size();n+=1) {
+            var line=dc.segments[n];var horizontal=line[1]==line[3];
+            Test.assert(horizontal || type==2);Test.assert(line[0]>=0 && line[2]<profileDrawWidth());
+            Test.assert(line[1]>=0 && line[3]<profileDrawHeight());
+            var q;
+            if(type==1) { q=6*(n%16+1); }
+            else {
+                if(horizontal) { Test.assert(line[1]<profileDrawHeight()-1); }
+                else { Test.assertEqual(profileDrawWidth()/2,line[0]); }
+                var p=horizontal?(line[0]+line[2])/2.0:(line[1]+line[3])/2.0;
+                var bound=horizontal?profileDrawWidth():profileDrawHeight();
+                q=Math.floor(96*(1.0-(p-bound/2.0).abs()/(bound/2.0))).toNumber();
+            }
+            Test.assertEqual(("night".equals(settings.theme)?q:255-q)*0x010101,line[4]);
+        }
+    }
+    function run() {
+        dc=new GridTypeDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
+        Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,settings.enlarged),renderer._cells.size());
+        drawing();baseline=dc.records;
+        layouts=renderer.layoutCount;loads=renderer.fontLoads;fits=renderer.fitCount;geometry=renderer.geometryBuilds;
+        var types=[1,0,2,0,1,2];
+        for(var pass=0;pass<types.size();pass+=1) {
+            props["grid_type"]=types[pass];settings.apply(props);renderer.configure(settings);renderer.prepare(snapshot);drawing();
+            checkSegments(types[pass]);assertGridDrawingEqual(baseline,dc.records);
             Test.assertEqual(layouts,renderer.layoutCount);Test.assertEqual(loads,renderer.fontLoads);
+            Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);
         }
     }
 }

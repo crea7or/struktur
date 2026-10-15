@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
@@ -14,6 +15,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 from PIL import Image, ImageDraw, ImageFont
+from check_test_suites import validate_suites
 
 ROOT = Path(__file__).resolve().parents[1]
 NS = {'iq': 'http://www.garmin.com/xml/connectiq'}
@@ -38,7 +40,9 @@ def main():
     captures = read(ROOT / 'artifacts/publishing-screenshots.json')
     inputs = read(ROOT / 'artifacts/publishing-preview-inputs.json')
     configs = read(ROOT / 'validation/publishing/configurations.json')['configurations']
-    core = read(ROOT / 'artifacts/edge1040-core-tests.json')
+    devices = read(ROOT / 'config/devices.json')
+    cores = [read(ROOT / ('artifacts/'+d['id']+'-core-tests.json')) for d in devices]
+    expected_core = set(validate_suites()['Core'])
     aliases = read(ROOT / 'artifacts/current-app-aliases.json')
     fonts = read(ROOT / 'artifacts/header-font-resources.json')
     current = json.loads(subprocess.check_output([
@@ -47,17 +51,19 @@ def main():
     ], cwd=ROOT, encoding='utf-8-sig'))
     revision = current['source_revision']
     assert all(r['source_revision'] == revision for r in
-               [build, package, captures, core, aliases, fonts]), 'Stale evidence'
+               [build, package, captures, *cores, aliases, fonts]), 'Stale evidence'
     assert package['mode'] == 'candidate' and package['status'] == 'compiled'
     assert package['release_qualified'] is False
-    assert core['status'] == 'passed' and core['test_count'] == 33
-    assert all(c['status'] == 'passed' for c in core['cases'])
+    for core in cores:
+        assert core['status'] == 'passed' and core['test_count'] == len(expected_core)
+        assert {c['name'] for c in core['cases']} == expected_core
+        assert all(c['status'] == 'passed' for c in core['cases'])
     assert captures['memory_tests_run'] == captures['placement_tests_run'] == 0
     assert inputs['definition_sha256'] == sha(ROOT / 'validation/publishing/configurations.json')
     assert inputs['fixture_sha256'] == sha(ROOT / 'validation/publishing/StorePreview.mc')
     for source in inputs['sources']:
         assert source['production_sha256'] == sha(ROOT / source['path'])
-    devices = read(ROOT / 'config/devices.json')
+    properties = {p['key']:p['default'] for p in read(ROOT / 'config/catalogue.json')['properties']}
     products = {d['id'] for d in devices}
     assert {r['product'] for r in build['products']} == products == set(package['products'])
     assert {r['product'] for r in aliases['products']} == products
@@ -95,12 +101,13 @@ def main():
         assert b'StorePreviewField' not in binary and b'StoreConfig' not in binary
         settings = json.loads(member(variant.get('settings')))['settings']
         defaults = {s['key']: s['defaultValue'] for s in settings}
-        assert len(defaults) == 25
+        assert set(defaults) == set(properties)
+        assert defaults['grid_type']==1 and 'show_grid' not in defaults
         assert all(defaults[f'slot_{i}_background_effects'] is False for i in range(1, 11))
         assert defaults['alignment'] == 1 and defaults['enlarged_field_count'] == 0
         found.append(dict(product=variants[part], part_number=part,
                           binary_sha256=hashlib.sha256(binary).hexdigest()))
-    assert {r['part_number'] for r in found} == set(variants) and len(found) == 13
+    assert {r['part_number'] for r in found} == set(variants) and len(found) == len(variants)
 
     out = ROOT / 'dist/Struktur-publishing'
     out.mkdir(parents=True, exist_ok=True)
@@ -125,10 +132,10 @@ def main():
         include(prg, relative)
         sideloads.append(dict(product=product, file=relative, sha256=sha(prg)))
 
-    assert len(captures['images']) == len(configs) == 6
+    assert len(captures['images']) == len(configs) == 9
     images = []
     covered = set()
-    gallery = Image.new('RGB', (780, 960), '#dce1e7')
+    gallery = Image.new('RGB', (780, 480*((len(configs)+2)//3)), '#dce1e7')
     draw = ImageDraw.Draw(gallery)
     title_font = ImageFont.truetype(str(ROOT / 'assets/fonts/Roboto_Condensed_SemiBold.ttf'), 15)
     for index, (record, config) in enumerate(zip(captures['images'], configs, strict=True)):
@@ -138,7 +145,12 @@ def main():
         assert sha(record['source_capture']) == record['source_sha256']
         assert sha(record['sample_binary']) == record['sample_binary_sha256']
         expected = f"STORE_OK id={record['id']} product=edge1050 width=480 height=800 fields={len(config['fields'])}"
-        assert expected in Path(record['log']).read_text('utf-8-sig')
+        grid=['none','horizontal','full'][config['settings'].get('grid_type',properties['grid_type'])]
+        alignment='center' if config['settings'].get('alignment',properties['alignment'])==0 else 'right'
+        expected+=' grid='+grid+' alignment='+alignment+' lines='
+        runtime=Path(record['log']).read_text('utf-8-sig')
+        observation=re.search(re.escape(expected)+r'(\d+)',runtime)
+        assert observation and ((int(observation[1])>0) if grid!='none' else int(observation[1])==0), record['id']
         with Image.open(record['image']) as image:
             assert image.size == (480, 800)
             assert not {'exif', 'XML:com.adobe.xmp', 'Description', 'Comment'} & set(image.info)
@@ -149,9 +161,11 @@ def main():
         include(record['image'], relative)
         images.append(dict(id=config['id'], title=config['title'], file=relative,
                            width=480, height=800, fields=config['fields'],
-                           settings=config['settings'], features=config['features']))
+                           settings=config['settings'], grid_type=grid, alignment=alignment,
+                           observed_grid_lines=int(observation[1]), features=config['features']))
         covered.update(config['fields'])
     assert covered == {f['id'] for f in read(ROOT / 'config/catalogue.json')['fields']}
+    assert {(r['alignment'],r['grid_type']) for r in images}=={(a,g) for a in ['center','right'] for g in ['none','horizontal','full']}
     gallery.save(ROOT / 'artifacts/publishing-contact-sheet.png')
     include(ROOT / 'artifacts/publishing-contact-sheet.png', 'screenshots-overview.png')
     include(ROOT / 'publishing/store-listing.md', 'store-listing.md')
@@ -159,7 +173,7 @@ def main():
     include(ROOT / 'assets/fonts/PROVENANCE.txt', 'font-provenance.txt')
     summary = dict(status='candidate', release_qualified=False, source_revision=revision,
                    products=sorted(products), sdk_variants=found, sideloads=sideloads,
-                   core_tests=dict(product='edge1040', passed=33), screenshots=images,
+                   core_tests=dict(products=[dict(product=r['product'],passed=r['test_count']) for r in cores],passed=sum(r['test_count'] for r in cores)), screenshots=images,
                    screenshot_scope='Synthetic ride data, actual production rendering in Edge 1050 simulator; all 32 selectable field types shown.',
                    unavailable_fields=['temperature', 'power_zone'],
                    memory_tests_run=0, placement_tests_run=0,
@@ -169,7 +183,7 @@ def main():
     guide = '''Struktur publishing candidate
 
 Struktur-candidate.iq: SDK-signed, release-format Connect IQ store upload candidate,
-covering nine Edge models and thirteen regional part numbers. Preserve this file
+covering nine Edge models and their regional part numbers. Preserve this file
 unchanged. It is not an approved/qualified release. No upload has been performed.
 The SDK includes companion debug.xml metadata (including source paths) inside IQ;
 raw build logs, local configuration, signing private keys and preview PRGs are excluded.
@@ -178,18 +192,21 @@ prg/: signed development PRGs for individual device sideloading. Copy the model'
 PRG to GARMIN/APPS over USB; select Struktur in a full-page single Data Field.
 These debug PRGs and the optimized store binaries are separate build variants.
 
-screenshots/: six native 480x800 Edge 1050 simulator captures with synthetic ride
+screenshots/: nine native 480x800 Edge 1050 simulator captures with synthetic ride
 data, made with the production renderer. 01-default uses unmodified factory
 settings: Right alignment, no enlargement, hidden units, Auto/Day, all effects off.
 Other images cover all 32 field assignments, metric/statute units, 12/24-hour
 clocks, lap fields, small seconds, long durations, Center/Right alignment,
 Day/Night themes, zero/one/two enlarged fields, enlarged inversion and opt-in
-HR/grade effects. Temperature and power zones honestly show unavailable (--).
+HR/grade effects. None, Horizontal lines and Full grid work with Center/Right independently.
+Actual drawLine calls and captures cover all six combinations.
+Temperature and power zones honestly show unavailable (--).
 Power-zone coloring and onboard-temperature readings are not yet qualified.
-The overview is a contact sheet; upload the six original PNGs as screenshots.
+The overview is a contact sheet; use the nine original PNGs for store screenshots.
 Confirm image/artwork requirements in the current Garmin submission form.
 
-Core: 33 tests passed on Edge 1040. All nine app profiles compiled and retain
+Core: matching-source suites passed on all nine profiles; see manifest.json for
+exact per-device counts. All nine app profiles compiled and retain
 exactly three serialized font resources. Memory/Placement suites were not run.
 Physical-device qualification and remaining release gates must be completed
 before claiming full support. The store listing remains a publisher-review draft.
@@ -213,7 +230,7 @@ Built with https://ai-architect.link requirement service.
                   products=len(products), native_screenshots=len(images), selectable_fields=len(covered),
                   bundle_sha256=sha(bundle), bundle_files=sorted(allowed), iq_sha256=sha(candidate))
     (ROOT / 'artifacts/submission-bundle.json').write_text(json.dumps(report, indent=2)+'\n', 'utf-8')
-    print('Prepared signed candidate, nine sideload PRGs and six verified native screenshots; 32 field types covered.')
+    print('Prepared signed candidate, nine sideload PRGs and nine verified native screenshots; all grid/alignment modes and 32 field types covered.')
     print('Source revision:', revision)
 
 

@@ -69,7 +69,7 @@ def main():
            dict(key='theme_mode',type='number',default=0,choices=[0,1,2],identifiers=['auto','day','night']),
            dict(key='hide_value_units',type='boolean',default=True,title='Hide physical units in headers'),
            dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged fields'),
-           dict(key='show_grid',type='boolean',default=True,title='Show grid')]
+           dict(key='grid_type',type='number',default=1,choices=[0,1,2],identifiers=['none','horizontal','full'],choice_labels=['None','Horizontal lines','Full grid'],title='Grid type')]
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
                       dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False)])
@@ -90,7 +90,7 @@ def main():
             identifier=p.get('identifiers',p.get('choices',[]))[index]
             label='Choice_'+str(identifier)
             field=next((f for f in fields if f['id']==identifier),None)
-            if not any(s.attrib.get('id')==label for s in strings):ET.SubElement(strings,'string',id=label).text=field['label'] if field else str(identifier).replace('_',' ').capitalize()
+            if not any(s.attrib.get('id')==label for s in strings):ET.SubElement(strings,'string',id=label).text=p.get('choice_labels',[])[index] if p.get('choice_labels') else (field['label'] if field else str(identifier).replace('_',' ').capitalize())
             ET.SubElement(config,'listEntry',value=str(value)).text='@Strings.'+label
     write_xml(ROOT/'resources/strings/strings.xml',resources)
     write_xml(ROOT/'resources/settings/properties.xml',properties_root)
@@ -107,15 +107,15 @@ def main():
         '    // Garmin settings lists store numeric codes; retain legacy strings without rewriting them.',
         '    function decode(key,value) {',
         '        if (!(value instanceof Toybox.Lang.Number)) { return value; }',
-        '        var ids = "alignment".equals(key) ? ["center","right"] : ("theme_mode".equals(key) ? ["auto","day","night"] : Catalog.IDS);',
+        '        var ids = "alignment".equals(key) ? ["center","right"] : ("theme_mode".equals(key) ? ["auto","day","night"] : ("grid_type".equals(key) ? ["none","horizontal","full"] : Catalog.IDS));',
         '        if(value>=0 && value<ids.size()) { return ids[value]; }',
         '        return key.find("slot_")==0 && value>=0?"unknown_field_"+value.toString():null;',
         '    }','}']
     (ROOT/'source/Catalog.mc').write_text('\n'.join(mc)+'\n',encoding='utf-8')
-    adapter=['using Toybox.System;','using Toybox.Lang;','// SPEC-156: explicit optional Activity.Info members, raw producer units.','module ActivityReader {','    function read(info) as Lang.Dictionary {','        var raw = {} as Lang.Dictionary;']
+    adapter=['using Toybox.System;','using Toybox.Lang;','// SPEC-156: explicit optional Activity.Info members, raw producer units.','module ActivityReader {','    function read(info) as Lang.Dictionary { return readWithBattery(info,true); }','    function readWithBattery(info,includeBattery) as Lang.Dictionary {','        var raw = {} as Lang.Dictionary;']
     for f in fields:
         if f['member']:adapter.append(f'        if (info has :{f["member"]}) {{ raw["{f["id"]}"] = Numeric.finite(info.{f["member"]}) ? info.{f["member"]} : null; }}')
-    adapter.extend(['        var stats=System.getSystemStats();','        raw["battery"] = stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100 ? stats.battery : null;',
+    adapter.extend(['        raw["battery"]=null;','        if(includeBattery) {','            var stats=System.getSystemStats();','            raw["battery"] = stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100 ? stats.battery : null;','        }',
                     '        // Stateful acquisition is applied once by ActivityAcquisition and the app temperature cache.',
                     '        raw["grade"] = null; raw["completed_laps"] = null; raw["temperature"] = null;',
                     '        return raw;','    }','}'])

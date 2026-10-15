@@ -2,7 +2,8 @@ using Toybox.System;
 using Toybox.Lang;
 // SPEC-156: explicit optional Activity.Info members, raw producer units.
 module ActivityReader {
-    function read(info) as Lang.Dictionary {
+    function read(info) as Lang.Dictionary { return readWithBattery(info,true); }
+    function readWithBattery(info,includeBattery) as Lang.Dictionary {
         var raw = {} as Lang.Dictionary;
         if (info has :currentSpeed) { raw["current_speed"] = Numeric.finite(info.currentSpeed) ? info.currentSpeed : null; }
         if (info has :averageSpeed) { raw["average_speed"] = Numeric.finite(info.averageSpeed) ? info.averageSpeed : null; }
@@ -21,8 +22,11 @@ module ActivityReader {
         if (info has :calories) { raw["calories"] = Numeric.finite(info.calories) ? info.calories : null; }
         if (info has :currentHeading) { raw["heading"] = Numeric.finite(info.currentHeading) ? info.currentHeading : null; }
         if (info has :distanceToNextPoint) { raw["distance_next_waypoint"] = Numeric.finite(info.distanceToNextPoint) ? info.distanceToNextPoint : null; }
-        var stats=System.getSystemStats();
-        raw["battery"] = stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100 ? stats.battery : null;
+        raw["battery"]=null;
+        if(includeBattery) {
+            var stats=System.getSystemStats();
+            raw["battery"] = stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100 ? stats.battery : null;
+        }
         // Stateful acquisition is applied once by ActivityAcquisition and the app temperature cache.
         raw["grade"] = null; raw["completed_laps"] = null; raw["temperature"] = null;
         return raw;

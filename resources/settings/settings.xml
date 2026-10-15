@@ -27,8 +27,12 @@
     <setting propertyKey="@Properties.inverse_enlarged_theme" title="@Strings.Setting_inverse_enlarged_theme">
       <settingConfig type="boolean" />
     </setting>
-    <setting propertyKey="@Properties.show_grid" title="@Strings.Setting_show_grid">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.grid_type" title="@Strings.Setting_grid_type">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_none</listEntry>
+        <listEntry value="1">@Strings.Choice_horizontal</listEntry>
+        <listEntry value="2">@Strings.Choice_full</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_1_value" title="@Strings.Setting_slot_1_value">
       <settingConfig type="list">

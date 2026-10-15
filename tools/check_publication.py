@@ -5,7 +5,8 @@ import json
 import re
 import struct
 import subprocess
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPORT = ROOT / 'requirements/export'
@@ -15,6 +16,43 @@ def read(path):
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def audit_public_archive(path, patterns):
+    """Inspect compressed publication content as well as repository filenames."""
+    with zipfile.ZipFile(path) as archive:
+        names = archive.namelist()
+        assert len(names) == len(set(names)), 'Duplicate archive entries'
+        assert sum(info.file_size for info in archive.infolist()) <= 50 * 1024 * 1024
+        assert {'specification.md', 'specification.json', 'release.json', 'SHA256SUMS.txt'} <= set(names)
+        for name in names:
+            relative = PurePosixPath(name)
+            assert not relative.is_absolute() and '..' not in relative.parts and '\\' not in name and ':' not in name
+            data = archive.read(name)
+            for reason, pattern in patterns.items():
+                assert not re.search(pattern, data), (path.name, name, reason)
+        checksums = {}
+        for line in archive.read('SHA256SUMS.txt').decode('utf-8').splitlines():
+            digest, name = line.split('  ', 1)
+            assert name not in checksums
+            checksums[name] = digest
+        assert set(checksums) == set(names) - {'SHA256SUMS.txt'}
+        assert all(hashlib.sha256(archive.read(name)).hexdigest() == digest for name, digest in checksums.items())
+        spec = json.loads(archive.read('specification.json'))
+        keys = {item['stable_id'] for item in spec['items']}
+        assert len(keys) == len(spec['items']) and all(item['type'] != 'test_execution' for item in spec['items'])
+        for item in spec['items']:
+            assert all(target in keys for targets in item['relations'].values() for target in targets)
+        text = archive.read('specification.md').decode('utf-8')
+        for target in re.findall(r'\]\(([^\s)]+)\)', text):
+            if target.startswith('https://'):
+                continue
+            filename, _, anchor = target.partition('#')
+            if filename:
+                assert filename in names, target
+            else:
+                assert anchor and 'id="' + anchor + '"' in text, target
+        return {'artifact': path.name, 'entries': len(names), 'records': len(keys), 'checksums': 'passed'}
+
 
 def main():
     filenames = subprocess.check_output(
@@ -28,6 +66,10 @@ def main():
         'local service URL': rb'(?i)https?://(?:localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(?=[:/\s"\x27])',
         'literal credential': rb'(?i)(?:password|passwd|csrf_token|access_token|refresh_token|api_key|client_secret)\s*["\x27]?\s*[:=]\s*["\x27][^"\x27\s]+["\x27]',
     }
+    patterns.update({
+        'internal service identifier': rb'(?i)["\x27](?:workspace_id|baseline_id|verified_baseline_id|server_id|work_item_id|released_by|created_by|updated_by)["\x27]\s*:\s*(?:\d|["\x27])',
+        'numeric workspace reference': rb'(?i)\bworkspace\s*(?:id\s*[:=]?\s*)?[#:]?\s+\d+\b',
+    })
     for name in files:
         path = ROOT / name
         if not path.is_file():
@@ -55,6 +97,7 @@ def main():
             assert offset == len(data), name
     assert not findings, json.dumps(findings, indent=2)
 
+    archives = [audit_public_archive(path, patterns) for path in sorted((ROOT / 'architecture').glob('*.zip'))]
     package = read(EXPORT / 'requirements.json')
     assert len(package['relations']) >= 370
     assert len(package['documents']) == 4 and len(package['attachments']) == 18
@@ -99,6 +142,7 @@ def main():
               'supporting_records': len(current) - counts['requirement'], 'export_checksums': 'passed', 'private_data_findings': [],
               'scope': 'Current publication files; ignored machine configuration and Git history are separate.',
               'memory_tests_run': 0}
+    report['architecture_archives'] = archives
     (ROOT / 'artifacts').mkdir(exist_ok=True)
     (ROOT / 'artifacts/publication-checks.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))

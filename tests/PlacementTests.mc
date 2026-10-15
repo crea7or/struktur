@@ -76,7 +76,7 @@ function presentationDrawAndAlignment(logger) {
         }
     }
     verifyWhiteTemperatureContrast();
-    verifyColoredFields();
+    for(var caseIndex=0;caseIndex<384;caseIndex+=1) { new ColoredFieldScenario(caseIndex).run(); }
     return true;
 }
 

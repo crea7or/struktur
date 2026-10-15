@@ -5,7 +5,8 @@ Struktur is a Monkey C cycling Data Field developed with the [AI Architect requi
 - `source/` contains acquisition, formatting and rendering; `profiles/` and `config/` define devices and settings.
 - `resources/` contains UI assets and generated font sprites. Use `tools/` generators; include only glyphs used by the app and retain font licensing.
 - `requirements/` holds versioned specifications and traceability; `tests/` and `validation/` contain separate verification workflows.
-- For every change, keep code and requirements aligned: update affected requirements in workspace 7, local exports and traceability when behavior changes, and implement requirement changes in code. Keep affected tests and documentation consistent, preserve requested requirement states, and report any synchronization blockers.
+- For every change, keep code and requirements aligned: update affected requirements in the authoritative requirement service, local exports and traceability when behavior changes, and implement requirement changes in code. Keep affected tests and documentation consistent, preserve requested requirement states, and report any synchronization blockers.
+- `architecture/` contains the sanitized public documentation release. Keep service identifiers, private links, author identities and raw execution history out of publication files.
 - Nine candidate Edge profiles are listed in `config/devices.json`. Compile them with `powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1 -Mode all`.
 - `-Mode candidate` exports a signed `.iq`; guarded `release`/`package` modes require approved decisions and matching qualification evidence. Compilation alone is not qualification.
 - Keep the signing key external. Machine paths and credentials belong in ignored local configuration; outputs belong in `bin/`, `artifacts/` or `dist/`.

@@ -30,15 +30,40 @@ class FieldRenderer {
     var _compactTop=0;
     var layoutCount=0;
     var fontLoads=0;
+    var fitCount=0;
+    var geometryBuilds=0;
+    var polygonBuilds=0;
+    var packetBuilds=0;
+    var _gridPlans={};
+    var _separatorPlans={};
+    var _geometryDirty=true;
+    var _configuredEnlarged=-1;
+    var _configuredAlignment=null;
+    var _configuredGrid=null;
+    var _nativeCapacity=2*DeviceProfile.DESIGN_ROWS;
+    var _packets=[];
+    var _polygonAngles=[];
+    var _compactPackets=[];
+    var _dirtyFields=[];
+    var _dirtyCount=0;
+    var _paletteNight=null;
+    var _paletteInverse=null;
+    var _regularSizes=[DeviceProfile.REGULAR_SIZE];
+    var _bigSizes=[DeviceProfile.BIG_SIZE];
+    var _labelSizes=[DeviceProfile.LABEL_SIZE];
+    var _clearForeground=Graphics.COLOR_BLACK;
+    var _clearBackground=Graphics.COLOR_WHITE;
+    var _lineColorIndex=5;
     function initialize() {
         _labelBandHeight=FieldPresentation.headerBandHeight(metric(DeviceProfile.LABEL_SIZE,true),_labelTop);
         var line=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
         _headerHeight=line>_labelBandHeight?line:_labelBandHeight;
+        metric(DeviceProfile.REGULAR_SIZE,false);metric(DeviceProfile.BIG_SIZE,false);
     }
     function needsLayout() { return _needsLayout; }
     function painted(value) { return value[:band]!=null || value[:angle]!=null; }
     function numericSizes(enlarged) {
-        return [enlarged?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE];
+        return enlarged?_bigSizes:_regularSizes;
     }
     function metric(size,labelRole) {
         var key=(labelRole?"l":"v")+size.toString();
@@ -61,6 +86,7 @@ class FieldRenderer {
         return text==null?PresentationPolicy.UNAVAILABLE:("overflow".equals(text)?PresentationPolicy.OVERFLOW:text);
     }
     function fitRun(cell,value,labelSize,text,unit) {
+        fitCount+=1;
         var lm=metric(labelSize,true);
         var labelInk=FontMetrics.bounds(value[:label],lm);
         var radius=painted(value)?1:0; var margin=4+radius;
@@ -90,8 +116,9 @@ class FieldRenderer {
         return null;
     }
     function plan(rows) {
-        var cells=Grid.plan(_width,_height,rows,_settings.enlarged);
-        var labelSizes=[DeviceProfile.LABEL_SIZE];
+        if(!_gridPlans.hasKey(rows)) { _gridPlans[rows]=Grid.plan(_width,_height,rows,_settings.enlarged);geometryBuilds+=1; }
+        var cells=_gridPlans[rows];
+        var labelSizes=_labelSizes;
         for(var overflow=0;overflow<2;overflow+=1) {
         var best=null;var bestScore=null;
         for(var l=0;l<labelSizes.size();l+=1) {
@@ -115,8 +142,21 @@ class FieldRenderer {
         return null;
     }
     function layout(dc,settings) {
-        _width=dc.getWidth();_height=dc.getHeight();_settings=settings;
+        if(_width!=dc.getWidth() || _height!=dc.getHeight()) { _geometryDirty=true; }
+        _width=dc.getWidth();_height=dc.getHeight();configure(settings);
         rebuild();
+    }
+    function configure(settings) {
+        if(_configuredEnlarged!=settings.enlarged) {
+            _geometryDirty=true;_needsLayout=true;
+        }
+        if(_configuredAlignment==null || !_configuredAlignment.equals(settings.alignment)) { _needsLayout=true; }
+        var gridChanged=_configuredGrid==null || !_configuredGrid.equals(settings.gridType);
+        if(gridChanged) { _separatorPlans={};_separators=[]; }
+        if(_configuredEnlarged!=settings.enlarged) { _nativeCapacity=Grid.capacity(DeviceProfile.DESIGN_ROWS,settings.enlarged); }
+        _configuredEnlarged=settings.enlarged;_configuredAlignment=settings.alignment;_settings=settings;
+        _configuredGrid=settings.gridType;
+        if(gridChanged && !_needsLayout && _cells.size()>0) { prepareSeparators(); }
     }
     function wrapMessage(size) {
         var metrics=metric(size,true); var words=["full","grid","needs","larger","area"];
@@ -132,14 +172,15 @@ class FieldRenderer {
         return lines.size()*height<=_height?lines:null;
     }
     function compact(nextFonts) {
-        _compactLines=[]; _compactFont=null;
-        var sizes=[DeviceProfile.LABEL_SIZE];
+        _compactLines=[]; _compactFont=null;_compactPackets=[];
+        var sizes=_labelSizes;
         for(var i=0;i<sizes.size();i+=1) {
             var lines=wrapMessage(sizes[i]);
             if(lines!=null) {
                 _compactLines=lines;_compactHeight=FontSelection.height(sizes[i],true);
                 _compactFont=selectFont(sizes[i],true,nextFonts);
                 _compactTop=(_height-lines.size()*_compactHeight)/2;
+                for(var line=0;line<lines.size();line+=1) { _compactPackets.add([_width/2,_compactTop+line*_compactHeight,lines[line]]); }
                 return;
             }
         }
@@ -147,7 +188,8 @@ class FieldRenderer {
         // If the complete message cannot fit, preserve the bounds with background only.
     }
     function rebuild() {
-        layoutCount+=1;_cells=[];_runs=[];_separators=[];_polygons=[];
+        layoutCount+=1;_cells=[];_runs=[];_separators=[];_polygons=[];_polygonAngles=[];_cellNights=[];_packets=[];
+        if(_geometryDirty) { _gridPlans={};_separatorPlans={};_geometryDirty=false; }
         _labelMetrics=metric(DeviceProfile.LABEL_SIZE,true);
         _labelHeight=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
         var nextFonts={}; var selected=null;
@@ -162,50 +204,113 @@ class FieldRenderer {
             _labels=selectFont(labelSize,true,nextFonts);_labelHeight=FontSelection.height(labelSize,true);
             _labelMetrics=metric(labelSize,true);
             for(var i=0;i<_runs.size();i+=1) { _runs[i][:font]=selectFont(_runs[i][:size],false,nextFonts); }
-            cacheSeparators(_width,_height,_settings.alignment);
+            prepareSeparators();
         }
         _fonts=nextFonts; // discard unused handles, bounded by visible selected variants
         _needsLayout=false;
         prepareGeometry();
     }
     function prepare(snapshot) {
+        if(_settings!=null) { configure(_settings); }
+        _dirtyCount=0;
         for(var i=0;i<snapshot[:values].size();i+=1) {
             var next=snapshot[:values][i];
-            if(i>=_preparedValues.size()) { _needsLayout=true; }
+            var changed=i>=_preparedValues.size();
+            if(changed) { _needsLayout=true; }
             else {
                 var old=_preparedValues[i];
                 if(!old[:label].equals(next[:label]) || !displayText(old).equals(displayText(next)) ||
                     !old[:unit].equals(next[:unit]) || painted(old)!=painted(next) ||
-                    (old[:expandedUnit]==null?next[:expandedUnit]!=null:(next[:expandedUnit]==null || !old[:expandedUnit].equals(next[:expandedUnit])))) { _needsLayout=true; }
+                    (old[:angle]==null)!=(next[:angle]==null) ||
+                    (old[:expandedUnit]==null?next[:expandedUnit]!=null:(next[:expandedUnit]==null || !old[:expandedUnit].equals(next[:expandedUnit])))) { changed=true; }
+            }
+            // Hidden candidate cells can permit recovery from a smaller fallback.
+            // Slots beyond the preferred capacity never affect the current layout.
+            if(changed && i<_nativeCapacity) {
+                if(_dirtyCount<_dirtyFields.size()) { _dirtyFields[_dirtyCount]=i; } else { _dirtyFields.add(i); }
+                _dirtyCount+=1;
             }
         }
         _preparedValues=snapshot[:values];_baseNight=snapshot[:night];_inverse=snapshot[:inverse];
-        // compute/settings/background callbacks prepare fonts and metrics, never draw().
-        if(_needsLayout && _settings!=null && _width>0 && _height>0) { rebuild(); }
-        else { prepareGeometry(); }
+        if(_settings==null || _width<=0 || _height<=0) { return; }
+        if(!_needsLayout && _dirtyCount>0) {
+            // Reconsider the preferred capacity after a fallback; never pin a smaller grid.
+            if(_cells.size()!=_nativeCapacity) { _needsLayout=true; }
+            else { refreshRuns(); }
+        }
+        if(_needsLayout) { rebuild(); } else { prepareGeometry(); }
     }
-    function prepareGeometry() {
-        _cellNights=[];_polygons=[];
-        for(var i=0;i<_cells.size();i+=1) {
-            _cellNights.add(FieldPresentation.effectiveNight(_baseNight,_cells[i][:enlarged],_inverse));
-            var angle=_preparedValues[i][:angle];
-            _polygons.add(angle==null?null:Geometry.ground(_cells[i],angle));
+    function refreshRuns() {
+        for(var n=0;n<_dirtyCount;n+=1) {
+            var i=_dirtyFields[n];var value=_preparedValues[i];var text=displayText(value);
+            var run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]);
+            if(run==null) { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
+            if(run==null) { _needsLayout=true;return; }
+            run[:font]=_runs[i][:font];_runs[i]=run;_packets[i]=null;
         }
     }
-    function cacheSeparators(width,height,alignment) {
+    function prepareGeometry() {
+        var paletteChanged=_paletteNight!=_baseNight || _paletteInverse!=_inverse;
+        if(paletteChanged) {
+            _clearForeground=_baseNight?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
+            _clearBackground=_baseNight?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+            _lineColorIndex=_baseNight?4:5;_paletteNight=_baseNight;_paletteInverse=_inverse;
+        }
+        for(var i=0;i<_cells.size();i+=1) {
+            var night=paletteChanged || i>=_cellNights.size()?FieldPresentation.effectiveNight(_baseNight,_cells[i][:enlarged],_inverse):_cellNights[i];
+            var value=_preparedValues[i];var packet=i<_packets.size()?_packets[i]:null;
+            if(i>=_cellNights.size()) { _cellNights.add(night);_polygons.add(null);_polygonAngles.add(null);_packets.add(null); }
+            _cellNights[i]=night;
+            if(packet==null || packet[:night]!=night ||
+                (packet[:band]==null?value[:band]!=null:(value[:band]==null || !packet[:band].equals(value[:band]))) || packet[:angle]!=value[:angle]) {
+                if(_polygonAngles[i]!=value[:angle]) {
+                    _polygons[i]=value[:angle]==null?null:Geometry.ground(_cells[i],value[:angle]);
+                    _polygonAngles[i]=value[:angle];
+                    if(value[:angle]!=null) { polygonBuilds+=1; }
+                }
+                _packets[i]=preparePacket(i,night);packetBuilds+=1;
+            }
+        }
+    }
+    function preparePacket(i,night) {
+        var c=_cells[i];var v=_preparedValues[i];var run=_runs[i];
+        var background=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+        var labelEffect=v[:band]!=null && v[:angle]==null;
+        var darkText=!labelEffect?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
+        var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+        var valueForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
+        var radius=v[:angle]!=null?run[:radius]:0;
+        var right="right".equals(_settings.alignment);
+        var x=right?c[:x]+c[:w]-run[:margin]-run[:total]:c[:x]+(c[:w]-run[:total])/2;
+        var label=MaskedText.prepare(right?c[:x]+c[:w]-run[:margin]:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run[:radius]);
+        var primary=MaskedText.prepare(x,c[:y]+run[:top]-run[:ink][0],run[:font],run[:text],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
+        var unit=run[:unitWidth]>0?MaskedText.prepare(x+run[:width]+2,c[:y]+run[:top]-run[:unitInk][0],_labels,run[:unit],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
+        return {:night=>night,:band=>v[:band],:angle=>v[:angle],:background=>background,:labelEffect=>labelEffect,
+            :color=>v[:band]==null?null:color(v[:band]),:label=>label,:primary=>primary,:unit=>unit};
+    }
+    function prepareSeparators() {
+        if("none".equals(_settings.gridType)) { _separators=[];return; }
+        var key=_cells.size();
+        if(!_separatorPlans.hasKey(key)) {
+            cacheSeparators(_width,_height,_settings.gridType);_separatorPlans[key]=_separators;
+        } else { _separators=_separatorPlans[key]; }
+    }
+    // Six consecutive scalars per line; retain only the current grid style.
+    function cacheSeparators(width,height,gridType) {
         _separators=[];
+        var horizontal="horizontal".equals(gridType);
         for(var i=0;i<_cells.size();i+=1) {
             var c=_cells[i];if(c[:enlarged]) { continue; }
             for(var step=0;step<16;step+=1) {
                 var start=c[:x]+step*c[:w]/16;var end=c[:x]+(step+1)*c[:w]/16-1;
-                var brightness="right".equals(alignment)?(step+1)/16.0:1.0-((start+end)/2.0-width/2.0).abs()/(width/2.0);
+                var brightness=horizontal?(step+1)/16.0:1.0-((start+end)/2.0-width/2.0).abs()/(width/2.0);
                 var shade=Numeric.clamp((96*brightness).toNumber(),0,96);var rgb=shade*0x010101;
-                if("right".equals(alignment) || c[:y]+c[:h]<height) { _separators.add([start,c[:y]+c[:h]-1,end,c[:y]+c[:h]-1,rgb]); }
-                if("center".equals(alignment) && c[:x]>0) {
+                if(horizontal || c[:y]+c[:h]<height) { _separators.addAll([start,c[:y]+c[:h]-1,end,c[:y]+c[:h]-1,rgb,0xFFFFFF-rgb]); }
+                if(!horizontal && c[:x]>0) {
                     var y1=c[:y]+step*c[:h]/16;var y2=c[:y]+(step+1)*c[:h]/16-1;
                     var vertical=1.0-((y1+y2)/2.0-height/2.0).abs()/(height/2.0);
                     var vshade=Numeric.clamp((96*vertical).toNumber(),0,96);
-                    _separators.add([c[:x],y1,c[:x],y2,vshade*0x010101]);
+                    var vrgb=vshade*0x010101;_separators.addAll([c[:x],y1,c[:x],y2,vrgb,0xFFFFFF-vrgb]);
                 }
             }
         }
@@ -225,46 +330,35 @@ class FieldRenderer {
         return value[:unit];
     }
     function draw(dc,snapshot,settings) {
-        dc.setColor(_baseNight?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,_baseNight?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE);dc.clear();
+        dc.setColor(_clearForeground,_clearBackground);dc.clear();
         if(_cells.size()==0) {
-            for(var line=0;line<_compactLines.size();line+=1) {
-                dc.drawText(_width/2,_compactTop+line*_compactHeight,_compactFont,_compactLines[line],Graphics.TEXT_JUSTIFY_CENTER);
+            for(var line=0;line<_compactPackets.size();line+=1) {
+                var caption=_compactPackets[line];dc.drawText(caption[0],caption[1],_compactFont,caption[2],Graphics.TEXT_JUSTIFY_CENTER);
             }
             return;
         }
         for(var i=0;i<_cells.size();i+=1) {
-            var c=_cells[i];var v=snapshot[:values][i];var run=_runs[i];var night=_cellNights[i];
-            var background=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-            var labelEffect=v[:band]!=null && v[:angle]==null;
+            var c=_cells[i];var p=_packets[i];var run=_runs[i];
             var bandHeight=run[:labelBand];
-            dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(background,Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
-            if(labelEffect) {
-                dc.setColor(color(v[:band]),Graphics.COLOR_TRANSPARENT);
+            dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(p[:background],Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
+            if(p[:labelEffect]) {
+                dc.setColor(p[:color],Graphics.COLOR_TRANSPARENT);
                 dc.fillRectangle(c[:x],c[:y],c[:w],bandHeight);
             }
-            if(v[:angle]!=null && _polygons[i]!=null && _polygons[i].size()>=3) {
-                dc.setColor(color(v[:band]),Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
+            if(_polygons[i]!=null) {
+                dc.setColor(p[:color],Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
             }
-            var darkText=!labelEffect?!night:
-                ("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
-            var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-            var valueForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
-            var valueRadius=v[:angle]!=null?run[:radius]:0;
-            var right="right".equals(settings.alignment);
-            var x=right?c[:x]+c[:w]-run[:margin]-run[:total]:c[:x]+(c[:w]-run[:total])/2;
-            if(labelEffect) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
-            MaskedText.draw(dc,right?c[:x]+c[:w]-run[:margin]:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],
-                right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run[:radius]);
-            if(labelEffect) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
-            MaskedText.draw(dc,x,c[:y]+run[:top]-run[:ink][0],run[:font],run[:text],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,valueRadius);
-            if(run[:unitWidth]>0) {
-                MaskedText.draw(dc,x+run[:width]+2,c[:y]+run[:top]-run[:unitInk][0],_labels,run[:unit],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,valueRadius);
-            }
+            if(p[:labelEffect]) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
+            MaskedText.drawPrepared(dc,p[:label]);
+            if(p[:labelEffect]) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
+            MaskedText.drawPrepared(dc,p[:primary]);
+            if(p[:unit]!=null) { MaskedText.drawPrepared(dc,p[:unit]); }
             dc.clearClip();
         }
-        // APP-22: visibility does not change cached geometry or field rendering.
-        for(var j=0;settings.showGrid && j<_separators.size();j+=1) {
-            var s=_separators[j];dc.setColor(_baseNight?s[4]:0xFFFFFF-s[4],Graphics.COLOR_TRANSPARENT);dc.drawLine(s[0],s[1],s[2],s[3]);
+        // APP-22: grid type was prepared before drawing, independently of alignment.
+        for(var j=0;j<_separators.size();j+=6) {
+            dc.setColor(_separators[j+_lineColorIndex],Graphics.COLOR_TRANSPARENT);
+            dc.drawLine(_separators[j],_separators[j+1],_separators[j+2],_separators[j+3]);
         }
     }
 }

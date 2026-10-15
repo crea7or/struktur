@@ -54,7 +54,7 @@ try{
                     $reader=[IO.StreamReader]::new($stream)
                     try{$text=$reader.ReadToEnd()}finally{$reader.Dispose()}
                 }
-                if($text -match 'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory'){throw 'Runtime allocation failure/crash; inspect memory logs.'}
+                if($text -match 'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory|Stack Overflow|StackOverflow'){throw 'Runtime allocation/stack failure or crash; inspect memory logs.'}
                 if($text -match ('DF_MEMORY_DONE product='+$id+' ')){$done=$true;break}
                 if($process.HasExited){throw 'Runner exited without a completed normal-runtime memory record.'}
             }

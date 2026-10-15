@@ -30,6 +30,7 @@ def glyph_contract(root=ROOT):
     renderer=(root/'source/FieldRenderer.mc').read_text(encoding='utf-8')
     policy=(root/'source/Policy.mc').read_text(encoding='utf-8')
     formatting=(root/'source/Formatting.mc').read_text(encoding='utf-8')
+    presentation=(root/'source/FieldPresentation.mc').read_text(encoding='utf-8')
     formats=sorted({field['format'] for field in catalogue['fields']})
     if set(formats)!={'float','integer','duration','clock'}:
         raise ValueError('Supported formatting modes changed; review glyph output rules.')
@@ -43,20 +44,22 @@ def glyph_contract(root=ROOT):
         markers.append(json.loads(match.group(1)))
     numeric=''.join(sorted(set('0123456789-.:'+''.join(markers))))
     unit_variants={}
-    pattern=r'(?:if|else\s+if)\(\s*('+LITERAL+r')\.equals\(unit\)\s*\)\s*\{[^}\n]*?\bunit\s*=\s*([^;]+);'
-    for match in re.finditer(pattern,snapshot):
+    pattern=r'if\(\s*('+LITERAL+r')\.equals\(kind\)\s*\)\s*\{\s*return\s*\[([^\]]+)\];'
+    for match in re.finditer(pattern,presentation):
         unit_variants[json.loads(match.group(1))]=literals(match.group(2))
+    degrees=re.search(r'return\s*\["degrees"\.equals\(kind\)\?\s*('+LITERAL+r')\s*:\s*kind\]',presentation)
+    if degrees:unit_variants['degrees']=[json.loads(degrees.group(1))]
     if set(unit_variants)!={'speed','distance','elevation','temperature','degrees'}:
         raise ValueError('Unit-conversion text changed; review glyph-contract extraction.')
     units=sorted({text for field in catalogue['fields'] for text in unit_variants.get(field['unit'],[field['unit']])})
-    unknown=re.search(r'var\s+label\s*=\s*idx\s*==\s*null\s*\?\s*('+LITERAL+r')',snapshot)
+    unknown=re.search(r'var\s+label\s*=\s*d\.index\s*==\s*null\s*\?\s*('+LITERAL+r')',snapshot)
     compact=re.search(r'_compactText\s*=\s*('+LITERAL+r')',renderer)
     if not unknown or not compact:raise ValueError('Fallback label text changed; review glyph coverage.')
     fallbacks=[json.loads(unknown.group(1)),json.loads(compact.group(1))]
     for match in re.finditer(r'_compactLines\s*=\s*\[([^;\n]*)\];',renderer):
         fallbacks.extend(literals(match.group(1)))
     periods=re.search(r'hour\s*<\s*12\s*\?\s*('+LITERAL+r')\s*:\s*('+LITERAL+r')',formatting)
-    if not periods or 'label+=" | "+Formatting.clockPeriod(clock.hour)' not in snapshot:
+    if not periods or 'd.am=d.label+" | am";d.pm=d.label+" | pm"' not in snapshot or 'label=clock.hour<12?d.am:d.pm' not in snapshot:
         raise ValueError('Clock header text changed; review font roles.')
     clock_units=[json.loads(periods.group(i)) for i in [1,2]]
     labels=[field['label'] for field in catalogue['fields']]+fallbacks
@@ -65,7 +68,7 @@ def glyph_contract(root=ROOT):
     headers=[unit_header(field,unit) for field in catalogue['fields']
              for unit in unit_variants.get(field['unit'],[field['unit']]) if unit]
     labels+=headers
-    directions=re.search(r'var directions=\[([^\n;]+)\];',formatting)
+    directions=re.search(r'const DIRECTIONS=\[([^\n;]+)\];',formatting)
     if not directions:raise ValueError('Heading cardinal text changed; review label-role coverage.')
     labels+=literals(directions.group(1))
     if 'Formatting.durationParts(value,PresentationPolicy.PAD_LEADING_MINUTES)' not in snapshot:
