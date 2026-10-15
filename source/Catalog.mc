@@ -9,7 +9,7 @@ module Catalog {
     function defaultSlots() { return ["current_speed", "distance", "activity_timer", "time_of_day", "current_heart_rate", "power_3s", "elevation", "grade", "total_ascent", "temperature"]; }
 }
 module SettingsCatalogue {
-    function keys() { return ["enlarged_field_count", "alignment", "theme_mode", "hide_value_units", "inverse_enlarged_theme", "slot_1_value", "slot_1_background_effects", "slot_2_value", "slot_2_background_effects", "slot_3_value", "slot_3_background_effects", "slot_4_value", "slot_4_background_effects", "slot_5_value", "slot_5_background_effects", "slot_6_value", "slot_6_background_effects", "slot_7_value", "slot_7_background_effects", "slot_8_value", "slot_8_background_effects", "slot_9_value", "slot_9_background_effects", "slot_10_value", "slot_10_background_effects"]; }
+    function keys() { return ["enlarged_field_count", "alignment", "theme_mode", "hide_value_units", "inverse_enlarged_theme", "show_grid", "slot_1_value", "slot_1_background_effects", "slot_2_value", "slot_2_background_effects", "slot_3_value", "slot_3_background_effects", "slot_4_value", "slot_4_background_effects", "slot_5_value", "slot_5_background_effects", "slot_6_value", "slot_6_background_effects", "slot_7_value", "slot_7_background_effects", "slot_8_value", "slot_8_background_effects", "slot_9_value", "slot_9_background_effects", "slot_10_value", "slot_10_background_effects"]; }
     // Garmin settings lists store numeric codes; retain legacy strings without rewriting them.
     function decode(key,value) {
         if (!(value instanceof Toybox.Lang.Number)) { return value; }

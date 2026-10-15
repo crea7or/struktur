@@ -8,7 +8,7 @@ using Toybox.WatchUi;
 function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(25,SettingsCatalogue.keys().size());
+    Test.assertEqual(26,SettingsCatalogue.keys().size());
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
     var engine=new SnapshotEngine();var clock=new PresentationClock();
@@ -278,6 +278,21 @@ function normalPresentationDrawAndAlignment(logger) {
     for(var customCase=0;customCase<32;customCase+=1) { new CustomBackgroundScenario(customCase%8,customCase/8).run(); }
     for(var neutralCase=0;neutralCase<12;neutralCase+=1) { new NeutralBandScenario(neutralCase).run(); }
     for(var caseIndex=0;caseIndex<384;caseIndex+=1) { new ColoredFieldScenario(caseIndex).run(); }
+    return true;
+}
+
+// APP-22/SPEC-155: visibility toggles remove only separator drawing calls.
+(:test)
+function gridVisibilityAndRepaint(logger) {
+    var settings=new DisplaySettings();Test.assert(settings.showGrid);
+    var invalid=[null,0,1,"true","false",1.0,[],{}];
+    for(var i=0;i<invalid.size();i+=1) {
+        settings.apply({"show_grid"=>invalid[i]});Test.assert(settings.showGrid);
+    }
+    settings.apply({"show_grid"=>false});Test.assert(!settings.showGrid);
+    settings.apply({"show_grid"=>true});Test.assert(settings.showGrid);
+    settings.apply({});Test.assert(settings.showGrid);
+    for(var scenario=0;scenario<24;scenario+=1) { new GridVisibilityScenario(scenario).run(); }
     return true;
 }
 

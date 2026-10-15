@@ -6,6 +6,7 @@
     <property id="theme_mode" type="number">0</property>
     <property id="hide_value_units" type="boolean">true</property>
     <property id="inverse_enlarged_theme" type="boolean">true</property>
+    <property id="show_grid" type="boolean">true</property>
     <property id="slot_1_value" type="number">0</property>
     <property id="slot_1_background_effects" type="boolean">false</property>
     <property id="slot_2_value" type="number">11</property>

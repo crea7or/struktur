@@ -10,6 +10,7 @@ The project was developed using the [AI Architect requirement service](https://a
 - Full-capacity layouts with zero, one or two enlarged fields. Ten ordered assignments are retained, including temporarily hidden slots; repeated values are supported.
 - Default slot order: speed, distance, timer, time, heart rate, 3s power, elevation, grade, ascent and temperature. Valid saved assignments take precedence; four-row layouts initially show the first eight.
 - Center or Right alignment, with Right as the first-install default.
+- Show or hide grid separators with **Show grid**, enabled by default. Hiding lines keeps field sizes, positions and backgrounds unchanged.
 - Day/Night themes, optional enlarged-field theme inversion, and per-slot background-effects controls, off by default.
 - Metric/statute physical units in optional `label | unit` headers; lowercase am/pm in 12-hour clock headers.
 - Duration values with smaller `.SS` seconds below ten hours; multi-digit hours such as `100:00` omit seconds.
@@ -53,7 +54,7 @@ SDK's actual 420x600 display, four rows and 175/83/35 px font roles. Current-sou
 build, Core and sample-image evidence is recorded under `artifacts/`; older
 binaries and executions do not qualify these revisions. See [the implementation review](requirements/header-separator-review-20261015.json).
 
-The current source implements the 15 October display contracts: physical-unit headers, lowercase clock indicators, the ten-hour duration-seconds cutoff, exact revised labels and five-sample grade regression. The retired `use_units_as_labels` setting is ignored; 25 active settings remain. Current build and test evidence is stored under `artifacts/` with source fingerprints.
+The current source implements the 15 October display contracts: physical-unit headers, lowercase clock indicators, the ten-hour duration-seconds cutoff, exact revised labels and five-sample grade regression. The retired `use_units_as_labels` setting is ignored; 26 active settings remain, including default-on `show_grid`. Missing or malformed grid values use the on default; a saved off choice is retained. Current build and test evidence is stored under `artifacts/` with source fingerprints.
 
 - Grade uses the latest five valid running samples, with zero during valid warm-up before three samples. Three seconds without distance progress makes it unavailable until progress resumes. Its two-decimal estimate supplies effects; the displayed slope uses one decimal; only ground is colored, and sky retains the effective cell background.
 - Completed laps require a continuously observed, known-zero activity baseline. Loading into an existing activity leaves the total unavailable until a fresh session is established.

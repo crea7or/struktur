@@ -10,10 +10,11 @@ class DisplaySettings {
     var effects;
     var hideValueUnits;
     var inverseEnlargedTheme;
+    var showGrid;
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
-        hideValueUnits=true; inverseEnlargedTheme=true;
+        hideValueUnits=true; inverseEnlargedTheme=true; showGrid=true;
     }
     function load() {
         var values = {} as Lang.Dictionary;
@@ -37,6 +38,7 @@ class DisplaySettings {
         var mode = SettingsCatalogue.decode("theme_mode",get(values, "theme_mode")); theme = "day".equals(mode) || "night".equals(mode) ? mode : "auto";
         hideValueUnits=booleanValue(values,"hide_value_units");
         inverseEnlargedTheme=booleanValue(values,"inverse_enlarged_theme");
+        showGrid=booleanValue(values,"show_grid");
         var defaults = Catalog.defaultSlots();
         for (var i = 0; i < 10; i += 1) {
             var key = "slot_" + (i+1).toString() + "_value";

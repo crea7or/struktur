@@ -68,7 +68,8 @@ def main():
            dict(key='alignment',type='number',default=1,choices=[0,1],identifiers=['center','right']),
            dict(key='theme_mode',type='number',default=0,choices=[0,1,2],identifiers=['auto','day','night']),
            dict(key='hide_value_units',type='boolean',default=True,title='Hide physical units in headers'),
-           dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged fields')]
+           dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged fields'),
+           dict(key='show_grid',type='boolean',default=True,title='Show grid')]
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
                       dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False)])

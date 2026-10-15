@@ -343,6 +343,12 @@
       "title": "Inverse theme for enlarged fields"
     },
     {
+      "key": "show_grid",
+      "type": "boolean",
+      "default": true,
+      "title": "Show grid"
+    },
+    {
       "key": "slot_1_value",
       "type": "number",
       "default": 0,

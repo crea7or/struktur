@@ -68,9 +68,10 @@ def main():
     assert [f['id'] for f in fields[26:]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==25 and len({p['key'] for p in props})==25
+    assert len(props)==26 and len({p['key'] for p in props})==26
     assert next(p for p in props if p['key']=='alignment')['default']==1
-    assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
+    assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme','show_grid'])
+    assert '| show_grid | Boolean | true |' in by_id['SPEC-155']['description']
     assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
     assert '| slot_1_background_effects through slot_10_background_effects | Boolean | false |' in by_id['SPEC-155']['description']
     assert {'field_count','use_units_as_labels'}.isdisjoint(p['key'] for p in props)

@@ -215,8 +215,8 @@
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
     "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
     "requirement_revisions": {
-      "APP-46": 37,
-      "SPEC-155": 25,
+      "APP-46": 38,
+      "SPEC-155": 27,
       "DVS-50": 22
     }
   },

@@ -47,6 +47,7 @@
     <string id="Choice_night">Night</string>
     <string id="Setting_hide_value_units">Hide physical units in headers</string>
     <string id="Setting_inverse_enlarged_theme">Inverse theme for enlarged fields</string>
+    <string id="Setting_show_grid">Show grid</string>
     <string id="Setting_slot_1_value">Slot 1 value</string>
     <string id="Choice_current_speed">speed</string>
     <string id="Choice_average_speed">average speed</string>

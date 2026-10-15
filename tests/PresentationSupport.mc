@@ -122,6 +122,60 @@ class PresentationDrawDc {
 
 // Smaller helpers retain the same matrix and assertions on constrained VM stacks.
 (:testSupport)
+function assertGridDrawingEqual(expected,actual) {
+    if(expected instanceof Toybox.Lang.Array) {
+        Test.assertEqual(expected.size(),actual.size());
+        for(var i=0;i<expected.size();i+=1) { assertGridDrawingEqual(expected[i],actual[i]); }
+    } else if(expected instanceof Toybox.Lang.Dictionary) {
+        Test.assertEqual(expected.size(),actual.size());var keys=expected.keys();
+        for(var k=0;k<keys.size();k+=1) { Test.assert(actual.hasKey(keys[k]));assertGridDrawingEqual(expected[keys[k]],actual[keys[k]]); }
+    } else { Test.assertEqual(expected,actual); }
+}
+
+(:testSupport)
+class GridVisibilityScenario {
+    var props;var settings;var snapshot;var renderer;var baseline;var dc;
+    var expectedLines=0;var layouts;var loads;var expectedColors;
+    function initialize(index) {
+        props={"alignment"=>index%2,"enlarged_field_count"=>(index/2)%3,
+            "theme_mode"=>(index/6)%2==1?2:1,"inverse_enlarged_theme"=>(index/12)%2==1,
+            "slot_1_value"=>"grade","slot_1_background_effects"=>true,
+            "slot_2_value"=>"current_heart_rate","slot_2_background_effects"=>true};
+        settings=new DisplaySettings();settings.apply(props);
+        snapshot=new SnapshotEngine().prepareWithPreferences({"grade"=>3.4,"current_heart_rate"=>160,
+            "current_speed"=>10,"distance"=>12345,"activity_timer"=>65000,"elevation"=>123},
+            settings,true,new PresentationDevice(false,true,(index/6)%2==1),new PresentationClock());
+        renderer=new FieldRenderer();renderer.prepare(snapshot);
+    }
+    function drawing() {
+        dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
+        for(var i=0;i<snapshot[:values].size();i+=1) {
+            dc.paintEffects.add(snapshot[:values][i][:band]!=null || snapshot[:values][i][:angle]!=null);
+        }
+        renderer.draw(dc,snapshot,settings);
+    }
+    function run() {
+        dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
+        Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,settings.enlarged),renderer._cells.size());
+        for(var i=0;i<renderer._cells.size();i+=1) {
+            var c=renderer._cells[i];if(c[:enlarged]) { continue; }
+            if("right".equals(settings.alignment) || c[:y]+c[:h]<profileDrawHeight()) { expectedLines+=16; }
+            if("center".equals(settings.alignment) && c[:x]>0) { expectedLines+=16; }
+        }
+        drawing();baseline=dc.records;expectedColors=dc.lines;
+        Test.assertEqual(expectedLines,dc.lines.size());
+        layouts=renderer.layoutCount;loads=renderer.fontLoads;
+        for(var pass=0;pass<3;pass+=1) {
+            props["show_grid"]=pass==1;settings.apply(props);drawing();
+            Test.assertEqual(pass==1?expectedLines:0,dc.lines.size());
+            if(pass==1) { assertGridDrawingEqual(expectedColors,dc.lines); }
+            assertGridDrawingEqual(baseline,dc.records);
+            Test.assertEqual(layouts,renderer.layoutCount);Test.assertEqual(loads,renderer.fontLoads);
+        }
+    }
+}
+
+(:testSupport)
 function verifyPresentationDraw(mode,baseNight,inverse,big,align,requireComplete) {
     var engine=new SnapshotEngine(); var clock=new PresentationClock();
     var settings=new DisplaySettings();

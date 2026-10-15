@@ -262,7 +262,8 @@ class FieldRenderer {
             }
             dc.clearClip();
         }
-        for(var j=0;j<_separators.size();j+=1) {
+        // APP-22: visibility does not change cached geometry or field rendering.
+        for(var j=0;settings.showGrid && j<_separators.size();j+=1) {
             var s=_separators[j];dc.setColor(_baseNight?s[4]:0xFFFFFF-s[4],Graphics.COLOR_TRANSPARENT);dc.drawLine(s[0],s[1],s[2],s[3]);
         }
     }
