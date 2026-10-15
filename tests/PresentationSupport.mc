@@ -292,14 +292,16 @@ class ColoredFieldScenario {
         for(var state=0;state<2;state+=1) {
             properties["slot_1_background_effects"]=state==1;settings.apply(properties);
             snapshot=engine.prepareWithPreferences(state==1?{}:raw,settings,true,device,clock);
-            Test.assert(snapshot[:values][0][:band]==null && snapshot[:values][0][:angle]==null);
+            if(state==0) { Test.assert(snapshot[:values][0][:band]==null); }
+            else { Test.assertEqual((night==1)!=(big>0 && inverse==1)?"dark_gray":"light_gray",snapshot[:values][0][:band]); }
+            Test.assert(snapshot[:values][0][:angle]==null);
             renderer.prepare(snapshot);
             dc=new PresentationDrawDc(dc.getWidth(),dc.getHeight());
             for(var p=0;p<snapshot[:values].size();p+=1) { dc.paintEffects.add(snapshot[:values][p][:band]!=null || snapshot[:values][p][:angle]!=null); }
             renderer.draw(dc,snapshot,settings);
             verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,align);
-            Test.assertEqual(0,dc.records[0][:halos].size());
-            Test.assertEqual(1,dc.records[0][:rectangles].size());
+            Test.assertEqual(state==0?0:8,dc.records[0][:halos].size());
+            Test.assertEqual(state==0?1:2,dc.records[0][:rectangles].size());
         }
     }
 }
@@ -355,11 +357,59 @@ function verifyNeutralLabelBands() {
         Test.assertEqual(expectedCustom,Effects.hasCustomBackground(Catalog.IDS[index]));
         settings.apply({"slot_1_value"=>Catalog.IDS[index],"slot_1_background_effects"=>true});
         var missing=engine.prepareWithPreferences({},settings,false,new PresentationDevice(false,true,false),null)[:values][0];
-        if(expectedCustom) { Test.assert(missing[:band]==null && missing[:angle]==null); }
-        else { Test.assertEqual("light_gray",missing[:band]);Test.assert(missing[:angle]==null); }
+        Test.assertEqual("light_gray",missing[:band]);Test.assert(missing[:angle]==null);
     }
     settings.apply({"slot_1_value"=>"unknown_field","slot_1_background_effects"=>true});
     Test.assert(engine.initial(settings)[:values][0][:band]==null);
+}
+
+// Actual semantic selection must override gray, including valid zero values.
+(:testSupport)
+class CustomBackgroundScenario {
+    var id;var index;var value;var color;var gray;var night;var big;
+    var engine;var settings;var props;var raw;var snapshot;
+    function initialize(fieldIndex,mode) {
+        index=fieldIndex;
+        var ids=["grade","temperature","current_heart_rate","heart_rate_3s","average_heart_rate","current_power","power_3s","average_power"];
+        id=ids[index];value=index==0?6.8:(index==1?5:(index<5?160:250));
+        color=index==1?"white":(index<5?"orange":"yellow");
+        night=mode%2;big=mode/2;
+        gray=(night==1)!=(big==1)?"dark_gray":"light_gray";
+        props={"slot_1_value"=>id,"slot_2_value"=>id,"slot_1_background_effects"=>true,
+            "slot_2_background_effects"=>false,"theme_mode"=>night==1?2:1,"enlarged_field_count"=>big,"inverse_enlarged_theme"=>true};
+        settings=new DisplaySettings();settings.apply(props);engine=new SnapshotEngine();
+        qualify();
+    }
+    function qualify() {
+        engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
+        // Synthetic qualified metadata for semantic selection, never production provenance.
+        engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,650,1000],true);
+    }
+    function sample() {
+        snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
+        Test.assert(snapshot[:values][1][:band]==null);
+    }
+    function run() {
+        raw={};sample();Test.assertEqual(gray,snapshot[:values][0][:band]);Test.assert(snapshot[:values][0][:angle]==null);
+        raw[id]=value;sample();Test.assertEqual(color,snapshot[:values][0][:band]);
+        Test.assertEqual(index==0?"6.8":(index==1?"5.00":(index<5?"160":"250")),snapshot[:values][0][:text]);
+        if(index==0) { Test.assertEqual(13.6,snapshot[:values][0][:angle]); }
+        else { Test.assert(snapshot[:values][0][:angle]==null); }
+        raw[id]=0;sample();
+        if(index==0) { Test.assertEqual("green",snapshot[:values][0][:band]);Test.assertEqual(0.0,snapshot[:values][0][:angle]); }
+        else if(index==1) { Test.assertEqual("cyan",snapshot[:values][0][:band]); }
+        else { Test.assertEqual(index<5?gray:"blue",snapshot[:values][0][:band]); }
+        raw[id]=value;
+        if(index>=2) {
+            engine._hrZones=null;engine._powerZones=null;sample();
+            Test.assertEqual(gray,snapshot[:values][0][:band]);Test.assertEqual(index<5?"160":"250",snapshot[:values][0][:text]);
+            qualify();
+        }
+        sample();Test.assertEqual(color,snapshot[:values][0][:band]);
+        props["slot_1_background_effects"]=false;settings.apply(props);sample();Test.assert(snapshot[:values][0][:band]==null);
+        props["slot_1_background_effects"]=true;settings.apply(props);sample();Test.assertEqual(color,snapshot[:values][0][:band]);
+        raw={};sample();Test.assertEqual(gray,snapshot[:values][0][:band]);Test.assert(snapshot[:values][0][:angle]==null);
+    }
 }
 
 // Keep scenario state off the constrained VM stack, as in ColoredFieldScenario.
@@ -386,8 +436,8 @@ class NeutralBandScenario {
             settings.apply(props);
             raw=state==1 || state==3?{}:{"current_speed"=>1,"grade"=>1,"lap_speed"=>1};
             snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
-            if(state==0 || state==1 || state==5) { Test.assertEqual(gray,snapshot[:values][0][:band]); }
-            if(state==2 || state==3) { Test.assert(snapshot[:values][0][:band]==null); }
+            if(state==0 || state==1 || state==3 || state==5) { Test.assertEqual(gray,snapshot[:values][0][:band]); }
+            if(state==2) { Test.assert(snapshot[:values][0][:band]==null); }
             Test.assert(snapshot[:values][1][:band]==null);
             Test.assertEqual(night==1?"dark_gray":"light_gray",snapshot[:values][9][:band]);
             dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
@@ -399,7 +449,7 @@ class NeutralBandScenario {
             cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
             Test.assertEqual(cells.size(),renderer._runs.size());
             verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,(big+inverse)%2);
-            if(state==0 || state==1 || state==5) {
+            if(state==0 || state==1 || state==3 || state==5) {
                 Test.assertEqual("dark_gray".equals(gray)?0x333333:0xCCCCCC,dc.records[0][:fills][1]);
             }
         }

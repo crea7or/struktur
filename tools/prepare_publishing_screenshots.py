@@ -49,8 +49,7 @@ def main():
             header=unit_header(field,unit,not settings.get('hide_value_units',props['hide_value_units']))
             if field_id=='time_of_day' and not config['clock24']:header+=' | pm'
             headers.append(header)
-            custom=field_id in {'grade','temperature','current_heart_rate','average_heart_rate','heart_rate_3s','current_power','power_3s','average_power'}
-            effect=settings.get(f'slot_{slot+1}_background_effects',False) and (not custom or config['expected_primary'][slot] is not None)
+            effect=settings.get(f'slot_{slot+1}_background_effects',False)
             enlarged=slot<big;size=device['regular_font_reference'] if not enlarged else int(re.search(r'BIG_SIZE=(\d+)',(ROOT/'profiles'/product/'DeviceProfile.mc').read_text('utf-8'))[1])
             w=device['design_width'] if enlarged else device['design_width']//2;h=(2 if enlarged else 1)*device['design_height']//device['design_rows']
             assert fits(config['expected_primary'][slot] or '--',config['expected_secondary'][slot],header,metrics(fonts['Value'+str(size)]),lm,label['line_height'],w,h,int(effect),effect and field_id!='grade'),(key,field_id,'does not fit')

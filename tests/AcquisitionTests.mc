@@ -296,7 +296,8 @@ function acquisitionToSnapshot(logger) {
     Test.assertEqual("32.00",snap[:values][4][:text]); Test.assertEqual("cyan",snap[:values][4][:band]);
     raw["temperature"]=cache.value(1361,361000);
     snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(true,true,false),new PresentationClock());
-    Test.assert(snap[:values][4][:text]==null && snap[:values][4][:band]==null);
+    Test.assert(snap[:values][4][:text]==null);
+    Test.assertEqual("light_gray",snap[:values][4][:band]);
     info.timerState=Activity.TIMER_STATE_PAUSED;
     raw=acquisition.read(info,{}); Test.assert(raw["grade"]==null);
     Test.assertEqual(1,raw["completed_laps"]);

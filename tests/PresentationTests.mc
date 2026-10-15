@@ -275,6 +275,7 @@ function normalPresentationDrawAndAlignment(logger) {
     }
     verifyWhiteTemperatureContrast();
     verifyNeutralLabelBands();
+    for(var customCase=0;customCase<32;customCase+=1) { new CustomBackgroundScenario(customCase%8,customCase/8).run(); }
     for(var neutralCase=0;neutralCase<12;neutralCase+=1) { new NeutralBandScenario(neutralCase).run(); }
     for(var caseIndex=0;caseIndex<384;caseIndex+=1) { new ColoredFieldScenario(caseIndex).run(); }
     return true;

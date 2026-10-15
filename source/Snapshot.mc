@@ -76,11 +76,7 @@ class SnapshotEngine {
             else if("elevation".equals(id)) { text=Formatting.integral(value); }
             else { text="heading".equals(id)?Formatting.heading(value):("float".equals(fmt) ? Formatting.floating(value) : Formatting.integral(value)); }
             var band=null; var angle=null;
-            // APP-49/DVS-6: neutral headers are independent of reading availability.
-            if(settings.effects[i] && idx!=null && !Effects.hasCustomBackground(id)) {
-                band=FieldPresentation.effectiveNight(night,i<settings.enlarged,settings.inverseEnlargedTheme)?"dark_gray":"light_gray";
-            }
-            if(settings.effects[i] && value!=null) {
+            if(settings.effects[i] && value!=null && Effects.hasCustomBackground(id)) {
                 if("grade".equals(id)) { band=Effects.gradeBand(rawValue(raw,id)); angle=Effects.horizonAngle(rawValue(raw,id)); }
                 else if("temperature".equals(id)) { band=Effects.temperatureBand(rawValue(raw,id)); }
                 else if("current_heart_rate".equals(id) || "heart_rate_3s".equals(id) || "average_heart_rate".equals(id)) {
@@ -88,6 +84,11 @@ class SnapshotEngine {
                 } else if("current_power".equals(id) || "power_3s".equals(id) || "average_power".equals(id)) {
                     band=Effects.zoneColor(ZoneMetadata.classify(value,_powerZones));
                 }
+            }
+            // Valid semantic effects win; every enabled known field has a gray default.
+            if(settings.effects[i] && idx!=null && band==null) {
+                band=FieldPresentation.effectiveNight(night,i<settings.enlarged,settings.inverseEnlargedTheme)?"dark_gray":"light_gray";
+                angle=null;
             }
             values.add({:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>fmt});
         }
