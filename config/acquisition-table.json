@@ -1,0 +1,873 @@
+[
+  {
+    "identifier": "current_speed",
+    "requirement": "DVS-8",
+    "version": 37,
+    "source": "Activity.Info.currentSpeed",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m/s",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 1,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "current_speed"
+  },
+  {
+    "identifier": "average_speed",
+    "requirement": "DVS-9",
+    "version": 29,
+    "source": "Activity.Info.averageSpeed",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m/s",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 1,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "average_speed"
+  },
+  {
+    "identifier": "current_cadence",
+    "requirement": "DVS-10",
+    "version": 29,
+    "source": "Activity.Info.currentCadence",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "rpm",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "current_cadence"
+  },
+  {
+    "identifier": "average_cadence",
+    "requirement": "DVS-11",
+    "version": 31,
+    "source": "Activity.Info.averageCadence",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "rpm",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "average_cadence"
+  },
+  {
+    "identifier": "current_heart_rate",
+    "requirement": "DVS-18",
+    "version": 36,
+    "source": "Activity.Info.currentHeartRate",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "bpm",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "current_heart_rate"
+  },
+  {
+    "identifier": "average_heart_rate",
+    "requirement": "DVS-19",
+    "version": 36,
+    "source": "Activity.Info.averageHeartRate",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "bpm",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "average_heart_rate"
+  },
+  {
+    "identifier": "heart_rate_zone",
+    "requirement": "DVS-20",
+    "version": 25,
+    "source": "UserProfile.getHeartRateZones(HR_ZONE_SPORT_BIKING)",
+    "context": "Foreground UserProfile permission; power method guarded and unavailable on older APIs; metadata loaded at initialization/settings reload.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "dimensionless",
+    "validity": "Exactly six HR min/max bounds.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Effects.mc",
+      "source/Policy.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "unitsAndExplicitFormatPolicy"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "heart_rate_zone"
+  },
+  {
+    "identifier": "current_power",
+    "requirement": "DVS-21",
+    "version": 37,
+    "source": "Activity.Info.currentPower",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "watts",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "current_power"
+  },
+  {
+    "identifier": "power_3s",
+    "requirement": "DVS-22",
+    "version": 36,
+    "source": "Latest three consecutive delivered one-second Activity.Info.currentPower readings; arithmetic mean.",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "watts",
+    "validity": "Finite watts >=0, including measured zero.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "floor(Activity.Info.elapsedTime / 1000); one sample per consecutive activity second.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Missing/invalid input, skipped/decreasing seconds, pause/stop/resume/reset or changed activity identity clears the window.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/RollingWindow.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "threeConsecutiveSamples",
+      "datafieldCallbackIsolation"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "power_3s"
+  },
+  {
+    "identifier": "average_power",
+    "requirement": "DVS-23",
+    "version": 36,
+    "source": "Activity.Info.averagePower",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "watts",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "average_power"
+  },
+  {
+    "identifier": "power_zone",
+    "requirement": "DVS-24",
+    "version": 25,
+    "source": "UserProfile.getPowerZones(Activity.SPORT_CYCLING)",
+    "context": "Foreground UserProfile permission; power method guarded and unavailable on older APIs; metadata loaded at initialization/settings reload.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "dimensionless",
+    "validity": "Metadata shape must be qualified; currently disabled because the SDK does not document array interpretation.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Effects.mc",
+      "source/Policy.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "unitsAndExplicitFormatPolicy"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "power_zone"
+  },
+  {
+    "identifier": "distance",
+    "requirement": "DVS-25",
+    "version": 29,
+    "source": "Activity.Info.elapsedDistance",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "distance"
+  },
+  {
+    "identifier": "elevation",
+    "requirement": "DVS-26",
+    "version": 30,
+    "source": "Activity.Info.altitude",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "elevation"
+  },
+  {
+    "identifier": "total_ascent",
+    "requirement": "DVS-27",
+    "version": 27,
+    "source": "Activity.Info.totalAscent",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "total_ascent"
+  },
+  {
+    "identifier": "total_descent",
+    "requirement": "DVS-28",
+    "version": 27,
+    "source": "Activity.Info.totalDescent",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "total_descent"
+  },
+  {
+    "identifier": "grade",
+    "requirement": "DVS-29",
+    "version": 52,
+    "source": "FUNC-12..FUNC-14: five-sample least-squares altitude/distance regression; two-decimal canonical estimate.",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "percent",
+    "validity": "Valid running updates warm up at zero until three samples; invalid/discontinuous updates reset, no progress for 3s becomes unavailable until progress.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Activity.Info.elapsedTime milliseconds; optional startTime.value() identity.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-14 discontinuity/lifecycle/no-progress rules; a settings or visibility change does not reset the window.",
+    "code": [
+      "source/ActivityAcquisition.mc",
+      "source/ActivityReader.mc",
+      "source/GradeEstimator.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "gradeRegression",
+      "gradeResetAndBounds",
+      "acquisitionToSnapshot",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 1,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "grade"
+  },
+  {
+    "identifier": "activity_timer",
+    "requirement": "DVS-30",
+    "version": 24,
+    "source": "Activity.Info.timerTime",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "milliseconds",
+    "validity": "Finite non-negative milliseconds; fractional seconds truncated.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "unitsAndExplicitFormatPolicy",
+      "proportionalCaptionFit"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "activity_timer"
+  },
+  {
+    "identifier": "elapsed_time",
+    "requirement": "DVS-31",
+    "version": 24,
+    "source": "Activity.Info.elapsedTime",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "milliseconds",
+    "validity": "Finite non-negative milliseconds; fractional seconds truncated.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "unitsAndExplicitFormatPolicy",
+      "proportionalCaptionFit"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "elapsed_time"
+  },
+  {
+    "identifier": "time_of_day",
+    "requirement": "DVS-32",
+    "version": 24,
+    "source": "System.getClockTime(), only after safe initial no-sample snapshot",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "System.ClockTime.hour/minute numeric members",
+    "raw_unit": "dimensionless",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Local system hour/minute and device is24Hour (24h fallback).",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": "1 minute under DVS-5",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "time_of_day"
+  },
+  {
+    "identifier": "calories",
+    "requirement": "DVS-33",
+    "version": 31,
+    "source": "Activity.Info.calories",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "kcal",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "calories"
+  },
+  {
+    "identifier": "temperature",
+    "requirement": "DVS-34",
+    "version": 47,
+    "source": "Sensor.getInfo().temperature only inside qualified background TemperatureService.onTemporalEvent; 4-element protocol-1 onboard-v1 packet.",
+    "context": "Background/Sensor permissions; API >=2.3 path preserves manifest 2.4.0. Empty exact-part-number/firmware allowlist: production stays unavailable until physical provenance acceptance.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "Celsius",
+    "validity": "Qualified onboard-only model/firmware, correct packet types/protocol/path and finite Celsius; valid 0; age 0..360 inclusive; no future/out-of-order reads.",
+    "trigger": "Earliest legal initial temporal event, then 300s interval; AppBase.onBackgroundData receipt, age rechecked in compute/settings/show.",
+    "clock": "UTC read timestamp (not physical sample timestamp), read/delivery age plus monotonic receipt-age guard.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": ">360s expiry, clock rollback/wrap or newer invalid read clears value. Old/duplicate/incompatible packets cannot refresh cache. No saved-value restoration.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc",
+      "source/StrukturApp.mc",
+      "source/Temperature.mc",
+      "source/TemperatureQualification.mc"
+    ],
+    "production_fixtures": [
+      "temperatureProtocolAndAge",
+      "temperatureClockAndDelivery",
+      "temporalAndSourceQualification",
+      "acquisitionToSnapshot"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "temperature"
+  },
+  {
+    "identifier": "battery",
+    "requirement": "DVS-35",
+    "version": 25,
+    "source": "System.getSystemStats().battery",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "percent",
+    "validity": "Finite 0..100 inclusive; zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "battery"
+  },
+  {
+    "identifier": "heading",
+    "requirement": "DVS-36",
+    "version": 31,
+    "source": "Activity.Info.currentHeading",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "radians",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/FieldRenderer.mc",
+      "source/Formatting.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "presentationDrawAndAlignment",
+      "gradeRegression"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "heading"
+  },
+  {
+    "identifier": "distance_next_waypoint",
+    "requirement": "DVS-37",
+    "version": 28,
+    "source": "Activity.Info.distanceToNextPoint",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m",
+    "validity": "Finite numeric, zero valid.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "Host activity sample, no direct sensor polling.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "presentationSettingsAndUnits",
+      "acquisitionInvalidInputs"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "distance_next_waypoint"
+  },
+  {
+    "identifier": "completed_laps",
+    "requirement": "DVS-39",
+    "version": 34,
+    "source": "Legacy DataField.onTimerLap after a FIT lap record; exact known-zero baseline state machine.",
+    "context": "Foreground callback since API 1.3.0 on all nine; no onTimerLap2 or FIT history parsing.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "dimensionless",
+    "validity": "Unknown when loaded/reloaded into running/paused activity; unavailable until next proven fresh session.",
+    "trigger": "Confirmed lap notification only; continuously observed one counter per app/activity.",
+    "clock": "Fresh reset/start or complete pre-start snapshot; optional Activity.Info.startTime.value() identity.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Reset ends old session; changed identity/regression/known continuity loss/overflow invalidates; pause/stop/resume/settings/visibility preserve total.",
+    "code": [
+      "source/ActivityAcquisition.mc",
+      "source/ActivityReader.mc",
+      "source/LapTracker.mc",
+      "source/Snapshot.mc",
+      "source/StrukturField.mc"
+    ],
+    "production_fixtures": [
+      "lapBaselineLifecycle",
+      "lapIdentityAndOverflow",
+      "datafieldCallbackIsolation",
+      "acquisitionToSnapshot"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "completed_laps"
+  },
+  {
+    "identifier": "heart_rate_3s",
+    "requirement": "DVS-47",
+    "version": 40,
+    "source": "Latest three consecutive delivered one-second Activity.Info.currentHeartRate readings; arithmetic mean.",
+    "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "bpm",
+    "validity": "Finite heart rate >0; zero breaks the window.",
+    "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
+    "clock": "floor(Activity.Info.elapsedTime / 1000); one sample per consecutive activity second.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "Missing/invalid input, skipped/decreasing seconds, pause/stop/resume/reset or changed activity identity clears the window.",
+    "code": [
+      "source/ActivityReader.mc",
+      "source/RollingWindow.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "threeConsecutiveSamples",
+      "datafieldCallbackIsolation"
+    ],
+    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "heart_rate_3s"
+  },
+  {
+    "identifier": "lap_distance",
+    "requirement": "FUNC-3",
+    "version": 15,
+    "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
+    "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m",
+    "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
+    "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
+    "clock": "Host active timer deltas, with elapsed-time continuity checks.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
+    "code": [
+      "source/CurrentLap.mc",
+      "source/ActivityAcquisition.mc",
+      "source/StrukturField.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "currentLapAcquisition",
+      "currentLapLateAttachAndGaps",
+      "presentationSettingsAndUnits"
+    ],
+    "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
+    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "lap_distance"
+  },
+  {
+    "identifier": "lap_time",
+    "requirement": "FUNC-4",
+    "version": 11,
+    "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
+    "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "ms",
+    "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
+    "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
+    "clock": "Host active timer deltas, with elapsed-time continuity checks.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
+    "code": [
+      "source/CurrentLap.mc",
+      "source/ActivityAcquisition.mc",
+      "source/StrukturField.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "currentLapAcquisition",
+      "currentLapLateAttachAndGaps",
+      "presentationSettingsAndUnits"
+    ],
+    "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
+    "presentation_precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "lap_time"
+  },
+  {
+    "identifier": "lap_speed",
+    "requirement": "FUNC-5",
+    "version": 15,
+    "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
+    "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "m/s",
+    "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
+    "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
+    "clock": "Host active timer deltas, with elapsed-time continuity checks.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
+    "code": [
+      "source/CurrentLap.mc",
+      "source/ActivityAcquisition.mc",
+      "source/StrukturField.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "currentLapAcquisition",
+      "currentLapLateAttachAndGaps",
+      "presentationSettingsAndUnits"
+    ],
+    "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
+    "presentation_precision": 1,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "lap_speed"
+  },
+  {
+    "identifier": "lap_heart_rate",
+    "requirement": "FUNC-6",
+    "version": 17,
+    "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
+    "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "bpm",
+    "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
+    "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
+    "clock": "Host active timer deltas, with elapsed-time continuity checks.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
+    "code": [
+      "source/CurrentLap.mc",
+      "source/ActivityAcquisition.mc",
+      "source/StrukturField.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "currentLapAcquisition",
+      "currentLapLateAttachAndGaps",
+      "presentationSettingsAndUnits"
+    ],
+    "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "lap_heart_rate"
+  },
+  {
+    "identifier": "lap_power",
+    "requirement": "FUNC-7",
+    "version": 14,
+    "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
+    "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "w",
+    "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
+    "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
+    "clock": "Host active timer deltas, with elapsed-time continuity checks.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
+    "code": [
+      "source/CurrentLap.mc",
+      "source/ActivityAcquisition.mc",
+      "source/StrukturField.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "currentLapAcquisition",
+      "currentLapLateAttachAndGaps",
+      "presentationSettingsAndUnits"
+    ],
+    "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "lap_power"
+  },
+  {
+    "identifier": "lap_cadence",
+    "requirement": "FUNC-8",
+    "version": 15,
+    "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
+    "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
+    "raw_type": "nullable numeric",
+    "raw_unit": "rpm",
+    "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
+    "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
+    "clock": "Host active timer deltas, with elapsed-time continuity checks.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
+    "code": [
+      "source/CurrentLap.mc",
+      "source/ActivityAcquisition.mc",
+      "source/StrukturField.mc",
+      "source/Snapshot.mc"
+    ],
+    "production_fixtures": [
+      "currentLapAcquisition",
+      "currentLapLateAttachAndGaps",
+      "presentationSettingsAndUnits"
+    ],
+    "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
+    "presentation_precision": 0,
+    "normal_display_contract": "config/display-limits.json",
+    "normal_display_field": "lap_cadence"
+  }
+]

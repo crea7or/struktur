@@ -1,0 +1,54 @@
+Exact assets downloaded from workspace STRUKTUR (id 7, formerly MSGDF), attachments 17 and 18.
+{
+  "Roboto_Condensed_Black.ttf": {
+    "sha256": "a365617457f4e9800347655478132461565b28c563076f38a6294f6403b1fba9",
+    "embedded_names": [
+      {
+        "name_id": 0,
+        "text": "Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)"
+      },
+      {
+        "name_id": 1,
+        "text": "Roboto Condensed Black"
+      },
+      {
+        "name_id": 2,
+        "text": "Regular"
+      },
+      {
+        "name_id": 13,
+        "text": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"
+      },
+      {
+        "name_id": 14,
+        "text": "https://openfontlicense.org"
+      }
+    ]
+  },
+  "Roboto_Condensed_SemiBold.ttf": {
+    "sha256": "dd9178d15b5e84f849ed158d336ae7184289488b114b891fb3a83fe11728d6d3",
+    "embedded_names": [
+      {
+        "name_id": 0,
+        "text": "Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)"
+      },
+      {
+        "name_id": 1,
+        "text": "Roboto Condensed SemiBold"
+      },
+      {
+        "name_id": 2,
+        "text": "Regular"
+      },
+      {
+        "name_id": 13,
+        "text": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"
+      },
+      {
+        "name_id": 14,
+        "text": "https://openfontlicense.org"
+      }
+    ]
+  }
+}
+License text/URL metadata is retained above. The bundled OFL.txt contains the upstream redistribution license for these font assets and their generated resources.

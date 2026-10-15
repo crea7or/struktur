@@ -1,0 +1,72 @@
+# Local automation, machine-specific configuration and editor state
+/.local/
+/.codex/
+/.agents/
+/.claude/
+/.vscode/
+/.idea/
+/.vs/
+*.code-workspace
+/plans/
+/requirements/
+/publishing/
+# Build products, runtime evidence, simulator storage and compiler caches
+/bin/
+/artifacts/
+/build/
+/dist/
+/gen/
+*.prg
+*.iq
+*.debug.xml
+*.mir
+*.mcgen
+*-settings.json
+*.SET
+*.STR
+*.log
+
+# Internal session notes and raw service attachment metadata.
+# Keep requirements baselines, traceability, verification plans and exports public.
+/README.txt
+/requirements/acquisition-proposals.json
+/requirements/acquisition-proposal-review.txt
+/requirements/current-review.txt
+/requirements/font-glyph-review.txt
+/requirements/layout-typography-review.txt
+/requirements/font-attachments-*.json
+
+# Local Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Credentials and signing material; the app's key belongs outside the repository
+.env
+.env.*
+!.env.example
+*.der
+*.pem
+*.key
+*.p12
+*.pfx
+developer_key
+developer_key.*
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+credentials.json
+
+# Operating-system and temporary files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.tmp
+*.bak
+*.swp
+*~

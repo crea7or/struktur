@@ -1,0 +1,39 @@
+{
+  "default": "Core",
+  "policy": "Run Core after changes. Memory and Placement require an explicit user request; never infer authorization from a build or Core request.",
+  "suites": {
+    "Core": {
+      "jungle": "tests.jungle",
+      "files": [
+        "tests/CoreTests.mc",
+        "tests/PresentationTests.mc",
+        "tests/AcquisitionTests.mc",
+        "tests/NormalRangeTests.mc"
+      ],
+      "support": [
+        "tests/CoreSupport.mc",
+        "tests/PresentationSupport.mc"
+      ],
+      "scope": "Fast production calculations, formatting, settings and normal-value UI correctness. No memory probes or deliberate insufficient-area cases."
+    },
+    "Memory": {
+      "jungle": "memory-tests.jungle",
+      "files": [
+        "tests/FontTests.mc"
+      ],
+      "support": [],
+      "scope": "Isolated font resource probes plus separate normal Data Field runtime memory validation. Explicit request only."
+    },
+    "Placement": {
+      "jungle": "placement-tests.jungle",
+      "files": [
+        "tests/PlacementTests.mc"
+      ],
+      "support": [
+        "tests/CoreSupport.mc",
+        "tests/PresentationSupport.mc"
+      ],
+      "scope": "Deliberately insufficient areas, overflowing values, full-grid fallback and compact-message behavior. Explicit request only."
+    }
+  }
+}

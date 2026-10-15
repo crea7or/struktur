@@ -1,0 +1,39 @@
+{
+  "scope": "Reviewed English inventory for current supported UI; update when presentation text changes. These sets are not permanent product glyph counts.",
+  "numeric_glyphs": "!-.0123456789:",
+  "label_glyphs": " %./0123456789ENSWabcdefghiklmnoprstuvwxyz|°",
+  "required_units": [
+    "km/h",
+    "mph",
+    "km",
+    "mi",
+    "m",
+    "ft",
+    "rpm",
+    "bpm",
+    "w",
+    "%",
+    "kcal",
+    "°",
+    "°c",
+    "°f"
+  ],
+  "states": [
+    "All 32 exact labels, including hidden slots",
+    "Spaced vertical-bar header separators; retain the slash within km/h and lowercase clock-header indicators",
+    "Two-digit secondary seconds below ten hours; no secondary at ten hours or above",
+    "Unavailable -- and overflow ! in the numeric role",
+    "Unknown field header and complete compact message",
+    "Uppercase N/NE/E/SE/S/SW/W/NW cardinals in the label role"
+  ],
+  "marker_status": "Approved APP-35 markers; no additional pending marker.",
+  "secondary_duration": [
+    ".00",
+    ".05",
+    ".59"
+  ],
+  "clock_header": [
+    "am",
+    "pm"
+  ]
+}

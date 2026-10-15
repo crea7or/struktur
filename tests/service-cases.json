@@ -1,0 +1,697 @@
+{
+  "workspace_id": 7,
+  "baseline_id": null,
+  "baseline_name": "Vertical-bar header working specification after baseline 12",
+  "status": "Exact live definitions. Vertical-bar header separators and updated width fixtures are implemented; require matching-source Core results. No current pass asserted for changed revisions.",
+  "cases": [
+    {
+      "key": "floatingBoundaries",
+      "title": "Floating-point display boundaries",
+      "category": "functional",
+      "runner": "logic",
+      "function": "floatingBoundaries",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "DVS-2",
+        "DVS-4",
+        "DVS-5",
+        "DVS-7"
+      ],
+      "procedure": "Check specified floating/integer boundary conversions, unavailable input and overflow markers against the literal expected values in floatingBoundaries.",
+      "requirement_revisions": {
+        "DVS-2": 31,
+        "DVS-4": 23,
+        "DVS-5": 15,
+        "DVS-7": 33
+      },
+      "definition": "Purpose: Floating-point display boundaries.\n\nRequirement references: [[DVS-2]], [[DVS-4]], [[DVS-5]], [[DVS-7]].\n\nProcedure and expected results: Check specified floating/integer boundary conversions, unavailable input and overflow markers against the literal expected values in floatingBoundaries.\n\nExecutable source: `tests/CoreTests.mc`; fixture `floatingBoundaries`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-1",
+      "revision": 12,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "logicalGridCases",
+      "title": "All six full-capacity logical grids",
+      "category": "functional",
+      "runner": "logic",
+      "function": "logicalGridCases",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "APP-20",
+        "HFER-2",
+        "HFER-3",
+        "HFER-4"
+      ],
+      "procedure": "For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.",
+      "requirement_revisions": {
+        "APP-20": 28,
+        "HFER-2": 14,
+        "HFER-3": 15,
+        "HFER-4": 15
+      },
+      "definition": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]], [[HFER-2]], [[HFER-3]], [[HFER-4]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-2",
+      "revision": 12,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "threeConsecutiveSamples",
+      "title": "Three-second rolling-window continuity",
+      "category": "functional",
+      "runner": "logic",
+      "function": "threeConsecutiveSamples",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "DVS-41",
+        "DVS-47"
+      ],
+      "procedure": "Deliver three consecutive sample seconds with known values and require their arithmetic mean. Check duplicates, missing input, sequence gaps, valid zeros and explicit reset discard stale averages.",
+      "requirement_revisions": {
+        "DVS-41": 21,
+        "DVS-47": 40
+      },
+      "definition": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]].\n\nProcedure and expected results: Deliver three consecutive sample seconds with known values and require their arithmetic mean. Check duplicates, missing input, sequence gaps, valid zeros and explicit reset discard stale averages.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-3",
+      "revision": 10,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "exactEffectBands",
+      "title": "Grade and temperature effect boundaries",
+      "category": "functional",
+      "runner": "logic",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "DVS-43",
+        "DVS-44",
+        "DVS-49"
+      ],
+      "procedure": "Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.",
+      "requirement_revisions": {
+        "DVS-43": 34,
+        "DVS-44": 25,
+        "DVS-49": 23
+      },
+      "definition": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-43]], [[DVS-44]], [[DVS-49]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-4",
+      "revision": 11,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "typedSettingsAndHiddenSlots",
+      "title": "Typed settings defaults and hidden-slot preservation",
+      "category": "functional",
+      "runner": "logic",
+      "function": "typedSettingsAndHiddenSlots",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "APP-20",
+        "APP-30",
+        "APP-31",
+        "APP-49",
+        "SPEC-155"
+      ],
+      "procedure": "Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and effect defaults. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.",
+      "requirement_revisions": {
+        "APP-20": 28,
+        "APP-30": 15,
+        "APP-31": 33,
+        "APP-49": 28,
+        "SPEC-155": 24
+      },
+      "definition": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and effect defaults. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-5",
+      "revision": 14,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "unitsAndExplicitFormatPolicy",
+      "title": "Unit conversion and complete duration formatting",
+      "category": "functional",
+      "runner": "logic",
+      "function": "unitsAndExplicitFormatPolicy",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "DVS-13",
+        "DVS-30",
+        "DVS-31",
+        "DVS-32",
+        "SPEC-157"
+      ],
+      "procedure": "Check 10m/s -> 36km/h, 1609.344m -> 1mi and 0C -> 32F. Use the exact boundary cases in [[DVS-13]] through 100h, including omission of seconds at 10h. Verify separate timer/elapsed paths, invalid times and both clock modes with the [[DVS-5]] header indicator. Retain [[DVS-42]] zone classification checks.",
+      "requirement_revisions": {
+        "DVS-13": 22,
+        "DVS-30": 24,
+        "DVS-31": 24,
+        "DVS-32": 24,
+        "SPEC-157": 32
+      },
+      "definition": "Purpose: Unit conversion and clock/duration formats.\n\nRequirement references: [[DVS-13]], [[DVS-30]], [[DVS-31]], [[DVS-5]], [[DVS-32]], [[SPEC-157]].\n\nProcedure and expected results: Check 10m/s -> 36km/h, 1609.344m -> 1mi and 0C -> 32F. Use the exact boundary cases in [[DVS-13]] through 100h, including omission of seconds at 10h. Verify separate timer/elapsed paths, invalid times and both clock modes with the [[DVS-5]] header indicator. Retain [[DVS-42]] zone classification checks.\n\nExecutable source to update/verify: `tests/CoreTests.mc`, `unitsAndExplicitFormatPolicy`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
+      "stable_id": "TFNC-6",
+      "revision": 15,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "proportionalCaptionFit",
+      "title": "Measured caption and duration fitting",
+      "category": "functional",
+      "runner": "logic",
+      "function": "proportionalCaptionFit",
+      "source": "tests/CoreTests.mc",
+      "requirements": [
+        "APP-21",
+        "APP-24",
+        "APP-28",
+        "DVS-13",
+        "DVS-3"
+      ],
+      "procedure": "Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.",
+      "requirement_revisions": {
+        "APP-21": 23,
+        "APP-24": 45,
+        "APP-28": 33,
+        "DVS-13": 22,
+        "DVS-3": 57
+      },
+      "definition": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-28]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nExecutable source to update/verify: `tests/CoreTests.mc`, `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
+      "stable_id": "TFNC-7",
+      "revision": 15,
+      "status": "draft",
+      "suite": "Placement"
+    },
+    {
+      "key": "presentationSettingsAndUnits",
+      "title": "All field unit headers and secondary-unit switches",
+      "category": "functional",
+      "runner": "logic",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "requirements": [
+        "APP-31",
+        "APP-35",
+        "DVS-13",
+        "DVS-5",
+        "DVS-50",
+        "SPEC-155"
+      ],
+      "procedure": "For all 32 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.",
+      "requirement_revisions": {
+        "APP-31": 33,
+        "APP-35": 17,
+        "DVS-13": 22,
+        "DVS-5": 15,
+        "DVS-50": 22,
+        "SPEC-155": 24
+      },
+      "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 32 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.",
+      "stable_id": "TFNC-8",
+      "revision": 21,
+      "status": "draft",
+      "suite": "Core",
+      "additional_functions": [
+        "composedHeaderWidthAudit",
+        "literalAndTemplateHeaderSelection"
+      ],
+      "additional_sources": [
+        "tools/check_header_fit.py"
+      ],
+      "implementation_status": "Implemented literal/template header selection and width checks; matching-source execution evidence is recorded separately."
+    },
+    {
+      "key": "presentationThemeAndActivity",
+      "title": "Independent theme inversion and sample preservation",
+      "category": "functional",
+      "runner": "logic",
+      "function": "presentationThemeAndActivity",
+      "source": "tests/PresentationTests.mc",
+      "requirements": [
+        "APP-32",
+        "APP-45",
+        "DVS-51"
+      ],
+      "procedure": "Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.",
+      "requirement_revisions": {
+        "APP-32": 13,
+        "APP-45": 27,
+        "DVS-51": 17
+      },
+      "definition": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-9",
+      "revision": 11,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "presentationDrawAndAlignment",
+      "title": "Production drawing alignment and palettes",
+      "category": "ui",
+      "runner": "logic",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "requirements": [
+        "APP-21",
+        "APP-22",
+        "APP-24",
+        "APP-34",
+        "APP-36",
+        "DVS-10",
+        "DVS-11",
+        "DVS-12",
+        "DVS-18",
+        "DVS-19",
+        "DVS-20",
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "DVS-24",
+        "DVS-25",
+        "DVS-26",
+        "DVS-27",
+        "DVS-28",
+        "DVS-29",
+        "DVS-30",
+        "DVS-31",
+        "DVS-32",
+        "DVS-33",
+        "DVS-34",
+        "DVS-35",
+        "DVS-36",
+        "DVS-37",
+        "DVS-39",
+        "DVS-43",
+        "DVS-47",
+        "DVS-51",
+        "DVS-6",
+        "DVS-8",
+        "DVS-9",
+        "FUNC-3",
+        "FUNC-4",
+        "FUNC-5",
+        "FUNC-6",
+        "FUNC-7",
+        "FUNC-8",
+        "SPEC-157"
+      ],
+      "procedure": "Verify exact normal values, current APP-24 clock/timer targets and native-cell glyph/halo bounds; unsupported contexts are explicitly reported and their assertions belong to request-only Placement.",
+      "requirement_revisions": {
+        "APP-21": 23,
+        "APP-22": 27,
+        "APP-24": 45,
+        "APP-34": 31,
+        "APP-36": 30,
+        "DVS-10": 29,
+        "DVS-11": 31,
+        "DVS-12": 76,
+        "DVS-18": 36,
+        "DVS-19": 36,
+        "DVS-20": 25,
+        "DVS-21": 37,
+        "DVS-22": 36,
+        "DVS-23": 36,
+        "DVS-24": 25,
+        "DVS-25": 29,
+        "DVS-26": 30,
+        "DVS-27": 27,
+        "DVS-28": 27,
+        "DVS-29": 52,
+        "DVS-30": 24,
+        "DVS-31": 24,
+        "DVS-32": 24,
+        "DVS-33": 31,
+        "DVS-34": 47,
+        "DVS-35": 25,
+        "DVS-36": 31,
+        "DVS-37": 28,
+        "DVS-39": 34,
+        "DVS-43": 34,
+        "DVS-47": 40,
+        "DVS-51": 17,
+        "DVS-6": 38,
+        "DVS-8": 37,
+        "DVS-9": 29,
+        "FUNC-3": 15,
+        "FUNC-4": 11,
+        "FUNC-5": 15,
+        "FUNC-6": 17,
+        "FUNC-7": 14,
+        "FUNC-8": 15,
+        "SPEC-157": 32
+      },
+      "definition": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check label-height inset, separators, theme inversion, white-band contrast, grade sky/ground geometry and transparent one-pixel contour drawing. No `!` or compact substitution may pass a guaranteed normal case.\n\nPlacement procedure (explicit request only): Run presentationDrawAndAlignment, proportionalCaptionFit, actualValueFitAndCompactCache and documentedUnsupportedCombinations for unsupported contexts, reduced areas, overflow, compact wrapping and background-only behavior. Memory is a separate explicitly requested suite.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc, tests/PlacementTests.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.",
+      "stable_id": "TUI-1",
+      "revision": 55,
+      "status": "draft",
+      "additional_functions": [
+        "normalRangeCellBounds",
+        "clockAndDurationFitEveryLayout",
+        "sampleDefaultUnitHeaderGrid"
+      ],
+      "additional_sources": [
+        "tests/NormalRangeTests.mc",
+        "tests/limits"
+      ],
+      "suite": "Core"
+    },
+    {
+      "key": "gradeRegression",
+      "title": "Grade distance window and boundary interpolation",
+      "category": "functional",
+      "runner": "logic",
+      "function": "gradeRegression",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-2",
+        "DVS-29",
+        "DVS-36",
+        "FUNC-12",
+        "FUNC-13"
+      ],
+      "procedure": "Check valid zero warm-up with one/two samples, five-point FIFO eviction, zero/positive/negative slopes, repeated distance, near-zero and negative denominators, non-finite sums and two-decimal rounding. With x=0,10,20 and y=100,101,102, require 10.00%; verify finite grade above 100 is not clamped. Require the same rounded estimate for value and effects; exercise formatting separately. There is no 30m window or interpolated anchor.",
+      "requirement_revisions": {
+        "DVS-2": 31,
+        "DVS-29": 52,
+        "DVS-36": 31,
+        "FUNC-12": 7,
+        "FUNC-13": 8
+      },
+      "definition": "Purpose: Five-sample grade regression.\n\nRequirement references: [[DVS-29]], [[FUNC-12]], [[FUNC-13]], [[DVS-2]], [[DVS-36]].\n\nProcedure and expected results: Check valid zero warm-up with one/two samples, five-point FIFO eviction, zero/positive/negative slopes, repeated distance, near-zero and negative denominators, non-finite sums and two-decimal rounding. With x=0,10,20 and y=100,101,102, require 10.00%; verify finite grade above 100 is not clamped. Require the same rounded estimate for value and effects; exercise formatting separately. There is no 30m window or interpolated anchor.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`; replace the obsolete `gradeDistanceWindow` fixture with a regression fixture.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
+      "stable_id": "TFNC-10",
+      "revision": 17,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "gradeResetAndBounds",
+      "title": "Grade continuity and bounded sample history",
+      "category": "functional",
+      "runner": "logic",
+      "function": "gradeResetAndBounds",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-29",
+        "FUNC-12",
+        "FUNC-14"
+      ],
+      "procedure": "Check ignored duplicate timestamps, three-second no-progress invalidation and recovery on progress. Exactly 2000ms gaps are permitted; 2001ms, counter regression, identity change and non-running/invalid input reset as specified. Across 150 inputs retain at most five samples, independently of duplicate slots/settings/drawing. This is not a heap measurement.",
+      "requirement_revisions": {
+        "DVS-29": 52,
+        "FUNC-12": 7,
+        "FUNC-14": 5
+      },
+      "definition": "Purpose: Grade discontinuity and bounded history.\n\nRequirement references: [[DVS-29]], [[FUNC-12]], [[FUNC-14]].\n\nProcedure and expected results: Check ignored duplicate timestamps, three-second no-progress invalidation and recovery on progress. Exactly 2000ms gaps are permitted; 2001ms, counter regression, identity change and non-running/invalid input reset as specified. Across 150 inputs retain at most five samples, independently of duplicate slots/settings/drawing. This is not a heap measurement.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`, `gradeResetAndBounds`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
+      "stable_id": "TFNC-11",
+      "revision": 13,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "lapBaselineLifecycle",
+      "title": "Known-zero lap baseline and pause/reset lifecycle",
+      "category": "functional",
+      "runner": "logic",
+      "function": "lapBaselineLifecycle",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-39"
+      ],
+      "procedure": "Late attachment remains unknown despite start/lap callbacks. A proven fresh snapshot/reset sequence establishes zero; confirmed notifications increment once. Pause/stop/start preserve the count; old/end-session notifications cannot leak into a new session.",
+      "requirement_revisions": {
+        "DVS-39": 34
+      },
+      "definition": "Purpose: Known-zero lap baseline and pause/reset lifecycle.\n\nRequirement references: [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Late attachment remains unknown despite start/lap callbacks. A proven fresh snapshot/reset sequence establishes zero; confirmed notifications increment once. Pause/stop/start preserve the count; old/end-session notifications cannot leak into a new session.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapBaselineLifecycle`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-12",
+      "revision": 13,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "lapIdentityAndOverflow",
+      "title": "Lap identity, regression and overflow invalidation",
+      "category": "functional",
+      "runner": "logic",
+      "function": "lapIdentityAndOverflow",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-39",
+        "FUNC-17"
+      ],
+      "procedure": "Reject incomplete or ambiguous zero-baseline snapshots. Invalidate on changed identity, each timer/elapsed/distance regression, confirmed continuity loss and counter overflow; never wrap or fabricate a total.",
+      "requirement_revisions": {
+        "DVS-39": 34,
+        "FUNC-17": 10
+      },
+      "definition": "Purpose: Lap identity, regression and overflow invalidation.\n\nRequirement references: [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Reject incomplete or ambiguous zero-baseline snapshots. Invalidate on changed identity, each timer/elapsed/distance regression, confirmed continuity loss and counter overflow; never wrap or fabricate a total.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapIdentityAndOverflow`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-13",
+      "revision": 12,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "temperatureProtocolAndAge",
+      "title": "Temperature packet and cache-age boundaries",
+      "category": "functional",
+      "runner": "logic",
+      "function": "temperatureProtocolAndAge",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-34",
+        "FUNC-15",
+        "FUNC-16"
+      ],
+      "procedure": "Exercise protocol-1 four-element onboard-v1 packets with synthetic qualification. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Synthetic qualification does not certify onboard provenance.",
+      "requirement_revisions": {
+        "DVS-34": 47,
+        "FUNC-15": 4,
+        "FUNC-16": 8
+      },
+      "definition": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]]; [[FUNC-15]], [[FUNC-16]]\n\nProcedure and expected results: Exercise protocol-1 four-element onboard-v1 packets with synthetic qualification. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Synthetic qualification does not certify onboard provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-14",
+      "revision": 13,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "temperatureClockAndDelivery",
+      "title": "Temperature delivery delay and clock guards",
+      "category": "functional",
+      "runner": "logic",
+      "function": "temperatureClockAndDelivery",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-34",
+        "FUNC-16"
+      ],
+      "procedure": "Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and loss of source qualification. Invalidated values remain unavailable.",
+      "requirement_revisions": {
+        "DVS-34": 47,
+        "FUNC-16": 8
+      },
+      "definition": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]]; [[FUNC-16]]\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and loss of source qualification. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-15",
+      "revision": 12,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "temporalAndSourceQualification",
+      "title": "Legal temperature scheduling and closed source gate",
+      "category": "functional",
+      "runner": "logic",
+      "function": "temporalAndSourceQualification",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "APP-38",
+        "DVS-34",
+        "FUNC-15"
+      ],
+      "procedure": "Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. An unqualified model/firmware or self-created source tag must not enable acquisition/cache. This tests scheduling calculations and fail-closed qualification, not actual background-event delivery.",
+      "requirement_revisions": {
+        "APP-38": 18,
+        "DVS-34": 47,
+        "FUNC-15": 4
+      },
+      "definition": "Purpose: Legal temperature scheduling and closed source gate.\n\nRequirement references: [[DVS-34]], [[APP-38]]; [[FUNC-15]]\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. An unqualified model/firmware or self-created source tag must not enable acquisition/cache. This tests scheduling calculations and fail-closed qualification, not actual background-event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-16",
+      "revision": 13,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "acquisitionToSnapshot",
+      "title": "Shared acquisition integration and duplicate slots",
+      "category": "functional",
+      "runner": "logic",
+      "function": "acquisitionToSnapshot",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "DVS-29",
+        "DVS-34",
+        "DVS-36",
+        "DVS-39",
+        "FUNC-13",
+        "FUNC-16",
+        "FUNC-17"
+      ],
+      "procedure": "Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.",
+      "requirement_revisions": {
+        "DVS-29": 52,
+        "DVS-34": 47,
+        "DVS-36": 31,
+        "DVS-39": 34,
+        "FUNC-13": 8,
+        "FUNC-16": 8,
+        "FUNC-17": 10
+      },
+      "definition": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]]; [[FUNC-13]], [[FUNC-16]], [[FUNC-17]]\n\nProcedure and expected results: Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-17",
+      "revision": 17,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "datafieldCallbackIsolation",
+      "title": "Data Field callbacks preserve lap continuity",
+      "category": "functional",
+      "runner": "logic",
+      "function": "datafieldCallbackIsolation",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "APP-32",
+        "DVS-39",
+        "FUNC-17"
+      ],
+      "procedure": "Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.",
+      "requirement_revisions": {
+        "APP-32": 13,
+        "DVS-39": 34,
+        "FUNC-17": 10
+      },
+      "definition": "Purpose: Data Field callbacks preserve lap continuity.\n\nRequirement references: [[APP-32]], [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `datafieldCallbackIsolation`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-18",
+      "revision": 13,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "acquisitionInvalidInputs",
+      "title": "Invalid acquisition input and safe background startup",
+      "category": "functional",
+      "runner": "logic",
+      "function": "acquisitionInvalidInputs",
+      "source": "tests/AcquisitionTests.mc",
+      "requirements": [
+        "APP-33",
+        "DVS-29",
+        "DVS-34",
+        "FUNC-12",
+        "FUNC-14",
+        "FUNC-16"
+      ],
+      "procedure": "Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.",
+      "requirement_revisions": {
+        "APP-33": 12,
+        "DVS-29": 52,
+        "DVS-34": 47,
+        "FUNC-12": 7,
+        "FUNC-14": 5,
+        "FUNC-16": 8
+      },
+      "definition": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]]; [[FUNC-12]], [[FUNC-14]], [[FUNC-16]]\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-19",
+      "revision": 16,
+      "status": "draft",
+      "suite": "Core"
+    },
+    {
+      "key": "nineProfileCompile",
+      "title": "Compile the production Data Field for each declared profile",
+      "category": "integration",
+      "runner": "compile",
+      "requirements": [
+        "SPEC-152",
+        "SPEC-153"
+      ],
+      "source": "scripts/build.ps1",
+      "procedure": "Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.",
+      "requirement_revisions": {
+        "SPEC-152": 7,
+        "SPEC-153": 8
+      },
+      "definition": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TINT-1",
+      "revision": 10,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "glyphInventoriesAndRegeneration",
+      "title": "Exact glyph inventories and reproducible font resources",
+      "category": "compliance",
+      "runner": "font",
+      "requirements": [
+        "SPEC-176",
+        "SPEC-177"
+      ],
+      "source": "tools/validate_fonts.py",
+      "procedure": "Run the complete font validator and two isolated deterministic regenerations. For every current manifest variant require exact derived numeric/label character sets, transparent padding, valid rectangles, original glyph masks/metrics, verified source fonts and identical generated resource hashes. A pass covers atlas/role correctness and regeneration; it does not measure loaded memory or certify physical readability.",
+      "requirement_revisions": {
+        "SPEC-176": 12,
+        "SPEC-177": 13
+      },
+      "definition": "Purpose: Exact glyph inventories and reproducible font resources.\n\nRequirement references: [[SPEC-176]], [[SPEC-177]].\n\nProcedure and expected results: Run the complete font validator and two isolated deterministic regenerations. For every current manifest variant require exact derived numeric/label character sets, transparent padding, valid rectangles, original glyph masks/metrics, verified source fonts and identical generated resource hashes. A pass covers atlas/role correctness and regeneration; it does not measure loaded memory or certify physical readability.\n\nExecutable source: `tools/validate_fonts.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TCOM-1",
+      "revision": 10,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "fontDefectRejection",
+      "title": "Reject semantic font defects with refreshed cached hashes",
+      "category": "functional",
+      "runner": "font-negative",
+      "requirements": [
+        "SPEC-177"
+      ],
+      "source": "tools/test_font_validation.py",
+      "procedure": "Run all isolated negative fixtures in test_font_validation.py. Require the intended semantic diagnostic for missing f, unused numeric letter, undeclared opaque pixels, duplicate/missing IDs, bounds/overlap and changed masks/metrics even when cached hashes are refreshed. Check controlled presentation-text inventory changes and unstable/stale regeneration. No simulator font-loading or memory probe.",
+      "requirement_revisions": {
+        "SPEC-177": 13
+      },
+      "definition": "Purpose: Reject semantic font defects with refreshed cached hashes.\n\nRequirement references: [[SPEC-177]].\n\nProcedure and expected results: Run all isolated negative fixtures in test_font_validation.py. Require the intended semantic diagnostic for missing f, unused numeric letter, undeclared opaque pixels, duplicate/missing IDs, bounds/overlap and changed masks/metrics even when cached hashes are refreshed. Check controlled presentation-text inventory changes and unstable/stale regeneration. No simulator font-loading or memory probe.\n\nExecutable source: `tools/test_font_validation.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TFNC-20",
+      "revision": 9,
+      "status": "approved",
+      "suite": "Core"
+    },
+    {
+      "key": "publicationAndBaselineIntegrity",
+      "title": "Publication privacy, export integrity and current project consistency",
+      "category": "security",
+      "runner": "publication",
+      "requirements": [
+        "SPEC-153",
+        "SPEC-155",
+        "SPEC-162"
+      ],
+      "source": "tools/check_publication.py",
+      "procedure": "Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.",
+      "requirement_revisions": {
+        "SPEC-153": 8,
+        "SPEC-155": 24,
+        "SPEC-162": 11
+      },
+      "definition": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "stable_id": "TSEC-1",
+      "revision": 11,
+      "status": "approved",
+      "suite": "Core"
+    }
+  ]
+}

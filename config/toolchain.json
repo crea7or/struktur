@@ -1,0 +1,23 @@
+{
+  "status": "local build environment recorded; release/hardware qualification incomplete",
+  "primary_host": "Windows PowerShell",
+  "sdk_version": "9.2.0",
+  "java_distribution_version": "JetBrains OpenJDK 25.0.3+-15898627-b508.16",
+  "device_package_hashes": {
+    "edge530": "2ab6e4b71ea76615583f9210b0dd0bb348366b448cdbf5f82f04094aa37ff303",
+    "edge540": "c625295a1c2d0aec34647e4ced3db7540402246ed7f2f7fb9fe3db936ce59c92",
+    "edge550": "cbee7a9be0855c27a951b4b6866ed450034bad790d87b61648dab11df05a6cc9",
+    "edge830": "af1e86b0868b0ea6f4f499fdad10bb951ad4870a8fd9ecb2ecfed8e10deab66f",
+    "edge840": "aaa5f3e68e3da3c89d8b324da9f2cba9d9de1fc7e04c359ab04b8f31af23414d",
+    "edge850": "5bf7e50c1545642997b6fc45929c1a33f7e886dc7803103485c56045f649bbae",
+    "edge1030": "6cd98189c897da4b55d4f4fc5c73e2c3262c6d6fc938ca6135477f290f639e9c",
+    "edge1040": "99182ff9a71b65defa90a0311439f913f1851110d5d08d3ead37e498c526f043",
+    "edge1050": "ebcac9d336dd5c0ae20d080da06c6e476827f533b90f1435132e70a2fe19b66a"
+  },
+  "font_generator": "Python/Pillow; see font-manifest.json",
+  "target_build_results": "artifacts/build-results.json",
+  "simulator_results": "artifacts/<product>-core-tests.json: 33 Core functions per profile, including exact unit headers and the sample ride. Sample images are separate normal Data Field fixtures. Memory/Placement and physical qualification remain separate.",
+  "hardware_results": "not run",
+  "compiler_jar_sha256": "6cf13788631f4e25611cbfc9477f7f3b2093f4d35872d9859e18658cb1b0dca2",
+  "device_dimension_gate": "All nine project dimensions must equal installed simulator.json display.location dimensions before build/tests. Edge 850 corrected to 420x600."
+}

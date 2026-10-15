@@ -1,0 +1,52 @@
+{
+  "grade_boundaries": [
+    0,
+    2,
+    5,
+    8,
+    15,
+    20
+  ],
+  "temperature_boundaries": [
+    -10,
+    0,
+    10,
+    20,
+    30
+  ],
+  "sample_sequences": [
+    {
+      "seconds": [
+        1,
+        2,
+        3
+      ],
+      "values": [
+        100,
+        200,
+        300
+      ],
+      "average": 200
+    },
+    {
+      "seconds": [
+        1,
+        2,
+        4
+      ],
+      "values": [
+        100,
+        200,
+        300
+      ],
+      "average": null
+    }
+  ],
+  "initial_defaults": [
+    "current_speed",
+    "distance",
+    "activity_timer",
+    "time_of_day"
+  ],
+  "provenance": "Synthetic deterministic fixtures; not real sensor/temperature evidence."
+}

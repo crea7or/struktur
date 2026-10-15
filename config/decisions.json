@@ -1,0 +1,234 @@
+[
+  {
+    "id": "DEC-DURATION",
+    "requirements": [
+      "DVS-13",
+      "SPEC-161"
+    ],
+    "status": "draft",
+    "owner": "user / product reviewer",
+    "decision": "Use the DVS-13 primary duration and .SS secondary below ten hours; at ten hours or more omit secondary seconds. Keep all primary hour digits.",
+    "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
+    "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
+    "affected_tasks": [
+      "DVS-13",
+      "DVS-30",
+      "DVS-31"
+    ],
+    "fixture_expectations": {
+      "0_ms": [
+        "00",
+        ".00"
+      ],
+      "65000_ms": [
+        "01",
+        ".05"
+      ],
+      "35999000_ms": [
+        "9:59",
+        ".59"
+      ],
+      "36000000_ms": [
+        "10:00",
+        ""
+      ],
+      "86400000_ms": [
+        "24:00",
+        ""
+      ],
+      "360000000_ms": [
+        "100:00",
+        ""
+      ]
+    },
+    "implementation": "Implemented in production and deterministic fixtures; source-matched validation is recorded separately in artifacts. Requirement review states are preserved.",
+    "requirement_revisions": {
+      "DVS-13": 22,
+      "SPEC-161": 15
+    }
+  },
+  {
+    "id": "DEC-TEMPERATURE",
+    "requirements": [
+      "DVS-34",
+      "DVS-49",
+      "FUNC-15",
+      "FUNC-16"
+    ],
+    "status": "approved",
+    "owner": "product reviewer and hardware verifier",
+    "implementation": "Minimal background acquisition and versioned age-checked Celsius cache. Production model/firmware allowlist is empty until physical onboard-only qualification.",
+    "decision": {
+      "background_interval_s": 300,
+      "maximum_read_cache_age_s": 360,
+      "onboard_only": true,
+      "unverified_source": "unavailable"
+    },
+    "rationale": "Slow cached device-sensor reading; source-qualified targets only. Cache age cannot prove the physical sample age. No weather/external substitution.",
+    "approval_status": "Explicitly approved by user in this conversation",
+    "approved_on": "2026-10-14",
+    "approved_requirement_revisions": {
+      "DVS-34": 21
+    },
+    "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
+    "specification_review": "Source/cache contracts split into FUNC-15/FUNC-16; qualification remains separate."
+  },
+  {
+    "id": "DEC-GRADE",
+    "requirements": [
+      "DVS-29",
+      "DVS-43",
+      "FUNC-12",
+      "FUNC-13",
+      "FUNC-14"
+    ],
+    "status": "draft",
+    "owner": "product reviewer",
+    "implementation": "Implemented in production and deterministic fixtures; source-matched validation is recorded separately in artifacts. Requirement review states are preserved.",
+    "decision": {
+      "maximum_samples": 5,
+      "minimum_regression_samples": 3,
+      "warmup_grade": 0,
+      "regression": "least squares altitude versus accumulated distance",
+      "canonical_decimal_places": 2,
+      "rounding": "exact halves away from zero",
+      "stationary_reset_s": 3,
+      "maximum_sample_gap_ms": 2000
+    },
+    "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
+    "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
+    "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
+    "requirement_revisions": {
+      "DVS-29": 52,
+      "DVS-43": 34,
+      "FUNC-12": 7,
+      "FUNC-13": 8,
+      "FUNC-14": 5
+    }
+  },
+  {
+    "id": "DEC-LAPS",
+    "requirements": [
+      "DVS-39",
+      "FUNC-17"
+    ],
+    "status": "approved",
+    "owner": "product reviewer",
+    "implementation": "Separate exact-baseline callback state machine; no zero inferred from startup onTimerStart.",
+    "decision": {
+      "source": "onTimerLap",
+      "baseline": "proven fresh session",
+      "late_attachment": "unavailable until next proven fresh session",
+      "persistent_counter_restore": false
+    },
+    "rationale": "An exact continuously observed total; earlier laps cannot be reconstructed through the documented activity snapshot or callback alone.",
+    "approval_status": "Explicitly approved by user in this conversation",
+    "approved_on": "2026-10-14",
+    "approved_requirement_revisions": {
+      "DVS-39": 15
+    },
+    "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
+    "specification_review": "Completed-lap acquisition contract now belongs to FUNC-17."
+  },
+  {
+    "id": "DEC-ZONES",
+    "requirements": [
+      "DVS-45",
+      "DVS-46",
+      "DVS-48"
+    ],
+    "status": "approved",
+    "owner": "product reviewer",
+    "implementation": "One rounded, upper-inclusive production classifier. HR validates six min/max bounds. Ambiguous power metadata remains disabled under DVS-42; see requirements/zone-api-assessment.json.",
+    "decision": {
+      "upper_inclusive": true,
+      "use_displayed_whole_number": true,
+      "outside_threshold_range": "unavailable",
+      "invalid_metadata": "neutral"
+    },
+    "rationale": "User explicitly approved upper-inclusive thresholds classified from the displayed whole-number value during the workspace review.",
+    "approval_status": "Explicit user confirmation in the 2026-10-14 requirements review",
+    "approved_on": "2026-10-14",
+    "approved_requirement_revisions": {
+      "DVS-45": 14,
+      "DVS-46": 25,
+      "DVS-48": 25
+    }
+  },
+  {
+    "id": "DEC-VISUAL",
+    "requirements": [
+      "APP-22",
+      "APP-25",
+      "APP-36",
+      "SPEC-154"
+    ],
+    "status": "approved",
+    "owner": "product reviewer",
+    "implementation": "Approved markers, foregrounds, heading and grade formatting implemented. Actual-value fitting and complete compact fallback are cached outside drawing. Runtime and physical visual qualification remain unrun.",
+    "decision": {
+      "unavailable": "--",
+      "overflow": "!",
+      "additional_pending_marker": false,
+      "palette_requirement": "DVS-45",
+      "separator_requirements": [
+        "HFER-7",
+        "HFER-8"
+      ],
+      "fitting_requirements": [
+        "APP-21",
+        "APP-28",
+        "APP-34"
+      ]
+    },
+    "rationale": "User explicitly accepted existing marker/color/separator conventions. Exact formulas and RGB values are recorded in the reviewed requirements.",
+    "approval_status": "Explicit user confirmation in the 2026-10-14 requirements review",
+    "approved_on": "2026-10-14",
+    "approved_requirement_revisions": {
+      "APP-22": 27,
+      "APP-25": 19,
+      "APP-36": 28,
+      "SPEC-154": 25
+    }
+  },
+  {
+    "id": "DEC-SETTINGS",
+    "requirements": [
+      "APP-46",
+      "SPEC-155",
+      "DVS-50"
+    ],
+    "status": "draft",
+    "owner": "product reviewer",
+    "implementation": "The 25 user settings are retained. Field overrides support exact literals and optional {unit} substitution. Catalogue, runtime, glyph tracing and Core fixtures are updated; validation is source-matched in artifacts.",
+    "decision": {
+      "active_properties": 25,
+      "saved_slots": 10,
+      "existing_codes": "0..25 retained",
+      "lap_codes": "26..31 retained",
+      "retired_keys": [
+        "use_units_as_labels",
+        "field_count"
+      ],
+      "physical_units": "header decoration controlled by hide_value_units"
+    },
+    "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
+    "approval_status": "Revised requirement contracts remain Draft after the 2026-10-15 cleanup.",
+    "requirement_revisions": {
+      "APP-46": 37,
+      "SPEC-155": 24,
+      "DVS-50": 22
+    }
+  },
+  {
+    "id": "DEC-TOOLCHAIN-HARDWARE",
+    "requirements": [
+      "SPEC-151",
+      "SPEC-159"
+    ],
+    "status": "open",
+    "owner": "development and verification owner",
+    "question": "Record validated exact tool versions, hardware coverage, durations/repetitions and primary host.",
+    "implementation": "SDK 9.2.0 and JetBrains Java 25.0.3 are recorded with compiler/device-package hashes. Hardware selection, duration and qualification remain open."
+  }
+]

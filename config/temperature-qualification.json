@@ -1,0 +1,7 @@
+{
+  "protocol": 1,
+  "path": "onboard-v1",
+  "qualified_targets": [],
+  "status": "No model/firmware onboard-only source has physical acceptance evidence.",
+  "enablement": "Add reviewed model, exact Garmin part number, firmware major/minor and evidence path/hash only after DVS-34 onboard-source tests, including external temperature sensor pairing/connection. Generate TemperatureQualification.mc with tools/generate_temperature_qualification.py. Never enable using simulator or a self-created path tag."
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "fixture": "rollingActivityClockAndValidity",
+    "requirements": [
+      "DVS-41",
+      "DVS-47"
+    ],
+    "issues": [
+      "R1",
+      "R2"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "approvedZoneSnapshot",
+    "requirements": [
+      "DVS-42",
+      "DVS-46",
+      "DVS-48"
+    ],
+    "issues": [
+      "R8"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "currentLapAcquisition",
+    "requirements": [
+      "FUNC-3",
+      "FUNC-4",
+      "FUNC-5",
+      "FUNC-6",
+      "FUNC-7",
+      "FUNC-8",
+      "FUNC-9",
+      "FUNC-10"
+    ],
+    "issues": [
+      "R9"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "currentLapLateAttachAndGaps",
+    "requirements": [
+      "FUNC-9",
+      "FUNC-10"
+    ],
+    "issues": [
+      "R9"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "reviewedFormattingAndCatalogue",
+    "requirements": [
+      "DVS-7",
+      "DVS-14",
+      "DVS-36",
+      "FUNC-11"
+    ],
+    "issues": [
+      "R5",
+      "R9",
+      "R10"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "actualValueFitAndCompactCache",
+    "requirements": [
+      "APP-26",
+      "APP-28",
+      "APP-34"
+    ],
+    "issues": [
+      "R3",
+      "R4",
+      "R7"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "approvedForegroundAndMetricWidths",
+    "requirements": [
+      "APP-36",
+      "DVS-6",
+      "APP-34"
+    ],
+    "issues": [
+      "R6"
+    ],
+    "execution": "not run"
+  },
+  {
+    "fixture": "fixedThreeRoleFonts",
+    "requirements": [
+      "APP-24",
+      "APP-28",
+      "SPEC-176"
+    ],
+    "issues": [
+      "fixed font roles"
+    ],
+    "execution": "recorded separately in artifacts"
+  }
+]

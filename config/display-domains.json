@@ -1,0 +1,397 @@
+{
+  "scope": "Candidate value domains used to derive conservative, layout-specific guarantees. These are not promises for every cell. Normative intervals are in each field requirement and config/display-limits.json.",
+  "fields": [
+    {
+      "field": "current_speed",
+      "requirement": "DVS-8",
+      "precision": 1,
+      "normal_range": {
+        "km/h": [
+          0,
+          199.9
+        ],
+        "mph": [
+          0,
+          199.9
+        ]
+      }
+    },
+    {
+      "field": "average_speed",
+      "requirement": "DVS-9",
+      "precision": 1,
+      "normal_range": {
+        "km/h": [
+          0,
+          199.9
+        ],
+        "mph": [
+          0,
+          199.9
+        ]
+      }
+    },
+    {
+      "field": "current_cadence",
+      "requirement": "DVS-10",
+      "precision": 0,
+      "normal_range": {
+        "rpm": [
+          0,
+          250
+        ]
+      }
+    },
+    {
+      "field": "average_cadence",
+      "requirement": "DVS-11",
+      "precision": 0,
+      "normal_range": {
+        "rpm": [
+          0,
+          250
+        ]
+      }
+    },
+    {
+      "field": "current_heart_rate",
+      "requirement": "DVS-18",
+      "precision": 0,
+      "normal_range": {
+        "bpm": [
+          30,
+          250
+        ]
+      }
+    },
+    {
+      "field": "average_heart_rate",
+      "requirement": "DVS-19",
+      "precision": 0,
+      "normal_range": {
+        "bpm": [
+          30,
+          250
+        ]
+      }
+    },
+    {
+      "field": "heart_rate_zone",
+      "requirement": "DVS-20",
+      "precision": 0,
+      "normal_range": {
+        "unitless": [
+          1,
+          5
+        ]
+      }
+    },
+    {
+      "field": "current_power",
+      "requirement": "DVS-21",
+      "precision": 0,
+      "normal_range": {
+        "w": [
+          0,
+          3000
+        ]
+      }
+    },
+    {
+      "field": "power_3s",
+      "requirement": "DVS-22",
+      "precision": 0,
+      "normal_range": {
+        "w": [
+          0,
+          3000
+        ]
+      }
+    },
+    {
+      "field": "average_power",
+      "requirement": "DVS-23",
+      "precision": 0,
+      "normal_range": {
+        "w": [
+          0,
+          3000
+        ]
+      }
+    },
+    {
+      "field": "power_zone",
+      "requirement": "DVS-24",
+      "precision": 0,
+      "normal_range": {
+        "unitless": [
+          1,
+          7
+        ]
+      }
+    },
+    {
+      "field": "distance",
+      "requirement": "DVS-25",
+      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "normal_range": {
+        "km": [
+          0,
+          999.9
+        ],
+        "mi": [
+          0,
+          999.9
+        ]
+      }
+    },
+    {
+      "field": "elevation",
+      "requirement": "DVS-26",
+      "precision": 0,
+      "normal_range": {
+        "m": [
+          -1000,
+          9999
+        ],
+        "ft": [
+          -1000,
+          9999
+        ]
+      }
+    },
+    {
+      "field": "total_ascent",
+      "requirement": "DVS-27",
+      "precision": 0,
+      "normal_range": {
+        "m": [
+          0,
+          99999
+        ],
+        "ft": [
+          0,
+          99999
+        ]
+      }
+    },
+    {
+      "field": "total_descent",
+      "requirement": "DVS-28",
+      "precision": 0,
+      "normal_range": {
+        "m": [
+          0,
+          99999
+        ],
+        "ft": [
+          0,
+          99999
+        ]
+      }
+    },
+    {
+      "field": "grade",
+      "requirement": "DVS-29",
+      "precision": 1,
+      "normal_range": {
+        "%": [
+          -99.9,
+          99.9
+        ]
+      }
+    },
+    {
+      "field": "activity_timer",
+      "requirement": "DVS-30",
+      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "normal_range": {
+        "milliseconds": [
+          0,
+          359999000
+        ]
+      }
+    },
+    {
+      "field": "elapsed_time",
+      "requirement": "DVS-31",
+      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "normal_range": {
+        "milliseconds": [
+          0,
+          359999000
+        ]
+      }
+    },
+    {
+      "field": "time_of_day",
+      "requirement": "DVS-32",
+      "precision": "1 minute under DVS-5",
+      "normal_range": {
+        "minutes since local midnight": [
+          0,
+          1439
+        ]
+      }
+    },
+    {
+      "field": "calories",
+      "requirement": "DVS-33",
+      "precision": 0,
+      "normal_range": {
+        "kcal": [
+          0,
+          99999
+        ]
+      }
+    },
+    {
+      "field": "temperature",
+      "requirement": "DVS-34",
+      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "normal_range": {
+        "celsius": [
+          -40,
+          60
+        ],
+        "fahrenheit": [
+          -40,
+          140
+        ]
+      }
+    },
+    {
+      "field": "battery",
+      "requirement": "DVS-35",
+      "precision": 0,
+      "normal_range": {
+        "%": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "field": "heading",
+      "requirement": "DVS-36",
+      "precision": 0,
+      "normal_range": {
+        "degrees": [
+          0,
+          359
+        ]
+      }
+    },
+    {
+      "field": "distance_next_waypoint",
+      "requirement": "DVS-37",
+      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "normal_range": {
+        "km": [
+          0,
+          999.9
+        ],
+        "mi": [
+          0,
+          999.9
+        ]
+      }
+    },
+    {
+      "field": "completed_laps",
+      "requirement": "DVS-39",
+      "precision": 0,
+      "normal_range": {
+        "unitless": [
+          0,
+          999
+        ]
+      }
+    },
+    {
+      "field": "heart_rate_3s",
+      "requirement": "DVS-47",
+      "precision": 0,
+      "normal_range": {
+        "bpm": [
+          30,
+          250
+        ]
+      }
+    },
+    {
+      "field": "lap_distance",
+      "requirement": "FUNC-3",
+      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "normal_range": {
+        "km": [
+          0,
+          999.9
+        ],
+        "mi": [
+          0,
+          999.9
+        ]
+      }
+    },
+    {
+      "field": "lap_time",
+      "requirement": "FUNC-4",
+      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "normal_range": {
+        "milliseconds": [
+          0,
+          359999000
+        ]
+      }
+    },
+    {
+      "field": "lap_speed",
+      "requirement": "FUNC-5",
+      "precision": 1,
+      "normal_range": {
+        "km/h": [
+          0,
+          199.9
+        ],
+        "mph": [
+          0,
+          199.9
+        ]
+      }
+    },
+    {
+      "field": "lap_heart_rate",
+      "requirement": "FUNC-6",
+      "precision": 0,
+      "normal_range": {
+        "bpm": [
+          30,
+          250
+        ]
+      }
+    },
+    {
+      "field": "lap_power",
+      "requirement": "FUNC-7",
+      "precision": 0,
+      "normal_range": {
+        "w": [
+          0,
+          3000
+        ]
+      }
+    },
+    {
+      "field": "lap_cadence",
+      "requirement": "FUNC-8",
+      "precision": 0,
+      "normal_range": {
+        "rpm": [
+          0,
+          250
+        ]
+      }
+    }
+  ]
+}
