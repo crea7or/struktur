@@ -17,6 +17,8 @@ class FieldRenderer {
     var _settings=null;
     var _fonts={};
     var _metrics={};
+    var _headerFits={};var headerMeasures=0;
+    var _regularMetrics;var _bigMetrics;
     var _labels=null;
     var _labelHeight=0;
     var _labelTop=3;
@@ -58,7 +60,8 @@ class FieldRenderer {
         _labelBandHeight=FieldPresentation.headerBandHeight(metric(DeviceProfile.LABEL_SIZE,true),_labelTop);
         var line=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
         _headerHeight=line>_labelBandHeight?line:_labelBandHeight;
-        metric(DeviceProfile.REGULAR_SIZE,false);metric(DeviceProfile.BIG_SIZE,false);
+        _labelMetrics=metric(DeviceProfile.LABEL_SIZE,true);
+        _regularMetrics=metric(DeviceProfile.REGULAR_SIZE,false);_bigMetrics=metric(DeviceProfile.BIG_SIZE,false);
     }
     function needsLayout() { return _needsLayout; }
     function painted(value) { return value[:band]!=null || value[:angle]!=null; }
@@ -87,16 +90,18 @@ class FieldRenderer {
     }
     function fitRun(cell,value,labelSize,text,unit) {
         fitCount+=1;
-        var lm=metric(labelSize,true);
-        var labelInk=FontMetrics.bounds(value[:label],lm);
+        var lm=_labelMetrics;
+        var labelFit=_headerFits.hasKey(value[:label])?_headerFits[value[:label]]:null;
+        if(labelFit==null) {
+            labelFit=[FontMetrics.width(value[:label],lm),FontMetrics.bounds(value[:label],lm)[1]];
+            _headerFits[value[:label]]=labelFit;headerMeasures+=1;
+        }
         var radius=painted(value)?1:0; var margin=4+radius;
         var labelBand=value[:band]!=null && value[:angle]==null?_labelBandHeight:0;
-        if(FontMetrics.width(value[:label],lm)>cell[:w]-2*margin) { return null; }
-        var sizes=numericSizes(cell[:enlarged]);
-        var maximum=cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE;
-        for(var i=0;i<sizes.size();i+=1) {
-            var size=sizes[i]; if(size>maximum || size<=labelSize) { continue; }
-            var metrics=metric(size,false); var ink=FontMetrics.bounds(text,metrics);
+        if(labelFit[0]>cell[:w]-2*margin) { return null; }
+        var size=cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE;
+        if(size<=labelSize) { return null; }
+            var metrics=cell[:enlarged]?_bigMetrics:_regularMetrics; var ink=FontMetrics.bounds(text,metrics);
             var valueWidth=FontMetrics.width(text,metrics);
             var secondary=unit; var unitWidth=FontMetrics.width(secondary,lm);
             var expanded=value.hasKey(:expandedUnit)?value[:expandedUnit]:null;
@@ -107,44 +112,35 @@ class FieldRenderer {
             var top=Numeric.rounded(_headerHeight+(cell[:h]-_headerHeight-(ink[1]-ink[0]))/2.0);
             var unitInk=FontMetrics.bounds(secondary,lm);
             var secondaryHeight=unitInk[1]-unitInk[0];
-            if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=_headerHeight && top-radius>=4+labelInk[1]+radius+2 &&
+            if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=_headerHeight && top-radius>=4+labelFit[1]+radius+2 &&
                 top+ink[1]-ink[0]+radius<=cell[:h] && top+secondaryHeight+radius<=cell[:h]) {
                 return {:size=>size,:text=>text,:unit=>secondary,:width=>valueWidth,:unitWidth=>unitWidth,
                     :total=>total,:top=>top,:ink=>ink,:unitInk=>unitInk,:margin=>margin,:radius=>radius,:labelBand=>labelBand};
             }
-        }
         return null;
     }
     function plan(rows) {
         if(!_gridPlans.hasKey(rows)) { _gridPlans[rows]=Grid.plan(_width,_height,rows,_settings.enlarged);geometryBuilds+=1; }
         var cells=_gridPlans[rows];
-        var labelSizes=_labelSizes;
+        // APP-24/28 assigns exactly one font per role: no variant search/scoring.
         for(var overflow=0;overflow<2;overflow+=1) {
-        var best=null;var bestScore=null;
-        for(var l=0;l<labelSizes.size();l+=1) {
-            var labelSize=labelSizes[l]; if(labelSize>DeviceProfile.LABEL_SIZE) { continue; }
-            var runs=[]; var fits=true;var score=0;
+            var runs=[];
             for(var i=0;i<cells.size();i+=1) {
-                var value=_preparedValues[i]; var text=displayText(value);
-                var unit=PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit];
-                var run=fitRun(cells[i],value,labelSize,text,unit);
-                if(run==null && overflow==1) { run=fitRun(cells[i],value,labelSize,PresentationPolicy.OVERFLOW,""); }
-                if(run==null) { fits=false; break; }
-                score+=run[:size];
-                if(PresentationPolicy.OVERFLOW.equals(run[:text]) && !PresentationPolicy.OVERFLOW.equals(text)) { score-=10000; }
+                var value=_preparedValues[i];var text=displayText(value);
+                var run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]);
+                if(run==null && overflow==1) { run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
+                if(run==null) { break; }
                 runs.add(run);
             }
-            // Fonts remain fixed when the value or assigned bounds change.
-            if(fits && (bestScore==null || score>bestScore)) { best=[cells,runs,labelSize];bestScore=score; }
-        }
-        if(best!=null) { return best; }
+            if(runs.size()==cells.size()) { return [cells,runs,DeviceProfile.LABEL_SIZE]; }
         }
         return null;
     }
     function layout(dc,settings) {
-        if(_width!=dc.getWidth() || _height!=dc.getHeight()) { _geometryDirty=true; }
-        _width=dc.getWidth();_height=dc.getHeight();configure(settings);
-        rebuild();
+        var width=dc.getWidth();var height=dc.getHeight();
+        if(_width!=width || _height!=height) { _geometryDirty=true;_needsLayout=true; }
+        _width=width;_height=height;configure(settings);
+        if(_needsLayout) { rebuild(); }
     }
     function configure(settings) {
         if(_configuredEnlarged!=settings.enlarged) {
@@ -211,14 +207,14 @@ class FieldRenderer {
         prepareGeometry();
     }
     function prepare(snapshot) {
-        if(_settings!=null) { configure(_settings); }
-        _dirtyCount=0;
+        _dirtyCount=0;var headersChanged=false;
         for(var i=0;i<snapshot[:values].size();i+=1) {
             var next=snapshot[:values][i];
             var changed=i>=_preparedValues.size();
-            if(changed) { _needsLayout=true; }
+            if(changed) { _needsLayout=true;headersChanged=true; }
             else {
                 var old=_preparedValues[i];
+                if(!old[:label].equals(next[:label])) { headersChanged=true; }
                 if(!old[:label].equals(next[:label]) || !displayText(old).equals(displayText(next)) ||
                     !old[:unit].equals(next[:unit]) || painted(old)!=painted(next) ||
                     (old[:angle]==null)!=(next[:angle]==null) ||
@@ -230,6 +226,14 @@ class FieldRenderer {
                 if(_dirtyCount<_dirtyFields.size()) { _dirtyFields[_dirtyCount]=i; } else { _dirtyFields.add(i); }
                 _dirtyCount+=1;
             }
+        }
+        if(headersChanged) {
+            var retained={};
+            for(var slot=0;slot<snapshot[:values].size();slot+=1) {
+                var label=snapshot[:values][slot][:label];
+                if(_headerFits.hasKey(label)) { retained[label]=_headerFits[label]; }
+            }
+            _headerFits=retained;
         }
         _preparedValues=snapshot[:values];_baseNight=snapshot[:night];_inverse=snapshot[:inverse];
         if(_settings==null || _width<=0 || _height<=0) { return; }

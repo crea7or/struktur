@@ -27,6 +27,7 @@ function snapshotCacheInvalidation(logger) {
     Test.assertEqual("field",changed[:values][0][:label]);Test.assert(changed[:values][0][:text]==null);
     Test.assertEqual("time",changed[:values][3][:label]);Test.assert(changed[:values][3][:text]==null);
     verifySnapshotSlotIsolation();
+    verifyPresentationRecordReuse();
     return true;
 }
 
@@ -80,7 +81,9 @@ class RendererCacheScenario {
         sample();Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);
         System.println("CORE_CACHE stable geometry="+renderer.geometryBuilds+" fits="+renderer.fitCount+" polygons="+renderer.polygonBuilds+" packets="+renderer.packetBuilds+" expected_packets="+packets);
         Test.assertEqual(polygons,renderer.polygonBuilds);Test.assertEqual(packets,renderer.packetBuilds);
+        var headers=renderer.headerMeasures;
         raw["current_speed"]=11;sample();Test.assertEqual(fits+1,renderer.fitCount);
+        Test.assertEqual(headers,renderer.headerMeasures);
         Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(polygons,renderer.polygonBuilds);Test.assertEqual(packets+1,renderer.packetBuilds);
         fits=renderer.fitCount;packets=renderer.packetBuilds;
         props["theme_mode"]=2;settings.apply(props);sample();
@@ -103,7 +106,9 @@ class RendererCacheScenario {
 }
 
 (:test)
-function rendererCacheAndDrawPurity(logger) { new RendererCacheScenario().run();return true; }
+function rendererCacheAndDrawPurity(logger) {
+    new RendererCacheScenario().run();new FieldDrawScenario().run();return true;
+}
 
 (:test)
 function optionalRuntimeQueries(logger) {
@@ -120,3 +125,57 @@ function optionalRuntimeQueries(logger) {
     Test.assertEqual(maximum,RuntimeMetrics.maxUsedBytes);Test.assertEqual(deadline,RuntimeMetrics.deadlineMisses);
     return true;
 }
+
+(:testSupport)
+function verifyPresentationRecordReuse() {
+    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>"current_heart_rate","slot_2_value"=>"current_heart_rate",
+        "slot_1_background_effects"=>true,"slot_2_background_effects"=>true,"slot_3_value"=>"heart_rate_zone","slot_4_value"=>"current_heart_rate"});
+    var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
+    var first=engine.compute({"current_heart_rate"=>130},settings);
+    Test.assertEqual(2,engine.zoneBuilds); // One heart classification + one unavailable power classification.
+    Test.assertEqual("2",first[:values][2][:text]);Test.assertEqual("green",first[:values][0][:band]);
+    var builds=engine.recordBuilds;var effects=engine.effectBuilds;
+    var next=engine.compute({"current_heart_rate"=>130},settings);
+    Test.assertEqual(builds,engine.recordBuilds);Test.assertEqual(effects,engine.effectBuilds);Test.assertEqual(2,engine.zoneBuilds);
+    Test.assert(first[:values][0]==next[:values][0]);
+    next=engine.compute({"current_heart_rate"=>131},settings);
+    Test.assertEqual(3,engine.zoneBuilds);Test.assertEqual("yellow",next[:values][1][:band]);
+    Test.assertEqual("130",first[:values][0][:text]);Test.assertEqual("green",first[:values][1][:band]);
+    engine._hrZones=ZoneMetadata.heart([90,140,150,160,170,190]);
+    next=engine.compute({"current_heart_rate"=>131},settings);
+    Test.assertEqual("blue",next[:values][0][:band]);Test.assertEqual(4,engine.zoneBuilds);
+    next=engine.compute({"current_heart_rate"=>null},settings);
+    Test.assert(next[:values][0][:text]==null);
+    settings.apply({});
+    first=engine.prepareWithPreferences({"current_speed"=>10},settings,true,new PresentationDevice(false,true,false),null);
+    builds=engine.recordBuilds;
+    next=engine.prepareWithPreferences({"current_speed"=>10.001},settings,true,new PresentationDevice(false,true,false),null);
+    Test.assertEqual("36.0",next[:values][0][:text]);Test.assertEqual(builds,engine.recordBuilds);
+    Test.assert(first[:values][0]==next[:values][0]);
+    Test.assert(ZoneMetadata.heart([90,90,130,150,170,190])==null);
+    Test.assert(ZoneMetadata.classifyValidated(130,null)==null);
+}
+
+(:testSupport)
+class FieldDrawScenario {
+    var field;var renderer;var dc;var layouts;var fits;var headers;var loads;
+    function initialize() {
+        field=new StrukturField();renderer=new DrawOnlyRenderer();
+        // Isolate draw-purity coverage from persistent simulator app properties.
+        field._settings=new DisplaySettings();field._snapshot=field._engine.initial(field._settings);
+        field._renderer=renderer;renderer.prepare(field._snapshot);
+        dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
+    }
+    function run() {
+        // The recording fixture exercises the real inherited callback without Dc static typing.
+        deliverFieldCallback(field,:onUpdate,dc);
+        layouts=renderer.layoutCount;fits=renderer.fitCount;headers=renderer.headerMeasures;loads=renderer.fontLoads;
+        deliverFieldCallback(field,:onLayout,dc);Test.assertEqual(layouts,renderer.layoutCount);
+        renderer.locked=true;deliverFieldCallback(field,:onUpdate,dc);deliverFieldCallback(field,:onUpdate,dc);renderer.locked=false;
+        Test.assertEqual(layouts,renderer.layoutCount);Test.assertEqual(fits,renderer.fitCount);
+        Test.assertEqual(headers,renderer.headerMeasures);Test.assertEqual(loads,renderer.fontLoads);
+    }
+}
+
+(:testSupport)
+function deliverFieldCallback(target,name,dc) { target.method(name).invoke(dc); }

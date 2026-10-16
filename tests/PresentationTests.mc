@@ -317,7 +317,7 @@ function clockAndDurationFitEveryLayout(logger) {
                 var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
                 for(var n=0;n<snapshot[:values].size();n+=1) {
                     // Capability fixture reserves the largest one-pixel contour.
-                    snapshot[:values][n][:band]="green";dc.paintEffects.add(true);
+                    fixtureBand(snapshot,n,"green");dc.paintEffects.add(true);
                 }
                 var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.draw(dc,snapshot,settings);
                 var cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);

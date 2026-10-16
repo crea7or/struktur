@@ -118,3 +118,5 @@ The documentation release is **For QA**. Physical qualification is pending. Temp
 ## License
 
 Project code uses the [MIT license](LICENSE). Roboto Condensed fonts and their generated resources retain the [SIL Open Font License 1.1](assets/fonts/OFL.txt).
+
+Runtime preparation follows APP-26: field modes and font metrics are resolved at initialization; header measurements and geometry are retained until their inputs change. Validated zone metadata and classifications are shared, unchanged presentation records are reused without mutation, and repeated identical layout callbacks reuse prepared commands. Live acquisition, unit/preferences checks, clock and temperature freshness remain active. Ordinary redraws only issue prepared graphics commands; missing assigned bounds permit one layout preparation. These caches reduce repeated work; battery savings are not yet measured on hardware.

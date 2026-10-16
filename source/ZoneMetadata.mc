@@ -17,6 +17,14 @@ module ZoneMetadata {
         // See requirements/zone-api-assessment.json. Never assume HR's representation.
         return false;
     }
+    // Internal path: bounds are an immutable result of heart()/power(), or null.
+    function classifyValidated(value,bounds) {
+        if(!Numeric.finite(value) || value<0 || bounds==null) { return null; }
+        var whole=Numeric.whole(value);
+        if(whole<bounds[0] || whole>bounds[bounds.size()-1]) { return null; }
+        for(var i=1;i<bounds.size();i+=1) { if(whole<=bounds[i]) { return i; } }
+        return null;
+    }
     function classify(value,bounds) {
         return Numeric.finite(value) && value>=0?Effects.zone(Numeric.whole(value),bounds,true):null;
     }

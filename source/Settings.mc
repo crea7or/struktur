@@ -13,6 +13,7 @@ class DisplaySettings {
     var gridType;
     var usesBattery;
     var usesClock;
+    var revision=0;
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
@@ -32,6 +33,7 @@ class DisplaySettings {
         var value=get(values,key); return value instanceof Lang.Boolean ? value : true;
     }
     function apply(values as Lang.Dictionary) {
+        revision+=1;
         // Retired field_count and use_units_as_labels are ignored. APP-20 derives the count
         // from measured rows and the selected number of enlarged top fields.
         var big = get(values, "enlarged_field_count");

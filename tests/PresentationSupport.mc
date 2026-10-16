@@ -359,7 +359,7 @@ class ColoredFieldScenario {
         engine=new SnapshotEngine();device=new PresentationDevice(false,true,night==1);clock=new PresentationClock();
         snapshot=engine.prepareWithPreferences(raw,settings,true,device,clock);
         var colors=["green","yellow","cyan","white","blue","orange","red","dark_red","black"];
-        if(field>0) { snapshot[:values][0][:band]=colors[(field+night+align+inverse+hideUnits)%colors.size()]; }
+        if(field>0) { fixtureBand(snapshot,0,colors[(field+night+align+inverse+hideUnits)%colors.size()]); }
     }
     function run() {
         Test.assert(snapshot[:values][0][:band]!=null);
@@ -561,4 +561,12 @@ function verifyGuaranteedNormalDraw(night,big,align) {
         Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field][:text]));
     }
     verifyDrawRecords(dc,renderer,snapshot,cells,night,1,align);
+}
+
+// Synthetic colors own their replacement record; production snapshot records are immutable.
+(:testSupport)
+function fixtureBand(snapshot,slot,band) {
+    var original=snapshot[:values][slot];
+    snapshot[:values][slot]={:label=>original[:label],:text=>original[:text],:unit=>original[:unit],
+        :expandedUnit=>original[:expandedUnit],:band=>band,:angle=>original[:angle],:format=>original[:format]};
 }

@@ -218,7 +218,12 @@ class MemoryValidationField extends StrukturField {
         // Controlled bands exercise allocation/drawing independently of metadata availability.
         var colors=["blue","green","yellow","orange","red","dark_red","white"];
         for(var n=0;n<_snapshot[:values].size();n+=1) {
-            if(_settings.effects[n] && index%4!=0) { _snapshot[:values][n][:band]=colors[(n+index)%colors.size()]; }
+            if(_settings.effects[n] && index%4!=0) {
+                var original=_snapshot[:values][n];
+                _snapshot[:values][n]={:label=>original[:label],:text=>original[:text],:unit=>original[:unit],
+                    :expandedUnit=>original[:expandedUnit],:band=>colors[(n+index)%colors.size()],
+                    :angle=>original[:angle],:format=>original[:format]};
+            }
         }
     }
     function failedPrecondition(index,width,height) {
