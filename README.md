@@ -2,7 +2,7 @@
 
 Struktur is a configurable Garmin Connect IQ **Data Field for cycling**. Keep your chosen ride metrics together in a two-column dashboard, with clear values, compact secondary units and up to two enlarged fields.
 
-The project was made with the [AI Architect requirement service](https://ai-architect.link). Requirements guide the implementation and its validation; a portable documentation release is included in [architecture](architecture).
+The project was made with the [AI Architect requirement service](https://ai-architect.link). Requirements guide the implementation and its validation; a portable documentation release is included in the [architecture archive](architecture/Struktur-0.1.1.zip).
 
 ![Struktur sample configurations showing ride metrics, lap fields, enlarged values, themes and backgrounds](samples.png)
 
