@@ -1,4 +1,4 @@
-﻿# Struktur
+# Struktur
 
 Struktur is a configurable Garmin Connect IQ **Data Field for cycling**. Keep your chosen ride metrics together in a two-column dashboard, with clear values, compact secondary units and up to two enlarged fields.
 
@@ -6,7 +6,7 @@ The project was made with the [AI Architect requirement service](https://ai-arch
 
 ![Struktur sample configurations showing ride metrics, lap fields, enlarged values, themes and backgrounds](samples.png)
 
-The screenshots use sample data. Temperature and power zones show `--` while their data sources await qualification.
+The screenshots use sample data. Power zones show `--` while their data source awaits qualification. The sample images may show unavailable temperature.
 
 ## Features
 
@@ -102,7 +102,7 @@ Core does not launch Memory or Placement. Simulator results and sample screensho
 
 [Struktur 0.1.1 documentation release](architecture/Struktur-0.1.1.zip) is a single portable archive containing the captured specifications, design records, test definitions, relations and referenced diagrams/font assets. Extract it and open `specification.md`. Stable requirement references are retained; service identifiers, author identities, private links and historical execution records are excluded from this public copy.
 
-The documentation release is **For QA**. Physical qualification is pending. Onboard temperature remains unavailable until its source is qualified; power zones remain unavailable until the device metadata interpretation is qualified. Heart-rate zones use validated personal bounds. Missing values display `--`, values exceeding supported drawing bounds display `!`, and an insufficient assigned area uses the compact message.
+The documentation release is **For QA**. Physical qualification is pending. Temperature displays one decimal place in °C and °F and uses the Edge native sensor API in a background worker, with updates at most every five minutes and a six-minute read-cache limit. Paired external temperature sensors or unknown sensor metadata make it unavailable; disconnect and remove a paired Tempe to use the onboard path. Physical-device source validation remains pending. Power zones remain unavailable until the device metadata interpretation is qualified. Heart-rate zones use validated personal bounds. Missing values display `--`, values exceeding supported drawing bounds display `!`, and an insufficient assigned area uses the compact message.
 
 | Directory | Contents |
 | --- | --- |

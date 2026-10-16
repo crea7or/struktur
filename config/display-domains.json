@@ -248,7 +248,7 @@
     {
       "field": "temperature",
       "requirement": "DVS-34",
-      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "precision": 1,
       "normal_range": {
         "celsius": [
           -40,

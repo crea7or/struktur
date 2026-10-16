@@ -1,13 +1,13 @@
 {
   "requirement_revisions": {
     "DVS-29": 127,
-    "DVS-34": 139,
+    "DVS-34": 142,
     "DVS-39": 108,
     "FUNC-12": 9,
     "FUNC-13": 10,
     "FUNC-14": 7,
-    "FUNC-15": 6,
-    "FUNC-16": 11,
+    "FUNC-15": 8,
+    "FUNC-16": 13,
     "FUNC-17": 13
   },
   "grade": {

@@ -1,7 +1,10 @@
 {
-  "protocol": 1,
-  "path": "onboard-v1",
+  "protocol": 2,
+  "path": "edge-native-v2",
   "qualified_targets": [],
-  "status": "No model/firmware onboard-only source has physical acceptance evidence.",
-  "enablement": "Add reviewed model, exact Garmin part number, firmware major/minor and evidence path/hash only after DVS-34 onboard-source tests, including external temperature sensor pairing/connection. Generate TemperatureQualification.mc with tools/generate_temperature_qualification.py. Never enable using simulator or a self-created path tag."
+  "status": "Native background path enabled with runtime source checks; physical model/firmware qualification remains pending.",
+  "enablement": "qualified_targets records reviewed physical evidence only; an empty evidence list does not disable the guarded native runtime path. Never substitute weather/phone/external values or claim simulator results as physical evidence.",
+  "runtime_source": "Sensor.getInfo().temperature inside TemperatureService only; native-source registry checks before and after the read.",
+  "runtime_enabled": true,
+  "source_guard": "Require Sensor.getRegisteredSensors(SENSOR_TEMPERATURE) to enumerate successfully with no remote/unknown registrations. Empty iterator or only explicit ONBOARD technology is allowed. Null/malformed/oversized metadata is unavailable; disabled remote registrations still block."
 }

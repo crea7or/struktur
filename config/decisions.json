@@ -55,17 +55,17 @@
       "FUNC-15",
       "FUNC-16"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer and hardware verifier",
-    "implementation": "Minimal background acquisition and versioned age-checked Celsius cache. Production model/firmware allowlist is empty until physical onboard-only qualification.",
+    "implementation": "Native Edge temperature background reads with runtime sensor-registration origin checks; no weather/external substitution. Physical qualification is independent.",
     "decision": {
       "background_interval_s": 300,
       "maximum_read_cache_age_s": 360,
       "onboard_only": true,
       "unverified_source": "unavailable"
     },
-    "rationale": "Slow cached device-sensor reading; source-qualified targets only. Cache age cannot prove the physical sample age. No weather/external substitution.",
-    "approval_status": "Explicitly approved by user in this conversation",
+    "rationale": "Enable the requested native device value without an empty firmware allowlist preventing all acquisition. Reject remote/unknown registrations before and after each read. Preserve 300s scheduling and 360s expiry.",
+    "approval_status": "Implementation requested by user; revised source contract and physical qualification remain reviewable separately.",
     "approved_on": "2026-10-14",
     "approved_requirement_revisions": {
       "DVS-34": 21

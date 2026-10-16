@@ -2,6 +2,7 @@ using Toybox.Test;
 using Toybox.Activity;
 using Toybox.Time;
 using Toybox.Math;
+using Toybox.Sensor;
 
 // FUNC-13: fixed regression fixtures, including exactly representable halfway values.
 (:test)
@@ -104,44 +105,73 @@ function lapIdentityAndOverflow(logger) {
 function temperatureProtocolAndAge(logger) {
     var c=new TemperatureCache();
     Test.assert(c.value(1000,0)==null);
-    Test.assertEqual(true,c.receive([1,0,1000,"onboard-v1"],1000,0,true));
+    Test.assertEqual(true,c.receive([2,0,1000,"edge-native-v2"],1000,0,true));
     Test.assertEqual(0,c.value(1000,0));
     Test.assertEqual(0,c.value(1359,359000));
     Test.assertEqual(0,c.value(1360,360000));
     Test.assert(c.value(1361,361000)==null);
-    c=new TemperatureCache(); c.receive([1,10,1000,"onboard-v1"],1000,0,true);
-    Test.assertEqual(false,c.receive([1,20,1000,"onboard-v1"],1100,100000,true));
-    Test.assertEqual(false,c.receive([1,20,999,"onboard-v1"],1100,100000,true));
-    Test.assertEqual(false,c.receive([1,20,1101,"onboard-v1"],1100,100000,true));
-    Test.assertEqual(false,c.receive([2,20,1100,"onboard-v1"],1100,100000,true));
-    Test.assertEqual(false,c.receive([1,20,1100,"external"],1100,100000,true));
+    c=new TemperatureCache(); c.receive([2,10,1000,"edge-native-v2"],1000,0,true);
+    Test.assertEqual(false,c.receive([2,20,1000,"edge-native-v2"],1100,100000,true));
+    Test.assertEqual(false,c.receive([2,20,999,"edge-native-v2"],1100,100000,true));
+    Test.assertEqual(false,c.receive([2,20,1101,"edge-native-v2"],1100,100000,true));
+    Test.assertEqual(false,c.receive([3,20,1100,"edge-native-v2"],1100,100000,true));
+    Test.assertEqual(false,c.receive([2,20,1100,"external"],1100,100000,true));
     Test.assertEqual(false,c.receive("invalid",1100,100000,true));
+    Test.assertEqual(false,c.receive([1,20,1100,"onboard-v1"],1100,100000,true));
     Test.assertEqual(10,c.value(1100,100000));
-    Test.assertEqual(false,c.receive([1,null,1100,"onboard-v1"],1100,100000,true));
+    Test.assertEqual(false,c.receive([2,null,1100,"edge-native-v2"],1100,100000,true));
     Test.assert(c.value(1100,100000)==null); // newer invalid read clears cache
-    Test.assertEqual(false,c.receive([1,20,1000,"onboard-v1"],1100,100000,true));
+    Test.assertEqual(false,c.receive([2,20,1000,"edge-native-v2"],1100,100000,true));
+    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>"temperature","slot_1_background_effects"=>true});
+    var engine=new SnapshotEngine();
+    var samples=[[0,"0.0","32.0","cyan"],[12.34,"12.3","54.2","green"],
+        [1.25,"1.3","34.3","white"],[-1.25,"-1.3","29.8","cyan"],
+        [-0.04,"0.0","31.9","cyan"],[20.04,"20.0","68.1","yellow"],
+        [-40,"-40.0","-40.0","blue"],[60,"60.0","140.0","red"]];
+    for(var i=0;i<samples.size();i+=1) {
+        for(var statute=0;statute<2;statute+=1) {
+            var snapshot=engine.prepareWithPreferences({"temperature"=>samples[i][0]},settings,true,
+                new PresentationDevice(statute==1,true,false),new PresentationClock());
+            Test.assertEqual(samples[i][statute==1?2:1],snapshot[:values][0][:text]);
+            Test.assertEqual(samples[i][3],snapshot[:values][0][:band]);
+        }
+    }
+    var missing=engine.prepareWithPreferences({"temperature"=>null},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
+    Test.assert(missing[:values][0][:text]==null);
     return true;
 }
 
 (:test)
 function temperatureClockAndDelivery(logger) {
     var c=new TemperatureCache();
-    Test.assertEqual(true,c.receive([1,-10,1000,"onboard-v1"],1359,0,true));
+    Test.assertEqual(true,c.receive([2,-10,1000,"edge-native-v2"],1359,0,true));
     Test.assertEqual(-10,c.value(1360,1000));
     Test.assert(c.value(1360,2000)==null); // monotonic guard includes delivery age
     c=new TemperatureCache();
-    Test.assertEqual(false,c.receive([1,0,1000,"onboard-v1"],1361,0,true));
-    c=new TemperatureCache(); c.receive([1,0,1000,"onboard-v1"],1000,0,true);
+    Test.assertEqual(false,c.receive([2,0,1000,"edge-native-v2"],1361,0,true));
+    c=new TemperatureCache(); c.receive([2,0,1000,"edge-native-v2"],1000,0,true);
     Test.assertEqual(0,c.value(1100,100000));
     Test.assert(c.value(1099,101000)==null); // wall-clock rollback
-    c=new TemperatureCache(); c.receive([1,0,1000,"onboard-v1"],1000,1000,true);
+    c=new TemperatureCache(); c.receive([2,0,1000,"edge-native-v2"],1000,1000,true);
     Test.assert(c.value(1001,999)==null); // timer wrap/rollback fails conservatively
-    c=new TemperatureCache(); c.receive([1,0,1000,"onboard-v1"],1000,0,true);
+    c=new TemperatureCache(); c.receive([2,0,1000,"edge-native-v2"],1000,0,true);
     Test.assert(c.value(1400,1000)==null); // forward clock change
-    c=new TemperatureCache(); c.receive([1,0,1000,"onboard-v1"],1000,0,true);
-    Test.assertEqual(false,c.receive([1,20,1100,"onboard-v1"],1100,100000,false));
+    c=new TemperatureCache(); c.receive([2,0,1000,"edge-native-v2"],1000,0,true);
+    Test.assertEqual(false,c.receive([2,20,1100,"edge-native-v2"],1100,100000,false));
     Test.assert(c.value(1100,100000)==null);
     return true;
+}
+
+(:testSupport)
+class TemperatureRegistration {
+    var type=Sensor.SENSOR_TEMPERATURE;var technology;
+    function initialize(tech) { technology=tech; }
+}
+(:testSupport)
+class TemperatureRegistry {
+    var sensors;var index=0;
+    function initialize(items) { sensors=items; }
+    function next() { if(index>=sensors.size()) { return null; } var item=sensors[index];index+=1;return item; }
 }
 
 (:test)
@@ -150,10 +180,23 @@ function temporalAndSourceQualification(logger) {
     Test.assertEqual(1300,TemperatureSchedule.earliest(1000,1000));
     Test.assertEqual(1300,TemperatureSchedule.earliest(1300,1000));
     Test.assertEqual(1400,TemperatureSchedule.earliest(1400,1000));
-    Test.assertEqual(false,TemperatureQualification.qualified("unqualified",[99,99]));
+    Test.assertEqual(true,TemperatureSource.registeredOnboard(new TemperatureRegistry([])));
+    Test.assertEqual(true,TemperatureSource.registeredOnboard(new TemperatureRegistry([new TemperatureRegistration(Sensor.SENSOR_TECHNOLOGY_ONBOARD)])));
+    Test.assertEqual(false,TemperatureSource.registeredOnboard(null));
+    Test.assertEqual(false,TemperatureSource.registeredOnboard({}));
+    var technologies=[Sensor.SENSOR_TECHNOLOGY_ANT,Sensor.SENSOR_TECHNOLOGY_BLE,null,99,2.0];
+    for(var i=0;i<technologies.size();i+=1) {
+        Test.assertEqual(false,TemperatureSource.registeredOnboard(new TemperatureRegistry([new TemperatureRegistration(technologies[i])])));
+    }
+    Test.assertEqual(false,TemperatureSource.registeredOnboard(new TemperatureRegistry([{}])));
+    var wrong=new TemperatureRegistration(Sensor.SENSOR_TECHNOLOGY_ONBOARD);wrong.type=Sensor.SENSOR_HEARTRATE;
+    Test.assertEqual(false,TemperatureSource.registeredOnboard(new TemperatureRegistry([wrong])));
+    var many=[];
+    for(var n=0;n<33;n+=1) { many.add(new TemperatureRegistration(Sensor.SENSOR_TECHNOLOGY_ONBOARD)); }
+    Test.assertEqual(false,TemperatureSource.registeredOnboard(new TemperatureRegistry(many)));
     var c=new TemperatureCache();
-    Test.assertEqual(false,c.receive([1,20,1000,"onboard-v1"],1000,0,false));
-    Test.assert(c.value(1000,0)==null); // a self-created source tag is not qualification
+    Test.assertEqual(false,c.receive([2,20,1000,"edge-native-v2"],1000,0,false));
+    Test.assert(c.value(1000,0)==null); // callback admission and packet compatibility remain mandatory
     return true;
 }
 
@@ -284,16 +327,16 @@ function acquisitionToSnapshot(logger) {
     var s=new DisplaySettings();
     s.apply({"slot_1_value"=>15,"slot_2_value"=>15,"slot_3_value"=>24,"slot_4_value"=>24,"slot_5_value"=>20,"slot_6_value"=>20,
         "slot_1_background_effects"=>true,"slot_2_background_effects"=>true,"slot_5_background_effects"=>true,"slot_6_background_effects"=>true});
-    var cache=new TemperatureCache(); cache.receive([1,0,1000,"onboard-v1"],1000,0,true);
+    var cache=new TemperatureCache(); cache.receive([2,0,1000,"edge-native-v2"],1000,0,true);
     raw["temperature"]=cache.value(1000,0);
     var e=new SnapshotEngine(); var snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(false,true,false),new PresentationClock());
     Test.assertEqual(snap[:values][0][:text],snap[:values][1][:text]);
     Test.assertEqual("red",snap[:values][0][:band]);
     Test.assertEqual("1",snap[:values][2][:text]); Test.assertEqual("1",snap[:values][3][:text]);
     Test.assertEqual("cyan",snap[:values][4][:band]); Test.assertEqual("cyan",snap[:values][5][:band]);
-    Test.assertEqual("0.00",snap[:values][4][:text]);
+    Test.assertEqual("0.0",snap[:values][4][:text]);
     snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(true,true,false),new PresentationClock());
-    Test.assertEqual("32.00",snap[:values][4][:text]); Test.assertEqual("cyan",snap[:values][4][:band]);
+    Test.assertEqual("32.0",snap[:values][4][:text]); Test.assertEqual("cyan",snap[:values][4][:band]);
     raw["temperature"]=cache.value(1361,361000);
     snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(true,true,false),new PresentationClock());
     Test.assert(snap[:values][4][:text]==null);
@@ -344,14 +387,14 @@ function acquisitionInvalidInputs(logger) {
         Test.assert(g.push(0,invalid[i],1000,true,100)==null);
         Test.assert(g.push(0,10,invalid[i],true,100)==null);
         var c=new TemperatureCache();
-        Test.assertEqual(false,c.receive([1,invalid[i],1000,"onboard-v1"],1000,0,true));
+        Test.assertEqual(false,c.receive([2,invalid[i],1000,"edge-native-v2"],1000,0,true));
         Test.assert(c.value(1000,0)==null);
     }
     Test.assert(g.push(0,-1,1000,true,100)==null);
     Test.assert(g.push(0,10,-1,true,100)==null);
     Test.assert(g.push(0,10,1000,null,100)==null);
     var packetCache=new TemperatureCache();
-    Test.assertEqual(false,packetCache.receive([1.0,0,1000,"onboard-v1"],1000,0,true));
-    Test.assertEqual(false,packetCache.receive([1,0,1000.0,"onboard-v1"],1000,0,true));
+    Test.assertEqual(false,packetCache.receive([2.0,0,1000,"edge-native-v2"],1000,0,true));
+    Test.assertEqual(false,packetCache.receive([2,0,1000.0,"edge-native-v2"],1000,0,true));
     return true;
 }

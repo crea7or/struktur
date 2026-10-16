@@ -1,4 +1,4 @@
-"""Generate an explicit, fail-closed physical source allowlist; no guessed models."""
+"""Generate physical qualification records; runtime sensor-origin checks are separate."""
 import hashlib
 import json
 import sys
@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def main():
     data=json.loads((ROOT/'config/temperature-qualification.json').read_text(encoding='utf-8'))
-    assert data['protocol']==1 and data['path']=='onboard-v1'
+    assert data['protocol']==2 and data['path']=='edge-native-v2' and data['runtime_enabled'] is True
     entries=[]
     for item in data['qualified_targets']:
         assert item['model'] in {d['id'] for d in json.loads((ROOT/'config/devices.json').read_text(encoding='utf-8'))}
@@ -22,7 +22,7 @@ def main():
         entries.append([item['part_number'],*item['firmware']])
     text='''using Toybox.System;
 using Toybox.Lang;
-// Generated from reviewed physical evidence. An empty allowlist disables source use.
+// Physical qualification evidence only. Runtime checks are in TemperatureSource.
 (:background)
 module TemperatureQualification {
     const TARGETS = %s;
@@ -47,6 +47,6 @@ module TemperatureQualification {
     path=ROOT/'source/TemperatureQualification.mc'
     if '--check' in sys.argv:
         assert path.read_text(encoding='utf-8')==text,'Temperature qualification source is stale; regenerate from reviewed evidence.'
-    else:path.write_text(text,encoding='utf-8')
-    print('Generated '+str(len(entries))+' physically qualified temperature target/firmware entries.')
+    else:path.write_text(text,encoding='utf-8',newline='\n')
+    print('Temperature: guarded native background path enabled; '+str(len(entries))+' physically qualified target/firmware entries (separate evidence).')
 if __name__=='__main__':main()

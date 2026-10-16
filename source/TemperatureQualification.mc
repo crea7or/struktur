@@ -1,6 +1,6 @@
 using Toybox.System;
 using Toybox.Lang;
-// Generated from reviewed physical evidence. An empty allowlist disables source use.
+// Physical qualification evidence only. Runtime checks are in TemperatureSource.
 (:background)
 module TemperatureQualification {
     const TARGETS = [];

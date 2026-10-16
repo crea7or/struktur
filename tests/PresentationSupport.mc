@@ -403,7 +403,7 @@ function verifyWhiteTemperatureContrast() {
         for(var n=0;n<snapshot[:values].size();n+=1) { dc.paintEffects.add(snapshot[:values][n][:band]!=null || snapshot[:values][n][:angle]!=null); }
         var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.prepare(snapshot);renderer.draw(dc,snapshot,settings);
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,0),renderer._runs.size());
-        for(var f=0;f<renderer._runs.size();f+=1) { Test.assertEqual("5.00",renderer._runs[f][:text]); }
+        for(var f=0;f<renderer._runs.size();f+=1) { Test.assertEqual("5.0",renderer._runs[f][:text]); }
         Test.assertEqual(night==1?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_WHITE,dc.records[0][:fills][1]);
         Test.assertEqual(Graphics.COLOR_BLACK,dc.records[0][:texts][0][:color]);
@@ -473,7 +473,7 @@ class CustomBackgroundScenario {
     function run() {
         raw={};sample();Test.assertEqual(gray,snapshot[:values][0][:band]);Test.assert(snapshot[:values][0][:angle]==null);
         raw[id]=value;sample();Test.assertEqual(color,snapshot[:values][0][:band]);
-        Test.assertEqual(index==0?"6.8":(index==1?"5.00":(index<5?"160":"250")),snapshot[:values][0][:text]);
+        Test.assertEqual(index==0?"6.8":(index==1?"5.0":(index<5?"160":"250")),snapshot[:values][0][:text]);
         if(index==0) { Test.assertEqual(13.6,snapshot[:values][0][:angle]); }
         else { Test.assert(snapshot[:values][0][:angle]==null); }
         raw[id]=0;sample();

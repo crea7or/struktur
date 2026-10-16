@@ -16,7 +16,8 @@ class StrukturApp extends Application.AppBase {
     function getServiceDelegate() { return [new TemperatureService()]; }
     function onBackgroundData(data) {
         if(_temperature==null) { _temperature=new TemperatureCache(); }
-        _temperature.receive(data,Time.now().value(),System.getTimer(),TemperatureQualification.current());
+        // Garmin delivers this callback only from this app's owned background worker.
+        _temperature.receive(data,Time.now().value(),System.getTimer(),true);
         if(_view!=null) { _view.refreshPresentation(); }
         WatchUi.requestUpdate();
     }

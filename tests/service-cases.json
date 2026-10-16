@@ -1,5 +1,5 @@
 {
-  "status": "Versioned test definitions and requirement revisions. Execution evidence is source-specific and separate.",
+  "status": "Exact current definitions and revisions; temperature precision changes remain Draft. Execution evidence is separate.",
   "cases": [
     {
       "key": "floatingBoundaries",
@@ -94,7 +94,7 @@
       "requirement_revisions": {
         "DVS-43": 57,
         "DVS-44": 46,
-        "DVS-49": 45
+        "DVS-49": 47
       },
       "definition": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-43]], [[DVS-44]], [[DVS-49]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-4",
@@ -127,8 +127,8 @@
       },
       "definition": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and false/off effect defaults for every slot, including constructor initialization and missing/null/malformed properties. Check valid saved true and false choices across restart, hidden slots, duplicate assignments and field reassignment; neither choice may be overwritten by the new default. Keep hide_value_units and inverse_enlarged_theme defaults unchanged. Require neutral effect backgrounds with fresh settings, and verify that explicitly enabling individual slots still activates the appropriate effect. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-5",
-      "revision": 16,
-      "status": "draft",
+      "revision": 18,
+      "status": "approved",
       "suite": "Core",
       "implementation_status": "Implemented all-slot off defaults, malformed fallback, saved choices and hidden/reassigned slot preservation; matching-source results are separate.",
       "suite_stable_id": "TRGR-1"
@@ -157,8 +157,8 @@
       },
       "definition": "Purpose: Unit conversion and clock/duration formats.\n\nRequirement references: [[DVS-13]], [[DVS-30]], [[DVS-31]], [[DVS-5]], [[DVS-32]], [[SPEC-157]].\n\nProcedure and expected results: Check 10m/s -> 36km/h, 1609.344m -> 1mi and 0C -> 32F. Use the exact boundary cases in [[DVS-13]] through 100h, including omission of seconds at 10h. Verify separate timer/elapsed paths, invalid times and both clock modes with the [[DVS-5]] header indicator. Retain [[DVS-42]] zone classification checks.\n\nExecutable source to update/verify: `tests/CoreTests.mc`, `unitsAndExplicitFormatPolicy`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-6",
-      "revision": 15,
-      "status": "draft",
+      "revision": 17,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -186,8 +186,8 @@
       },
       "definition": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-28]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-7",
-      "revision": 16,
-      "status": "draft",
+      "revision": 18,
+      "status": "approved",
       "suite": "Placement",
       "suite_stable_id": "TRGR-2"
     },
@@ -217,8 +217,8 @@
       },
       "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 32 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.",
       "stable_id": "TFNC-8",
-      "revision": 21,
-      "status": "draft",
+      "revision": 23,
+      "status": "approved",
       "suite": "Core",
       "additional_functions": [
         "composedHeaderWidthAudit",
@@ -347,7 +347,7 @@
         "DVS-31": 44,
         "DVS-32": 47,
         "DVS-33": 34,
-        "DVS-34": 139,
+        "DVS-34": 142,
         "DVS-35": 29,
         "DVS-36": 70,
         "DVS-37": 30,
@@ -371,8 +371,8 @@
       },
       "definition": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nSuite: Core. Default fast regression only; deliberately rejected layouts belong to Placement.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[APP-49]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check the shared R=max(label line height, band height) value inset for enabled and disabled effects, separators and theme inversion. Independently verify the minimum padded-height calculation and full-glyph/halo safety bound against all supported complete headers: currently H=30 px for the 21 px label role and H=46 px for the 35 px label role. Require unchanged cached H across redraws and assignment/unit/theme/inversion changes, common band edges for headers with different ascenders/descenders, complete glyph/halo containment and aligned primary-value centers. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with the same cached catalogue-wide smallest safe padded band height in every regular/enlarged cell, independently of label glyphs, unit visibility, clock indicators and field assignment; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. For all 32 field assignments, verify that every enabled known field receives the neutral-gray label default whenever it has no valid custom effect, including missing/invalid/unqualified/expired readings, unavailable or unsupported zone metadata, and standalone zone/lap fields; unknown identifiers stay ordinary. Require exact #CCCCCC Day and #333333 Night fills, including enlarged inversion, ordinary value areas, independent duplicates and hidden slots. Exercise enable/disable, valid/unavailable values, theme/inversion changes and reassignment to/from grade and other custom fields without stale fills. Validate revised small-cell guarantees with band/halo clearance. Check effect-band header contrast and label-only clipped halos, plus valid grade's unchanged sky/ground geometry and text halos. Verify all eight custom-effect field types switch from valid custom color to gray default and back without stale colors/geometry or lost valid numeric values. Cover valid zero grade, temperature and power, preserve white temperature bands in Night, and require no horizon for unavailable grade. Disabled effects remain ordinary. No `!` or compact substitution may pass a guaranteed normal case.\n\nGrid type Core procedure: Run gridTypeAndRepaint across both alignments, Day/Night, enlarged-theme inversion on/off and all native enlargement counts. Require Horizontal lines as constructor and missing/null/malformed fallback; accept numeric codes 0/1/2 and canonical none/horizontal/full identifiers, and ignore retired show_grid. In one reused renderer, switch Horizontal/None/Full/None/Horizontal/Full. Independently check the exact pattern line counts, horizontal/vertical orientations, clipping and [[HFER-7]]/[[HFER-8]] palette gradients for the selected type, without reading alignment to choose the style. None must issue zero drawLine calls. Require unchanged cell drawing records, field-fit/layout/geometry/font-load counters, backgrounds and grade polygons during grid-only changes. Compact fallback remains separator-free under every choice. Acquisition state must not reset.\n\nCache/drawing Core procedure: Run snapshotCacheInvalidation, rendererCacheAndDrawPurity and optionalRuntimeQueries from tests/PerformanceTests.mc. Require ten bounded assignment caches, unchanged-input formatting/header reuse, selective value/header/unit/clock invalidation and immutable published value text. Instrument actual production rendering to require zero unchanged refits/geometry rebuilds, exactly one refit for one changed normal cell, unchanged-angle polygon reuse and style refresh on theme/effect-kind changes. Lock layout/metric/color preparation during drawing and require the prepared graphics path to succeed. Check battery selection includes hidden slots, clock selection follows retained assignments, and normal callbacks leave runtime diagnostics disabled. Keep existing drawing/format/acquisition correctness assertions; Core performs no memory sampling. Requirements: [[APP-26]], [[APP-12]], [[APP-8]], [[APP-32]], [[APP-37]], [[DVS-35]], [[SPEC-157]].\n\nPlacement-only assertions are defined by the separate Placement suite and its linked Tests; do not execute them through this Core definition.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.\n\nPrimary executable: `tests/PresentationTests.mc`, named test `normalPresentationDrawAndAlignment`. Other named Core checks have their own linked Test definitions; no Memory or Placement execution is implied.",
       "stable_id": "TUI-1",
-      "revision": 75,
-      "status": "draft",
+      "revision": 77,
+      "status": "approved",
       "additional_sources": [
         "tests/NormalRangeTests.mc",
         "tests/limits"
@@ -405,8 +405,8 @@
       },
       "definition": "Purpose: Five-sample grade regression.\n\nRequirement references: [[DVS-29]], [[FUNC-12]], [[FUNC-13]], [[DVS-2]], [[DVS-36]].\n\nProcedure and expected results: Check valid zero warm-up with one/two samples, five-point FIFO eviction, zero/positive/negative slopes, repeated distance, near-zero and negative denominators, non-finite sums and two-decimal rounding. With x=0,10,20 and y=100,101,102, require 10.00%; verify finite grade above 100 is not clamped. Require the same rounded estimate for value and effects; exercise formatting separately. There is no 30m window or interpolated anchor.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`; replace the obsolete `gradeDistanceWindow` fixture with a regression fixture.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-10",
-      "revision": 17,
-      "status": "draft",
+      "revision": 19,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -430,8 +430,8 @@
       },
       "definition": "Purpose: Grade discontinuity and bounded history.\n\nRequirement references: [[DVS-29]], [[FUNC-12]], [[FUNC-14]].\n\nProcedure and expected results: Check ignored duplicate timestamps, three-second no-progress invalidation and recovery on progress. Exactly 2000ms gaps are permitted; 2001ms, counter regression, identity change and non-running/invalid input reset as specified. Across 150 inputs retain at most five samples, independently of duplicate slots/settings/drawing. This is not a heap measurement.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`, `gradeResetAndBounds`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-11",
-      "revision": 13,
-      "status": "draft",
+      "revision": 15,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -451,8 +451,8 @@
       },
       "definition": "Purpose: Known-zero lap baseline and pause/reset lifecycle.\n\nRequirement references: [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Late attachment remains unknown despite start/lap callbacks. A proven fresh snapshot/reset sequence establishes zero; confirmed notifications increment once. Pause/stop/start preserve the count; old/end-session notifications cannot leak into a new session.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapBaselineLifecycle`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-12",
-      "revision": 13,
-      "status": "draft",
+      "revision": 15,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -474,14 +474,14 @@
       },
       "definition": "Purpose: Lap identity, regression and overflow invalidation.\n\nRequirement references: [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Reject incomplete or ambiguous zero-baseline snapshots. Invalidate on changed identity, each timer/elapsed/distance regression, confirmed continuity loss and counter overflow; never wrap or fabricate a total.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapIdentityAndOverflow`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-13",
-      "revision": 12,
-      "status": "draft",
+      "revision": 14,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
     {
       "key": "temperatureProtocolAndAge",
-      "title": "Temperature packet and cache-age boundaries",
+      "title": "Temperature packet, cache-age and display precision boundaries",
       "category": "functional",
       "runner": "logic",
       "function": "temperatureProtocolAndAge",
@@ -491,15 +491,15 @@
         "FUNC-15",
         "FUNC-16"
       ],
-      "procedure": "Exercise protocol-1 four-element onboard-v1 packets with synthetic qualification. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Synthetic qualification does not certify onboard provenance.",
+      "procedure": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]]; [[FUNC-15]], [[FUNC-16]]\n\nProcedure and expected results: Exercise owned protocol-2 four-element edge-native-v2 packets. Reject protocol-1/onboard-v1 packets from earlier builds. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Through SnapshotEngine, also verify exactly one fractional digit in Celsius and Fahrenheit, trailing zeros, positive and negative half rounding, negative-zero suppression, null/unavailable values, and color bands selected from unrounded Celsius. Cover normal-range temperature endpoints and interior values via normalRangeFormatting and normalRangeCellBounds. Synthetic packets do not certify physical source provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-34": 139,
-        "FUNC-15": 6,
-        "FUNC-16": 11
+        "DVS-34": 142,
+        "FUNC-15": 8,
+        "FUNC-16": 13
       },
-      "definition": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]]; [[FUNC-15]], [[FUNC-16]]\n\nProcedure and expected results: Exercise protocol-1 four-element onboard-v1 packets with synthetic qualification. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Synthetic qualification does not certify onboard provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]]; [[FUNC-15]], [[FUNC-16]]\n\nProcedure and expected results: Exercise owned protocol-2 four-element edge-native-v2 packets. Reject protocol-1/onboard-v1 packets from earlier builds. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Through SnapshotEngine, also verify exactly one fractional digit in Celsius and Fahrenheit, trailing zeros, positive and negative half rounding, negative-zero suppression, null/unavailable values, and color bands selected from unrounded Celsius. Cover normal-range temperature endpoints and interior values via normalRangeFormatting and normalRangeCellBounds. Synthetic packets do not certify physical source provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-14",
-      "revision": 13,
+      "revision": 18,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
@@ -515,21 +515,21 @@
         "DVS-34",
         "FUNC-16"
       ],
-      "procedure": "Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and loss of source qualification. Invalidated values remain unavailable.",
+      "procedure": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]]; [[FUNC-16]]\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and rejection of non-owned worker delivery. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-34": 139,
-        "FUNC-16": 11
+        "DVS-34": 142,
+        "FUNC-16": 13
       },
-      "definition": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]]; [[FUNC-16]]\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and loss of source qualification. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]]; [[FUNC-16]]\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and rejection of non-owned worker delivery. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-15",
-      "revision": 12,
+      "revision": 16,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
     {
       "key": "temporalAndSourceQualification",
-      "title": "Legal temperature scheduling and closed source gate",
+      "title": "Legal temperature scheduling and runtime source guards",
       "category": "functional",
       "runner": "logic",
       "function": "temporalAndSourceQualification",
@@ -539,15 +539,15 @@
         "DVS-34",
         "FUNC-15"
       ],
-      "procedure": "Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. An unqualified model/firmware or self-created source tag must not enable acquisition/cache. This tests scheduling calculations and fail-closed qualification, not actual background-event delivery.",
+      "procedure": "Purpose: Legal temperature scheduling and runtime source guards.\n\nRequirement references: [[DVS-34]], [[APP-38]]; [[FUNC-15]]\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. Check that an empty native registry and explicitly ONBOARD temperature metadata permit reads; reject null/missing/malformed metadata, ANT/BLE and unknown technology, non-numeric technology, wrong sensor types and more than 32 entries, regardless of connection state. Verify that the worker checks metadata before and after Sensor.getInfo, while foreground accepts only its owned compatible packet. Preserve clock/cache and invalid-value cases. Physical qualification remains separate; these fixtures do not certify real-device provenance or actual event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "APP-38": 40,
-        "DVS-34": 139,
-        "FUNC-15": 6
+        "DVS-34": 142,
+        "FUNC-15": 8
       },
-      "definition": "Purpose: Legal temperature scheduling and closed source gate.\n\nRequirement references: [[DVS-34]], [[APP-38]]; [[FUNC-15]]\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. An unqualified model/firmware or self-created source tag must not enable acquisition/cache. This tests scheduling calculations and fail-closed qualification, not actual background-event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: Legal temperature scheduling and runtime source guards.\n\nRequirement references: [[DVS-34]], [[APP-38]]; [[FUNC-15]]\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. Check that an empty native registry and explicitly ONBOARD temperature metadata permit reads; reject null/missing/malformed metadata, ANT/BLE and unknown technology, non-numeric technology, wrong sensor types and more than 32 entries, regardless of connection state. Verify that the worker checks metadata before and after Sensor.getInfo, while foreground accepts only its owned compatible packet. Preserve clock/cache and invalid-value cases. Physical qualification remains separate; these fixtures do not certify real-device provenance or actual event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-16",
-      "revision": 13,
+      "revision": 17,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
@@ -571,17 +571,17 @@
       "procedure": "Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.",
       "requirement_revisions": {
         "DVS-29": 127,
-        "DVS-34": 139,
+        "DVS-34": 142,
         "DVS-36": 70,
         "DVS-39": 108,
         "FUNC-13": 10,
-        "FUNC-16": 11,
+        "FUNC-16": 13,
         "FUNC-17": 13
       },
       "definition": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]]; [[FUNC-13]], [[FUNC-16]], [[FUNC-17]]\n\nProcedure and expected results: Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-17",
-      "revision": 17,
-      "status": "draft",
+      "revision": 19,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -605,8 +605,8 @@
       },
       "definition": "Purpose: Data Field callbacks preserve lap continuity.\n\nRequirement references: [[APP-32]], [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `datafieldCallbackIsolation`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-18",
-      "revision": 13,
-      "status": "draft",
+      "revision": 15,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -629,15 +629,15 @@
       "requirement_revisions": {
         "APP-33": 33,
         "DVS-29": 127,
-        "DVS-34": 139,
+        "DVS-34": 142,
         "FUNC-12": 9,
         "FUNC-14": 7,
-        "FUNC-16": 11
+        "FUNC-16": 13
       },
       "definition": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]]; [[FUNC-12]], [[FUNC-14]], [[FUNC-16]]\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-19",
-      "revision": 16,
-      "status": "draft",
+      "revision": 18,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -747,8 +747,8 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-22",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "requirement_revisions": {
         "DVS-8": 40,
         "DVS-9": 32,
@@ -775,8 +775,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-2",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "DVS-12": 83,
         "DVS-50": 46,
@@ -801,8 +801,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-3",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "DVS-50": 46,
         "DVS-4": 45,
@@ -827,8 +827,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-4",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "APP-20": 69,
         "APP-24": 72,
@@ -854,8 +854,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-5",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "SPEC-155": 52,
         "FUNC-11": 14,
@@ -880,8 +880,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-6",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "APP-24": 72,
         "APP-28": 56,
@@ -906,8 +906,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-7",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "DVS-6": 50,
         "APP-36": 55,
@@ -935,8 +935,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-8",
-      "revision": 8,
-      "status": "draft",
+      "revision": 10,
+      "status": "approved",
       "requirement_revisions": {
         "APP-22": 51,
         "APP-26": 26,
@@ -964,8 +964,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-9",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "APP-24": 72,
         "DVS-13": 62,
@@ -990,8 +990,8 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-23",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "DVS-41": 43,
         "DVS-47": 61,
@@ -1016,8 +1016,8 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-24",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "DVS-42": 26,
         "DVS-45": 20,
@@ -1047,8 +1047,8 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-25",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "requirement_revisions": {
         "FUNC-3": 18,
         "FUNC-4": 14,
@@ -1077,8 +1077,8 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-26",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "FUNC-9": 15,
         "FUNC-10": 13,
@@ -1103,8 +1103,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-10",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "APP-34": 59,
         "DVS-2": 52,
@@ -1131,8 +1131,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-11",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "requirement_revisions": {
         "APP-24": 72,
         "APP-34": 59,
@@ -1159,8 +1159,8 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-4",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "requirement_revisions": {
         "APP-26": 26,
         "DVS-4": 45,
@@ -1187,8 +1187,8 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-5",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "APP-26": 26,
         "APP-12": 15,
@@ -1213,8 +1213,8 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-6",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "APP-26": 26,
         "APP-37": 23,
@@ -1238,8 +1238,8 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-7",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "APP-47": 14,
         "APP-48": 16,
@@ -1263,8 +1263,8 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-8",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "APP-25": 25,
         "APP-28": 56,
@@ -1289,8 +1289,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-12",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "requirement_revisions": {
         "APP-24": 72,
         "APP-28": 56,
@@ -1318,8 +1318,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-13",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "requirement_revisions": {
         "APP-20": 69,
         "APP-21": 63,
@@ -1346,8 +1346,8 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-14",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "requirement_revisions": {
         "APP-24": 72,
         "APP-34": 59,
@@ -1372,8 +1372,8 @@
       "category": "performance",
       "runner": "runtime",
       "stable_id": "TPRF-9",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "requirement_revisions": {
         "APP-47": 14,
         "APP-48": 16,

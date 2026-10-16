@@ -24,11 +24,11 @@ class TemperatureCache {
         if(!ok) { _value=null; }
         return ok;
     }
-    function receive(packet,wall,mono,qualified) {
+    function receive(packet,wall,mono,fromWorker) {
         if(!clocks(wall,mono)) { return false; }
-        if(qualified!=true) { _value=null; return false; }
-        if(!(packet instanceof Lang.Array) || packet.size()!=4 || !(packet[0] instanceof Lang.Number) || packet[0]!=1 ||
-            !(packet[3] instanceof Lang.String) || !"onboard-v1".equals(packet[3])) { return false; }
+        if(fromWorker!=true) { _value=null; return false; }
+        if(!(packet instanceof Lang.Array) || packet.size()!=4 || !(packet[0] instanceof Lang.Number) || packet[0]!=TemperatureSource.PROTOCOL ||
+            !(packet[3] instanceof Lang.String) || !TemperatureSource.PATH.equals(packet[3])) { return false; }
         var stamp=packet[2];
         if(!(stamp instanceof Lang.Number) && !(stamp instanceof Lang.Long)) { return false; }
         if(stamp<0 || stamp>wall || (_watermark!=null && stamp<=_watermark)) { return false; }
@@ -44,6 +44,32 @@ class TemperatureCache {
         return _value;
     }
     function hasValue() { return _value!=null; }
+}
+
+// Runtime source checks are independent of physical-device qualification records.
+(:background)
+module TemperatureSource {
+    const PROTOCOL=2;
+    const PATH="edge-native-v2";
+    function registeredOnboard(iterator) {
+        if(iterator==null || !(iterator has :next)) { return false; }
+        var count=0;var sensor=iterator.next();
+        while(sensor!=null && count<32) {
+            if(!(sensor has :type) || !(sensor.type instanceof Lang.Number) || sensor.type!=Sensor.SENSOR_TEMPERATURE ||
+                !(sensor has :technology) || !(sensor.technology instanceof Lang.Number) || sensor.technology!=Sensor.SENSOR_TECHNOLOGY_ONBOARD) { return false; }
+            count+=1;sensor=iterator.next();
+        }
+        return sensor==null;
+    }
+    function read() {
+        if(!(Sensor has :getRegisteredSensors) || !(Sensor has :getInfo)) { return null; }
+        // Reject even disabled paired remote sensors: connection/enable state cannot prove origin.
+        if(!registeredOnboard(Sensor.getRegisteredSensors(Sensor.SENSOR_TEMPERATURE))) { return null; }
+        var info=Sensor.getInfo();var value=info has :temperature?info.temperature:null;
+        // Recheck metadata in case pairing changed while the reading was retrieved.
+        if(!registeredOnboard(Sensor.getRegisteredSensors(Sensor.SENSOR_TEMPERATURE))) { return null; }
+        return Numeric.finite(value)?value:null;
+    }
 }
 
 (:background)
@@ -64,16 +90,10 @@ class TemperatureService extends System.ServiceDelegate {
     function onTemporalEvent() {
         var celsius=null;
         try {
-            if(TemperatureQualification.current()) {
-                var info=Sensor.getInfo();
-                if(info has :temperature) {
-                    var value=info.temperature;
-                    if(Numeric.finite(value)) { celsius=value; }
-                }
-            }
+            celsius=TemperatureSource.read();
         } catch(e) {}
         var readTime=Time.now().value();
         try { Background.registerForTemporalEvent(new Time.Duration(300)); } catch(e) {}
-        Background.exit([1,celsius,readTime,"onboard-v1"]);
+        Background.exit([TemperatureSource.PROTOCOL,celsius,readTime,TemperatureSource.PATH]);
     }
 }

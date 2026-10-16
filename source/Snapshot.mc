@@ -117,7 +117,7 @@ class SnapshotEngine {
                 var duration=Formatting.durationParts(value,PresentationPolicy.PAD_LEADING_MINUTES);
                 text=duration[0]; unit=duration[1];
             }
-            else if("speed".equals(kind) || "grade".equals(id)) {
+            else if("speed".equals(kind) || "grade".equals(id) || "temperature".equals(kind)) {
                 text=Formatting.fixed(value,1);
             }
             else if("elevation".equals(id)) { text=Formatting.integral(value); }

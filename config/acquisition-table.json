@@ -529,12 +529,12 @@
   {
     "identifier": "temperature",
     "requirement": "DVS-34",
-    "version": 139,
-    "source": "Sensor.getInfo().temperature only inside qualified background TemperatureService.onTemporalEvent; 4-element protocol-1 onboard-v1 packet.",
-    "context": "Background/Sensor permissions; API >=2.3 path preserves manifest 2.4.0. Empty exact-part-number/firmware allowlist: production stays unavailable until physical provenance acceptance.",
+    "version": 142,
+    "source": "Sensor.getInfo().temperature inside TemperatureSource.read in background TemperatureService; four-element protocol-2 edge-native-v2 packet.",
+    "context": "Background/Sensor permissions; Sensor.getRegisteredSensors(SENSOR_TEMPERATURE) must be available. Empty or explicitly onboard-only registry before and after read. No foreground sensor calls.",
     "raw_type": "nullable numeric",
     "raw_unit": "Celsius",
-    "validity": "Qualified onboard-only model/firmware, correct packet types/protocol/path and finite Celsius; valid 0; age 0..360 inclusive; no future/out-of-order reads.",
+    "validity": "Owned background packet, correct protocol/path/types and finite Celsius including zero. Remote/unknown/malformed registrations block reads. Age 0..360 inclusive; no future/out-of-order refresh.",
     "trigger": "Earliest legal initial temporal event, then 300s interval; AppBase.onBackgroundData receipt, age rechecked in compute/settings/show.",
     "clock": "UTC read timestamp (not physical sample timestamp), read/delivery age plus monotonic receipt-age guard.",
     "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
@@ -552,8 +552,8 @@
       "temporalAndSourceQualification",
       "acquisitionToSnapshot"
     ],
-    "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
-    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "physical_qualification": "Pending; runtime source checks enable acquisition without claiming firmware/source qualification.",
+    "presentation_precision": 1,
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "temperature"
   },

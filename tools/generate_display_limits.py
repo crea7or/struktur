@@ -40,7 +40,7 @@ def formatted(field, value, clock24=True):
     if fmt=='clock':
         hour=int(value)//60; minute=int(value)%60
         return (f'{hour:02}:{minute:02}' if clock24 else f'{hour%12 or 12}:{minute:02}'), ''
-    if unit=='speed' or field['id']=='grade': return f'{rounded(value,1):.1f}', ''
+    if unit=='speed' or field['id'] in ['grade','temperature']: return f'{rounded(value,1):.1f}', ''
     if fmt=='integer' or field['id']=='elevation': return str(int(rounded(value,0))), ''
     for precision in [2,1,0]:
         result=rounded(value,precision)
@@ -56,7 +56,7 @@ def segments(field, low, high, clock24):
     elif fmt=='clock':
         candidates=[(0,1439)] if clock24 else [(0,59),(60,599),(600,779),(780,1319),(1320,1439)]
         step=1
-    elif field['unit']=='speed' or field['id']=='grade':
+    elif field['unit']=='speed' or field['id'] in ['grade','temperature']:
         candidates=[(-99.9,-10),(-9.9,-0.1),(0,9.9),(10,99.9),(100,199.9)]; step=0.1
     elif fmt=='integer' or field['id']=='elevation':
         candidates=[(-1000,-1000),(-999,-100),(-99,-10),(-9,-1),(0,9),(10,99),(100,999),(1000,9999),(10000,99999)]; step=1
