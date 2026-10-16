@@ -13,6 +13,7 @@ from PIL import Image, ImageDraw, ImageFont, __version__ as pillow_version
 from font_glyphs import glyph_contract, input_inventory
 
 ROOT=Path(__file__).resolve().parents[1]
+# Match .gitattributes on Windows: reproducible text outputs always use LF.
 HASHES={'Roboto_Condensed_Black.ttf':'a365617457f4e9800347655478132461565b28c563076f38a6294f6403b1fba9',
         'Roboto_Condensed_SemiBold.ttf':'dd9178d15b5e84f849ed158d336ae7184289488b114b891fb3a83fe11728d6d3'}
 def names(path):
@@ -74,7 +75,7 @@ def atlas(path,size,glyphs,output,name):
             f'common lineHeight={line} base={ascent} scaleW={width} scaleH={height} pages=1 packed=0',
             f'page id=0 file="{name}.png"',f'chars count={len(cells)}']
     header.extend(f'char id={ord(ch)} x={x} y={y} width={w} height={h} xoffset={left} yoffset={top} xadvance={advance} page=0 chnl=15' for ch,x,y,w,h,left,top,advance in cells)
-    (output/(name+'.fnt')).write_text('\n'.join(header)+'\n',encoding='utf-8')
+    (output/(name+'.fnt')).write_text('\n'.join(header)+'\n',encoding='utf-8',newline='\n')
     ink_bounds=[]
     for ch,x,y,w,h,left,top,advance in cells:
         bounds=png.crop((x,y,x+w,y+h)).getbbox() if w and h else None
@@ -126,8 +127,8 @@ def generate(root=ROOT):
     (root/'config/font-manifest.json').write_text(json.dumps(dict(generator='tools/generate_fonts.py',pillow=pillow_version,python=platform.python_version(),
         inventory_inputs=input_inventory(root),requirement_refs=requirement_refs,
         status='generated; compiler and runtime evidence tracked separately',glyph_contract=contract,
-        packing='minimum one-bit scanline bytes across height-sorted shelves; trimmed non-power-of-two bounds',assets=provenance,fonts=manifest),indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
-    (root/'assets/fonts/PROVENANCE.txt').write_text('Exact assets downloaded from workspace STRUKTUR (id 7, formerly MSGDF), attachments 17 and 18.\n'+json.dumps(provenance,indent=2,ensure_ascii=False)+'\nLicense text/URL metadata is retained above. The bundled OFL.txt contains the upstream redistribution license for these font assets and their generated resources.\n',encoding='utf-8')
+        packing='minimum one-bit scanline bytes across height-sorted shelves; trimmed non-power-of-two bounds',assets=provenance,fonts=manifest),indent=2,ensure_ascii=False)+'\n',encoding='utf-8',newline='\n')
+    (root/'assets/fonts/PROVENANCE.txt').write_text('Roboto Condensed source assets. SHA-256 hashes and embedded upstream license metadata follow.\n'+json.dumps(provenance,indent=2,ensure_ascii=False)+'\nLicense text/URL metadata is retained above. The bundled OFL.txt contains the upstream redistribution license for these font assets and their generated resources.\n',encoding='utf-8',newline='\n')
     # Exactly the three APP-24 role fonts are declared and compiled per product.
     profile_metrics={}
     for device in devices:
@@ -137,7 +138,7 @@ def generate(root=ROOT):
         eligible=[f for f in manifest if (f['role']=='numeric' and f['size'] in numbers) or (f['role']=='label' and f['size']==maximums['LABEL_SIZE'])]
         fonts=directory/'fonts';fonts.mkdir(parents=True,exist_ok=True)
         xml=['<?xml version="1.0" encoding="UTF-8"?>','<resources><fonts>']+[f'<font id="{f["id"]}" filename="../../../resources/fonts/{f["id"]}.fnt" antialias="false"/>' for f in eligible]+['</fonts></resources>']
-        declaration=fonts/'fonts.xml';declaration.write_text('\n'.join(xml)+'\n',encoding='utf-8')
+        declaration=fonts/'fonts.xml';declaration.write_text('\n'.join(xml)+'\n',encoding='utf-8',newline='\n')
         code=['// Generated profile-only metadata and selectors; packed exact glyph metrics.','module FontData {']
         code.append('function info(size,labelRole) {')
         for f in eligible:
@@ -155,16 +156,16 @@ def generate(root=ROOT):
                 code.append('if(height=='+str(f['line_height'])+') { return ['+json.dumps(f['glyphs'],ensure_ascii=False)+','+json.dumps(tops)+'b,'+json.dumps(bottoms)+'b,'+json.dumps(f['advances'])+'b]; }')
             code.extend(['return null;','}'])
         code.append('}')
-        (directory/'FontData.mc').write_text('\n'.join(code)+'\n',encoding='utf-8')
+        (directory/'FontData.mc').write_text('\n'.join(code)+'\n',encoding='utf-8',newline='\n')
         profile_metrics[device['id']]=dict(path=f"profiles/{device['id']}/FontData.mc",sha256=hashlib.sha256((directory/'FontData.mc').read_bytes()).hexdigest(),numeric_sizes=sorted(numbers),label_sizes=[maximums['LABEL_SIZE']],resource_path=declaration.relative_to(root).as_posix(),resource_sha256=hashlib.sha256(declaration.read_bytes()).hexdigest(),encoding='exact glyph tops/bottoms/advances as unsigned byte arrays')
     record=json.loads((root/'config/font-manifest.json').read_text(encoding='utf-8'))
     record['profile_metrics']=profile_metrics
-    (root/'config/font-manifest.json').write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+    (root/'config/font-manifest.json').write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n',encoding='utf-8',newline='\n')
     code=['// Generated thin selectors; profile tables avoid unused resource/metric references.',
           'module FontSelection {',
           'function info(size,labelRole) { return FontData.info(size,labelRole); }',
           'function height(size,labelRole) { return FontData.height(size,labelRole); }','}']
-    (root/'source/FontSelection.mc').write_text('\n'.join(code)+'\n',encoding='utf-8')
+    (root/'source/FontSelection.mc').write_text('\n'.join(code)+'\n',encoding='utf-8',newline='\n')
     metrics=['// Generated from exact masks; data is profile-specific and byte-packed.','module FontMetrics {',
              'function numeric(height) { return FontData.numeric(height); }',
              'function label(height) { return FontData.label(height); }']
@@ -177,10 +178,10 @@ def generate(root=ROOT):
         'if(top==null || metrics[1][index]<top) { top=metrics[1][index]; }',
         'if(metrics[2][index]>bottom) { bottom=metrics[2][index]; }','}}',
         'return [top==null?0:top,bottom];','}','}'])
-    (root/'source/FontMetrics.mc').write_text('\n'.join(metrics)+'\n',encoding='utf-8')
+    (root/'source/FontMetrics.mc').write_text('\n'.join(metrics)+'\n',encoding='utf-8',newline='\n')
     icon=Image.new('RGBA',(40,40),(0,0,0,255));d=ImageDraw.Draw(icon);d.rectangle((4,4,35,35),outline=(255,255,255,255),width=2);d.line((20,4,20,35),fill='white');d.line((4,20,35,20),fill='white')
     icon.save(root/'resources/drawables/launcher.png')
-    (root/'resources/drawables/drawables.xml').write_text('<?xml version="1.0"?><resources><bitmaps><bitmap id="LauncherIcon" filename="launcher.png"/></bitmaps></resources>\n',encoding='utf-8')
+    (root/'resources/drawables/drawables.xml').write_text('<?xml version="1.0"?><resources><bitmaps><bitmap id="LauncherIcon" filename="launcher.png"/></bitmaps></resources>\n',encoding='utf-8',newline='\n')
     return manifest
 
 def main():

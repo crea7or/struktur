@@ -20,7 +20,9 @@ INPUT_PATHS = ['config/catalogue.json', 'config/decisions.json', 'config/devices
 def input_inventory(root=ROOT):
     profiles=json.loads((root/'config/devices.json').read_text(encoding='utf-8-sig'))
     paths=INPUT_PATHS+[f"profiles/{d['id']}/DeviceProfile.mc" for d in profiles]
-    return {path: hashlib.sha256((root/path).read_bytes()).hexdigest() for path in paths}
+    # Source text is hashed as LF so Git's checkout newline filters do not look like edits.
+    # Resource/TTF/PNG hashes remain byte-exact in validate_fonts.py.
+    return {path: hashlib.sha256((root/path).read_bytes().replace(b'\r\n',b'\n')).hexdigest() for path in paths}
 
 def glyph_contract(root=ROOT):
     catalogue=json.loads((root/'config/catalogue.json').read_text(encoding='utf-8-sig'))

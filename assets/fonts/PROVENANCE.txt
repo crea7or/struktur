@@ -1,4 +1,4 @@
-Exact assets downloaded from workspace STRUKTUR (id 7, formerly MSGDF), attachments 17 and 18.
+Roboto Condensed source assets. SHA-256 hashes and embedded upstream license metadata follow.
 {
   "Roboto_Condensed_Black.ttf": {
     "sha256": "a365617457f4e9800347655478132461565b28c563076f38a6294f6403b1fba9",

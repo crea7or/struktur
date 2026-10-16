@@ -67,6 +67,15 @@ Replace `edge1040` with another product identifier from [config/devices.json](co
 
 A successful build creates an installation candidate; Garmin submission and device qualification are separate steps.
 
+Generated font text uses LF line endings, and input hashes treat LF/CRLF source checkouts identically. Font images, metrics and resource checksums remain exact. After a real change to display text, font sizes or generation inputs, regenerate and validate with the pinned Python/Pillow environment:
+
+```powershell
+python tools/generate_fonts.py
+python tools/validate_fonts.py
+```
+
+With SDK, Java and the external signing key configured, build and open the Edge 1040 app using `run-emulator.cmd edge1040 -Build`.
+
 ## Tests
 
 The [suite definitions](tests/suites.json) keep three workflows separate:
