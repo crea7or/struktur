@@ -22,13 +22,13 @@ module ActivityReader {
         if (info has :calories) { raw["calories"] = Numeric.finite(info.calories) ? info.calories : null; }
         if (info has :currentHeading) { raw["heading"] = Numeric.finite(info.currentHeading) ? info.currentHeading : null; }
         if (info has :distanceToNextPoint) { raw["distance_next_waypoint"] = Numeric.finite(info.distanceToNextPoint) ? info.distanceToNextPoint : null; }
-        raw["battery"]=null;
-        if(includeBattery) {
-            var stats=System.getSystemStats();
-            raw["battery"] = stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100 ? stats.battery : null;
-        }
-        // Stateful acquisition is applied once by ActivityAcquisition and the app temperature cache.
+        raw["battery"]=includeBattery?batteryValue():null;
+        // Stateful acquisition is shared independently of active field assignments.
         raw["grade"] = null; raw["completed_laps"] = null; raw["temperature"] = null;
         return raw;
+    }
+    function batteryValue() {
+        var stats=System.getSystemStats();
+        return stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100?stats.battery:null;
     }
 }

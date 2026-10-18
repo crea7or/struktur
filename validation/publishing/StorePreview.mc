@@ -81,9 +81,9 @@ class StorePreviewField extends StrukturField {
             var expected=StoreConfig.PRIMARY[slot];
             if((expected==null?value[:text]!=null:!expected.equals(value[:text])) ||
                 !StoreConfig.HEADERS[slot].equals(value[:label]) || !StoreConfig.SECONDARY[slot].equals(value[:unit]) ||
-                !(expected==null?PresentationPolicy.UNAVAILABLE:expected).equals(run[:text]) ||
-                Graphics.getFontHeight(run[:font])!=FontSelection.height(run[:size],false) ||
-                dc.getTextWidthInPixels(run[:text],run[:font])!=run[:width] ||
+                !(expected==null?PresentationPolicy.UNAVAILABLE:expected).equals(run.text) ||
+                Graphics.getFontHeight(run.font)!=FontSelection.height(run.size,false) ||
+                dc.getTextWidthInPixels(run.text,run.font)!=run.width ||
                 dc.getTextWidthInPixels(value[:label],_renderer._labels)!=FontMetrics.width(value[:label],_renderer._labelMetrics)) {
                 throw new Lang.InvalidValueException("Publishing field or font mismatch at "+slot);
             }

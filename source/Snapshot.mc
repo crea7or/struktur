@@ -20,14 +20,27 @@ class SnapshotDescriptor {
         id=fieldId;index=fieldIndex;
         kind=index==null?"":Catalog.UNITS[index];
         format=index==null?"integer":Catalog.FORMATS[index];
-        conversion="speed".equals(kind)?1:("distance".equals(kind)?2:("elevation".equals(kind)?3:("temperature".equals(kind)?4:("degrees".equals(kind)?5:0))));
-        style="clock".equals(format)?1:("duration".equals(format)?2:
-            (conversion==4 || "grade".equals(id)?3:("heading".equals(id)?4:("float".equals(format) && !"elevation".equals(id)?5:0))));
+        // Flat branches bound temporary stack use when rebuilding a bank in a lap callback.
+        if("speed".equals(kind)) { conversion=1; }
+        else if("distance".equals(kind)) { conversion=2; }
+        else if("elevation".equals(kind)) { conversion=3; }
+        else if("temperature".equals(kind)) { conversion=4; }
+        else if("degrees".equals(kind)) { conversion=5; }
+        if("clock".equals(format)) { style=1; }
+        else if("duration".equals(format)) { style=2; }
+        else if(conversion==4 || "grade".equals(id)) { style=3; }
+        else if("heading".equals(id)) { style=4; }
+        else if("float".equals(format) && !"elevation".equals(id)) { style=5; }
         if("grade".equals(id)) { effect=1; }
         else if("temperature".equals(id)) { effect=2; }
         else {
-            var channels=["current_heart_rate","average_heart_rate","heart_rate_3s","current_power","average_power","power_3s"];
-            for(var i=0;i<channels.size();i+=1) { if(channels[i].equals(id)) { zoneChannel=i;effect=i<3?3:4;break; } }
+            if("current_heart_rate".equals(id)) { zoneChannel=0; }
+            else if("average_heart_rate".equals(id)) { zoneChannel=1; }
+            else if("heart_rate_3s".equals(id)) { zoneChannel=2; }
+            else if("current_power".equals(id)) { zoneChannel=3; }
+            else if("average_power".equals(id)) { zoneChannel=4; }
+            else if("power_3s".equals(id)) { zoneChannel=5; }
+            if(zoneChannel>=0) { effect=zoneChannel<3?3:4; }
         }
     }
 }
@@ -90,6 +103,9 @@ class SnapshotEngine {
     function rawValue(raw as Lang.Dictionary,key) { return raw.hasKey(key) ? raw[key] : null; }
     function initial(settings) { return prepare({},settings,false); }
     function compute(raw as Lang.Dictionary,settings) as Lang.Dictionary {
+        advance(raw);return prepare(raw,settings,true);
+    }
+    function advance(raw as Lang.Dictionary) {
         var identity=rawValue(raw,"_activity_identity");
         if(_identity!=null && identity!=null && _identity!=identity) { reset(); }
         if(identity!=null) { _identity=identity; }
@@ -102,7 +118,6 @@ class SnapshotEngine {
         raw["heart_rate_3s"]=active?_heart.push(Numeric.finite(heart) && heart>0?heart:null,second):null;
         raw["heart_rate_zone"]=zone(0,heart);
         raw["power_zone"]=zone(3,watts);
-        return prepare(raw,settings,true);
     }
     function prepare(raw as Lang.Dictionary,settings,hasSample) as Lang.Dictionary {
         return prepareWithPreferences(raw,settings,hasSample,System.getDeviceSettings(),hasSample && settings.usesClock?System.getClockTime():null);

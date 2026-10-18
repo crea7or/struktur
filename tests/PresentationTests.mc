@@ -8,7 +8,7 @@ using Toybox.WatchUi;
 function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(26,SettingsCatalogue.keys().size());
+    Test.assertEqual(57,SettingsCatalogue.keys().size());
     Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
@@ -181,8 +181,8 @@ function sampleDefaultUnitHeaderGrid(logger) {
                 Test.assertEqual(cells.size(),renderer._runs.size());
                 Test.assertEqual(0,renderer._compactLines.size());
                 for(var field=0;field<cells.size();field+=1) {
-                    Test.assertEqual(snapshot[:values][field][:text],renderer._runs[field][:text]);
-                    Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field][:text]));
+                    Test.assertEqual(snapshot[:values][field][:text],renderer._runs[field].text);
+                    Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field].text));
                 }
                 verifyDrawRecords(dc,renderer,snapshot,cells,night,1,align);
             }
@@ -202,7 +202,7 @@ function reviewedFormattingAndCatalogue(logger) {
     }
     Test.assertEqual("1000000000",Formatting.integral(1000000000));
     Test.assertEqual("2147483648",Formatting.integral(2147483648l));
-    Test.assertEqual("10.00",Formatting.floating(10));
+    Test.assertEqual("10.0",Formatting.floating(10));
     Test.assertEqual("0",Formatting.heading(Formatting.degrees(359.6*Math.PI/180.0)));
     Test.assertEqual("315",Formatting.heading(Formatting.degrees(-Math.PI/4.0)));
     Test.assertEqual("N",Formatting.cardinal(359.6));Test.assertEqual("NE",Formatting.cardinal(22.5));
@@ -225,7 +225,7 @@ function fixedThreeRoleFonts(logger) {
             renderer.prepare(snapshot);renderer.layout(dc,settings);
             Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,big),renderer._runs.size());
             for(var i=0;i<renderer._runs.size();i+=1) {
-                Test.assertEqual(renderer._cells[i][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,renderer._runs[i][:size]);
+                Test.assertEqual(renderer._cells[i][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,renderer._runs[i].size);
             }
             Test.assertEqual(FontSelection.height(DeviceProfile.LABEL_SIZE,true),renderer._labelHeight);
             Test.assert(renderer._fonts.size()<=3 && renderer._metrics.size()<=3);
@@ -323,8 +323,8 @@ function clockAndDurationFitEveryLayout(logger) {
                 var cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
                 Test.assertEqual(cells.size(),renderer._runs.size());
                 for(var f=0;f<cells.size();f+=1) {
-                    Test.assertEqual(kind==0?"00:00":(kind==1?"13:05":"1:00"),renderer._runs[f][:text]);
-                    Test.assertEqual(kind==2?".00":"",renderer._runs[f][:unit]);
+                    Test.assertEqual(kind==0?"00:00":(kind==1?"13:05":"1:00"),renderer._runs[f].text);
+                    Test.assertEqual(kind==2?".00":"",renderer._runs[f].unit);
                 }
                 verifyDrawRecords(dc,renderer,snapshot,cells,0,1,align);
             }

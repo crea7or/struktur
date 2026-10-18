@@ -1,6 +1,22 @@
 using Toybox.Graphics;
 using Toybox.WatchUi;
 using Toybox.Math;
+// Fixed-shape fitting state avoids a separate symbol hash table for every cell.
+class FittedRun {
+    var size;var text;var unit;var width;var unitWidth;var total;var top;
+    var ink;var unitInk;var margin;var radius;var labelBand;var font=null;
+    function initialize(s,t,u,w,uw,all,y,bounds,ubounds) {
+        size=s;text=t;unit=u;width=w;unitWidth=uw;total=all;top=y;
+        ink=bounds;unitInk=ubounds;
+    }
+}
+// A prepared cell stores a fixed set of commands, without a per-cell hash table.
+class PreparedCell {
+    var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
+    function initialize(n,b,a,bg,e,c,l,p,u) {
+        night=n;band=b;angle=a;background=bg;labelEffect=e;color=c;label=l;primary=p;unit=u;
+    }
+}
 // APP-24/28: exactly three fixed profile fonts; measured bounds prevent clipping.
 class FieldRenderer {
     var _cells=[];
@@ -55,13 +71,19 @@ class FieldRenderer {
     var _labelSizes=[DeviceProfile.LABEL_SIZE];
     var _clearForeground=Graphics.COLOR_BLACK;
     var _clearBackground=Graphics.COLOR_WHITE;
-    var _lineColorIndex=5;
+    var _lineColorIndex=3;
     function initialize() {
         _labelBandHeight=FieldPresentation.headerBandHeight(metric(DeviceProfile.LABEL_SIZE,true),_labelTop);
         var line=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
         _headerHeight=line>_labelBandHeight?line:_labelBandHeight;
         _labelMetrics=metric(DeviceProfile.LABEL_SIZE,true);
         _regularMetrics=metric(DeviceProfile.REGULAR_SIZE,false);_bigMetrics=metric(DeviceProfile.BIG_SIZE,false);
+    }
+    // Bank changes replace the visible presentation atomically. Release the old
+    // fitting/drawing state before preparing its replacement on the shared heap.
+    function discardPresentation() {
+        _preparedValues=[];_runs=[];_packets=[];_headerFits={};
+        _polygons=[];_polygonAngles=[];_cellNights=[];_needsLayout=true;
     }
     function needsLayout() { return _needsLayout; }
     function painted(value) { return value[:band]!=null || value[:angle]!=null; }
@@ -114,8 +136,8 @@ class FieldRenderer {
             var secondaryHeight=unitInk[1]-unitInk[0];
             if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=_headerHeight && top-radius>=4+labelFit[1]+radius+2 &&
                 top+ink[1]-ink[0]+radius<=cell[:h] && top+secondaryHeight+radius<=cell[:h]) {
-                return {:size=>size,:text=>text,:unit=>secondary,:width=>valueWidth,:unitWidth=>unitWidth,
-                    :total=>total,:top=>top,:ink=>ink,:unitInk=>unitInk,:margin=>margin,:radius=>radius,:labelBand=>labelBand};
+                var fitted=new FittedRun(size,text,secondary,valueWidth,unitWidth,total,top,ink,unitInk);
+                fitted.margin=margin;fitted.radius=radius;fitted.labelBand=labelBand;return fitted;
             }
         return null;
     }
@@ -199,7 +221,7 @@ class FieldRenderer {
             _cells=selected[0];_runs=selected[1];var labelSize=selected[2];
             _labels=selectFont(labelSize,true,nextFonts);_labelHeight=FontSelection.height(labelSize,true);
             _labelMetrics=metric(labelSize,true);
-            for(var i=0;i<_runs.size();i+=1) { _runs[i][:font]=selectFont(_runs[i][:size],false,nextFonts); }
+            for(var i=0;i<_runs.size();i+=1) { _runs[i].font=selectFont(_runs[i].size,false,nextFonts); }
             prepareSeparators();
         }
         _fonts=nextFonts; // discard unused handles, bounded by visible selected variants
@@ -250,7 +272,7 @@ class FieldRenderer {
             var run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]);
             if(run==null) { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
             if(run==null) { _needsLayout=true;return; }
-            run[:font]=_runs[i][:font];_runs[i]=run;_packets[i]=null;
+            run.font=_runs[i].font;_runs[i]=run;_packets[i]=null;
         }
     }
     function prepareGeometry() {
@@ -258,15 +280,15 @@ class FieldRenderer {
         if(paletteChanged) {
             _clearForeground=_baseNight?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
             _clearBackground=_baseNight?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-            _lineColorIndex=_baseNight?4:5;_paletteNight=_baseNight;_paletteInverse=_inverse;
+            _lineColorIndex=_baseNight?2:3;_paletteNight=_baseNight;_paletteInverse=_inverse;
         }
         for(var i=0;i<_cells.size();i+=1) {
             var night=paletteChanged || i>=_cellNights.size()?FieldPresentation.effectiveNight(_baseNight,_cells[i][:enlarged],_inverse):_cellNights[i];
             var value=_preparedValues[i];var packet=i<_packets.size()?_packets[i]:null;
             if(i>=_cellNights.size()) { _cellNights.add(night);_polygons.add(null);_polygonAngles.add(null);_packets.add(null); }
             _cellNights[i]=night;
-            if(packet==null || packet[:night]!=night ||
-                (packet[:band]==null?value[:band]!=null:(value[:band]==null || !packet[:band].equals(value[:band]))) || packet[:angle]!=value[:angle]) {
+            if(packet==null || packet.night!=night ||
+                (packet.band==null?value[:band]!=null:(value[:band]==null || !packet.band.equals(value[:band]))) || packet.angle!=value[:angle]) {
                 if(_polygonAngles[i]!=value[:angle]) {
                     _polygons[i]=value[:angle]==null?null:Geometry.ground(_cells[i],value[:angle]);
                     _polygonAngles[i]=value[:angle];
@@ -283,14 +305,14 @@ class FieldRenderer {
         var darkText=!labelEffect?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
         var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
         var valueForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
-        var radius=v[:angle]!=null?run[:radius]:0;
+        var radius=v[:angle]!=null?run.radius:0;
         var right="right".equals(_settings.alignment);
-        var x=right?c[:x]+c[:w]-run[:margin]-run[:total]:c[:x]+(c[:w]-run[:total])/2;
-        var label=MaskedText.prepare(right?c[:x]+c[:w]-run[:margin]:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run[:radius]);
-        var primary=MaskedText.prepare(x,c[:y]+run[:top]-run[:ink][0],run[:font],run[:text],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
-        var unit=run[:unitWidth]>0?MaskedText.prepare(x+run[:width]+2,c[:y]+run[:top]-run[:unitInk][0],_labels,run[:unit],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
-        return {:night=>night,:band=>v[:band],:angle=>v[:angle],:background=>background,:labelEffect=>labelEffect,
-            :color=>v[:band]==null?null:color(v[:band]),:label=>label,:primary=>primary,:unit=>unit};
+        var x=right?c[:x]+c[:w]-run.margin-run.total:c[:x]+(c[:w]-run.total)/2;
+        var label=MaskedText.prepare(right?c[:x]+c[:w]-run.margin:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run.radius);
+        var primary=MaskedText.prepare(x,c[:y]+run.top-run.ink[0],run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
+        var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[:y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
+        return new PreparedCell(night,v[:band],v[:angle],background,labelEffect,
+            v[:band]==null?null:color(v[:band]),label,primary,unit);
     }
     function prepareSeparators() {
         if("none".equals(_settings.gridType)) { _separators=[];return; }
@@ -299,23 +321,40 @@ class FieldRenderer {
             cacheSeparators(_width,_height,_settings.gridType);_separatorPlans[key]=_separators;
         } else { _separators=_separatorPlans[key]; }
     }
-    // Six consecutive scalars per line; retain only the current grid style.
+    // Cached groups share their 16 coordinate/color segments across equal spans.
+    // Drawing dispatches these values directly; no unpacking or geometry arithmetic.
     function cacheSeparators(width,height,gridType) {
-        _separators=[];
-        var horizontal="horizontal".equals(gridType);
+        _separators=[];var horizontal="horizontal".equals(gridType);
+        var columns={};var rows={};
         for(var i=0;i<_cells.size();i+=1) {
             var c=_cells[i];if(c[:enlarged]) { continue; }
-            for(var step=0;step<16;step+=1) {
-                var start=c[:x]+step*c[:w]/16;var end=c[:x]+(step+1)*c[:w]/16-1;
-                var brightness=horizontal?(step+1)/16.0:1.0-((start+end)/2.0-width/2.0).abs()/(width/2.0);
-                var shade=Numeric.clamp((96*brightness).toNumber(),0,96);var rgb=shade*0x010101;
-                if(horizontal || c[:y]+c[:h]<height) { _separators.addAll([start,c[:y]+c[:h]-1,end,c[:y]+c[:h]-1,rgb,0xFFFFFF-rgb]); }
-                if(!horizontal && c[:x]>0) {
-                    var y1=c[:y]+step*c[:h]/16;var y2=c[:y]+(step+1)*c[:h]/16-1;
-                    var vertical=1.0-((y1+y2)/2.0-height/2.0).abs()/(height/2.0);
-                    var vshade=Numeric.clamp((96*vertical).toNumber(),0,96);
-                    var vrgb=vshade*0x010101;_separators.addAll([c[:x],y1,c[:x],y2,vrgb,0xFFFFFF-vrgb]);
+            if(horizontal || c[:y]+c[:h]<height) {
+                var segments=columns.hasKey(c[:x])?columns[c[:x]]:null;
+                if(segments==null) {
+                    segments=[];
+                    for(var step=0;step<16;step+=1) {
+                        var start=c[:x]+step*c[:w]/16;var end=c[:x]+(step+1)*c[:w]/16-1;
+                        var brightness=horizontal?(step+1)/16.0:1.0-((start+end)/2.0-width/2.0).abs()/(width/2.0);
+                        var shade=Numeric.clamp((96*brightness).toNumber(),0,96);var rgb=shade*0x010101;
+                        segments.addAll([start,end,rgb,0xFFFFFF-rgb]);
+                    }
+                    columns[c[:x]]=segments;
                 }
+                _separators.add([segments,c[:y]+c[:h]-1,false]);
+            }
+            if(!horizontal && c[:x]>0) {
+                var vertical=rows.hasKey(c[:y])?rows[c[:y]]:null;
+                if(vertical==null) {
+                    vertical=[];
+                    for(var line=0;line<16;line+=1) {
+                        var y1=c[:y]+line*c[:h]/16;var y2=c[:y]+(line+1)*c[:h]/16-1;
+                        var brightnessY=1.0-((y1+y2)/2.0-height/2.0).abs()/(height/2.0);
+                        var shadeY=Numeric.clamp((96*brightnessY).toNumber(),0,96);var colorY=shadeY*0x010101;
+                        vertical.addAll([y1,y2,colorY,0xFFFFFF-colorY]);
+                    }
+                    rows[c[:y]]=vertical;
+                }
+                _separators.add([vertical,c[:x],true]);
             }
         }
     }
@@ -343,26 +382,30 @@ class FieldRenderer {
         }
         for(var i=0;i<_cells.size();i+=1) {
             var c=_cells[i];var p=_packets[i];var run=_runs[i];
-            var bandHeight=run[:labelBand];
-            dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(p[:background],Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
-            if(p[:labelEffect]) {
-                dc.setColor(p[:color],Graphics.COLOR_TRANSPARENT);
+            var bandHeight=run.labelBand;
+            dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(p.background,Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
+            if(p.labelEffect) {
+                dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);
                 dc.fillRectangle(c[:x],c[:y],c[:w],bandHeight);
             }
             if(_polygons[i]!=null) {
-                dc.setColor(p[:color],Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
+                dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
             }
-            if(p[:labelEffect]) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
-            MaskedText.drawPrepared(dc,p[:label]);
-            if(p[:labelEffect]) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
-            MaskedText.drawPrepared(dc,p[:primary]);
-            if(p[:unit]!=null) { MaskedText.drawPrepared(dc,p[:unit]); }
+            if(p.labelEffect) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
+            MaskedText.drawPrepared(dc,p.label);
+            if(p.labelEffect) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
+            MaskedText.drawPrepared(dc,p.primary);
+            if(p.unit!=null) { MaskedText.drawPrepared(dc,p.unit); }
             dc.clearClip();
         }
         // APP-22: grid type was prepared before drawing, independently of alignment.
-        for(var j=0;j<_separators.size();j+=6) {
-            dc.setColor(_separators[j+_lineColorIndex],Graphics.COLOR_TRANSPARENT);
-            dc.drawLine(_separators[j],_separators[j+1],_separators[j+2],_separators[j+3]);
+        for(var group=0;group<_separators.size();group+=1) {
+            var command=_separators[group];var segments=command[0];var coordinate=command[1];
+            for(var j=0;j<segments.size();j+=4) {
+                dc.setColor(segments[j+_lineColorIndex],Graphics.COLOR_TRANSPARENT);
+                if(command[2]) { dc.drawLine(coordinate,segments[j],coordinate,segments[j+1]); }
+                else { dc.drawLine(segments[j],coordinate,segments[j+1],coordinate); }
+            }
         }
     }
 }

@@ -233,8 +233,8 @@ function verifyPresentationDraw(mode,baseNight,inverse,big,align,requireComplete
     if(requireComplete) {
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,big),renderer._runs.size());
         for(var field=0;field<renderer._runs.size();field+=1) {
-            Test.assertEqual(renderer.displayText(snapshot[:values][field]),renderer._runs[field][:text]);
-            Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field][:text]));
+            Test.assertEqual(renderer.displayText(snapshot[:values][field]),renderer._runs[field].text);
+            Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field].text));
         }
     }
     verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align);
@@ -269,10 +269,10 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
             Test.assertEqual(renderer.color(value[:band]),record[:polygons][0][:color]);
         } else { Test.assertEqual(0,record[:polygons].size()); }
         var texts=record[:texts];
-        Test.assertEqual(renderer._runs[i][:unit].length()>0?3:2,texts.size());
+        Test.assertEqual(renderer._runs[i].unit.length()>0?3:2,texts.size());
         Test.assertEqual(value[:label],texts[0][:text]);
         Test.assertEqual(record[:y]+3,texts[0][:y]);
-        Test.assertEqual(renderer._runs[i][:text],texts[1][:text]);
+        Test.assertEqual(renderer._runs[i].text,texts[1][:text]);
         var headerBackground=labelEffect?renderer.color(value[:band]):expectedBackground;
         Test.assert(texts[0][:color]!=headerBackground);
         var headerDark=labelEffect?("yellow".equals(value[:band]) || "cyan".equals(value[:band]) ||
@@ -299,7 +299,7 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         Test.assert(texts[1][:inkBottom]+radius<=record[:y]+record[:h]);
         var total=texts[1][:width];
         if(texts.size()==3) {
-            Test.assertEqual(renderer._runs[i][:unit],texts[2][:text]);
+            Test.assertEqual(renderer._runs[i].unit,texts[2][:text]);
             Test.assertEqual(texts[1][:x]+texts[1][:width]+2,texts[2][:x]);
             Test.assertEqual(texts[1][:inkTop],texts[2][:inkTop]);
             total+=texts[2][:width]+2;
@@ -307,7 +307,7 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         var expectedX=align==1?record[:x]+record[:w]-4-radius-total:record[:x]+(record[:w]-total)/2;
         if(expectedX!=texts[1][:x]) {
             System.println("DRAW_ALIGN field="+i+" header="+value[:label]+" band="+value[:band]+" align="+align+
-                " expected="+expectedX+" actual="+texts[1][:x]+" margin="+renderer._runs[i][:margin]);
+                " expected="+expectedX+" actual="+texts[1][:x]+" margin="+renderer._runs[i].margin);
         }
         Test.assertEqual(expectedX,texts[1][:x]);
         Test.assert(texts[1][:x]-radius>=record[:x]+4 && texts[1][:x]+total+radius<=record[:x]+record[:w]-4);
@@ -403,7 +403,7 @@ function verifyWhiteTemperatureContrast() {
         for(var n=0;n<snapshot[:values].size();n+=1) { dc.paintEffects.add(snapshot[:values][n][:band]!=null || snapshot[:values][n][:angle]!=null); }
         var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.prepare(snapshot);renderer.draw(dc,snapshot,settings);
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,0),renderer._runs.size());
-        for(var f=0;f<renderer._runs.size();f+=1) { Test.assertEqual("5.0",renderer._runs[f][:text]); }
+        for(var f=0;f<renderer._runs.size();f+=1) { Test.assertEqual("5.0",renderer._runs[f].text); }
         Test.assertEqual(night==1?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_WHITE,dc.records[0][:fills][1]);
         Test.assertEqual(Graphics.COLOR_BLACK,dc.records[0][:texts][0][:color]);
@@ -557,8 +557,8 @@ function verifyGuaranteedNormalDraw(night,big,align) {
     var cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
     Test.assertEqual(cells.size(),renderer._runs.size());
     for(var field=0;field<cells.size();field+=1) {
-        Test.assertEqual(snapshot[:values][field][:text],renderer._runs[field][:text]);
-        Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field][:text]));
+        Test.assertEqual(snapshot[:values][field][:text],renderer._runs[field].text);
+        Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field].text));
     }
     verifyDrawRecords(dc,renderer,snapshot,cells,night,1,align);
 }

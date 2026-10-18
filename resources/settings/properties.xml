@@ -27,5 +27,36 @@
     <property id="slot_9_background_effects" type="boolean">false</property>
     <property id="slot_10_value" type="number">20</property>
     <property id="slot_10_background_effects" type="boolean">false</property>
+    <property id="second_set_trigger" type="number">3</property>
+    <property id="second_power_activate_w" type="number">250</property>
+    <property id="second_power_return_w" type="number">220</property>
+    <property id="second_hr_activate_bpm" type="number">160</property>
+    <property id="second_hr_return_bpm" type="number">150</property>
+    <property id="second_enlarged_field_count" type="number">1</property>
+    <property id="second_alignment" type="number">1</property>
+    <property id="second_theme_mode" type="number">0</property>
+    <property id="second_hide_value_units" type="boolean">true</property>
+    <property id="second_inverse_enlarged_theme" type="boolean">true</property>
+    <property id="second_grid_type" type="number">1</property>
+    <property id="second_slot_1_value" type="number">8</property>
+    <property id="second_slot_1_background_effects" type="boolean">true</property>
+    <property id="second_slot_2_value" type="number">4</property>
+    <property id="second_slot_2_background_effects" type="boolean">true</property>
+    <property id="second_slot_3_value" type="number">2</property>
+    <property id="second_slot_3_background_effects" type="boolean">true</property>
+    <property id="second_slot_4_value" type="number">15</property>
+    <property id="second_slot_4_background_effects" type="boolean">true</property>
+    <property id="second_slot_5_value" type="number">30</property>
+    <property id="second_slot_5_background_effects" type="boolean">false</property>
+    <property id="second_slot_6_value" type="number">0</property>
+    <property id="second_slot_6_background_effects" type="boolean">false</property>
+    <property id="second_slot_7_value" type="number">26</property>
+    <property id="second_slot_7_background_effects" type="boolean">false</property>
+    <property id="second_slot_8_value" type="number">27</property>
+    <property id="second_slot_8_background_effects" type="boolean">false</property>
+    <property id="second_slot_9_value" type="number">12</property>
+    <property id="second_slot_9_background_effects" type="boolean">false</property>
+    <property id="second_slot_10_value" type="number">20</property>
+    <property id="second_slot_10_background_effects" type="boolean">false</property>
   </properties>
 </resources>

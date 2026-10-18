@@ -74,6 +74,11 @@ class RendererCacheScenario {
         raw={"current_speed"=>10,"grade"=>3.4};sample();
         dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,0),renderer._cells.size());
+        Test.assert(renderer._runs[0] instanceof FittedRun);Test.assert(renderer._packets[0] instanceof PreparedCell);
+        Test.assertEqual(2*DeviceProfile.DESIGN_ROWS,renderer._separators.size());
+        Test.assert(renderer._separators[0][0]==renderer._separators[2][0]);
+        Test.assert(renderer._separators[1][0]==renderer._separators[3][0]);
+        Test.assertEqual(64,renderer._separators[0][0].size());
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;polygons=renderer.polygonBuilds;packets=renderer.packetBuilds;
     }
     function sample() { snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,false),new PresentationClock());renderer.prepare(snapshot); }
@@ -90,7 +95,7 @@ class RendererCacheScenario {
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(polygons,renderer.polygonBuilds);
         Test.assert(renderer.packetBuilds>packets);
         raw["grade"]=null;sample();Test.assertEqual("dark_gray",snapshot[:values][1][:band]);
-        Test.assertEqual(renderer._labelBandHeight,renderer._runs[1][:labelBand]);Test.assert(renderer._polygons[1]==null);
+        Test.assertEqual(renderer._labelBandHeight,renderer._runs[1].labelBand);Test.assert(renderer._polygons[1]==null);
         for(var i=0;i<snapshot[:values].size();i+=1) { dc.paintEffects.add(snapshot[:values][i][:band]!=null); }
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
         renderer.locked=true;renderer.draw(dc,snapshot,settings);renderer.locked=false;
@@ -102,12 +107,15 @@ class RendererCacheScenario {
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
         raw["temperature"]=20;sample(); // Slot 10 is hidden in every one-enlarged native layout.
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(packets,renderer.packetBuilds);
+        renderer.discardPresentation();Test.assertEqual(0,renderer._runs.size());Test.assertEqual(0,renderer._packets.size());Test.assertEqual(0,renderer._headerFits.size());
+        renderer.prepare(snapshot);renderer.layout(dc,settings);Test.assert(renderer._runs.size()>0 && renderer._packets.size()>0);
     }
 }
 
 (:test)
 function rendererCacheAndDrawPurity(logger) {
-    new RendererCacheScenario().run();new FieldDrawScenario().run();return true;
+    new RendererCacheScenario().run();new FieldDrawScenario().run();
+    return true;
 }
 
 (:test)

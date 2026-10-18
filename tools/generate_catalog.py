@@ -41,6 +41,8 @@ FIELDS = [
 ]
 DEFAULTS=['current_speed','distance','activity_timer','time_of_day','current_heart_rate',
           'power_3s','elevation','grade','total_ascent','temperature']
+SECOND_DEFAULTS=['power_3s','current_heart_rate','current_cadence','grade','lap_power',
+                 'current_speed','lap_distance','lap_time','elevation','temperature']
 def write_xml(path, element):
     ET.indent(element, space='  ')
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -73,16 +75,40 @@ def main():
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
                       dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False)])
+    first_props=list(props)
+    props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
+                   identifiers=['trigger_none','trigger_power_3s','trigger_heart_rate','trigger_manual_lap','trigger_workout'],
+                   choice_labels=['None','3s power','Heart rate','Manual lap','Workout started'],title='Second field set - activation event',
+                   prompt='Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.'),
+              dict(key='second_power_activate_w',type='number',default=250,min=1,max=3000,title='Power: activate at (W)',prompt='3s power mode only. Return threshold must be less than or equal to activation.'),
+              dict(key='second_power_return_w',type='number',default=220,min=1,max=3000,title='Power: return below (W)',prompt='3s power mode only. Return threshold must be less than or equal to activation.'),
+              dict(key='second_hr_activate_bpm',type='number',default=160,min=30,max=250,title='Heart rate: activate at (bpm)',prompt='Heart rate mode only. Return threshold must be less than or equal to activation.'),
+              dict(key='second_hr_return_bpm',type='number',default=150,min=30,max=250,title='Heart rate: return below (bpm)',prompt='Heart rate mode only. Return threshold must be less than or equal to activation.')]
+    for p in first_props:
+        second=dict(p,key='second_'+p['key'],title='Second set: '+p.get('title',p['key'].replace('_',' ').capitalize()))
+        slot=re.fullmatch(r'slot_(\d+)_value',p['key'])
+        effect=re.fullmatch(r'slot_(\d+)_background_effects',p['key'])
+        if p['key']=='enlarged_field_count':second['default']=1
+        elif slot:second['default']=[f['id'] for f in fields].index(SECOND_DEFAULTS[int(slot[1])-1])
+        elif effect:second['default']=int(effect[1])<=4
+        props.append(second)
     (ROOT/'config/catalogue.json').write_text(json.dumps(dict(language='eng',status='full-capacity APP-20 layouts; APP-31 defines all ten defaults; SDK numeric mappings remain recorded implementation choices',fields=fields,properties=props),indent=2)+'\n',encoding='utf-8')
     resources=ET.Element('resources'); strings=ET.SubElement(resources,'strings')
     ET.SubElement(strings,'string',id='AppName').text='Struktur'
     for f in fields: ET.SubElement(strings,'string',id='Field_'+f['id']).text=f['label']
     properties_root=ET.Element('resources'); properties=ET.SubElement(properties_root,'properties')
     settings_root=ET.Element('resources'); settings=ET.SubElement(settings_root,'settings')
+    ET.SubElement(strings,'string',id='SecondSetTitle').text='Second field set'
+    ET.SubElement(strings,'string',id='SecondSetDescription').text='Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.'
+    second_group=None
     for p in props:
+        if p['key']=='second_set_trigger':
+            second_group=ET.SubElement(settings,'group',id='second_field_set',title='@Strings.SecondSetTitle',description='@Strings.SecondSetDescription')
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])
         sid='Setting_'+p['key']; ET.SubElement(strings,'string',id=sid).text=p.get('title',p['key'].replace('_',' ').capitalize())
-        setting=ET.SubElement(settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
+        setting=ET.SubElement(second_group if second_group is not None else settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
+        if p.get('prompt'):
+            prompt='Prompt_'+p['key'];ET.SubElement(strings,'string',id=prompt).text=p['prompt'];setting.set('prompt','@Strings.'+prompt)
         ctype='list' if 'choices' in p else ('boolean' if p['type']=='boolean' else 'numeric')
         config=ET.SubElement(setting,'settingConfig',type=ctype)
         if 'min' in p:config.set('min',str(p['min']));config.set('max',str(p['max']))
@@ -102,11 +128,13 @@ def main():
         '    const FORMATS = '+json.dumps([f['format'] for f in fields])+';',
         '    const UNITS = '+json.dumps([f['unit'] for f in fields])+';',
         '    function index(id) { for (var i=0;i<IDS.size();i+=1) { if(IDS[i].equals(id)) { return i; } } return null; }',
-        '    function defaultSlots() { return '+json.dumps(DEFAULTS)+'; }','}',
+        '    function defaultSlots() { return '+json.dumps(DEFAULTS)+'; }',
+        '    function secondaryDefaultSlots() { return '+json.dumps(SECOND_DEFAULTS)+'; }','}',
         'module SettingsCatalogue {','    function keys() { return '+json.dumps([p['key'] for p in props])+'; }',
         '    // Garmin settings lists store numeric codes; retain legacy strings without rewriting them.',
         '    function decode(key,value) {',
         '        if (!(value instanceof Toybox.Lang.Number)) { return value; }',
+        '        if(key.find("second_")==0) { key=key.substring(7,key.length()); }',
         '        var ids = "alignment".equals(key) ? ["center","right"] : ("theme_mode".equals(key) ? ["auto","day","night"] : ("grid_type".equals(key) ? ["none","horizontal","full"] : Catalog.IDS));',
         '        if(value>=0 && value<ids.size()) { return ids[value]; }',
         '        return key.find("slot_")==0 && value>=0?"unknown_field_"+value.toString():null;',
@@ -115,10 +143,14 @@ def main():
     adapter=['using Toybox.System;','using Toybox.Lang;','// SPEC-156: explicit optional Activity.Info members, raw producer units.','module ActivityReader {','    function read(info) as Lang.Dictionary { return readWithBattery(info,true); }','    function readWithBattery(info,includeBattery) as Lang.Dictionary {','        var raw = {} as Lang.Dictionary;']
     for f in fields:
         if f['member']:adapter.append(f'        if (info has :{f["member"]}) {{ raw["{f["id"]}"] = Numeric.finite(info.{f["member"]}) ? info.{f["member"]} : null; }}')
-    adapter.extend(['        raw["battery"]=null;','        if(includeBattery) {','            var stats=System.getSystemStats();','            raw["battery"] = stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100 ? stats.battery : null;','        }',
-                    '        // Stateful acquisition is applied once by ActivityAcquisition and the app temperature cache.',
+    adapter.extend(['        raw["battery"]=includeBattery?batteryValue():null;',
+                    '        // Stateful acquisition is shared independently of active field assignments.',
                     '        raw["grade"] = null; raw["completed_laps"] = null; raw["temperature"] = null;',
-                    '        return raw;','    }','}'])
+                    '        return raw;','    }',
+                    '    function batteryValue() {',
+                    '        var stats=System.getSystemStats();',
+                    '        return stats has :battery && Numeric.finite(stats.battery) && stats.battery>=0 && stats.battery<=100?stats.battery:null;',
+                    '    }','}'])
     (ROOT/'source/ActivityReader.mc').write_text('\n'.join(adapter)+'\n',encoding='utf-8')
     print(f'Generated {len(fields)} selectable fields and {len(props)} typed settings with matching XML/Monkey C definitions.')
 

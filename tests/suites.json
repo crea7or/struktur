@@ -9,7 +9,8 @@
         "tests/PresentationTests.mc",
         "tests/AcquisitionTests.mc",
         "tests/NormalRangeTests.mc",
-        "tests/PerformanceTests.mc"
+        "tests/PerformanceTests.mc",
+        "tests/FieldSetTests.mc"
       ],
       "support": [
         "tests/CoreSupport.mc",

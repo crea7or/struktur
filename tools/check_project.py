@@ -68,7 +68,7 @@ def main():
     assert [f['id'] for f in fields[26:]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==26 and len({p['key'] for p in props})==26
+    assert len(props)==57 and len({p['key'] for p in props})==57
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
     assert '| grid_type | number: 0 None, 1 Horizontal lines, 2 Full grid | 1 |' in by_id['SPEC-155']['description']
@@ -77,6 +77,22 @@ def main():
     assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
     assert '| slot_1_background_effects through slot_10_background_effects | Boolean | false |' in by_id['SPEC-155']['description']
     assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
+    by_key={p['key']:p for p in props}
+    for first in props[:26]:
+        second=by_key['second_'+first['key']]
+        for field in ['type','choices','identifiers']:
+            assert first.get(field)==second.get(field),(first['key'],field)
+    secondary=['power_3s','current_heart_rate','current_cadence','grade','lap_power','current_speed','lap_distance','lap_time','elevation','temperature']
+    assert by_key['second_enlarged_field_count']['default']==1
+    for i,identifier in enumerate(secondary,1):
+        prop=by_key[f'second_slot_{i}_value']
+        assert prop['identifiers'][prop['default']]==identifier
+        assert by_key[f'second_slot_{i}_background_effects']['default']==(i<=4)
+        assert f'| {i} | {identifier} |' in by_id['SPEC-209']['description']
+    for first in props[:26]:
+        if first['key'] in ['alignment','theme_mode','hide_value_units','inverse_enlarged_theme','grid_type']:
+            assert by_key['second_'+first['key']]['default']==first['default']
+    assert by_key['second_set_trigger']['choices']==[0,1,2,3,4] and by_key['second_set_trigger']['default']==3
     tree=ET.parse(ROOT/'resources/settings/properties.xml')
     xml={p.attrib['id']:p for p in tree.findall('.//property')}
     assert set(xml)=={p['key'] for p in props}
@@ -85,6 +101,9 @@ def main():
         expected_default=('true' if p['default'] else 'false') if p['type']=='boolean' else str(p['default'])
         assert xml[p['key']].text==expected_default
     settings=ET.parse(ROOT/'resources/settings/settings.xml')
+    group=settings.find('.//group');assert group is not None and group.attrib['id']=='second_field_set'
+    assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props[26:]]
+    assert len(settings.findall('./settings/setting'))==26
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
     assert set(configured)==set(xml)
     for p in props:

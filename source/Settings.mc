@@ -14,6 +14,7 @@ class DisplaySettings {
     var usesBattery;
     var usesClock;
     var revision=0;
+    var _prefix="";
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
@@ -28,7 +29,8 @@ class DisplaySettings {
         }
         apply(values);
     }
-    function get(values as Lang.Dictionary, key) { return values.hasKey(key) ? values[key] : null; }
+    function get(values as Lang.Dictionary, key) { var saved=_prefix+key;return values.hasKey(saved) ? values[saved] : null; }
+    function applyBank(values,prefix) { _prefix=prefix;apply(values); }
     function booleanValue(values, key) {
         var value=get(values,key); return value instanceof Lang.Boolean ? value : true;
     }
@@ -36,15 +38,16 @@ class DisplaySettings {
         revision+=1;
         // Retired field_count and use_units_as_labels are ignored. APP-20 derives the count
         // from measured rows and the selected number of enlarged top fields.
+        var second="second_".equals(_prefix);
         var big = get(values, "enlarged_field_count");
-        enlarged = big instanceof Lang.Number && big >= 0 && big <= 2 ? big : 0;
+        enlarged = big instanceof Lang.Number && big >= 0 && big <= 2 ? big : (second?1:0);
         var align = SettingsCatalogue.decode("alignment",get(values, "alignment")); alignment = "center".equals(align) ? "center" : "right";
         var mode = SettingsCatalogue.decode("theme_mode",get(values, "theme_mode")); theme = "day".equals(mode) || "night".equals(mode) ? mode : "auto";
         hideValueUnits=booleanValue(values,"hide_value_units");
         inverseEnlargedTheme=booleanValue(values,"inverse_enlarged_theme");
         var grid=SettingsCatalogue.decode("grid_type",get(values,"grid_type"));
         gridType="none".equals(grid)?"none":("full".equals(grid)?"full":"horizontal");
-        var defaults = Catalog.defaultSlots();
+        var defaults = second?Catalog.secondaryDefaultSlots():Catalog.defaultSlots();
         usesBattery=false;usesClock=false;
         for (var i = 0; i < 10; i += 1) {
             var key = "slot_" + (i+1).toString() + "_value";
@@ -54,7 +57,7 @@ class DisplaySettings {
             if("battery".equals(slots[i])) { usesBattery=true; }
             if("time_of_day".equals(slots[i])) { usesClock=true; }
             var enabled = get(values, "slot_" + (i+1).toString() + "_background_effects");
-            effects[i] = enabled instanceof Lang.Boolean ? enabled : false;
+            effects[i] = enabled instanceof Lang.Boolean ? enabled : (second && i<4);
         }
     }
 }

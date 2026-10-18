@@ -47,9 +47,9 @@ function actualValueFitAndCompactCache(logger) {
     var s=new DisplaySettings();s.apply({"slot_1_value"=>19,"use_units_as_labels"=>false});
     var e=new SnapshotEngine();var r=new FieldRenderer();var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
     var value=e.prepare({"calories"=>9999999},s,true);r.prepare(value);r.layout(dc,s);
-    Test.assertEqual(PresentationPolicy.OVERFLOW,r._runs[0][:text]);var fixed=r._runs[0][:size];
+    Test.assertEqual(PresentationPolicy.OVERFLOW,r._runs[0].text);var fixed=r._runs[0].size;
     value=e.prepare({"calories"=>1},s,true);r.prepare(value);
-    Test.assertEqual(fixed,r._runs[0][:size]);Test.assertEqual(DeviceProfile.REGULAR_SIZE,fixed);Test.assert(!r.needsLayout());
+    Test.assertEqual(fixed,r._runs[0].size);Test.assertEqual(DeviceProfile.REGULAR_SIZE,fixed);Test.assert(!r.needsLayout());
     var compact=new PresentationDrawDc(220,FontSelection.height(DeviceProfile.LABEL_SIZE,true)*5);r.layout(compact,s);
     var message="";
     for(var i=0;i<r._compactLines.size();i+=1) { message+=(i>0?" ":"")+r._compactLines[i]; }
@@ -97,6 +97,38 @@ function documentedUnsupportedCombinations(logger) {
         var cells=Grid.plan(profileDrawWidth(),profileDrawHeight(),DeviceProfile.DESIGN_ROWS,row[4]?1:0);
         var cell=row[4]?cells[0]:cells[cells.size()-1];
         Test.assert(renderer.fitRun(cell,value,DeviceProfile.LABEL_SIZE,value[:text],value[:unit])==null);
+    }
+    return true;
+}
+
+// SPEC-232: deliberately rejected bank bounds belong only to Placement.
+(:test)
+function secondaryFieldSetPlacement(logger) {
+    var properties={"second_set_trigger"=>3,"second_enlarged_field_count"=>2};
+    for(var slot=1;slot<=10;slot+=1) {
+        properties["slot_"+slot+"_value"]="current_power";
+        properties["second_slot_"+slot+"_value"]="current_power";
+    }
+    var renderer=new FieldRenderer();var engine=new SnapshotEngine();
+    var raw={"current_power"=>0};
+    var large=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
+    var small=new PresentationDrawDc(100,100);
+    for(var alignment=0;alignment<2;alignment+=1) {
+        for(var grid=0;grid<3;grid+=1) {
+            properties["alignment"]=alignment;properties["second_alignment"]=alignment;
+            properties["grid_type"]=grid;properties["second_grid_type"]=grid;
+            var banks=new FieldSetsSettings();banks.apply(properties);var c=new FieldSetController(banks);
+            var snap=engine.prepareWithPreferences(raw,c.active(),true,new PresentationDevice(false,true,false),null);
+            renderer.configure(c.active());renderer.prepare(snap);renderer.layout(large,c.active());
+            Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,0),renderer._cells.size());
+            c.lap(true);snap=engine.prepareWithPreferences(raw,c.active(),true,new PresentationDevice(false,true,false),null);
+            renderer.configure(c.active());renderer.prepare(snap);renderer.layout(small,c.active());
+            Test.assertEqual(0,renderer._cells.size());Test.assert(c.second);
+            renderer.layout(small,c.active());Test.assert(c.second);
+            c.lap(true);snap=engine.prepareWithPreferences(raw,c.active(),true,new PresentationDevice(false,true,false),null);
+            renderer.configure(c.active());renderer.prepare(snap);renderer.layout(large,c.active());
+            Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,0),renderer._cells.size());Test.assert(!c.second);
+        }
     }
     return true;
 }

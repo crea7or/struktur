@@ -40,14 +40,14 @@ class SamplePreviewField extends StrukturField {
         if(_renderer._runs.size()>0) {
             var labelFont=_renderer._labels;
             var labelInfo=FontSelection.info(DeviceProfile.LABEL_SIZE,true);
-            var first=_renderer._runs[0];var numericInfo=FontSelection.info(first[:size],false);
-            if(Graphics.getFontHeight(labelFont)!=labelInfo[1] || Graphics.getFontHeight(first[:font])!=numericInfo[1] ||
+            var first=_renderer._runs[0];var numericInfo=FontSelection.info(first.size,false);
+            if(Graphics.getFontHeight(labelFont)!=labelInfo[1] || Graphics.getFontHeight(first.font)!=numericInfo[1] ||
                 dc.getTextWidthInPixels("speed | km/h",labelFont)!=FontMetrics.width("speed | km/h",FontMetrics.label(labelInfo[1])) ||
-                dc.getTextWidthInPixels("245",first[:font])!=FontMetrics.width("245",FontMetrics.numeric(numericInfo[1]))) {
+                dc.getTextWidthInPixels("245",first.font)!=FontMetrics.width("245",FontMetrics.numeric(numericInfo[1]))) {
                 throw new Lang.InvalidValueException("Sample font resource mismatch");
             }
-            if(_settings.enlarged!=1 || !_renderer._cells[0][:enlarged] || first[:size]!=DeviceProfile.BIG_SIZE ||
-                !"245".equals(first[:text]) || !"3s watts".equals(_snapshot[:values][0][:label]) ||
+            if(_settings.enlarged!=1 || !_renderer._cells[0][:enlarged] || first.size!=DeviceProfile.BIG_SIZE ||
+                !"245".equals(first.text) || !"3s watts".equals(_snapshot[:values][0][:label]) ||
                 _renderer._runs.size()!=Grid.capacity(DeviceProfile.DESIGN_ROWS,1)) {
                 throw new Lang.InvalidValueException("Sample enlarged power layout mismatch");
             }
