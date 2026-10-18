@@ -163,11 +163,14 @@ class FieldRenderer {
         return null;
     }
     function layout(dc,settings) {
+        // Native Dc handles belong to this callback, never a later compute/settings/lap call.
         _nativeFonts.setContext(dc);
-        var width=dc.getWidth();var height=dc.getHeight();
-        if(_width!=width || _height!=height) { _geometryDirty=true;_needsLayout=true; }
-        _width=width;_height=height;configure(settings);
-        if(_needsLayout) { rebuild();prepareGeometry(); }
+        try {
+            var width=dc.getWidth();var height=dc.getHeight();
+            if(_width!=width || _height!=height) { _geometryDirty=true;_needsLayout=true; }
+            _width=width;_height=height;configure(settings);
+            if(_needsLayout) { rebuild();prepareGeometry(); }
+        } finally { _nativeFonts.setContext(null); }
     }
     function configure(settings) {
         if(_configuredEnlarged!=settings.enlarged) {
@@ -266,9 +269,19 @@ class FieldRenderer {
         if(!_needsLayout && _dirtyCount>0) {
             // Reconsider the preferred capacity after a fallback; never pin a smaller grid.
             if(_cells.size()!=_nativeCapacity) { _needsLayout=true; }
-            else { refreshRuns(); }
+            // Team fitting needs a current native Dc. Defer changed native text until layout;
+            // numeric-only updates continue using cached sprite metrics here.
+            for(var dirty=0;dirty<_dirtyCount && !_needsLayout;dirty+=1) {
+                if(isTeam(_preparedValues[_dirtyFields[dirty]])) { _needsLayout=true; }
+            }
+            if(!_needsLayout) { refreshRuns(); }
         }
-        if(_needsLayout) { rebuild(); }
+        if(_needsLayout) {
+            for(var slot=0;slot<_preparedValues.size() && slot<_nativeCapacity;slot+=1) {
+                if(isTeam(_preparedValues[slot])) { return; }
+            }
+            rebuild();
+        }
         prepareGeometry();
     }
     function refreshRuns() {

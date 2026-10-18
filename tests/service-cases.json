@@ -306,7 +306,7 @@
       "requirement_revisions": {
         "APP-21": 97,
         "APP-24": 77,
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-32": 79,
         "APP-34": 97,
         "APP-36": 80,
@@ -349,7 +349,7 @@
         "SPEC-157": 71,
         "SPEC-235": 34,
         "SPEC-249": 17,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "definition": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
       "stable_id": "TUI-1",
@@ -863,7 +863,7 @@
       "revision": 11,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-36": 80,
         "DVS-29": 157,
         "DVS-6": 101
@@ -893,7 +893,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-22": 66,
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-32": 79,
         "HFER-7": 23,
         "HFER-8": 23,
@@ -1114,7 +1114,7 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "DVS-32": 58,
         "DVS-4": 50,
         "DVS-50": 63
@@ -1141,7 +1141,7 @@
       "revision": 19,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-32": 79,
         "DVS-29": 157
       },
@@ -1166,7 +1166,7 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-37": 35,
         "DVS-35": 48
       },
@@ -1242,7 +1242,7 @@
       "requirement_revisions": {
         "APP-24": 77,
         "APP-25": 39,
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-34": 97
       },
       "suite_stable_id": "TRGR-2"
@@ -1411,7 +1411,7 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "SPEC-217": 8,
         "SPEC-218": 9
       }
@@ -1461,7 +1461,7 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "SPEC-208": 21,
         "SPEC-220": 12,
         "SPEC-221": 13,
@@ -1485,7 +1485,7 @@
       "revision": 12,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 86
+        "APP-26": 87
       }
     },
     {
@@ -1532,7 +1532,7 @@
         "APP-46": 71,
         "SPEC-155": 107,
         "SPEC-210": 23,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-286"
     },
@@ -1620,7 +1620,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 86
+        "APP-26": 87
       },
       "stable_id": "SPEC-275"
     },
@@ -1795,7 +1795,7 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "APP-32": 79
       },
       "stable_id": "SPEC-271"
@@ -1836,7 +1836,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-287"
     },
@@ -1856,7 +1856,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-288"
     },
@@ -1876,7 +1876,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 86
+        "APP-26": 87
       },
       "stable_id": "SPEC-299"
     },
@@ -1902,7 +1902,7 @@
         "DVS-12": 111,
         "DVS-50": 63,
         "SPEC-156": 21,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-289"
     },
@@ -1924,7 +1924,7 @@
       ],
       "requirement_revisions": {
         "SPEC-208": 21,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-290",
       "additional_executable_checks": [
@@ -1956,7 +1956,7 @@
       "requirement_revisions": {
         "APP-21": 97,
         "APP-34": 97,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-291"
     },
@@ -1978,7 +1978,7 @@
       ],
       "requirement_revisions": {
         "APP-25": 39,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-292"
     },
@@ -1998,7 +1998,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-293"
     },
@@ -2018,7 +2018,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-294"
     },
@@ -2044,7 +2044,7 @@
         "APP-38": 55,
         "SPEC-176": 26,
         "SPEC-177": 34,
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-297"
     },
@@ -2064,7 +2064,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-298"
     },
@@ -2168,7 +2168,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 86
+        "APP-26": 87
       },
       "stable_id": "SPEC-283"
     },
@@ -2332,7 +2332,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 34
+        "SPEC-253": 35
       },
       "stable_id": "SPEC-295"
     },
@@ -2349,15 +2349,15 @@
         "SPEC-253"
       ],
       "title": "Mixed Team and metric layouts through typed lap callbacks",
-      "definition": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.",
-      "procedure": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.",
-      "revision": 5,
+      "definition": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
+      "procedure": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
+      "revision": 6,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 86,
+        "APP-26": 87,
         "SPEC-217": 8,
         "SPEC-218": 9,
-        "SPEC-253": 34
+        "SPEC-253": 35
       }
     },
     {
@@ -2371,13 +2371,13 @@
         "SPEC-253"
       ],
       "title": "Native properties persistence and settings callback",
-      "definition": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/font/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.",
-      "procedure": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/font/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.",
-      "revision": 7,
+      "definition": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/font/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.\nRegression: start with a numeric first slot, expire the layout Dc, save Team in slots 1/2 and call onSettingsChanged. Require zero native width reads during the settings callback, pending fitting, and Team text on the next redraw with a fresh scoped Dc. Expire it again; unchanged refreshes must not measure. Switch banks and edit shared text with the Dc expired; the next valid redraw must show the new text, with no retained Dc after return.",
+      "procedure": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/font/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.\nRegression: start with a numeric first slot, expire the layout Dc, save Team in slots 1/2 and call onSettingsChanged. Require zero native width reads during the settings callback, pending fitting, and Team text on the next redraw with a fresh scoped Dc. Expire it again; unchanged refreshes must not measure. Switch banks and edit shared text with the Dc expired; the next valid redraw must show the new text, with no retained Dc after return.",
+      "revision": 8,
       "status": "draft",
       "requirement_revisions": {
         "APP-32": 79,
-        "SPEC-253": 34
+        "SPEC-253": 35
       }
     },
     {

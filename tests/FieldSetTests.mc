@@ -231,23 +231,32 @@ class TeamLapCallbackScenario {
     }
     function run() {
         field=new TeamLapField();configuration=new FieldSetsSettings();configuration.apply(properties);field.applyFieldSets(configuration);
-        dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
-        field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);
+        dc=new ScopedTeamDrawDc(profileDrawWidth(),profileDrawHeight());
+        dc.active=true;field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
         for(var event=0;event<4;event+=1) {
             if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
-            Test.assertEqual(event%2==0,field._fieldSets.second);field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);
+            Test.assertEqual(event%2==0,field._fieldSets.second);dc.active=true;field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
             Test.assert(field._renderer._runs[0].isNative);Test.assertEqual("TEAM",field._renderer._runs[0].text);
         }
     }
 }
 
+// A Data Field Dc expires when its callback returns; bitmap-backed test contexts do not.
+(:testSupport)
+class ScopedTeamDrawDc extends TeamDrawDc {
+    var active=false;var widthReads=0;
+    function initialize(w,h) { TeamDrawDc.initialize(w,h); }
+    function getTextWidthInPixels(text,font) {
+        Test.assert(active);widthReads+=1;return _measurement.getTextWidthInPixels(text,font);
+    }
+}
 // Exercise the complete callback after layout with native text AND sprite values.
 (:testSupport)
 class MixedTeamLapCallbackScenario {
     var field;var props;var configuration;var dc;
     function initialize() {
         props={"trig"=>3,"a1"=>32,"a2"=>32,"b1"=>32,"team"=>"TEAM RIDE"};
-        dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
+        dc=new ScopedTeamDrawDc(profileDrawWidth(),profileDrawHeight());
     }
     function run() {
         field=new TeamLapField();
@@ -257,11 +266,11 @@ class MixedTeamLapCallbackScenario {
                 props["a_align"]=shape%2;props["b_align"]=1-shape%2;
                 props["a1_bg"]=mode;props["b1_bg"]=mode;
                 configuration=new FieldSetsSettings();configuration.apply(props);field.applyFieldSets(configuration);
-                field.method(:onLayout).invoke(dc);field.onTimerStart();
+                dc.active=true;field.method(:onLayout).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);field.onTimerStart();
                 for(var event=0;event<4;event+=1) {
                     if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
                     Test.assertEqual(event%2==0,field._fieldSets.second);
-                    field.method(:onUpdate).invoke(dc);
+                    dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
                     Test.assert(field._renderer._runs[0].isNative);Test.assertEqual("TEAM RIDE",field._renderer._runs[0].text);
                     Test.assert(!field._renderer._runs[2].isNative);Test.assert(field._renderer._packets[0].lines.size()>0);
                     Test.assert(field._renderer._packets[2].primary!=null);
@@ -279,22 +288,32 @@ class NativeSettingsCallbackScenario {
     }
     function run() {
         app=Toybox.Application.getApp();oldView=app._view;
-        // Migration can update hidden coverage/schema declarations too.
+        // Restore the isolated test application properties even after an assertion failure.
         var keys=SettingsCatalogue.keys();for(var i=0;i<keys.size();i+=1) { saved[keys[i]]=Toybox.Application.Properties.getValue(keys[i]); }
         try {
-            field=new TeamLapField();app._view=field;dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
-            field.method(:onLayout).invoke(dc);
+            field=new TeamLapField();app._view=field;dc=new ScopedTeamDrawDc(profileDrawWidth(),profileDrawHeight());
+            var numeric=new FieldSetsSettings();numeric.apply({"a1"=>0,"a2"=>12,"b1"=>12});field.applyFieldSets(numeric);
+            dc.active=true;field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);dc.active=false;
+            Test.assert(!field._renderer._runs[0].isNative);Test.assert(field._renderer._nativeFonts._dc==null);
+            var reads=dc.widthReads;
             keys=props.keys();for(var i=0;i<keys.size();i+=1) { Toybox.Application.Properties.setValue(keys[i],props[keys[i]]); }
-            app.onSettingsChanged();field.method(:onUpdate).invoke(dc);
+            app.onSettingsChanged();Test.assertEqual(reads,dc.widthReads);Test.assert(field._renderer.needsLayout());
+            dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;
+            Test.assert(field._renderer._nativeFonts._dc==null);Test.assert(dc.widthReads>reads);
             Test.assertEqual("team",field._settings.slots[0]);Test.assertEqual("team",field._settings.slots[1]);
             Test.assertEqual(9,field._settings.teamFont);Test.assertEqual(2,field._settings.teamSource);
             Test.assertEqual("NATIVE TEAM",field._snapshot[:values][1][:text]);Test.assert(field._renderer._runs[0].isNative);
             Test.assertEqual("center",field._settings.alignment);Test.assertEqual("full",field._settings.gridType);
+            reads=dc.widthReads;field.refreshPresentation();Test.assertEqual(reads,dc.widthReads);
+            Test.assert(!field._renderer.needsLayout());
             field.onTimerStart();
             if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
             Test.assert(field._fieldSets.second);
             Toybox.Application.Properties.setValue("team","UPDATED TEAM");
-            Toybox.Application.Properties.setValue("tfont",0);Toybox.Application.Properties.setValue("tsrc",1);app.onSettingsChanged();
+            Toybox.Application.Properties.setValue("tfont",0);Toybox.Application.Properties.setValue("tsrc",1);
+            reads=dc.widthReads;app.onSettingsChanged();Test.assertEqual(reads,dc.widthReads);
+            dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
+            Test.assertEqual("UPDATED TEAM",field._renderer._runs[0].text);
             Test.assert(field._fieldSets.second);Test.assertEqual("UPDATED TEAM",field._snapshot[:values][0][:text]);
             loaded=new FieldSetsSettings();loaded.load();
             Test.assertEqual(0,loaded.primary.teamFont);Test.assertEqual(0,loaded.secondary.teamFont);

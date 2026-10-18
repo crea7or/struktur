@@ -873,7 +873,7 @@
   {
     "identifier": "team",
     "requirement": "SPEC-253",
-    "version": 34,
+    "version": 35,
     "source": "One validated shared Team name setting",
     "context": "All Team slots in both saved sets; literal ASCII text independent of activity samples",
     "raw_type": "string",

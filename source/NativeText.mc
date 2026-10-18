@@ -11,7 +11,8 @@ module TeamOptions {
     function code(value,maximum) { return value instanceof Lang.Number && value>=0 && value<=maximum?value:0; }
 }
 // Standard system text fonts are the portable candidates. Measurements use
-// the supplied layout Dc; no text bitmap, extra atlas or retained width ladder. AUX faces remain
+// the current layout Dc only; clear it before the callback returns. No text bitmap,
+// extra atlas or retained width ladder. AUX faces remain
 // unqualified in the pinned device libraries; retain logical saved selections.
 class NativeTextCache {
     var candidates=[];var measurements=0;var _dc;
