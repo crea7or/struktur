@@ -7,12 +7,14 @@ from pathlib import Path
 from font_glyphs import glyph_contract
 from validate_fonts import validate_manifest
 from check_test_suites import validate_suites
+from check_requirement_ownership import validate_ownership
 from generate_display_limits import outputs as display_limit_outputs
 
 ROOT=Path(__file__).resolve().parents[1]
 def read(path):return json.loads((ROOT/path).read_text(encoding='utf-8-sig'))
 def main():
     validate_suites()
+    validate_ownership()
     for name, expected in display_limit_outputs().items():
         assert (ROOT/name).read_text(encoding='utf-8')==expected, 'Stale display limits: '+name
     items=read('requirements/workspace-snapshot.json');baseline=read('requirements/baseline.json')

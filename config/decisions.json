@@ -123,7 +123,7 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 155
+      "DVS-29": 156
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
@@ -161,7 +161,7 @@
     "specification_review": "Completed-lap acquisition contract now belongs to DVS-39.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-39": 117
+      "DVS-39": 120
     },
     "requirement_states": {
       "DVS-39": "draft"
@@ -241,9 +241,9 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "APP-22": 63,
+      "APP-22": 64,
       "APP-25": 39,
-      "APP-36": 79,
+      "APP-36": 80,
       "SPEC-154": 41
     },
     "requirement_states": {
@@ -291,7 +291,7 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "requirement_revisions": {
       "APP-46": 71,
-      "SPEC-155": 105,
+      "SPEC-155": 106,
       "DVS-50": 61
     },
     "reviewed_on": "2026-10-17",

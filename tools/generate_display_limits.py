@@ -180,18 +180,21 @@ def field_table(record, field, groups):
 
 
 def requirement_limits_match(description, record, field, groups):
-    """Accept a full table, or one exact interval only when every context agrees."""
-    description = description.replace('\r', '')
+    """Validate the single terminal range property, without accepting extra claims."""
+    parts = description.replace('\r', '').split('Normal display ranges:')
+    if len(parts) != 2:
+        return False
+    actual = parts[1].strip()
     table = field_table(record, field, groups)
-    if table in description:
+    if actual == table:
         return True
     cells = [cell.strip() for row in table.splitlines()[2:]
              for cell in row.strip('|').split('|')[1:]]
     if not cells or len(set(cells)) != 1:
         return False
-    statement = ('Normal display ranges: ' + cells[0] +
-                 '. All supported devices, regular/enlarged cells, headers hidden/shown.')
-    return statement in description
+    expected = (cells[0] +
+                '. All supported devices, regular/enlarged cells, headers hidden/shown.')
+    return actual == expected
 
 
 def generate():

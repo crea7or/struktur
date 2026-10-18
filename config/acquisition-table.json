@@ -395,7 +395,7 @@
   {
     "identifier": "grade",
     "requirement": "DVS-29",
-    "version": 155,
+    "version": 156,
     "source": "DVS-29..DVS-29: five-sample least-squares altitude/distance regression followed by a partial mean of up to three consecutive one-second estimates; canonical two-decimal smoothed grade.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -641,7 +641,7 @@
   {
     "identifier": "completed_laps",
     "requirement": "DVS-39",
-    "version": 117,
+    "version": 120,
     "source": "Legacy DataField.onTimerLap after a FIT lap record; exact known-zero baseline state machine.",
     "context": "Foreground callback since API 1.3.0 on all nine; no onTimerLap2 or FIT history parsing.",
     "raw_type": "nullable numeric",
@@ -873,7 +873,7 @@
   {
     "identifier": "team",
     "requirement": "SPEC-253",
-    "version": 24,
+    "version": 25,
     "source": "Validated per-slot Team text settings",
     "context": "Both saved sets; literal ASCII text independent of activity samples",
     "raw_type": "string",

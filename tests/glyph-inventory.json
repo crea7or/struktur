@@ -26,7 +26,7 @@
     "Unknown field header and complete compact message",
     "Uppercase N/NE/E/SE/S/SW/W/NW cardinals in the label role"
   ],
-  "marker_status": "Approved APP-35 markers; no additional pending marker.",
+  "marker_status": "APP-35 markers; review state is tracked in the current requirement snapshot.",
   "secondary_duration": [
     ".00",
     ".05",
