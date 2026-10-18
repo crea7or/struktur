@@ -269,6 +269,7 @@ function approvedForegroundAndMetricWidths(logger) {
 // Fast normal native-area drawing cases; fallback belongs to PlacementTests.
 (:test)
 function normalPresentationDrawAndAlignment(logger) {
+    for(var bandCase=0;bandCase<24;bandCase+=1) { new EnlargedLabelScenario(bandCase).run(); }
     for(var night=0;night<2;night+=1) {
         for(var big=0;big<=2;big+=1) {
             for(var align=0;align<2;align+=1) {
@@ -331,4 +332,60 @@ function clockAndDurationFitEveryLayout(logger) {
         }
     }
     return true;
+}
+
+
+// SPEC-239..242: exercise production effect selection, fitting and drawing in both banks.
+(:testSupport)
+class EnlargedLabelScenario {
+    var dc;var enlarged;var night;var bank;var align;var fits;var geometry;var packets;
+    var _scenario;var props;var banks;var settings;var engine;var renderer;var device;var before;var after;var fallback;
+    function initialize(scenario) { _scenario=scenario; }
+    function run() {
+        enlarged=_scenario%3;night=(_scenario/3).toNumber()%2==1;
+        bank=(_scenario/6).toNumber()%2;align=(_scenario/12).toNumber();
+        props={"enlarged_field_count"=>enlarged,"second_enlarged_field_count"=>enlarged,
+            "alignment"=>align,"second_alignment"=>align,"theme_mode"=>night?2:1,
+            "second_theme_mode"=>night?2:1,"hide_value_units"=>false,"second_hide_value_units"=>false};
+        for(var slot=1;slot<=10;slot+=1) {
+            props["slot_"+slot+"_value"]="current_power";props["second_slot_"+slot+"_value"]="current_power";
+            props["slot_"+slot+"_background_effects"]=true;props["second_slot_"+slot+"_background_effects"]=true;
+        }
+        banks=new FieldSetsSettings();banks.apply(props);settings=bank==0?banks.primary:banks.secondary;
+        engine=new SnapshotEngine();engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500],true);
+        renderer=new FieldRenderer();device=new PresentationDevice(false,true,night);
+        before=engine.prepareWithPreferences({"current_power"=>150},settings,true,device,null);
+        render(before);assertFrame(before,"green");
+        fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
+        engine._powerZones=ZoneMetadata.power([0,200,300,400,500,600],true);
+        after=engine.prepareWithPreferences({"current_power"=>150},settings,true,device,null);
+        render(after);assertFrame(after,"blue");
+        Test.assertEqual("green",before[:values][0][:band]);Test.assertEqual("150",before[:values][0][:text]);
+        Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);
+        Test.assert(renderer.packetBuilds>packets);
+        engine._powerZones=null;
+        fallback=engine.prepareWithPreferences({"current_power"=>150},settings,true,device,null);
+        render(fallback);assertFrame(fallback,null);
+        Test.assertEqual("150",fallback[:values][0][:text]);
+    }
+    function render(snapshot) {
+        dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
+        for(var i=0;i<10;i+=1) { dc.paintEffects.add(true); }
+        renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.draw(dc,snapshot,settings);
+    }
+    function assertFrame(snapshot,semantic) {
+        Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,settings.enlarged),dc.records.size());
+        for(var i=0;i<dc.records.size();i+=1) {
+            var c=renderer._cells[i];var record=dc.records[i];var fill=record[:rectangles][1];
+            var effective=FieldPresentation.effectiveNight(snapshot[:night],c[:enlarged],settings.inverseEnlargedTheme);
+            var expected=semantic==null?(effective?0x333333:0xCCCCCC):renderer.color(semantic);
+            Test.assertEqual(c[:x],fill[0]);Test.assertEqual(c[:y],fill[1]);
+            Test.assertEqual(c[:w],fill[2]);Test.assertEqual(renderer._labelBandHeight,fill[3]);
+            Test.assertEqual(expected,record[:fills][1]);Test.assertEqual(2,record[:rectangles].size());
+            Test.assertEqual(effective?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,record[:background]);
+            Test.assertEqual("150",renderer._runs[i].text);Test.assertEqual(2,record[:texts].size());
+            Test.assertEqual(c[:y]+renderer._labelBandHeight,record[:texts][0][:clip][1]+record[:texts][0][:clip][3]);
+            Test.assert(record[:texts][1][:inkTop]>=c[:y]+renderer._headerHeight);
+        }
+    }
 }
