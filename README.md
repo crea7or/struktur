@@ -1,6 +1,6 @@
 # Struktur
 
-Struktur is a configurable Garmin Connect IQ **Data Field for cycling**. Keep your chosen ride metrics together in a two-column dashboard, with clear values, compact secondary units and up to two enlarged fields.
+Struktur is a configurable Garmin Connect IQ **Data Field for cycling**. Keep your chosen ride metrics together in two independently configurable, two-column dashboards, with clear values, compact secondary units and up to two enlarged fields per set.
 
 The project was made with the [AI Architect requirement service](https://ai-architect.link). Requirements guide the implementation and its validation; a portable documentation release is included in the [architecture archive](architecture/Struktur-0.1.1.zip).
 
@@ -12,15 +12,17 @@ The screenshots use sample data. Power zones show `--` while their data source a
 
 - 32 selectable metrics: speed, distance, heart rate, cadence, power, elevation, ascent/descent, slope, timers, time of day, battery, heading, calories, completed laps and more.
 - Six current-lap fields: distance, active time, average speed, heart rate, power and cadence.
-- Ten saved field assignments, including temporarily hidden slots. Repeated metrics are supported.
+- Two independent sets of ten saved field assignments, including temporarily hidden slots. Repeated metrics are supported.
+- Choose a second-set trigger: **3s power**, **Heart rate**, **Manual lap** (factory default), **Workout started**, or **None** to disable switching without losing the saved set.
 - Zero, one or two enlarged fields; each layout uses its full available capacity.
 - Center or Right alignment, independently of **Grid type**: None, Horizontal lines or Full grid.
 - Day, Night and automatic themes, optional theme inversion for enlarged fields, and independent background effects per slot.
 - Metric and statute units, optional `label | unit` headers, and 12/24-hour clocks.
+- Speed and distance use two decimals below 10, one below 100 and whole numbers from 100, after conversion and rounding carries. Slope always shows one decimal and averages the last three one-second estimates, using available estimates immediately.
 - Small `.SS` timer seconds below ten hours; longer durations retain all hour digits.
 - Exactly three bitmap font sizes per device, containing only the glyphs used by the app.
 
-Defaults are Right alignment, Horizontal lines, no enlarged fields, hidden physical units and background effects off. The field order is speed, distance, timer, time, heart rate, 3s power, elevation, slope, ascent and temperature. Four-row layouts initially show the first eight.
+The first-set defaults are Right alignment, Horizontal lines, no enlarged fields, hidden physical units and background effects off. The field order is speed, distance, timer, time, heart rate, 3s power, elevation, slope, ascent and temperature. Four-row layouts initially show the first eight.
 
 ## Device profiles
 
@@ -36,6 +38,24 @@ These are development profiles. Emulator verification does not establish physica
 For development sideloading, build a PRG for the matching device and copy it into the device's `GARMIN/APPS` directory. Add Struktur to a cycling activity using a full-page, single Data Field layout.
 
 Application settings control field assignments, alignment, enlargement, grid type, themes, unit headers and per-slot backgrounds. Changing a layout retains assignments in hidden slots.
+
+The **Second field set** section follows the default-set settings. Its activation selector controls when the entire second dashboard replaces the first. Each set saves ten assignments and independently configures fields, alignment, enlargement, themes, unit headers, backgrounds and grid.
+
+| Trigger | Show the second set | Return to the first set |
+| --- | --- | --- |
+| **3s power** | Rolling three-second power reaches or exceeds your activation threshold | Power drops strictly below your separate return threshold |
+| **Heart rate** | Heart rate reaches or exceeds your activation threshold | Heart rate drops strictly below your separate return threshold |
+| **Manual lap** (factory default) | First qualifying Lap-button press | Next qualifying Lap-button press |
+| **Workout started** | A workout-start event is received | The activity timer is reset |
+| **None** | Never; switching is disabled | The first set remains active and second-set settings stay saved |
+
+The second-set factory preset enlarges **3s watts**, followed by heart rate, cadence, slope, lap watts (current-lap average), speed, lap distance, lap time, elevation and temperature. Background effects default to ON for the first four slots and OFF for the rest. With one enlarged field, four-row layouts show the first five assignments and five-row layouts show the first seven; the other assignments remain saved. Factory defaults fill missing settings and preserve valid existing choices.
+
+Power and heart-rate activation/return defaults are 250/220 W and 160/150 bpm, respectively. The return threshold must not exceed activation; an inconsistent selected pair keeps the default set. Missing source data returns to default; power needs three consecutive valid seconds. Pause/stop preserves the set until fresh running data is evaluated.
+
+The app starts on the first set. Valid saved trigger selections are preserved, including None. **Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events.** Other automatic/workout lap sources must also be absent for manual-only switching on those devices. Newer profiles filter manual lap events by their reported cause.
+
+In Workout started mode, pause, stop, lap events and workout-step/workout completion keep the second set selected until timer reset. Selecting this mode after workout start waits for the next workout-start event. App restart, activity reset or changing trigger mode starts from the default set. Presentation-only edits preserve the active set; changing the selected thresholds resets it until a new sample is evaluated.
 
 Lap values use intervals observed by the app. Measured zero power/cadence are included; missing readings are excluded. Loading during an existing ride leaves lap metrics unavailable until the next observed lap boundary. Completed laps require observation from a known fresh activity session.
 
@@ -86,7 +106,7 @@ The [suite definitions](tests/suites.json) keep three workflows separate:
 | Memory | Font loading and memory use in the actual Data Field runtime | Explicitly requested validation |
 | Placement | Overflow, insufficient drawing areas and compact fallback | Explicitly requested validation |
 
-Core contains 37 named Monkey C tests. To compile and run Core with the SDK simulator already open:
+Core contains 42 named Monkey C tests. To compile and run Core with the SDK simulator already open:
 
 ```powershell
 & (Join-Path $env:CONNECTIQ_SDK 'bin/monkeyc.bat') `
@@ -95,6 +115,8 @@ Core contains 37 named Monkey C tests. To compile and run Core with the SDK simu
 & (Join-Path $env:CONNECTIQ_SDK 'bin/monkeydo.bat') `
     bin/Struktur-core-tests.prg edge1040 /t
 ```
+
+Memory runs the 648-case layout/resource stress matrix and the 1000-transition/200-settings-change second-set scenario in separate normal Data Field programs. Both must pass within the device allocation; font probes alone do not establish memory qualification. Each report retains its source and binary hashes, used/free/total measurements and raw log.
 
 Core does not launch Memory or Placement. Simulator results and sample screenshots do not qualify sensors, firmware behavior or physical lap-event delivery.
 

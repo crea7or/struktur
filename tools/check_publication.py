@@ -100,7 +100,9 @@ def main():
     archives = [audit_public_archive(path, patterns) for path in sorted((ROOT / 'architecture').glob('*.zip'))]
     package = read(EXPORT / 'requirements.json')
     assert len(package['relations']) >= 370
-    assert len(package['documents']) == 4 and len(package['attachments']) == 18
+    document_ids={row['stable_id'] for row in package['items'] if row['type']=='document'}
+    assert document_ids and {doc['stable_id'] for doc in package['documents']}==document_ids
+    assert len(package['documents'])==len(document_ids) and len(package['attachments'])==18
     snapshots = read(ROOT / 'requirements/workspace-snapshot.json') + read(ROOT / 'requirements/supporting-approved-snapshot.json')
     current = {row['stable_id']: row for row in snapshots}
     assert len(current) == len(snapshots) == len(package['items'])

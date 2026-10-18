@@ -2,7 +2,7 @@
   {
     "identifier": "current_speed",
     "requirement": "DVS-8",
-    "version": 40,
+    "version": 45,
     "source": "Activity.Info.currentSpeed",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -10,7 +10,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -21,14 +21,14 @@
       "acquisitionInvalidInputs"
     ],
     "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
-    "presentation_precision": 1,
+    "presentation_precision": "magnitude-based under DVS-2",
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "current_speed"
   },
   {
     "identifier": "average_speed",
     "requirement": "DVS-9",
-    "version": 32,
+    "version": 37,
     "source": "Activity.Info.averageSpeed",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -36,7 +36,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -47,7 +47,7 @@
       "acquisitionInvalidInputs"
     ],
     "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
-    "presentation_precision": 1,
+    "presentation_precision": "magnitude-based under DVS-2",
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "average_speed"
   },
@@ -62,7 +62,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -88,7 +88,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -106,7 +106,7 @@
   {
     "identifier": "current_heart_rate",
     "requirement": "DVS-18",
-    "version": 38,
+    "version": 39,
     "source": "Activity.Info.currentHeartRate",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -114,7 +114,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -140,7 +140,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -166,7 +166,7 @@
     "validity": "Exactly six HR min/max bounds.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -193,7 +193,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -211,7 +211,7 @@
   {
     "identifier": "power_3s",
     "requirement": "DVS-22",
-    "version": 38,
+    "version": 39,
     "source": "Latest three consecutive delivered one-second Activity.Info.currentPower readings; arithmetic mean.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -219,7 +219,7 @@
     "validity": "Finite watts >=0, including measured zero.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "floor(Activity.Info.elapsedTime / 1000); one sample per consecutive activity second.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Missing/invalid input, skipped/decreasing seconds, pause/stop/resume/reset or changed activity identity clears the window.",
     "code": [
       "source/ActivityReader.mc",
@@ -246,7 +246,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -272,7 +272,7 @@
     "validity": "Metadata shape must be qualified; currently disabled because the SDK does not document array interpretation.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -291,7 +291,7 @@
   {
     "identifier": "distance",
     "requirement": "DVS-25",
-    "version": 31,
+    "version": 36,
     "source": "Activity.Info.elapsedDistance",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -299,7 +299,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -310,7 +310,7 @@
       "acquisitionInvalidInputs"
     ],
     "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
-    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "presentation_precision": "magnitude-based under DVS-2",
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "distance"
   },
@@ -325,7 +325,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -351,7 +351,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -377,7 +377,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -395,16 +395,16 @@
   {
     "identifier": "grade",
     "requirement": "DVS-29",
-    "version": 127,
-    "source": "FUNC-12..FUNC-14: five-sample least-squares altitude/distance regression; two-decimal canonical estimate.",
+    "version": 136,
+    "source": "FUNC-12..FUNC-14: five-sample least-squares altitude/distance regression followed by a partial mean of up to three consecutive one-second estimates; canonical two-decimal smoothed grade.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
     "raw_unit": "percent",
     "validity": "Valid running updates warm up at zero until three samples; invalid/discontinuous updates reset, no progress for 3s becomes unavailable until progress.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Activity.Info.elapsedTime milliseconds; optional startTime.value() identity.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
-    "reset": "FUNC-14 discontinuity/lifecycle/no-progress rules; a settings or visibility change does not reset the window.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
+    "reset": "FUNC-14 clears regression and temporal histories; missing/decreasing second buckets reset only the temporal average under FUNC-13. Settings and visibility changes preserve both histories.",
     "code": [
       "source/ActivityAcquisition.mc",
       "source/ActivityReader.mc",
@@ -433,7 +433,7 @@
     "validity": "Finite non-negative milliseconds; fractional seconds truncated.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -459,7 +459,7 @@
     "validity": "Finite non-negative milliseconds; fractional seconds truncated.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -485,7 +485,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Local system hour/minute and device is24Hour (24h fallback).",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -511,7 +511,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -529,7 +529,7 @@
   {
     "identifier": "temperature",
     "requirement": "DVS-34",
-    "version": 142,
+    "version": 144,
     "source": "Sensor.getInfo().temperature inside TemperatureSource.read in background TemperatureService; four-element protocol-2 edge-native-v2 packet.",
     "context": "Background/Sensor permissions; Sensor.getRegisteredSensors(SENSOR_TEMPERATURE) must be available. Empty or explicitly onboard-only registry before and after read. No foreground sensor calls.",
     "raw_type": "nullable numeric",
@@ -537,7 +537,7 @@
     "validity": "Owned background packet, correct protocol/path/types and finite Celsius including zero. Remote/unknown/malformed registrations block reads. Age 0..360 inclusive; no future/out-of-order refresh.",
     "trigger": "Earliest legal initial temporal event, then 300s interval; AppBase.onBackgroundData receipt, age rechecked in compute/settings/show.",
     "clock": "UTC read timestamp (not physical sample timestamp), read/delivery age plus monotonic receipt-age guard.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": ">360s expiry, clock rollback/wrap or newer invalid read clears value. Old/duplicate/incompatible packets cannot refresh cache. No saved-value restoration.",
     "code": [
       "source/ActivityReader.mc",
@@ -560,7 +560,7 @@
   {
     "identifier": "battery",
     "requirement": "DVS-35",
-    "version": 29,
+    "version": 33,
     "source": "System.getSystemStats().battery",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -568,7 +568,7 @@
     "validity": "Finite 0..100 inclusive; zero valid.",
     "trigger": "Each delivered activity callback when battery is assigned to a retained slot (including hidden slots); no battery-only system-stats query when unassigned.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -594,7 +594,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -615,7 +615,7 @@
   {
     "identifier": "distance_next_waypoint",
     "requirement": "DVS-37",
-    "version": 30,
+    "version": 35,
     "source": "Activity.Info.distanceToNextPoint",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -623,7 +623,7 @@
     "validity": "Finite numeric, zero valid.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Unavailable independently on absent/null/non-numeric/non-finite input; no stale-value substitution.",
     "code": [
       "source/ActivityReader.mc",
@@ -634,7 +634,7 @@
       "acquisitionInvalidInputs"
     ],
     "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
-    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "presentation_precision": "magnitude-based under DVS-2",
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "distance_next_waypoint"
   },
@@ -649,7 +649,7 @@
     "validity": "Unknown when loaded/reloaded into running/paused activity; unavailable until next proven fresh session.",
     "trigger": "Confirmed lap notification only; continuously observed one counter per app/activity.",
     "clock": "Fresh reset/start or complete pre-start snapshot; optional Activity.Info.startTime.value() identity.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Reset ends old session; changed identity/regression/known continuity loss/overflow invalidates; pause/stop/resume/settings/visibility preserve total.",
     "code": [
       "source/ActivityAcquisition.mc",
@@ -680,7 +680,7 @@
     "validity": "Finite heart rate >0; zero breaks the window.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "floor(Activity.Info.elapsedTime / 1000); one sample per consecutive activity second.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "Missing/invalid input, skipped/decreasing seconds, pause/stop/resume/reset or changed activity identity clears the window.",
     "code": [
       "source/ActivityReader.mc",
@@ -699,7 +699,7 @@
   {
     "identifier": "lap_distance",
     "requirement": "FUNC-3",
-    "version": 18,
+    "version": 23,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -707,7 +707,7 @@
     "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
     "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
     "clock": "Host active timer deltas, with elapsed-time continuity checks.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
     "code": [
       "source/CurrentLap.mc",
@@ -721,7 +721,7 @@
       "presentationSettingsAndUnits"
     ],
     "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
-    "presentation_precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+    "presentation_precision": "magnitude-based under DVS-2",
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "lap_distance"
   },
@@ -736,7 +736,7 @@
     "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
     "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
     "clock": "Host active timer deltas, with elapsed-time continuity checks.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
     "code": [
       "source/CurrentLap.mc",
@@ -757,7 +757,7 @@
   {
     "identifier": "lap_speed",
     "requirement": "FUNC-5",
-    "version": 19,
+    "version": 24,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -765,7 +765,7 @@
     "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
     "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
     "clock": "Host active timer deltas, with elapsed-time continuity checks.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
     "code": [
       "source/CurrentLap.mc",
@@ -779,7 +779,7 @@
       "presentationSettingsAndUnits"
     ],
     "physical_qualification": "Not run; callback boundary error and delivery still require device evidence.",
-    "presentation_precision": 1,
+    "presentation_precision": "magnitude-based under DVS-2",
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "lap_speed"
   },
@@ -794,7 +794,7 @@
     "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
     "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
     "clock": "Host active timer deltas, with elapsed-time continuity checks.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
     "code": [
       "source/CurrentLap.mc",
@@ -823,7 +823,7 @@
     "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
     "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
     "clock": "Host active timer deltas, with elapsed-time continuity checks.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
     "code": [
       "source/CurrentLap.mc",
@@ -852,7 +852,7 @@
     "validity": "Known required current-lap baselines; valid counters. HR >0; power/cadence >=0. No covered mean interval is unavailable.",
     "trigger": "compute integrates; lap callback captures the current boundary and seeds endpoints only.",
     "clock": "Host active timer deltas, with elapsed-time continuity checks.",
-    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the canonical two-decimal FUNC-13 estimate; temperature effects use raw Celsius.",
+    "normalization": "Normalize once using independent distance/elevation/temperature preferences. Physical units decorate headers under DVS-50; formatting follows the field contract. Grade effects use the smoothed canonical two-decimal FUNC-13 grade; temperature effects use raw Celsius.",
     "reset": "FUNC-9/10: confirmed boundary, end/reset and invalid epoch; pause clears endpoints but preserves sums.",
     "code": [
       "source/CurrentLap.mc",
