@@ -10,8 +10,9 @@ The screenshots use sample data. Power zones show `--` while their data source a
 
 ## Features
 
-- 32 selectable metrics: speed, distance, heart rate, cadence, power, elevation, ascent/descent, slope, timers, time of day, battery, heading, calories, completed laps and more.
+- 33 selectable fields: speed, distance, heart rate, cadence, power, elevation, ascent/descent, slope, timers, time of day, battery, heading, calories, completed laps and more.
 - Shared five-zone colors for heart-rate, power and cadence metrics, including activity and lap averages; four configurable cadence boundaries. Qualified power zones above five use magenta.
+- A Team text field with independent per-slot text (up to 32 printable ASCII characters), native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; unsupported saved AUX font choices fall back to Automatic. AUX choices are offered only after target qualification.
 - Six current-lap fields: distance, active time, average speed, heart rate, power and cadence.
 - Two independent sets of ten saved field assignments, including temporarily hidden slots. Repeated metrics are supported.
 - Choose a second-set trigger: **3s power**, **Heart rate**, **Manual lap** (factory default), **Workout started**, or **None** to disable switching without losing the saved set.
@@ -21,9 +22,9 @@ The screenshots use sample data. Power zones show `--` while their data source a
 - Metric and statute units, optional `label | unit` headers, and 12/24-hour clocks.
 - Speed and distance use two decimals below 10, one below 100 and whole numbers from 100, after conversion and rounding carries. Slope always shows one decimal and averages the last three one-second estimates, using available estimates immediately.
 - Small `.SS` timer seconds below ten hours; longer durations retain all hour digits.
-- Exactly three bitmap font sizes per device, containing only the glyphs used by the app.
+- Exactly three bundled bitmap font sizes per device, containing only the metric glyphs used by the app; Team uses Garmin system text fonts.
 
-The first-set defaults are Right alignment, Horizontal lines, no enlarged fields, hidden physical units and background effects off. The field order is speed, distance, timer, time, heart rate, 3s power, elevation, slope, ascent and temperature. Four-row layouts initially show the first eight.
+The first-set defaults are Right alignment, Horizontal lines, no enlarged fields, hidden physical units and background coverage None. The field order is speed, distance, timer, time, heart rate, 3s power, elevation, slope, ascent and temperature. Four-row layouts initially show the first eight.
 
 ## Device profiles
 

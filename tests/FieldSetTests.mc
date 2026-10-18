@@ -38,7 +38,7 @@ function secondarySettingsAndMigration(logger) {
         "second_alignment"=>1,"second_slot_1_value"=>"lap_power","second_slot_10_value"=>"future-field",
         "second_slot_1_background_effects"=>true,"second_enlarged_field_count"=>2,"second_hide_value_units"=>false};
     var s=secondSetConfiguration(saved);
-    Test.assertEqual(82,SettingsCatalogue.keys().size());
+    Test.assertEqual(142,SettingsCatalogue.keys().size());
     Test.assertEqual("center",s.primary.alignment);Test.assertEqual("right",s.secondary.alignment);
     Test.assertEqual("battery",s.primary.slots[9]);Test.assert(s.primary.effects[9]);
     Test.assertEqual("lap_power",s.secondary.slots[0]);Test.assertEqual("future-field",s.secondary.slots[9]);
@@ -116,6 +116,7 @@ function secondaryThresholdSources(logger) {
 
 (:test)
 function secondaryManualLapCallbacks(logger) {
+    new TeamLapCallbackScenario().run();
     var field=new SecondSetField();field.applyFieldSets(secondSetConfiguration({}));
     Test.assertEqual(3,field._fieldSets.configuration.trigger);Test.assert(!field._fieldSets.second);
     if(field.typedLapSupported()) {
@@ -209,4 +210,33 @@ function verifySecondPresetFallbacks() {
     verifySecondFactoryPreset(s);
     s=secondSetConfiguration({"second_slot_4_background_effects"=>false,"second_slot_5_background_effects"=>true});
     Test.assert(!s.secondary.effects[3] && s.secondary.effects[4]);
+}
+
+// Actual app callbacks with SDK font measurement, rather than renderer-only dispatch.
+(:testSupport)
+class TeamLapField extends StrukturField {
+    function initialize() { StrukturField.initialize(); }
+    function temperatureReading() { return null; }
+    function batteryReading() { return 50; }
+}
+(:testSupport)
+class TeamLapCallbackScenario {
+    var field;var properties;var configuration;var dc;
+    function initialize() {
+        properties={"second_set_trigger"=>3};
+        for(var slot=1;slot<=10;slot+=1) {
+            properties["slot_"+slot+"_value"]="team";properties["second_slot_"+slot+"_value"]="team";
+            properties["slot_"+slot+"_background_mode"]=1;properties["second_slot_"+slot+"_background_mode"]=2;
+        }
+    }
+    function run() {
+        field=new TeamLapField();configuration=new FieldSetsSettings();configuration.apply(properties);field.applyFieldSets(configuration);
+        dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
+        field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);
+        for(var event=0;event<4;event+=1) {
+            if(field.typedLapSupported()) { field.onLapNotification(true); } else { field.onTimerLap(); }
+            Test.assertEqual(event%2==0,field._fieldSets.second);field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);
+            Test.assert(field._renderer._runs[0].isNative);Test.assertEqual("TEAM",field._renderer._runs[0].text);
+        }
+    }
 }

@@ -71,11 +71,11 @@
       "unverified_source": "unavailable"
     },
     "rationale": "Enable the requested native device value without an empty firmware allowlist preventing all acquisition. Reject remote/unknown registrations before and after each read. Preserve 300s scheduling and 360s expiry.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
+    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
     "approved_on": "2026-10-17",
     "approved_requirement_revisions": {
-      "DVS-34": 144,
-      "DVS-49": 49,
+      "DVS-34": 145,
+      "DVS-49": 56,
       "FUNC-15": 13,
       "FUNC-16": 18
     },
@@ -83,10 +83,16 @@
     "specification_review": "Native source guards and read-age/cache contracts approved; physical model/firmware provenance and sensor-pairing qualification remain pending.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-34": 144,
-      "DVS-49": 49,
+      "DVS-34": 145,
+      "DVS-49": 56,
       "FUNC-15": 13,
       "FUNC-16": 18
+    },
+    "requirement_states": {
+      "DVS-34": "approved",
+      "DVS-49": "draft",
+      "FUNC-15": "approved",
+      "FUNC-16": "approved"
     }
   },
   {
@@ -117,24 +123,31 @@
       "display_decimal_places": 1
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
+    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 136,
-      "DVS-43": 61,
+      "DVS-29": 137,
+      "DVS-43": 67,
       "FUNC-12": 12,
       "FUNC-13": 17,
       "FUNC-14": 14
     },
     "reviewed_on": "2026-10-17",
     "approved_requirement_revisions": {
-      "DVS-29": 136,
-      "DVS-43": 61,
+      "DVS-29": 137,
+      "DVS-43": 67,
       "FUNC-12": 12,
       "FUNC-13": 17,
       "FUNC-14": 14
     },
-    "approved_on": "2026-10-17"
+    "approved_on": "2026-10-17",
+    "requirement_states": {
+      "DVS-29": "approved",
+      "DVS-43": "draft",
+      "FUNC-12": "approved",
+      "FUNC-13": "approved",
+      "FUNC-14": "approved"
+    }
   },
   {
     "id": "DEC-LAPS",
@@ -183,18 +196,23 @@
       "invalid_metadata": "neutral"
     },
     "rationale": "User explicitly approved upper-inclusive thresholds classified from the displayed whole-number value during the workspace review.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
+    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
     "approved_on": "2026-10-14",
     "approved_requirement_revisions": {
-      "DVS-45": 20,
-      "DVS-46": 31,
-      "DVS-48": 31
+      "DVS-45": 29,
+      "DVS-46": 45,
+      "DVS-48": 45
     },
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-45": 20,
-      "DVS-46": 31,
-      "DVS-48": 31
+      "DVS-45": 29,
+      "DVS-46": 45,
+      "DVS-48": 45
+    },
+    "requirement_states": {
+      "DVS-45": "draft",
+      "DVS-46": "draft",
+      "DVS-48": "draft"
     }
   },
   {
@@ -224,20 +242,26 @@
       ]
     },
     "rationale": "User explicitly accepted existing marker/color/separator conventions. Exact formulas and RGB values are recorded in the reviewed requirements.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
+    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
     "approved_on": "2026-10-14",
     "approved_requirement_revisions": {
-      "APP-22": 51,
-      "APP-25": 25,
-      "APP-36": 55,
+      "APP-22": 52,
+      "APP-25": 30,
+      "APP-36": 65,
       "SPEC-154": 34
     },
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "APP-22": 51,
-      "APP-25": 25,
-      "APP-36": 55,
+      "APP-22": 52,
+      "APP-25": 30,
+      "APP-36": 65,
       "SPEC-154": 34
+    },
+    "requirement_states": {
+      "APP-22": "approved",
+      "APP-25": "draft",
+      "APP-36": "draft",
+      "SPEC-154": "approved"
     }
   },
   {
@@ -264,17 +288,22 @@
       "grid_type": "0 None, 1 Horizontal lines (default), 2 Full grid; independent of alignment"
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
+    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
     "requirement_revisions": {
-      "APP-46": 45,
-      "SPEC-155": 57,
-      "DVS-50": 46
+      "APP-46": 54,
+      "SPEC-155": 79,
+      "DVS-50": 54
     },
     "reviewed_on": "2026-10-17",
     "approved_requirement_revisions": {
-      "APP-46": 45,
-      "SPEC-155": 57,
-      "DVS-50": 46
+      "APP-46": 54,
+      "SPEC-155": 79,
+      "DVS-50": 54
+    },
+    "requirement_states": {
+      "APP-46": "draft",
+      "SPEC-155": "draft",
+      "DVS-50": "draft"
     }
   },
   {

@@ -60,7 +60,7 @@ def main():
     assert metrics['cycles']==3 and metrics['cases']==648 and metrics['samples']>=2592
     assert metrics['native_compute']>=10 and metrics['native_draw']>=3 and metrics['elapsed_ms']>=30000
     assert metrics['full_grids']>=54 and metrics['max_fonts']==3, 'Fixed font/full grid coverage missing'
-    assert metrics['fields_seen']==32, 'Not all selectable fields were drawn in fitting roles'
+    assert metrics['fields_seen']==len(read('config/catalogue.json')['fields']), 'Not all selectable fields were drawn in fitting roles'
     assert 0<metrics['total_low']<=metrics['total_high']<=limit, 'Not the bounded normal Data Field allocation'
     assert metrics['max_used']<=min(metrics['total_low'],limit) and metrics['min_free']>=0
     bounds=re.findall(r'DF_MEMORY_BOUNDS product='+product+r' width=(\d+) height=(\d+)',text)
@@ -83,8 +83,8 @@ def main():
              instrumentation='bounded counters and scenario subclass in the same normal Data Field allocation; production routines/resources reused; overhead included in observed usage',
              configurations=dict(layout_totals={'four_rows':[8,5,2],'five_rows':[10,7,4]},legacy_count_inputs_ignored=[1,4,8,10],enlarged=[0,1,2],alignment=['center','right'],themes=['auto','day','night'],
                                  areas=['native full bounds'],
-                                 selected_fields='all 32 drawn in fitting roles; duplicates, unknown labels and independent per-slot effects',
-                                 unsupported_headers='Headers without regular-cell clearance use current power in those roles. All 32 fields must still be drawn in fitting roles. Unsupported regular placement is checked by Placement.'),
+                                 selected_fields='all 33 drawn in fitting roles; duplicates, unknown labels and independent per-slot effects',
+                                 unsupported_headers='Headers without regular-cell clearance use current power in those roles. All 33 fields must still be drawn in fitting roles. Unsupported regular placement is checked by Placement.'),
              fixture_scope='synthetic values and controlled lifecycle/settings callbacks; production effects use validated synthetic zone metadata; this does not establish physical acquisition provenance',
              unit_settings='native simulator device unit settings; metric/statute and 12/24-hour delivery not exhaustively changed by this runner',
              binary_sha256=digest(ROOT/'bin'/(product+'-memory.prg')),log_sha256=digest(log),device_compiler_json_sha256=digest(package),

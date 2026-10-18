@@ -2,221 +2,403 @@
 <resources>
   <strings>
     <string id="AppName">Struktur</string>
-    <string id="Field_current_speed">speed</string>
-    <string id="Field_average_speed">average speed</string>
-    <string id="Field_current_cadence">cadence</string>
-    <string id="Field_average_cadence">avg cadence</string>
-    <string id="Field_current_heart_rate">heart rate</string>
-    <string id="Field_average_heart_rate">average hr</string>
-    <string id="Field_heart_rate_zone">hr zone</string>
-    <string id="Field_current_power">watts</string>
-    <string id="Field_power_3s">3s watts</string>
-    <string id="Field_average_power">avg watts</string>
-    <string id="Field_power_zone">power zone</string>
-    <string id="Field_distance">distance</string>
-    <string id="Field_elevation">elevation</string>
-    <string id="Field_total_ascent">ascent</string>
-    <string id="Field_total_descent">descent</string>
-    <string id="Field_grade">slope</string>
-    <string id="Field_activity_timer">timer</string>
-    <string id="Field_elapsed_time">elapsed</string>
-    <string id="Field_time_of_day">time</string>
-    <string id="Field_calories">calories</string>
-    <string id="Field_temperature">temperature</string>
-    <string id="Field_battery">battery</string>
-    <string id="Field_heading">heading</string>
-    <string id="Field_distance_next_waypoint">next waypoint</string>
-    <string id="Field_completed_laps">laps</string>
-    <string id="Field_heart_rate_3s">3s heart rate</string>
-    <string id="Field_lap_distance">lap distance</string>
-    <string id="Field_lap_time">lap time</string>
-    <string id="Field_lap_speed">lap speed</string>
-    <string id="Field_lap_heart_rate">lap heart rate</string>
-    <string id="Field_lap_power">lap watts</string>
-    <string id="Field_lap_cadence">lap cadence</string>
-    <string id="SecondSetTitle">Second field set</string>
-    <string id="SecondSetDescription">Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.</string>
-    <string id="CadenceZonesTitle">Cadence coloring zones</string>
-    <string id="Setting_enlarged_field_count">Enlarged field count</string>
-    <string id="Choice_0">0</string>
-    <string id="Choice_1">1</string>
-    <string id="Choice_2">2</string>
-    <string id="Setting_alignment">Alignment</string>
-    <string id="Choice_center">Center</string>
-    <string id="Choice_right">Right</string>
-    <string id="Setting_theme_mode">Theme mode</string>
-    <string id="Choice_auto">Auto</string>
-    <string id="Choice_day">Day</string>
-    <string id="Choice_night">Night</string>
-    <string id="Setting_hide_value_units">Hide physical units in headers</string>
-    <string id="Setting_inverse_enlarged_theme">Inverse theme for enlarged fields</string>
-    <string id="Setting_grid_type">Grid type</string>
-    <string id="Choice_grid_type_none">None</string>
-    <string id="Choice_grid_type_horizontal">Horizontal lines</string>
-    <string id="Choice_grid_type_full">Full grid</string>
-    <string id="Setting_slot_1_value">Slot 1 value</string>
-    <string id="Choice_current_speed">speed</string>
-    <string id="Choice_average_speed">average speed</string>
-    <string id="Choice_current_cadence">cadence</string>
-    <string id="Choice_average_cadence">avg cadence</string>
-    <string id="Choice_current_heart_rate">heart rate</string>
-    <string id="Choice_average_heart_rate">average hr</string>
-    <string id="Choice_heart_rate_zone">hr zone</string>
-    <string id="Choice_current_power">watts</string>
-    <string id="Choice_power_3s">3s watts</string>
-    <string id="Choice_average_power">avg watts</string>
-    <string id="Choice_power_zone">power zone</string>
-    <string id="Choice_distance">distance</string>
-    <string id="Choice_elevation">elevation</string>
-    <string id="Choice_total_ascent">ascent</string>
-    <string id="Choice_total_descent">descent</string>
-    <string id="Choice_grade">slope</string>
-    <string id="Choice_activity_timer">timer</string>
-    <string id="Choice_elapsed_time">elapsed</string>
-    <string id="Choice_time_of_day">time</string>
-    <string id="Choice_calories">calories</string>
-    <string id="Choice_temperature">temperature</string>
-    <string id="Choice_battery">battery</string>
-    <string id="Choice_heading">heading</string>
-    <string id="Choice_distance_next_waypoint">next waypoint</string>
-    <string id="Choice_completed_laps">laps</string>
-    <string id="Choice_heart_rate_3s">3s heart rate</string>
-    <string id="Choice_lap_distance">lap distance</string>
-    <string id="Choice_lap_time">lap time</string>
-    <string id="Choice_lap_speed">lap speed</string>
-    <string id="Choice_lap_heart_rate">lap heart rate</string>
-    <string id="Choice_lap_power">lap watts</string>
-    <string id="Choice_lap_cadence">lap cadence</string>
-    <string id="Setting_slot_1_background_mode">Field 1: background coverage</string>
-    <string id="Choice_slot_1_background_mode_0">None</string>
-    <string id="Choice_slot_1_background_mode_1">Label</string>
-    <string id="Choice_slot_1_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_2_value">Slot 2 value</string>
-    <string id="Setting_slot_2_background_mode">Field 2: background coverage</string>
-    <string id="Choice_slot_2_background_mode_0">None</string>
-    <string id="Choice_slot_2_background_mode_1">Label</string>
-    <string id="Choice_slot_2_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_3_value">Slot 3 value</string>
-    <string id="Setting_slot_3_background_mode">Field 3: background coverage</string>
-    <string id="Choice_slot_3_background_mode_0">None</string>
-    <string id="Choice_slot_3_background_mode_1">Label</string>
-    <string id="Choice_slot_3_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_4_value">Slot 4 value</string>
-    <string id="Setting_slot_4_background_mode">Field 4: background coverage</string>
-    <string id="Choice_slot_4_background_mode_0">None</string>
-    <string id="Choice_slot_4_background_mode_1">Label</string>
-    <string id="Choice_slot_4_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_5_value">Slot 5 value</string>
-    <string id="Setting_slot_5_background_mode">Field 5: background coverage</string>
-    <string id="Choice_slot_5_background_mode_0">None</string>
-    <string id="Choice_slot_5_background_mode_1">Label</string>
-    <string id="Choice_slot_5_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_6_value">Slot 6 value</string>
-    <string id="Setting_slot_6_background_mode">Field 6: background coverage</string>
-    <string id="Choice_slot_6_background_mode_0">None</string>
-    <string id="Choice_slot_6_background_mode_1">Label</string>
-    <string id="Choice_slot_6_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_7_value">Slot 7 value</string>
-    <string id="Setting_slot_7_background_mode">Field 7: background coverage</string>
-    <string id="Choice_slot_7_background_mode_0">None</string>
-    <string id="Choice_slot_7_background_mode_1">Label</string>
-    <string id="Choice_slot_7_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_8_value">Slot 8 value</string>
-    <string id="Setting_slot_8_background_mode">Field 8: background coverage</string>
-    <string id="Choice_slot_8_background_mode_0">None</string>
-    <string id="Choice_slot_8_background_mode_1">Label</string>
-    <string id="Choice_slot_8_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_9_value">Slot 9 value</string>
-    <string id="Setting_slot_9_background_mode">Field 9: background coverage</string>
-    <string id="Choice_slot_9_background_mode_0">None</string>
-    <string id="Choice_slot_9_background_mode_1">Label</string>
-    <string id="Choice_slot_9_background_mode_2">Whole cell</string>
-    <string id="Setting_slot_10_value">Slot 10 value</string>
-    <string id="Setting_slot_10_background_mode">Field 10: background coverage</string>
-    <string id="Choice_slot_10_background_mode_0">None</string>
-    <string id="Choice_slot_10_background_mode_1">Label</string>
-    <string id="Choice_slot_10_background_mode_2">Whole cell</string>
-    <string id="Setting_cadence_zone_1_max_rpm">Cadence zone 1: upper rpm</string>
-    <string id="Prompt_cadence_zone_1_max_rpm">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
-    <string id="Setting_cadence_zone_2_max_rpm">Cadence zone 2: upper rpm</string>
-    <string id="Prompt_cadence_zone_2_max_rpm">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
-    <string id="Setting_cadence_zone_3_max_rpm">Cadence zone 3: upper rpm</string>
-    <string id="Prompt_cadence_zone_3_max_rpm">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
-    <string id="Setting_cadence_zone_4_max_rpm">Cadence zone 4: upper rpm</string>
-    <string id="Prompt_cadence_zone_4_max_rpm">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
-    <string id="Setting_second_set_trigger">Second field set - activation event</string>
-    <string id="Prompt_second_set_trigger">Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.</string>
-    <string id="Choice_second_set_trigger_trigger_none">None</string>
-    <string id="Choice_second_set_trigger_trigger_power_3s">3s power</string>
-    <string id="Choice_second_set_trigger_trigger_heart_rate">Heart rate</string>
-    <string id="Choice_second_set_trigger_trigger_manual_lap">Manual lap</string>
-    <string id="Choice_second_set_trigger_trigger_workout">Workout started</string>
-    <string id="Setting_second_power_activate_w">Power: activate at (W)</string>
-    <string id="Prompt_second_power_activate_w">3s power mode only. Return threshold must be less than or equal to activation.</string>
-    <string id="Setting_second_power_return_w">Power: return below (W)</string>
-    <string id="Prompt_second_power_return_w">3s power mode only. Return threshold must be less than or equal to activation.</string>
-    <string id="Setting_second_hr_activate_bpm">Heart rate: activate at (bpm)</string>
-    <string id="Prompt_second_hr_activate_bpm">Heart rate mode only. Return threshold must be less than or equal to activation.</string>
-    <string id="Setting_second_hr_return_bpm">Heart rate: return below (bpm)</string>
-    <string id="Prompt_second_hr_return_bpm">Heart rate mode only. Return threshold must be less than or equal to activation.</string>
-    <string id="Setting_second_enlarged_field_count">Second set: Enlarged field count</string>
-    <string id="Setting_second_alignment">Second set: Alignment</string>
-    <string id="Setting_second_theme_mode">Second set: Theme mode</string>
-    <string id="Setting_second_hide_value_units">Second set: Hide physical units in headers</string>
-    <string id="Setting_second_inverse_enlarged_theme">Second set: Inverse theme for enlarged fields</string>
-    <string id="Setting_second_grid_type">Second set: Grid type</string>
-    <string id="Choice_second_grid_type_none">None</string>
-    <string id="Choice_second_grid_type_horizontal">Horizontal lines</string>
-    <string id="Choice_second_grid_type_full">Full grid</string>
-    <string id="Setting_second_slot_1_value">Second set: Slot 1 value</string>
-    <string id="Setting_second_slot_1_background_mode">Second set: Field 1: background coverage</string>
-    <string id="Choice_second_slot_1_background_mode_0">None</string>
-    <string id="Choice_second_slot_1_background_mode_1">Label</string>
-    <string id="Choice_second_slot_1_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_2_value">Second set: Slot 2 value</string>
-    <string id="Setting_second_slot_2_background_mode">Second set: Field 2: background coverage</string>
-    <string id="Choice_second_slot_2_background_mode_0">None</string>
-    <string id="Choice_second_slot_2_background_mode_1">Label</string>
-    <string id="Choice_second_slot_2_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_3_value">Second set: Slot 3 value</string>
-    <string id="Setting_second_slot_3_background_mode">Second set: Field 3: background coverage</string>
-    <string id="Choice_second_slot_3_background_mode_0">None</string>
-    <string id="Choice_second_slot_3_background_mode_1">Label</string>
-    <string id="Choice_second_slot_3_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_4_value">Second set: Slot 4 value</string>
-    <string id="Setting_second_slot_4_background_mode">Second set: Field 4: background coverage</string>
-    <string id="Choice_second_slot_4_background_mode_0">None</string>
-    <string id="Choice_second_slot_4_background_mode_1">Label</string>
-    <string id="Choice_second_slot_4_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_5_value">Second set: Slot 5 value</string>
-    <string id="Setting_second_slot_5_background_mode">Second set: Field 5: background coverage</string>
-    <string id="Choice_second_slot_5_background_mode_0">None</string>
-    <string id="Choice_second_slot_5_background_mode_1">Label</string>
-    <string id="Choice_second_slot_5_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_6_value">Second set: Slot 6 value</string>
-    <string id="Setting_second_slot_6_background_mode">Second set: Field 6: background coverage</string>
-    <string id="Choice_second_slot_6_background_mode_0">None</string>
-    <string id="Choice_second_slot_6_background_mode_1">Label</string>
-    <string id="Choice_second_slot_6_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_7_value">Second set: Slot 7 value</string>
-    <string id="Setting_second_slot_7_background_mode">Second set: Field 7: background coverage</string>
-    <string id="Choice_second_slot_7_background_mode_0">None</string>
-    <string id="Choice_second_slot_7_background_mode_1">Label</string>
-    <string id="Choice_second_slot_7_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_8_value">Second set: Slot 8 value</string>
-    <string id="Setting_second_slot_8_background_mode">Second set: Field 8: background coverage</string>
-    <string id="Choice_second_slot_8_background_mode_0">None</string>
-    <string id="Choice_second_slot_8_background_mode_1">Label</string>
-    <string id="Choice_second_slot_8_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_9_value">Second set: Slot 9 value</string>
-    <string id="Setting_second_slot_9_background_mode">Second set: Field 9: background coverage</string>
-    <string id="Choice_second_slot_9_background_mode_0">None</string>
-    <string id="Choice_second_slot_9_background_mode_1">Label</string>
-    <string id="Choice_second_slot_9_background_mode_2">Whole cell</string>
-    <string id="Setting_second_slot_10_value">Second set: Slot 10 value</string>
-    <string id="Setting_second_slot_10_background_mode">Second set: Field 10: background coverage</string>
-    <string id="Choice_second_slot_10_background_mode_0">None</string>
-    <string id="Choice_second_slot_10_background_mode_1">Label</string>
-    <string id="Choice_second_slot_10_background_mode_2">Whole cell</string>
+    <string id="Field_current_speed" scope="settings">speed</string>
+    <string id="Field_average_speed" scope="settings">average speed</string>
+    <string id="Field_current_cadence" scope="settings">cadence</string>
+    <string id="Field_average_cadence" scope="settings">avg cadence</string>
+    <string id="Field_current_heart_rate" scope="settings">heart rate</string>
+    <string id="Field_average_heart_rate" scope="settings">average hr</string>
+    <string id="Field_heart_rate_zone" scope="settings">hr zone</string>
+    <string id="Field_current_power" scope="settings">watts</string>
+    <string id="Field_power_3s" scope="settings">3s watts</string>
+    <string id="Field_average_power" scope="settings">avg watts</string>
+    <string id="Field_power_zone" scope="settings">power zone</string>
+    <string id="Field_distance" scope="settings">distance</string>
+    <string id="Field_elevation" scope="settings">elevation</string>
+    <string id="Field_total_ascent" scope="settings">ascent</string>
+    <string id="Field_total_descent" scope="settings">descent</string>
+    <string id="Field_grade" scope="settings">slope</string>
+    <string id="Field_activity_timer" scope="settings">timer</string>
+    <string id="Field_elapsed_time" scope="settings">elapsed</string>
+    <string id="Field_time_of_day" scope="settings">time</string>
+    <string id="Field_calories" scope="settings">calories</string>
+    <string id="Field_temperature" scope="settings">temperature</string>
+    <string id="Field_battery" scope="settings">battery</string>
+    <string id="Field_heading" scope="settings">heading</string>
+    <string id="Field_distance_next_waypoint" scope="settings">next waypoint</string>
+    <string id="Field_completed_laps" scope="settings">laps</string>
+    <string id="Field_heart_rate_3s" scope="settings">3s heart rate</string>
+    <string id="Field_lap_distance" scope="settings">lap distance</string>
+    <string id="Field_lap_time" scope="settings">lap time</string>
+    <string id="Field_lap_speed" scope="settings">lap speed</string>
+    <string id="Field_lap_heart_rate" scope="settings">lap heart rate</string>
+    <string id="Field_lap_power" scope="settings">lap watts</string>
+    <string id="Field_lap_cadence" scope="settings">lap cadence</string>
+    <string id="Field_team" scope="settings">team</string>
+    <string id="SecondSetTitle" scope="settings">Second field set</string>
+    <string id="SecondSetDescription" scope="settings">Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.</string>
+    <string id="CadenceZonesTitle" scope="settings">Cadence coloring zones</string>
+    <string id="Setting_enlarged_field_count" scope="settings">Enlarged field count</string>
+    <string id="Choice_0" scope="settings">0</string>
+    <string id="Choice_1" scope="settings">1</string>
+    <string id="Choice_2" scope="settings">2</string>
+    <string id="Setting_alignment" scope="settings">Alignment</string>
+    <string id="Choice_center" scope="settings">Center</string>
+    <string id="Choice_right" scope="settings">Right</string>
+    <string id="Setting_theme_mode" scope="settings">Theme mode</string>
+    <string id="Choice_auto" scope="settings">Auto</string>
+    <string id="Choice_day" scope="settings">Day</string>
+    <string id="Choice_night" scope="settings">Night</string>
+    <string id="Setting_hide_value_units" scope="settings">Hide physical units in headers</string>
+    <string id="Setting_inverse_enlarged_theme" scope="settings">Inverse theme for enlarged fields</string>
+    <string id="Setting_grid_type" scope="settings">Grid type</string>
+    <string id="Choice_grid_type_none" scope="settings">None</string>
+    <string id="Choice_grid_type_horizontal" scope="settings">Horizontal lines</string>
+    <string id="Choice_grid_type_full" scope="settings">Full grid</string>
+    <string id="Setting_slot_1_value" scope="settings">Slot 1 value</string>
+    <string id="Choice_current_speed" scope="settings">speed</string>
+    <string id="Choice_average_speed" scope="settings">average speed</string>
+    <string id="Choice_current_cadence" scope="settings">cadence</string>
+    <string id="Choice_average_cadence" scope="settings">avg cadence</string>
+    <string id="Choice_current_heart_rate" scope="settings">heart rate</string>
+    <string id="Choice_average_heart_rate" scope="settings">average hr</string>
+    <string id="Choice_heart_rate_zone" scope="settings">hr zone</string>
+    <string id="Choice_current_power" scope="settings">watts</string>
+    <string id="Choice_power_3s" scope="settings">3s watts</string>
+    <string id="Choice_average_power" scope="settings">avg watts</string>
+    <string id="Choice_power_zone" scope="settings">power zone</string>
+    <string id="Choice_distance" scope="settings">distance</string>
+    <string id="Choice_elevation" scope="settings">elevation</string>
+    <string id="Choice_total_ascent" scope="settings">ascent</string>
+    <string id="Choice_total_descent" scope="settings">descent</string>
+    <string id="Choice_grade" scope="settings">slope</string>
+    <string id="Choice_activity_timer" scope="settings">timer</string>
+    <string id="Choice_elapsed_time" scope="settings">elapsed</string>
+    <string id="Choice_time_of_day" scope="settings">time</string>
+    <string id="Choice_calories" scope="settings">calories</string>
+    <string id="Choice_temperature" scope="settings">temperature</string>
+    <string id="Choice_battery" scope="settings">battery</string>
+    <string id="Choice_heading" scope="settings">heading</string>
+    <string id="Choice_distance_next_waypoint" scope="settings">next waypoint</string>
+    <string id="Choice_completed_laps" scope="settings">laps</string>
+    <string id="Choice_heart_rate_3s" scope="settings">3s heart rate</string>
+    <string id="Choice_lap_distance" scope="settings">lap distance</string>
+    <string id="Choice_lap_time" scope="settings">lap time</string>
+    <string id="Choice_lap_speed" scope="settings">lap speed</string>
+    <string id="Choice_lap_heart_rate" scope="settings">lap heart rate</string>
+    <string id="Choice_lap_power" scope="settings">lap watts</string>
+    <string id="Choice_lap_cadence" scope="settings">lap cadence</string>
+    <string id="Choice_team" scope="settings">team</string>
+    <string id="Setting_slot_1_background_mode" scope="settings">Field 1: background coverage</string>
+    <string id="Choice_slot_1_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_1_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_1_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_1_team_text" scope="settings">Field 1: Team text</string>
+    <string id="Prompt_slot_1_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_1_team_font" scope="settings">Field 1: Team font</string>
+    <string id="Prompt_slot_1_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_1_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_1_team_color_source" scope="settings">Field 1: Team color source</string>
+    <string id="Choice_slot_1_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_1_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_1_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_2_value" scope="settings">Slot 2 value</string>
+    <string id="Setting_slot_2_background_mode" scope="settings">Field 2: background coverage</string>
+    <string id="Choice_slot_2_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_2_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_2_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_2_team_text" scope="settings">Field 2: Team text</string>
+    <string id="Prompt_slot_2_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_2_team_font" scope="settings">Field 2: Team font</string>
+    <string id="Prompt_slot_2_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_2_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_2_team_color_source" scope="settings">Field 2: Team color source</string>
+    <string id="Choice_slot_2_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_2_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_2_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_3_value" scope="settings">Slot 3 value</string>
+    <string id="Setting_slot_3_background_mode" scope="settings">Field 3: background coverage</string>
+    <string id="Choice_slot_3_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_3_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_3_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_3_team_text" scope="settings">Field 3: Team text</string>
+    <string id="Prompt_slot_3_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_3_team_font" scope="settings">Field 3: Team font</string>
+    <string id="Prompt_slot_3_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_3_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_3_team_color_source" scope="settings">Field 3: Team color source</string>
+    <string id="Choice_slot_3_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_3_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_3_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_4_value" scope="settings">Slot 4 value</string>
+    <string id="Setting_slot_4_background_mode" scope="settings">Field 4: background coverage</string>
+    <string id="Choice_slot_4_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_4_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_4_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_4_team_text" scope="settings">Field 4: Team text</string>
+    <string id="Prompt_slot_4_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_4_team_font" scope="settings">Field 4: Team font</string>
+    <string id="Prompt_slot_4_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_4_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_4_team_color_source" scope="settings">Field 4: Team color source</string>
+    <string id="Choice_slot_4_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_4_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_4_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_5_value" scope="settings">Slot 5 value</string>
+    <string id="Setting_slot_5_background_mode" scope="settings">Field 5: background coverage</string>
+    <string id="Choice_slot_5_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_5_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_5_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_5_team_text" scope="settings">Field 5: Team text</string>
+    <string id="Prompt_slot_5_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_5_team_font" scope="settings">Field 5: Team font</string>
+    <string id="Prompt_slot_5_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_5_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_5_team_color_source" scope="settings">Field 5: Team color source</string>
+    <string id="Choice_slot_5_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_5_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_5_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_6_value" scope="settings">Slot 6 value</string>
+    <string id="Setting_slot_6_background_mode" scope="settings">Field 6: background coverage</string>
+    <string id="Choice_slot_6_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_6_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_6_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_6_team_text" scope="settings">Field 6: Team text</string>
+    <string id="Prompt_slot_6_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_6_team_font" scope="settings">Field 6: Team font</string>
+    <string id="Prompt_slot_6_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_6_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_6_team_color_source" scope="settings">Field 6: Team color source</string>
+    <string id="Choice_slot_6_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_6_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_6_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_7_value" scope="settings">Slot 7 value</string>
+    <string id="Setting_slot_7_background_mode" scope="settings">Field 7: background coverage</string>
+    <string id="Choice_slot_7_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_7_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_7_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_7_team_text" scope="settings">Field 7: Team text</string>
+    <string id="Prompt_slot_7_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_7_team_font" scope="settings">Field 7: Team font</string>
+    <string id="Prompt_slot_7_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_7_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_7_team_color_source" scope="settings">Field 7: Team color source</string>
+    <string id="Choice_slot_7_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_7_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_7_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_8_value" scope="settings">Slot 8 value</string>
+    <string id="Setting_slot_8_background_mode" scope="settings">Field 8: background coverage</string>
+    <string id="Choice_slot_8_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_8_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_8_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_8_team_text" scope="settings">Field 8: Team text</string>
+    <string id="Prompt_slot_8_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_8_team_font" scope="settings">Field 8: Team font</string>
+    <string id="Prompt_slot_8_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_8_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_8_team_color_source" scope="settings">Field 8: Team color source</string>
+    <string id="Choice_slot_8_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_8_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_8_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_9_value" scope="settings">Slot 9 value</string>
+    <string id="Setting_slot_9_background_mode" scope="settings">Field 9: background coverage</string>
+    <string id="Choice_slot_9_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_9_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_9_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_9_team_text" scope="settings">Field 9: Team text</string>
+    <string id="Prompt_slot_9_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_9_team_font" scope="settings">Field 9: Team font</string>
+    <string id="Prompt_slot_9_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_9_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_9_team_color_source" scope="settings">Field 9: Team color source</string>
+    <string id="Choice_slot_9_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_9_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_9_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_10_value" scope="settings">Slot 10 value</string>
+    <string id="Setting_slot_10_background_mode" scope="settings">Field 10: background coverage</string>
+    <string id="Choice_slot_10_background_mode_0" scope="settings">None</string>
+    <string id="Choice_slot_10_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_slot_10_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_slot_10_team_text" scope="settings">Field 10: Team text</string>
+    <string id="Prompt_slot_10_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_slot_10_team_font" scope="settings">Field 10: Team font</string>
+    <string id="Prompt_slot_10_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_slot_10_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_slot_10_team_color_source" scope="settings">Field 10: Team color source</string>
+    <string id="Choice_slot_10_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_slot_10_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_slot_10_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_cadence_zone_1_max_rpm" scope="settings">Cadence zone 1: upper rpm</string>
+    <string id="Prompt_cadence_zone_1_max_rpm" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
+    <string id="Setting_cadence_zone_2_max_rpm" scope="settings">Cadence zone 2: upper rpm</string>
+    <string id="Prompt_cadence_zone_2_max_rpm" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
+    <string id="Setting_cadence_zone_3_max_rpm" scope="settings">Cadence zone 3: upper rpm</string>
+    <string id="Prompt_cadence_zone_3_max_rpm" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
+    <string id="Setting_cadence_zone_4_max_rpm" scope="settings">Cadence zone 4: upper rpm</string>
+    <string id="Prompt_cadence_zone_4_max_rpm" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
+    <string id="Setting_second_set_trigger" scope="settings">Second field set - activation event</string>
+    <string id="Prompt_second_set_trigger" scope="settings">Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.</string>
+    <string id="Choice_second_set_trigger_trigger_none" scope="settings">None</string>
+    <string id="Choice_second_set_trigger_trigger_power_3s" scope="settings">3s power</string>
+    <string id="Choice_second_set_trigger_trigger_heart_rate" scope="settings">Heart rate</string>
+    <string id="Choice_second_set_trigger_trigger_manual_lap" scope="settings">Manual lap</string>
+    <string id="Choice_second_set_trigger_trigger_workout" scope="settings">Workout started</string>
+    <string id="Setting_second_power_activate_w" scope="settings">Power: activate at (W)</string>
+    <string id="Prompt_second_power_activate_w" scope="settings">3s power mode only. Return threshold must be less than or equal to activation.</string>
+    <string id="Setting_second_power_return_w" scope="settings">Power: return below (W)</string>
+    <string id="Prompt_second_power_return_w" scope="settings">3s power mode only. Return threshold must be less than or equal to activation.</string>
+    <string id="Setting_second_hr_activate_bpm" scope="settings">Heart rate: activate at (bpm)</string>
+    <string id="Prompt_second_hr_activate_bpm" scope="settings">Heart rate mode only. Return threshold must be less than or equal to activation.</string>
+    <string id="Setting_second_hr_return_bpm" scope="settings">Heart rate: return below (bpm)</string>
+    <string id="Prompt_second_hr_return_bpm" scope="settings">Heart rate mode only. Return threshold must be less than or equal to activation.</string>
+    <string id="Setting_second_enlarged_field_count" scope="settings">Second set: Enlarged field count</string>
+    <string id="Setting_second_alignment" scope="settings">Second set: Alignment</string>
+    <string id="Setting_second_theme_mode" scope="settings">Second set: Theme mode</string>
+    <string id="Setting_second_hide_value_units" scope="settings">Second set: Hide physical units in headers</string>
+    <string id="Setting_second_inverse_enlarged_theme" scope="settings">Second set: Inverse theme for enlarged fields</string>
+    <string id="Setting_second_grid_type" scope="settings">Second set: Grid type</string>
+    <string id="Choice_second_grid_type_none" scope="settings">None</string>
+    <string id="Choice_second_grid_type_horizontal" scope="settings">Horizontal lines</string>
+    <string id="Choice_second_grid_type_full" scope="settings">Full grid</string>
+    <string id="Setting_second_slot_1_value" scope="settings">Second set: Slot 1 value</string>
+    <string id="Setting_second_slot_1_background_mode" scope="settings">Second set: Field 1: background coverage</string>
+    <string id="Choice_second_slot_1_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_1_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_1_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_1_team_text" scope="settings">Second set: Field 1: Team text</string>
+    <string id="Prompt_second_slot_1_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_1_team_font" scope="settings">Second set: Field 1: Team font</string>
+    <string id="Prompt_second_slot_1_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_1_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_1_team_color_source" scope="settings">Second set: Field 1: Team color source</string>
+    <string id="Choice_second_slot_1_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_1_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_1_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_2_value" scope="settings">Second set: Slot 2 value</string>
+    <string id="Setting_second_slot_2_background_mode" scope="settings">Second set: Field 2: background coverage</string>
+    <string id="Choice_second_slot_2_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_2_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_2_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_2_team_text" scope="settings">Second set: Field 2: Team text</string>
+    <string id="Prompt_second_slot_2_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_2_team_font" scope="settings">Second set: Field 2: Team font</string>
+    <string id="Prompt_second_slot_2_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_2_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_2_team_color_source" scope="settings">Second set: Field 2: Team color source</string>
+    <string id="Choice_second_slot_2_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_2_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_2_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_3_value" scope="settings">Second set: Slot 3 value</string>
+    <string id="Setting_second_slot_3_background_mode" scope="settings">Second set: Field 3: background coverage</string>
+    <string id="Choice_second_slot_3_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_3_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_3_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_3_team_text" scope="settings">Second set: Field 3: Team text</string>
+    <string id="Prompt_second_slot_3_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_3_team_font" scope="settings">Second set: Field 3: Team font</string>
+    <string id="Prompt_second_slot_3_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_3_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_3_team_color_source" scope="settings">Second set: Field 3: Team color source</string>
+    <string id="Choice_second_slot_3_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_3_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_3_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_4_value" scope="settings">Second set: Slot 4 value</string>
+    <string id="Setting_second_slot_4_background_mode" scope="settings">Second set: Field 4: background coverage</string>
+    <string id="Choice_second_slot_4_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_4_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_4_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_4_team_text" scope="settings">Second set: Field 4: Team text</string>
+    <string id="Prompt_second_slot_4_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_4_team_font" scope="settings">Second set: Field 4: Team font</string>
+    <string id="Prompt_second_slot_4_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_4_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_4_team_color_source" scope="settings">Second set: Field 4: Team color source</string>
+    <string id="Choice_second_slot_4_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_4_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_4_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_5_value" scope="settings">Second set: Slot 5 value</string>
+    <string id="Setting_second_slot_5_background_mode" scope="settings">Second set: Field 5: background coverage</string>
+    <string id="Choice_second_slot_5_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_5_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_5_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_5_team_text" scope="settings">Second set: Field 5: Team text</string>
+    <string id="Prompt_second_slot_5_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_5_team_font" scope="settings">Second set: Field 5: Team font</string>
+    <string id="Prompt_second_slot_5_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_5_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_5_team_color_source" scope="settings">Second set: Field 5: Team color source</string>
+    <string id="Choice_second_slot_5_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_5_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_5_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_6_value" scope="settings">Second set: Slot 6 value</string>
+    <string id="Setting_second_slot_6_background_mode" scope="settings">Second set: Field 6: background coverage</string>
+    <string id="Choice_second_slot_6_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_6_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_6_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_6_team_text" scope="settings">Second set: Field 6: Team text</string>
+    <string id="Prompt_second_slot_6_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_6_team_font" scope="settings">Second set: Field 6: Team font</string>
+    <string id="Prompt_second_slot_6_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_6_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_6_team_color_source" scope="settings">Second set: Field 6: Team color source</string>
+    <string id="Choice_second_slot_6_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_6_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_6_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_7_value" scope="settings">Second set: Slot 7 value</string>
+    <string id="Setting_second_slot_7_background_mode" scope="settings">Second set: Field 7: background coverage</string>
+    <string id="Choice_second_slot_7_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_7_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_7_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_7_team_text" scope="settings">Second set: Field 7: Team text</string>
+    <string id="Prompt_second_slot_7_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_7_team_font" scope="settings">Second set: Field 7: Team font</string>
+    <string id="Prompt_second_slot_7_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_7_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_7_team_color_source" scope="settings">Second set: Field 7: Team color source</string>
+    <string id="Choice_second_slot_7_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_7_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_7_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_8_value" scope="settings">Second set: Slot 8 value</string>
+    <string id="Setting_second_slot_8_background_mode" scope="settings">Second set: Field 8: background coverage</string>
+    <string id="Choice_second_slot_8_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_8_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_8_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_8_team_text" scope="settings">Second set: Field 8: Team text</string>
+    <string id="Prompt_second_slot_8_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_8_team_font" scope="settings">Second set: Field 8: Team font</string>
+    <string id="Prompt_second_slot_8_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_8_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_8_team_color_source" scope="settings">Second set: Field 8: Team color source</string>
+    <string id="Choice_second_slot_8_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_8_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_8_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_9_value" scope="settings">Second set: Slot 9 value</string>
+    <string id="Setting_second_slot_9_background_mode" scope="settings">Second set: Field 9: background coverage</string>
+    <string id="Choice_second_slot_9_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_9_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_9_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_9_team_text" scope="settings">Second set: Field 9: Team text</string>
+    <string id="Prompt_second_slot_9_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_9_team_font" scope="settings">Second set: Field 9: Team font</string>
+    <string id="Prompt_second_slot_9_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_9_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_9_team_color_source" scope="settings">Second set: Field 9: Team color source</string>
+    <string id="Choice_second_slot_9_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_9_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_9_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_second_slot_10_value" scope="settings">Second set: Slot 10 value</string>
+    <string id="Setting_second_slot_10_background_mode" scope="settings">Second set: Field 10: background coverage</string>
+    <string id="Choice_second_slot_10_background_mode_0" scope="settings">None</string>
+    <string id="Choice_second_slot_10_background_mode_1" scope="settings">Label</string>
+    <string id="Choice_second_slot_10_background_mode_2" scope="settings">Whole cell</string>
+    <string id="Setting_second_slot_10_team_text" scope="settings">Second set: Field 10: Team text</string>
+    <string id="Prompt_second_slot_10_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
+    <string id="Setting_second_slot_10_team_font" scope="settings">Second set: Field 10: Team font</string>
+    <string id="Prompt_second_slot_10_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_second_slot_10_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_second_slot_10_team_color_source" scope="settings">Second set: Field 10: Team color source</string>
+    <string id="Choice_second_slot_10_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_second_slot_10_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_second_slot_10_team_color_source_2" scope="settings">Heart rate</string>
   </strings>
 </resources>

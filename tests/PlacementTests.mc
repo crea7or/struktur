@@ -83,6 +83,7 @@ function presentationDrawAndAlignment(logger) {
 // Explicitly unsupported native combinations are verified only on request.
 (:test)
 function documentedUnsupportedCombinations(logger) {
+    verifyTeamInsufficientArea();
     var cases=NormalLimits.unsupported();var renderer=new FieldRenderer();
     var settings=new DisplaySettings();var engine=new SnapshotEngine();
     for(var i=0;i<cases.size();i+=1) {
@@ -131,4 +132,13 @@ function secondaryFieldSetPlacement(logger) {
         }
     }
     return true;
+}
+
+(:testSupport)
+function verifyTeamInsufficientArea() {
+    var fonts=new NativeTextCache();fonts.setContext(new PresentationDrawDc(profileDrawWidth(),profileDrawHeight()));
+    var value={:text=>"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",:nativeFont=>0};
+    var run=fonts.fit({:w=>20,:h=>200},value);Test.assertEqual(PresentationPolicy.OVERFLOW,run.text);
+    run=fonts.fit({:w=>1,:h=>1},value);Test.assertEqual("",run.text);
+    value[:text]="";run=fonts.fit({:w=>20,:h=>20},value);Test.assertEqual("",run.text);
 }

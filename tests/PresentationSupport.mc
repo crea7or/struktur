@@ -361,7 +361,7 @@ class ColoredFieldScenario {
         raw={};raw[id]=10;
         engine=new SnapshotEngine();device=new PresentationDevice(false,true,night==1);clock=new PresentationClock();
         snapshot=engine.prepareWithPreferences(raw,settings,true,device,clock);
-        var colors=["green","yellow","cyan","white","blue","orange","red","dark_red","black"];
+        var colors=["green","yellow","cyan","white","blue","orange","red","dark_red","black","magenta"];
         if(field>0) { fixtureBand(snapshot,0,colors[(field+night+align+inverse+hideUnits)%colors.size()]); }
     }
     function run() {
@@ -435,7 +435,7 @@ function normalDisplayRaw(index,displayed,statute) {
 function verifyNeutralLabelBands() {
     var custom=[2,3,4,5,6,7,8,9,10,15,20,25,29,30,31];
     var engine=new SnapshotEngine();var settings=new DisplaySettings();
-    for(var index=0;index<Catalog.IDS.size();index+=1) {
+    for(var index=0;index<Catalog.IDS.size()-1;index+=1) {
         var expectedCustom=false;
         for(var k=0;k<custom.size();k+=1) { if(index==custom[k]) { expectedCustom=true; } }
         Test.assertEqual(expectedCustom,Effects.hasCustomBackground(Catalog.IDS[index]));
@@ -572,4 +572,64 @@ function fixtureBand(snapshot,slot,band) {
     var original=snapshot[:values][slot];
     snapshot[:values][slot]={:label=>original[:label],:text=>original[:text],:unit=>original[:unit],
         :expandedUnit=>original[:expandedUnit],:band=>band,:angle=>original[:angle],:format=>original[:format]};
+}
+
+// Native text is measured and drawn by the SDK; it bypasses bundled-font ink tables.
+(:testSupport)
+class TeamDrawDc extends PresentationDrawDc {
+    function initialize(width,height) { PresentationDrawDc.initialize(width,height); }
+    function drawText(x,y,font,text,flags) {
+        if(_record!=null) { _record[:texts].add([x,y,font,text,flags,_color]); }
+        _measurement.setColor(_color,Graphics.COLOR_TRANSPARENT);_measurement.drawText(x,y,font,text,flags);
+    }
+}
+(:testSupport)
+class TeamScenario {
+    var settings;var props;var engine;var renderer;var snapshot;var dc;var device;var fits;var geometry;var measures;var old;var bank;var prefix;var automatic;var watts=null;
+    function initialize(index) {
+        bank=index%2;prefix=bank==1?"second_":"";
+        props={};props[prefix+"enlarged_field_count"]=(index/2)%3;props[prefix+"alignment"]=(index/6)%2;
+        props[prefix+"slot_1_value"]="team";props[prefix+"slot_1_team_text"]="Aa 12!";
+        for(var slot=2;slot<=10;slot+=1) { props[prefix+"slot_"+slot.toString()+"_value"]="elevation"; }
+        props[prefix+"slot_1_team_color_source"]=2;props[prefix+"slot_1_background_mode"]=1;
+        settings=new DisplaySettings();engine=new SnapshotEngine();renderer=new FieldRenderer();device=new PresentationDevice(false,true,false);
+        engine._hrZones=ZoneMetadata.heart([0,100,120,140,160,200]);
+    }
+    function sample(heart) {
+        settings.applyBank(props,prefix);snapshot=engine.prepareWithPreferences({"current_heart_rate"=>heart,"current_power"=>watts},settings,true,device,null);
+        renderer.prepare(snapshot);dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);renderer.draw(dc,snapshot,settings);
+    }
+    function check() {
+        Test.assert(renderer._cells.size()>0);var cell=renderer._cells[0];var run=renderer._runs[0];var packet=renderer._packets[0];
+        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual("Aa 12!",run.text);Test.assertEqual("",snapshot[:values][0][:label]);
+        Test.assert(packet.label==null && packet.unit==null);Test.assert(packet.primary!=null);
+        Test.assert(packet.primary[0]-1>=packet.inner[0]);Test.assert(packet.primary[0]+run.total+1<=packet.inner[0]+packet.inner[2]);
+        Test.assert(packet.primary[1]-1>=packet.inner[1]);Test.assert(packet.primary[1]+run.size+1<=packet.inner[1]+packet.inner[3]);
+        Test.assert(((packet.primary[1]+run.size/2.0)-(cell[:y]+cell[:h]/2.0)).abs()<=1);
+        for(var i=0;i<renderer._nativeFonts.candidates.size();i+=1) {
+            var candidate=renderer._nativeFonts.candidates[i];
+            if(candidate[1]>run.size && candidate[1]+2<=run.inner[3]) { Test.assert(dc.getTextWidthInPixels(run.text,candidate[0])+2>run.inner[2]); }
+        }
+        Test.assertEqual(settings.modes[0]==0?1:9,dc.records[0][:texts].size());
+    }
+    function run() {
+        sample(110);automatic=renderer._runs[0].font;check();Test.assertEqual("green",snapshot[:values][0][:band]);old=snapshot;fits=renderer.fitCount;geometry=renderer.geometryBuilds;measures=renderer._nativeFonts.measurements;
+        sample(130);check();Test.assertEqual("yellow",snapshot[:values][0][:band]);Test.assertEqual("green",old[:values][0][:band]);
+        Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(measures,renderer._nativeFonts.measurements);
+        props[prefix+"slot_1_background_mode"]=2;sample(130);check();Test.assertEqual(renderer.color("yellow"),dc.records[0][:background]);
+        Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(measures,renderer._nativeFonts.measurements);
+        props[prefix+"theme_mode"]=2;sample(null);check();Test.assertEqual(fits,renderer.fitCount);
+        props[prefix+"slot_1_background_mode"]=0;sample(110);check();Test.assert(snapshot[:values][0][:band]==null);Test.assertEqual(fits,renderer.fitCount);
+        for(var code=1;code<=9;code+=1) {
+            props[prefix+"slot_1_team_font"]=code;sample(110);check();Test.assertEqual(code,settings.teamFonts[0]);
+        }
+        props[prefix+"slot_1_team_font"]=0;props[prefix+"slot_1_team_color_source"]=1;props[prefix+"slot_1_background_mode"]=2;
+        engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);watts=650;sample(110);check();
+        Test.assertEqual("magenta",snapshot[:values][0][:band]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
+        Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);
+        props[prefix+"slot_1_team_color_source"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
+        props[prefix+"slot_1_team_text"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);
+        props[prefix+"slot_1_value"]="current_power";sample(110);Test.assert(!renderer._runs[0].isNative);
+        Test.assertEqual(FontSelection.height(renderer._cells[0][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,false),Graphics.getFontHeight(renderer._runs[0].font));
+    }
 }

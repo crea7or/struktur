@@ -7,8 +7,9 @@ using Toybox.WatchUi;
 (:test)
 function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
+    verifyTeamOptions();
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(82,SettingsCatalogue.keys().size());
+    Test.assertEqual(142,SettingsCatalogue.keys().size());
     Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
@@ -17,7 +18,7 @@ function presentationSettingsAndUnits(logger) {
         var device=new PresentationDevice(statute==1,false,false);
         for(var retired=0;retired<2;retired+=1) {
             for(var hide=0;hide<2;hide+=1) {
-                for(var index=0;index<Catalog.IDS.size();index+=1) {
+                for(var index=0;index<Catalog.IDS.size()-1;index+=1) {
                     settings.apply({"slot_1_value"=>Catalog.IDS[index],"use_units_as_labels"=>retired==1,"hide_value_units"=>hide==1});
                     var raw={};raw[Catalog.IDS[index]]=0;
                     var value=engine.prepareWithPreferences(raw,settings,true,device,clock)[:values][0];
@@ -71,7 +72,7 @@ function composedHeaderWidthAudit(logger) {
     var checked=0;var oversized=0;var newlyOversized=0;
     for(var statute=0;statute<2;statute+=1) {
         var device=new PresentationDevice(statute==1,true,false);
-        for(var index=0;index<Catalog.IDS.size();index+=1) {
+        for(var index=0;index<Catalog.IDS.size()-1;index+=1) {
             settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>true});
             var plain=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][:label];
             Test.assertEqual(Catalog.LABELS[index],plain);
@@ -193,7 +194,7 @@ function sampleDefaultUnitHeaderGrid(logger) {
 
 (:test)
 function reviewedFormattingAndCatalogue(logger) {
-    Test.assertEqual(32,Catalog.IDS.size());
+    Test.assertEqual(33,Catalog.IDS.size());
     var ids=["lap_distance","lap_time","lap_speed","lap_heart_rate","lap_power","lap_cadence"];
     var labels=["lap distance","lap time","lap speed","lap heart rate","lap watts","lap cadence"];
     for(var i=0;i<6;i+=1) {
@@ -269,6 +270,7 @@ function approvedForegroundAndMetricWidths(logger) {
 // Fast normal native-area drawing cases; fallback belongs to PlacementTests.
 (:test)
 function normalPresentationDrawAndAlignment(logger) {
+    for(var teamCase=0;teamCase<12;teamCase+=1) { new TeamScenario(teamCase).run(); }
     for(var modeCase=0;modeCase<24;modeCase+=1) { new CoverageScenario(modeCase).run(); }
     for(var bandCase=0;bandCase<24;bandCase+=1) { new EnlargedLabelScenario(bandCase).run(); }
     for(var night=0;night<2;night+=1) {

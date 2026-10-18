@@ -9,6 +9,7 @@ class DisplaySettings {
     var slots;
     var effects;
     var modes;
+    var teamTexts;var teamFonts;var teamSources;
     var cadenceBounds=[60,80,100,120];
     var hideValueUnits;
     var inverseEnlargedTheme;
@@ -21,6 +22,8 @@ class DisplaySettings {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
         modes=[0,0,0,0,0,0,0,0,0,0];
+        teamTexts=["TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM"];
+        teamFonts=[0,0,0,0,0,0,0,0,0,0];teamSources=[0,0,0,0,0,0,0,0,0,0];
         hideValueUnits=true; inverseEnlargedTheme=true; gridType="horizontal"; usesBattery=false; usesClock=true;
     }
     function load() {
@@ -65,6 +68,10 @@ class DisplaySettings {
                 modes[i]=enabled?("grade".equals(slots[i])?2:1):0;
             } else { modes[i]=version instanceof Lang.Number && version==1?fallback:(compatible?fallback:0); }
             effects[i]=modes[i]!=0;
+            var slot="slot_"+(i+1).toString();
+            teamTexts[i]=TeamOptions.text(get(values,slot+"_team_text"));
+            teamFonts[i]=TeamOptions.code(get(values,slot+"_team_font"),9);
+            teamSources[i]=TeamOptions.code(get(values,slot+"_team_color_source"),2);
         }
     }
 }

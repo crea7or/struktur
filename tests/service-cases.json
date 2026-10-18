@@ -1,5 +1,5 @@
 {
-  "status": "All document, requirement and Test definitions reviewed and Approved; source implementation retained. All-suite emulator validation is separate from physical qualification. The immutable release and historical execution evidence are unchanged.",
+  "status": "Current Draft coloring/Team implementation working specification. Review states preserved. Executable Core evidence is separate; Memory, Placement, AUX/hardware qualification and immutable historical releases remain separate.",
   "cases": [
     {
       "key": "floatingBoundaries",
@@ -17,9 +17,9 @@
       "procedure": "Purpose: Floating-point display boundaries.\n\nRequirement references: [[DVS-2]], [[DVS-4]], [[DVS-5]], [[DVS-7]].\n\nProcedure and expected results: Check zero, trailing zeros and the 10/100 magnitude transitions on both signs, exact-half rounding carries into the next band, negative-zero suppression, invalid/non-finite input and large whole-number formatting. Precision is independent of text length; measured cell overflow is separate. Use literal expected values in floatingBoundaries.\n\nExecutable source: `tests/CoreTests.mc`; fixture `floatingBoundaries`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "DVS-2": 56,
-        "DVS-4": 45,
+        "DVS-4": 46,
         "DVS-5": 35,
-        "DVS-7": 53
+        "DVS-7": 54
       },
       "definition": "Purpose: Floating-point display boundaries.\n\nRequirement references: [[DVS-2]], [[DVS-4]], [[DVS-5]], [[DVS-7]].\n\nProcedure and expected results: Check zero, trailing zeros and the 10/100 magnitude transitions on both signs, exact-half rounding carries into the next band, negative-zero suppression, invalid/non-finite input and large whole-number formatting. Precision is independent of text length; measured cell overflow is separate. Use literal expected values in floatingBoundaries.\n\nExecutable source: `tests/CoreTests.mc`; fixture `floatingBoundaries`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-1",
@@ -43,7 +43,7 @@
       ],
       "procedure": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]], [[HFER-2]], [[HFER-3]], [[HFER-4]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-20": 70,
+        "APP-20": 72,
         "HFER-2": 35,
         "HFER-3": 36,
         "HFER-4": 36
@@ -69,7 +69,7 @@
       "procedure": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]].\n\nProcedure and expected results: Deliver three consecutive sample seconds with known values and require their arithmetic mean. Check duplicates, missing input, sequence gaps, valid zeros and explicit reset discard stale averages.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "DVS-41": 43,
-        "DVS-47": 61
+        "DVS-47": 63
       },
       "definition": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]].\n\nProcedure and expected results: Deliver three consecutive sample seconds with known values and require their arithmetic mean. Check duplicates, missing input, sequence gaps, valid zeros and explicit reset discard stale averages.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-3",
@@ -92,9 +92,9 @@
       ],
       "procedure": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-43]], [[DVS-44]], [[DVS-49]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-43": 61,
-        "DVS-44": 50,
-        "DVS-49": 49
+        "DVS-43": 67,
+        "DVS-44": 52,
+        "DVS-49": 56
       },
       "definition": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-43]], [[DVS-44]], [[DVS-49]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-4",
@@ -119,11 +119,11 @@
       ],
       "procedure": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and false/off effect defaults for every slot, including constructor initialization and missing/null/malformed properties. Check valid saved true and false choices across restart, hidden slots, duplicate assignments and field reassignment; neither choice may be overwritten by the new default. Keep hide_value_units and inverse_enlarged_theme defaults unchanged. Require neutral effect backgrounds with fresh settings, and verify that explicitly enabling individual slots still activates the appropriate effect. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-20": 70,
+        "APP-20": 72,
         "APP-30": 36,
-        "APP-31": 76,
-        "APP-49": 52,
-        "SPEC-155": 57
+        "APP-31": 90,
+        "APP-49": 68,
+        "SPEC-155": 79
       },
       "definition": "Purpose: Typed settings defaults and hidden-slot preservation.\n\nRequirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]].\n\nProcedure and expected results: Check Right first-install default and saved Center, all ten ordered default assignments (current_speed, distance, activity_timer, time_of_day, current_heart_rate, power_3s, elevation, grade, total_ascent, temperature) and false/off effect defaults for every slot, including constructor initialization and missing/null/malformed properties. Check valid saved true and false choices across restart, hidden slots, duplicate assignments and field reassignment; neither choice may be overwritten by the new default. Keep hide_value_units and inverse_enlarged_theme defaults unchanged. Require neutral effect backgrounds with fresh settings, and verify that explicitly enabling individual slots still activates the appropriate effect. Exercise malformed, numeric and legacy settings, unknown identifiers, independent fallback and hidden slot 10. Legacy field_count values must not create partial grids.\n\nExecutable source: `tests/CoreTests.mc`; fixture `typedSettingsAndHiddenSlots`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-5",
@@ -153,7 +153,7 @@
         "DVS-30": 44,
         "DVS-31": 44,
         "DVS-32": 47,
-        "SPEC-157": 60
+        "SPEC-157": 62
       },
       "definition": "Purpose: Unit conversion and clock/duration formats.\n\nRequirement references: [[DVS-13]], [[DVS-30]], [[DVS-31]], [[DVS-5]], [[DVS-32]], [[SPEC-157]].\n\nProcedure and expected results: Check 10m/s -> 36km/h, 1609.344m -> 1mi and 0C -> 32F. Use the exact boundary cases in [[DVS-13]] through 100h, including omission of seconds at 10h. Verify separate timer/elapsed paths, invalid times and both clock modes with the [[DVS-5]] header indicator. Retain [[DVS-42]] zone classification checks.\n\nExecutable source to update/verify: `tests/CoreTests.mc`, `unitsAndExplicitFormatPolicy`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-6",
@@ -178,11 +178,11 @@
       ],
       "procedure": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-28]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "requirement_revisions": {
-        "APP-21": 63,
-        "APP-24": 72,
+        "APP-21": 75,
+        "APP-24": 73,
         "APP-28": 56,
         "DVS-13": 62,
-        "DVS-3": 78
+        "DVS-3": 80
       },
       "definition": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-28]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-7",
@@ -206,19 +206,19 @@
         "DVS-50",
         "SPEC-155"
       ],
-      "procedure": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 32 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.",
+      "procedure": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam has no separate header/unit: physical-unit visibility does not alter its saved text under [[SPEC-256]]. Apply numeric header expectations only to numeric fields.",
       "requirement_revisions": {
-        "APP-31": 76,
-        "APP-35": 38,
+        "APP-31": 90,
+        "APP-35": 39,
         "DVS-13": 62,
         "DVS-5": 35,
-        "DVS-50": 46,
-        "SPEC-155": 57
+        "DVS-50": 54,
+        "SPEC-155": 79
       },
-      "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 32 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.",
+      "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam has no separate header/unit: physical-unit visibility does not alter its saved text under [[SPEC-256]]. Apply numeric header expectations only to numeric fields.",
       "stable_id": "TFNC-8",
-      "revision": 23,
-      "status": "approved",
+      "revision": 25,
+      "status": "draft",
       "suite": "Core",
       "additional_functions": [
         "composedHeaderWidthAudit",
@@ -244,9 +244,9 @@
       ],
       "procedure": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-32": 58,
+        "APP-32": 62,
         "APP-45": 47,
-        "DVS-51": 59
+        "DVS-51": 67
       },
       "definition": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-9",
@@ -263,7 +263,6 @@
       "function": "normalPresentationDrawAndAlignment",
       "source": "tests/PresentationTests.mc",
       "requirements": [
-        "APP-12",
         "APP-21",
         "APP-22",
         "APP-24",
@@ -273,7 +272,6 @@
         "APP-36",
         "APP-37",
         "APP-49",
-        "APP-8",
         "DVS-10",
         "DVS-11",
         "DVS-12",
@@ -315,64 +313,62 @@
         "SPEC-155",
         "SPEC-157"
       ],
-      "procedure": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nSuite: Core. Default fast regression only; deliberately rejected layouts belong to Placement.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[APP-49]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check the shared R=max(label line height, band height) value inset for enabled and disabled effects, separators and theme inversion. Independently verify the minimum padded-height calculation and full-glyph/halo safety bound against all supported complete headers: currently H=30 px for the 21 px label role and H=46 px for the 35 px label role. Require unchanged cached H across redraws and assignment/unit/theme/inversion changes, common band edges for headers with different ascenders/descenders, complete glyph/halo containment and aligned primary-value centers. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with the same cached catalogue-wide smallest safe padded band height in every regular/enlarged cell, independently of label glyphs, unit visibility, clock indicators and field assignment; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. For all 32 field assignments, verify that every enabled known field receives the neutral-gray label default whenever it has no valid custom effect, including missing/invalid/unqualified/expired readings, unavailable or unsupported zone metadata, and standalone zone/lap fields; unknown identifiers stay ordinary. Require exact #CCCCCC Day and #333333 Night fills, including enlarged inversion, ordinary value areas, independent duplicates and hidden slots. Exercise enable/disable, valid/unavailable values, theme/inversion changes and reassignment to/from grade and other custom fields without stale fills. Validate revised small-cell guarantees with band/halo clearance. Check effect-band header contrast and label-only clipped halos, plus valid grade's unchanged sky/ground geometry and text halos. Verify all eight custom-effect field types switch from valid custom color to gray default and back without stale colors/geometry or lost valid numeric values. Cover valid zero grade, temperature and power, preserve white temperature bands in Night, and require no horizon for unavailable grade. Disabled effects remain ordinary. No `!` or compact substitution may pass a guaranteed normal case.\n\nGrid type Core procedure: Run gridTypeAndRepaint across both alignments, Day/Night, enlarged-theme inversion on/off and all native enlargement counts. Require Horizontal lines as constructor and missing/null/malformed fallback; accept numeric codes 0/1/2 and canonical none/horizontal/full identifiers, and ignore retired show_grid. In one reused renderer, switch Horizontal/None/Full/None/Horizontal/Full. Independently check the exact pattern line counts, horizontal/vertical orientations, clipping and [[HFER-7]]/[[HFER-8]] palette gradients for the selected type, without reading alignment to choose the style. None must issue zero drawLine calls. Require unchanged cell drawing records, field-fit/layout/geometry/font-load counters, backgrounds and grade polygons during grid-only changes. Compact-fallback separator coverage belongs to the separate Placement suite and runs only on request. Acquisition state must not reset.\n\nCache/drawing Core procedure: Run snapshotCacheInvalidation, rendererCacheAndDrawPurity and optionalRuntimeQueries from tests/PerformanceTests.mc. Require ten bounded assignment caches, unchanged-input formatting/header reuse, selective value/header/unit/clock invalidation and immutable published value text. Instrument actual production rendering to require zero unchanged refits/geometry rebuilds, exactly one refit for one changed normal cell, unchanged-angle polygon reuse and style refresh on theme/effect-kind changes. Lock layout/metric/color preparation during drawing and require the prepared graphics path to succeed. Check battery selection includes hidden slots, clock selection follows retained assignments, and normal callbacks leave runtime diagnostics disabled. Keep existing drawing/format/acquisition correctness assertions; Core performs no memory sampling. Requirements: [[APP-26]], [[APP-12]], [[APP-8]], [[APP-32]], [[APP-37]], [[DVS-35]], [[SPEC-157]].\n\nPlacement-only assertions are defined by the separate Placement suite and its linked Tests; do not execute them through this Core definition.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.\n\nPrimary executable: `tests/PresentationTests.mc`, named test `normalPresentationDrawAndAlignment`. Other named Core checks have their own linked Test definitions; no Memory or Placement execution is implied.\n\nThe existing snapshotCacheInvalidation and rendererCacheAndDrawPurity Core cases additionally cover immutable presentation-record reuse, shared zone classification, metadata/null invalidation, header-measurement reuse on changed values, repeated identical layout callbacks and the complete DataField.onUpdate missing-bounds/ordinary-redraw paths. Keep Core as the only default suite; these assertions do not certify memory consumption or hardware battery savings.",
+      "procedure": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nSuite: Core. Default fast regression only; deliberately rejected layouts belong to Placement.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[APP-49]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check the shared R=max(label line height, band height) value inset for enabled and disabled effects, separators and theme inversion. Independently verify the minimum padded-height calculation and full-glyph/halo safety bound against all supported complete headers: currently H=30 px for the 21 px label role and H=46 px for the 35 px label role. Require unchanged cached H across redraws and assignment/unit/theme/inversion changes, common band edges for headers with different ascenders/descenders, complete glyph/halo containment and aligned primary-value centers. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with the same cached catalogue-wide smallest safe padded band height in every regular/enlarged cell, independently of label glyphs, unit visibility, clock indicators and field assignment; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. For all 32 existing numeric field assignments, verify that every enabled known field receives the neutral-gray label default whenever it has no valid custom effect, including missing/invalid/unqualified/expired readings, unavailable or unsupported zone metadata, and standalone zone/lap fields; unknown identifiers stay ordinary. Require exact #CCCCCC Day and #333333 Night fills, including enlarged inversion, ordinary value areas, independent duplicates and hidden slots. Exercise enable/disable, valid/unavailable values, theme/inversion changes and reassignment to/from grade and other custom fields without stale fills. Validate revised small-cell guarantees with band/halo clearance. Check effect-band header contrast and label-only clipped halos, plus valid grade's unchanged sky/ground geometry and text halos. Verify all eight custom-effect field types switch from valid custom color to gray default and back without stale colors/geometry or lost valid numeric values. Cover valid zero grade, temperature and power, preserve white temperature bands in Night, and require no horizon for unavailable grade. Disabled effects remain ordinary. No `!` or compact substitution may pass a guaranteed normal case.\n\nGrid type Core procedure: Run gridTypeAndRepaint across both alignments, Day/Night, enlarged-theme inversion on/off and all native enlargement counts. Require Horizontal lines as constructor and missing/null/malformed fallback; accept numeric codes 0/1/2 and canonical none/horizontal/full identifiers, and ignore retired show_grid. In one reused renderer, switch Horizontal/None/Full/None/Horizontal/Full. Independently check the exact pattern line counts, horizontal/vertical orientations, clipping and [[HFER-7]]/[[HFER-8]] palette gradients for the selected type, without reading alignment to choose the style. None must issue zero drawLine calls. Require unchanged cell drawing records, field-fit/layout/geometry/font-load counters, backgrounds and grade polygons during grid-only changes. Compact-fallback separator coverage belongs to the separate Placement suite and runs only on request. Acquisition state must not reset.\n\nCache/drawing Core procedure: Run snapshotCacheInvalidation, rendererCacheAndDrawPurity and optionalRuntimeQueries from tests/PerformanceTests.mc. Require ten bounded assignment caches, unchanged-input formatting/header reuse, selective value/header/unit/clock invalidation and immutable published value text. Instrument actual production rendering to require zero unchanged refits/geometry rebuilds, exactly one refit for one changed normal cell, unchanged-angle polygon reuse and style refresh on theme/effect-kind changes. Lock layout/metric/color preparation during drawing and require the prepared graphics path to succeed. Check battery selection includes hidden slots, clock selection follows retained assignments, and normal callbacks leave runtime diagnostics disabled. Keep existing drawing/format/acquisition correctness assertions; Core performs no memory sampling. Requirements: [[APP-26]], [[APP-12]], [[APP-8]], [[APP-32]], [[APP-37]], [[DVS-35]], [[SPEC-157]].\n\nPlacement-only assertions are defined by the separate Placement suite and its linked Tests; do not execute them through this Core definition.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.\n\nPrimary executable: `tests/PresentationTests.mc`, named test `normalPresentationDrawAndAlignment`. Other named Core checks have their own linked Test definitions; no Memory or Placement execution is implied.\n\nThe existing snapshotCacheInvalidation and rendererCacheAndDrawPurity Core cases additionally cover immutable presentation-record reuse, shared zone classification, metadata/null invalidation, header-measurement reuse on changed values, repeated identical layout callbacks and the complete DataField.onUpdate missing-bounds/ordinary-redraw paths. Keep Core as the only default suite; these assertions do not certify memory consumption or hardware battery savings.\n\nTeam literal text/native-font bounds are covered separately by [[SPEC-291]]/[[SPEC-292]]; numeric normal-range/header formulas do not apply to Team.",
       "requirement_revisions": {
-        "APP-12": 18,
-        "APP-21": 63,
-        "APP-22": 51,
-        "APP-24": 72,
-        "APP-26": 47,
-        "APP-32": 58,
-        "APP-34": 60,
-        "APP-36": 55,
-        "APP-37": 23,
-        "APP-49": 52,
-        "APP-8": 25,
-        "DVS-10": 31,
-        "DVS-11": 33,
-        "DVS-12": 83,
-        "DVS-18": 39,
-        "DVS-19": 40,
-        "DVS-20": 29,
-        "DVS-21": 39,
-        "DVS-22": 39,
-        "DVS-23": 38,
-        "DVS-24": 29,
+        "APP-21": 75,
+        "APP-22": 52,
+        "APP-24": 73,
+        "APP-26": 63,
+        "APP-32": 62,
+        "APP-34": 76,
+        "APP-36": 65,
+        "APP-37": 24,
+        "APP-49": 68,
+        "DVS-10": 33,
+        "DVS-11": 34,
+        "DVS-12": 94,
+        "DVS-18": 42,
+        "DVS-19": 42,
+        "DVS-20": 31,
+        "DVS-21": 41,
+        "DVS-22": 42,
+        "DVS-23": 40,
+        "DVS-24": 31,
         "DVS-25": 36,
-        "DVS-26": 33,
+        "DVS-26": 34,
         "DVS-27": 30,
         "DVS-28": 30,
-        "DVS-29": 136,
+        "DVS-29": 137,
         "DVS-30": 44,
         "DVS-31": 44,
         "DVS-32": 47,
         "DVS-33": 34,
-        "DVS-34": 144,
-        "DVS-35": 33,
-        "DVS-36": 70,
+        "DVS-34": 145,
+        "DVS-35": 34,
+        "DVS-36": 71,
         "DVS-37": 35,
         "DVS-39": 108,
-        "DVS-43": 61,
-        "DVS-47": 61,
-        "DVS-51": 59,
-        "DVS-6": 50,
-        "DVS-8": 45,
+        "DVS-43": 67,
+        "DVS-47": 63,
+        "DVS-51": 67,
+        "DVS-6": 67,
+        "DVS-8": 46,
         "DVS-9": 37,
-        "FUNC-3": 23,
-        "FUNC-4": 14,
-        "FUNC-5": 24,
-        "FUNC-6": 20,
-        "FUNC-7": 17,
-        "FUNC-8": 18,
+        "FUNC-3": 25,
+        "FUNC-4": 16,
+        "FUNC-5": 25,
+        "FUNC-6": 23,
+        "FUNC-7": 21,
+        "FUNC-8": 20,
         "HFER-7": 16,
         "HFER-8": 16,
-        "SPEC-155": 57,
-        "SPEC-157": 60
+        "SPEC-155": 79,
+        "SPEC-157": 62
       },
-      "definition": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nSuite: Core. Default fast regression only; deliberately rejected layouts belong to Placement.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[APP-49]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check the shared R=max(label line height, band height) value inset for enabled and disabled effects, separators and theme inversion. Independently verify the minimum padded-height calculation and full-glyph/halo safety bound against all supported complete headers: currently H=30 px for the 21 px label role and H=46 px for the 35 px label role. Require unchanged cached H across redraws and assignment/unit/theme/inversion changes, common band edges for headers with different ascenders/descenders, complete glyph/halo containment and aligned primary-value centers. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with the same cached catalogue-wide smallest safe padded band height in every regular/enlarged cell, independently of label glyphs, unit visibility, clock indicators and field assignment; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. For all 32 field assignments, verify that every enabled known field receives the neutral-gray label default whenever it has no valid custom effect, including missing/invalid/unqualified/expired readings, unavailable or unsupported zone metadata, and standalone zone/lap fields; unknown identifiers stay ordinary. Require exact #CCCCCC Day and #333333 Night fills, including enlarged inversion, ordinary value areas, independent duplicates and hidden slots. Exercise enable/disable, valid/unavailable values, theme/inversion changes and reassignment to/from grade and other custom fields without stale fills. Validate revised small-cell guarantees with band/halo clearance. Check effect-band header contrast and label-only clipped halos, plus valid grade's unchanged sky/ground geometry and text halos. Verify all eight custom-effect field types switch from valid custom color to gray default and back without stale colors/geometry or lost valid numeric values. Cover valid zero grade, temperature and power, preserve white temperature bands in Night, and require no horizon for unavailable grade. Disabled effects remain ordinary. No `!` or compact substitution may pass a guaranteed normal case.\n\nGrid type Core procedure: Run gridTypeAndRepaint across both alignments, Day/Night, enlarged-theme inversion on/off and all native enlargement counts. Require Horizontal lines as constructor and missing/null/malformed fallback; accept numeric codes 0/1/2 and canonical none/horizontal/full identifiers, and ignore retired show_grid. In one reused renderer, switch Horizontal/None/Full/None/Horizontal/Full. Independently check the exact pattern line counts, horizontal/vertical orientations, clipping and [[HFER-7]]/[[HFER-8]] palette gradients for the selected type, without reading alignment to choose the style. None must issue zero drawLine calls. Require unchanged cell drawing records, field-fit/layout/geometry/font-load counters, backgrounds and grade polygons during grid-only changes. Compact-fallback separator coverage belongs to the separate Placement suite and runs only on request. Acquisition state must not reset.\n\nCache/drawing Core procedure: Run snapshotCacheInvalidation, rendererCacheAndDrawPurity and optionalRuntimeQueries from tests/PerformanceTests.mc. Require ten bounded assignment caches, unchanged-input formatting/header reuse, selective value/header/unit/clock invalidation and immutable published value text. Instrument actual production rendering to require zero unchanged refits/geometry rebuilds, exactly one refit for one changed normal cell, unchanged-angle polygon reuse and style refresh on theme/effect-kind changes. Lock layout/metric/color preparation during drawing and require the prepared graphics path to succeed. Check battery selection includes hidden slots, clock selection follows retained assignments, and normal callbacks leave runtime diagnostics disabled. Keep existing drawing/format/acquisition correctness assertions; Core performs no memory sampling. Requirements: [[APP-26]], [[APP-12]], [[APP-8]], [[APP-32]], [[APP-37]], [[DVS-35]], [[SPEC-157]].\n\nPlacement-only assertions are defined by the separate Placement suite and its linked Tests; do not execute them through this Core definition.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.\n\nPrimary executable: `tests/PresentationTests.mc`, named test `normalPresentationDrawAndAlignment`. Other named Core checks have their own linked Test definitions; no Memory or Placement execution is implied.\n\nThe existing snapshotCacheInvalidation and rendererCacheAndDrawPurity Core cases additionally cover immutable presentation-record reuse, shared zone classification, metadata/null invalidation, header-measurement reuse on changed values, repeated identical layout callbacks and the complete DataField.onUpdate missing-bounds/ordinary-redraw paths. Keep Core as the only default suite; these assertions do not certify memory consumption or hardware battery savings.",
+      "definition": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nSuite: Core. Default fast regression only; deliberately rejected layouts belong to Placement.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[APP-49]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check the shared R=max(label line height, band height) value inset for enabled and disabled effects, separators and theme inversion. Independently verify the minimum padded-height calculation and full-glyph/halo safety bound against all supported complete headers: currently H=30 px for the 21 px label role and H=46 px for the 35 px label role. Require unchanged cached H across redraws and assignment/unit/theme/inversion changes, common band edges for headers with different ascenders/descenders, complete glyph/halo containment and aligned primary-value centers. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with the same cached catalogue-wide smallest safe padded band height in every regular/enlarged cell, independently of label glyphs, unit visibility, clock indicators and field assignment; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. For all 32 existing numeric field assignments, verify that every enabled known field receives the neutral-gray label default whenever it has no valid custom effect, including missing/invalid/unqualified/expired readings, unavailable or unsupported zone metadata, and standalone zone/lap fields; unknown identifiers stay ordinary. Require exact #CCCCCC Day and #333333 Night fills, including enlarged inversion, ordinary value areas, independent duplicates and hidden slots. Exercise enable/disable, valid/unavailable values, theme/inversion changes and reassignment to/from grade and other custom fields without stale fills. Validate revised small-cell guarantees with band/halo clearance. Check effect-band header contrast and label-only clipped halos, plus valid grade's unchanged sky/ground geometry and text halos. Verify all eight custom-effect field types switch from valid custom color to gray default and back without stale colors/geometry or lost valid numeric values. Cover valid zero grade, temperature and power, preserve white temperature bands in Night, and require no horizon for unavailable grade. Disabled effects remain ordinary. No `!` or compact substitution may pass a guaranteed normal case.\n\nGrid type Core procedure: Run gridTypeAndRepaint across both alignments, Day/Night, enlarged-theme inversion on/off and all native enlargement counts. Require Horizontal lines as constructor and missing/null/malformed fallback; accept numeric codes 0/1/2 and canonical none/horizontal/full identifiers, and ignore retired show_grid. In one reused renderer, switch Horizontal/None/Full/None/Horizontal/Full. Independently check the exact pattern line counts, horizontal/vertical orientations, clipping and [[HFER-7]]/[[HFER-8]] palette gradients for the selected type, without reading alignment to choose the style. None must issue zero drawLine calls. Require unchanged cell drawing records, field-fit/layout/geometry/font-load counters, backgrounds and grade polygons during grid-only changes. Compact-fallback separator coverage belongs to the separate Placement suite and runs only on request. Acquisition state must not reset.\n\nCache/drawing Core procedure: Run snapshotCacheInvalidation, rendererCacheAndDrawPurity and optionalRuntimeQueries from tests/PerformanceTests.mc. Require ten bounded assignment caches, unchanged-input formatting/header reuse, selective value/header/unit/clock invalidation and immutable published value text. Instrument actual production rendering to require zero unchanged refits/geometry rebuilds, exactly one refit for one changed normal cell, unchanged-angle polygon reuse and style refresh on theme/effect-kind changes. Lock layout/metric/color preparation during drawing and require the prepared graphics path to succeed. Check battery selection includes hidden slots, clock selection follows retained assignments, and normal callbacks leave runtime diagnostics disabled. Keep existing drawing/format/acquisition correctness assertions; Core performs no memory sampling. Requirements: [[APP-26]], [[APP-12]], [[APP-8]], [[APP-32]], [[APP-37]], [[DVS-35]], [[SPEC-157]].\n\nPlacement-only assertions are defined by the separate Placement suite and its linked Tests; do not execute them through this Core definition.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.\n\nPrimary executable: `tests/PresentationTests.mc`, named test `normalPresentationDrawAndAlignment`. Other named Core checks have their own linked Test definitions; no Memory or Placement execution is implied.\n\nThe existing snapshotCacheInvalidation and rendererCacheAndDrawPurity Core cases additionally cover immutable presentation-record reuse, shared zone classification, metadata/null invalidation, header-measurement reuse on changed values, repeated identical layout callbacks and the complete DataField.onUpdate missing-bounds/ordinary-redraw paths. Keep Core as the only default suite; these assertions do not certify memory consumption or hardware battery savings.\n\nTeam literal text/native-font bounds are covered separately by [[SPEC-291]]/[[SPEC-292]]; numeric normal-range/header formulas do not apply to Team.",
       "stable_id": "TUI-1",
-      "revision": 82,
-      "status": "approved",
+      "revision": 84,
+      "status": "draft",
       "additional_sources": [
         "tests/NormalRangeTests.mc",
         "tests/limits"
@@ -398,8 +394,8 @@
       "procedure": "Purpose: Five-sample grade regression and three-second temporal smoothing.\n\nSuite: Core. Requirement references: [[DVS-29]], [[FUNC-12]], [[FUNC-13]], [[FUNC-14]].\n\nVerify zero warm-up without populating the average, FIFO regression eviction, signed/zero/large slopes, repeated distance, degenerate denominators, numerical failure and exact-half two-decimal rounding. Three points x=0,10,20 and y=100,101,102 publish 10.00 immediately. After stable 10.00 estimates, a new 14.00 regression estimate publishes 11.33, then 11.3 as the displayed slope. Direct estimates 4,6,8,10 at consecutive seconds publish 4,5,6,8. Check duplicate/same-second idempotence, missing/decreasing-second average reset, partial-window recovery and a maximum of three temporal estimates. No history may advance through drawing, duplicate slots or settings changes. Effects use the smoothed two-decimal grade, not the one-decimal display text.\n\nExecutable source: tests/AcquisitionTests.mc, named tests gradeRegression and gradeResetAndBounds. Evidence follows [[SPEC-162]]; this is a definition, not execution evidence.\n",
       "requirement_revisions": {
         "DVS-2": 56,
-        "DVS-29": 136,
-        "DVS-36": 70,
+        "DVS-29": 137,
+        "DVS-36": 71,
         "FUNC-12": 12,
         "FUNC-13": 17
       },
@@ -424,7 +420,7 @@
       ],
       "procedure": "Purpose: Grade discontinuity and bounded history.\n\nRequirement references: [[DVS-29]], [[FUNC-12]], [[FUNC-14]].\n\nProcedure and expected results: Check ignored duplicate timestamps, three-second no-progress invalidation and recovery on progress. Exactly 2000ms gaps are permitted; 2001ms, counter regression, identity change and non-running/invalid input reset as specified. Across 150 inputs retain at most five regression samples and three temporal-average samples, independently of duplicate slots/settings/drawing. This is not a heap measurement.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`, `gradeResetAndBounds`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n\nVerify both histories reset on every [[FUNC-14]] invalidation and warm-up zeros do not leak into the first computed average. A missing elapsed-second bucket clears only the temporal average when the regression gap remains within 2000 ms.\n",
       "requirement_revisions": {
-        "DVS-29": 136,
+        "DVS-29": 137,
         "FUNC-12": 12,
         "FUNC-14": 14
       },
@@ -493,7 +489,7 @@
       ],
       "procedure": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]]; [[FUNC-15]], [[FUNC-16]]\n\nProcedure and expected results: Exercise owned protocol-2 four-element edge-native-v2 packets. Reject protocol-1/onboard-v1 packets from earlier builds. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Through SnapshotEngine, also verify exactly one fractional digit in Celsius and Fahrenheit, trailing zeros, positive and negative half rounding, negative-zero suppression, null/unavailable values, and color bands selected from unrounded Celsius. Cover normal-range temperature endpoints and interior values via normalRangeFormatting and normalRangeCellBounds. Synthetic packets do not certify physical source provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-34": 144,
+        "DVS-34": 145,
         "FUNC-15": 13,
         "FUNC-16": 18
       },
@@ -517,7 +513,7 @@
       ],
       "procedure": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]]; [[FUNC-16]]\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and rejection of non-owned worker delivery. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-34": 144,
+        "DVS-34": 145,
         "FUNC-16": 18
       },
       "definition": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]]; [[FUNC-16]]\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and rejection of non-owned worker delivery. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
@@ -541,8 +537,8 @@
       ],
       "procedure": "Purpose: Legal temperature scheduling and runtime source guards.\n\nRequirement references: [[DVS-34]], [[APP-38]]; [[FUNC-15]]\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. Check that an empty native registry and explicitly ONBOARD temperature metadata pass the source-registration guard; reject null/missing/malformed metadata, ANT/BLE and unknown technology, non-Number enum types (including Float 2.0), wrong sensor types and more than 32 entries, regardless of connection state. Inspect TemperatureSource.read to verify registry checks before and after Sensor.getInfo; use fixtures to verify that foreground rejects non-owned or incompatible delivery. Preserve clock/cache and invalid-value cases. Physical qualification remains separate; these fixtures do not certify real-device provenance or actual event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-38": 40,
-        "DVS-34": 144,
+        "APP-38": 44,
+        "DVS-34": 145,
         "FUNC-15": 13
       },
       "definition": "Purpose: Legal temperature scheduling and runtime source guards.\n\nRequirement references: [[DVS-34]], [[APP-38]]; [[FUNC-15]]\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. Check that an empty native registry and explicitly ONBOARD temperature metadata pass the source-registration guard; reject null/missing/malformed metadata, ANT/BLE and unknown technology, non-Number enum types (including Float 2.0), wrong sensor types and more than 32 entries, regardless of connection state. Inspect TemperatureSource.read to verify registry checks before and after Sensor.getInfo; use fixtures to verify that foreground rejects non-owned or incompatible delivery. Preserve clock/cache and invalid-value cases. Physical qualification remains separate; these fixtures do not certify real-device provenance or actual event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
@@ -570,9 +566,9 @@
       ],
       "procedure": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]]; [[FUNC-13]], [[FUNC-16]], [[FUNC-17]]\n\nProcedure and expected results: Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-29": 136,
-        "DVS-34": 144,
-        "DVS-36": 70,
+        "DVS-29": 137,
+        "DVS-34": 145,
+        "DVS-36": 71,
         "DVS-39": 108,
         "FUNC-13": 17,
         "FUNC-16": 18,
@@ -599,7 +595,7 @@
       ],
       "procedure": "Purpose: Data Field callbacks preserve lap continuity.\n\nRequirement references: [[APP-32]], [[DVS-39]]; [[FUNC-17]]\n\nProcedure and expected results: Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `datafieldCallbackIsolation`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-32": 58,
+        "APP-32": 62,
         "DVS-39": 108,
         "FUNC-17": 16
       },
@@ -628,8 +624,8 @@
       "procedure": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]]; [[FUNC-12]], [[FUNC-14]], [[FUNC-16]]\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "APP-33": 33,
-        "DVS-29": 136,
-        "DVS-34": 144,
+        "DVS-29": 137,
+        "DVS-34": 145,
         "FUNC-12": 12,
         "FUNC-14": 14,
         "FUNC-16": 18
@@ -675,8 +671,8 @@
       "source": "tools/validate_fonts.py",
       "procedure": "Purpose: Exact glyph inventories and reproducible font resources.\n\nRequirement references: [[SPEC-176]], [[SPEC-177]].\n\nProcedure and expected results: Run the complete font validator and two isolated deterministic regenerations. For every current manifest variant require exact derived numeric/label character sets, transparent padding, valid rectangles, original glyph masks/metrics, verified source fonts and identical generated resource hashes. A pass covers atlas/role correctness and regeneration; it does not measure loaded memory or certify physical readability.\n\nExecutable source: `tools/validate_fonts.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-176": 16,
-        "SPEC-177": 21
+        "SPEC-176": 20,
+        "SPEC-177": 26
       },
       "definition": "Purpose: Exact glyph inventories and reproducible font resources.\n\nRequirement references: [[SPEC-176]], [[SPEC-177]].\n\nProcedure and expected results: Run the complete font validator and two isolated deterministic regenerations. For every current manifest variant require exact derived numeric/label character sets, transparent padding, valid rectangles, original glyph masks/metrics, verified source fonts and identical generated resource hashes. A pass covers atlas/role correctness and regeneration; it does not measure loaded memory or certify physical readability.\n\nExecutable source: `tools/validate_fonts.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TCOM-1",
@@ -696,7 +692,7 @@
       "source": "tools/test_font_validation.py",
       "procedure": "Purpose: Reject semantic font defects with refreshed cached hashes.\n\nRequirement references: [[SPEC-177]].\n\nProcedure and expected results: Run all isolated negative fixtures in test_font_validation.py. Require the intended semantic diagnostic for missing f, unused numeric letter, undeclared opaque pixels, duplicate/missing IDs, bounds/overlap and changed masks/metrics even when cached hashes are refreshed. Check controlled presentation-text inventory changes and unstable/stale regeneration. No simulator font-loading or memory probe.\n\nExecutable source: `tools/test_font_validation.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-177": 21
+        "SPEC-177": 26
       },
       "definition": "Purpose: Reject semantic font defects with refreshed cached hashes.\n\nRequirement references: [[SPEC-177]].\n\nProcedure and expected results: Run all isolated negative fixtures in test_font_validation.py. Require the intended semantic diagnostic for missing f, unused numeric letter, undeclared opaque pixels, duplicate/missing IDs, bounds/overlap and changed masks/metrics even when cached hashes are refreshed. Check controlled presentation-text inventory changes and unstable/stale regeneration. No simulator font-loading or memory probe.\n\nExecutable source: `tools/test_font_validation.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-20",
@@ -719,7 +715,7 @@
       "procedure": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "SPEC-153": 31,
-        "SPEC-155": 57,
+        "SPEC-155": 79,
         "SPEC-162": 16
       },
       "definition": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
@@ -736,10 +732,10 @@
       "title": "Magnitude-based speed, fixed-decimal slope and integral elevation",
       "source": "tests/CoreTests.mc",
       "requirements": [
-        "DVS-8",
-        "DVS-9",
         "DVS-26",
         "DVS-29",
+        "DVS-8",
+        "DVS-9",
         "FUNC-5"
       ],
       "procedure": "Purpose: Explicit speed, slope and elevation precision.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-8]], [[DVS-9]], [[DVS-26]], [[DVS-29]], [[FUNC-5]].\n\nProcedure and expected results: Require magnitude-based precision under the shared decimal contract for current/average/lap speed after unit conversion. Verify both display-unit modes at the 10/100 boundaries and rounding carries, exact trailing zeros, negative-zero suppression and immutable prior snapshot text. Slope always uses fixed one-decimal text: 0 -> 0.0, -0.04 -> 0.0, 2.01 -> 2.0, 5.1 -> 5.1, 100 -> 100.0, -100 -> -100.0. Check both banks, regular/enlarged/duplicate assignments, and unchanged smoothed two-decimal effect input. Elevation remains integral. Temperature retains its fixed one-decimal contract. Invalid inputs remain unavailable and selected precision must not be trimmed to fit.\n\nExecutable sources: `tests/CoreTests.mc`, named test `requestedFieldPrecision`, covers speed/elevation and fixed-slope basics. `tests/AcquisitionTests.mc`, named test `gradeRegression`, calls the `fixedSlopePrecision` helper for all fixed-slope boundaries, both banks, enlarged layouts and duplicate assignments.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -750,11 +746,11 @@
       "revision": 20,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-8": 45,
+        "DVS-26": 34,
+        "DVS-29": 137,
+        "DVS-8": 46,
         "DVS-9": 37,
-        "DVS-26": 33,
-        "DVS-29": 136,
-        "FUNC-5": 24
+        "FUNC-5": 25
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -765,10 +761,10 @@
       "title": "Measure complete label and unit headers",
       "source": "tests/PresentationTests.mc",
       "requirements": [
-        "DVS-12",
-        "DVS-50",
         "APP-24",
-        "APP-34"
+        "APP-34",
+        "DVS-12",
+        "DVS-50"
       ],
       "procedure": "Purpose: Measure complete label and unit headers.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-12]], [[DVS-50]], [[APP-24]], [[APP-34]].\n\nProcedure and expected results: Measure every complete resolved header with real SDK fonts in both alignments and unit modes. Require the documented oversized-header inventory and zero newly oversized headers; do not draw deliberately rejected grids.\n\nExecutable source: `tests/PresentationTests.mc`; named test `composedHeaderWidthAudit`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Measure complete label and unit headers.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-12]], [[DVS-50]], [[APP-24]], [[APP-34]].\n\nProcedure and expected results: Measure every complete resolved header with real SDK fonts in both alignments and unit modes. Require the documented oversized-header inventory and zero newly oversized headers; do not draw deliberately rejected grids.\n\nExecutable source: `tests/PresentationTests.mc`; named test `composedHeaderWidthAudit`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -778,10 +774,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-12": 83,
-        "DVS-50": 46,
-        "APP-24": 72,
-        "APP-34": 60
+        "APP-24": 73,
+        "APP-34": 76,
+        "DVS-12": 94,
+        "DVS-50": 54
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -792,9 +788,9 @@
       "title": "Literal and unit-template header selection",
       "source": "tests/PresentationTests.mc",
       "requirements": [
-        "DVS-50",
+        "DVS-32",
         "DVS-4",
-        "DVS-32"
+        "DVS-50"
       ],
       "procedure": "Purpose: Literal and unit-template header selection.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-50]], [[DVS-4]], [[DVS-32]].\n\nProcedure and expected results: Require exact literal overrides, optional unit substitution, spaced vertical bars and lowercase clock indicators. Hidden/empty units use the full label without extra separators.\n\nExecutable source: `tests/PresentationTests.mc`; named test `literalAndTemplateHeaderSelection`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Literal and unit-template header selection.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-50]], [[DVS-4]], [[DVS-32]].\n\nProcedure and expected results: Require exact literal overrides, optional unit substitution, spaced vertical bars and lowercase clock indicators. Hidden/empty units use the full label without extra separators.\n\nExecutable source: `tests/PresentationTests.mc`; named test `literalAndTemplateHeaderSelection`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -804,9 +800,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-50": 46,
-        "DVS-4": 45,
-        "DVS-32": 47
+        "DVS-32": 47,
+        "DVS-4": 46,
+        "DVS-50": 54
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -819,8 +815,8 @@
       "requirements": [
         "APP-20",
         "APP-24",
-        "DVS-50",
-        "APP-34"
+        "APP-34",
+        "DVS-50"
       ],
       "procedure": "Purpose: Normal default ride headers and cell bounds.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-20]], [[APP-24]], [[DVS-50]], [[APP-34]].\n\nProcedure and expected results: Draw default sample values with shown/hidden units, both themes and alignments. Require every native visible cell, exact headers and values, no overflow or compact substitution.\n\nExecutable source: `tests/PresentationTests.mc`; named test `sampleDefaultUnitHeaderGrid`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Normal default ride headers and cell bounds.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-20]], [[APP-24]], [[DVS-50]], [[APP-34]].\n\nProcedure and expected results: Draw default sample values with shown/hidden units, both themes and alignments. Require every native visible cell, exact headers and values, no overflow or compact substitution.\n\nExecutable source: `tests/PresentationTests.mc`; named test `sampleDefaultUnitHeaderGrid`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -830,10 +826,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-20": 70,
-        "APP-24": 72,
-        "DVS-50": 46,
-        "APP-34": 60
+        "APP-20": 72,
+        "APP-24": 73,
+        "APP-34": 76,
+        "DVS-50": 54
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -844,23 +840,23 @@
       "title": "Reviewed field formatting and stable choices",
       "source": "tests/PresentationTests.mc",
       "requirements": [
-        "SPEC-155",
-        "FUNC-11",
+        "DVS-13",
         "DVS-36",
-        "DVS-13"
+        "FUNC-11",
+        "SPEC-155"
       ],
-      "procedure": "Purpose: Reviewed field formatting and stable choices.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[SPEC-155]], [[FUNC-11]], [[DVS-36]], [[DVS-13]].\n\nProcedure and expected results: Verify all 32 stable numeric choices and revised labels, lap mappings, large integers, duration/hour behavior and normalized heading/cardinal output against exact fixture expectations.\n\nExecutable source: `tests/PresentationTests.mc`; named test `reviewedFormattingAndCatalogue`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
-      "definition": "Purpose: Reviewed field formatting and stable choices.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[SPEC-155]], [[FUNC-11]], [[DVS-36]], [[DVS-13]].\n\nProcedure and expected results: Verify all 32 stable numeric choices and revised labels, lap mappings, large integers, duration/hour behavior and normalized heading/cardinal output against exact fixture expectations.\n\nExecutable source: `tests/PresentationTests.mc`; named test `reviewedFormattingAndCatalogue`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
+      "procedure": "Purpose: Reviewed field formatting and stable choices.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[SPEC-155]], [[FUNC-11]], [[DVS-36]], [[DVS-13]].\n\nProcedure and expected results: Verify all 33 stable field-choice codes and revised labels, lap mappings, large integers, duration/hour behavior and normalized heading/cardinal output against exact fixture expectations.\n\nExecutable source: `tests/PresentationTests.mc`; named test `reviewedFormattingAndCatalogue`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
+      "definition": "Purpose: Reviewed field formatting and stable choices.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[SPEC-155]], [[FUNC-11]], [[DVS-36]], [[DVS-13]].\n\nProcedure and expected results: Verify all 33 stable field-choice codes and revised labels, lap mappings, large integers, duration/hour behavior and normalized heading/cardinal output against exact fixture expectations.\n\nExecutable source: `tests/PresentationTests.mc`; named test `reviewedFormattingAndCatalogue`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-5",
-      "revision": 7,
-      "status": "approved",
+      "revision": 9,
+      "status": "draft",
       "requirement_revisions": {
-        "SPEC-155": 57,
-        "FUNC-11": 14,
-        "DVS-36": 70,
-        "DVS-13": 62
+        "DVS-13": 62,
+        "DVS-36": 71,
+        "FUNC-11": 28,
+        "SPEC-155": 79
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -872,8 +868,8 @@
       "source": "tests/PresentationTests.mc",
       "requirements": [
         "APP-24",
-        "APP-28",
-        "APP-25"
+        "APP-25",
+        "APP-28"
       ],
       "procedure": "Purpose: Exactly three fixed font roles in every layout.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-24]], [[APP-28]], [[APP-25]].\n\nProcedure and expected results: Require the fixed enlarged/regular/label sizes for every enlargement count and normal value transition. Timer, elapsed and battery use the same regular size; selected font/metric caches remain bounded by three roles. No memory sampling.\n\nExecutable source: `tests/PresentationTests.mc`; named test `fixedThreeRoleFonts`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Exactly three fixed font roles in every layout.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-24]], [[APP-28]], [[APP-25]].\n\nProcedure and expected results: Require the fixed enlarged/regular/label sizes for every enlargement count and normal value transition. Timer, elapsed and battery use the same regular size; selected font/metric caches remain bounded by three roles. No memory sampling.\n\nExecutable source: `tests/PresentationTests.mc`; named test `fixedThreeRoleFonts`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -883,9 +879,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 72,
-        "APP-28": 56,
-        "APP-25": 25
+        "APP-24": 73,
+        "APP-25": 30,
+        "APP-28": 56
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -896,10 +892,10 @@
       "title": "Effect foreground contrast and exact glyph widths",
       "source": "tests/PresentationTests.mc",
       "requirements": [
-        "DVS-6",
+        "APP-26",
         "APP-36",
         "DVS-43",
-        "APP-26"
+        "DVS-6"
       ],
       "procedure": "Purpose: Effect foreground contrast and exact glyph widths.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-6]], [[APP-36]], [[DVS-43]], [[APP-26]].\n\nProcedure and expected results: Verify Day/Night grade and colored-label foregrounds/ordinary value backgrounds. Compare cached widths with real SDK font measurement, including contour clearance.\n\nExecutable source: `tests/PresentationTests.mc`; named test `approvedForegroundAndMetricWidths`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Effect foreground contrast and exact glyph widths.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-6]], [[APP-36]], [[DVS-43]], [[APP-26]].\n\nProcedure and expected results: Verify Day/Night grade and colored-label foregrounds/ordinary value backgrounds. Compare cached widths with real SDK font measurement, including contour clearance.\n\nExecutable source: `tests/PresentationTests.mc`; named test `approvedForegroundAndMetricWidths`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -909,10 +905,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-6": 50,
-        "APP-36": 55,
-        "DVS-43": 61,
-        "APP-26": 47
+        "APP-26": 63,
+        "APP-36": 65,
+        "DVS-43": 67,
+        "DVS-6": 67
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -938,12 +934,12 @@
       "revision": 10,
       "status": "approved",
       "requirement_revisions": {
-        "APP-22": 51,
-        "APP-26": 47,
-        "APP-32": 58,
+        "APP-22": 52,
+        "APP-26": 63,
+        "APP-32": 62,
         "HFER-7": 16,
         "HFER-8": 16,
-        "SPEC-155": 57
+        "SPEC-155": 79
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -955,9 +951,9 @@
       "source": "tests/PresentationTests.mc",
       "requirements": [
         "APP-24",
+        "APP-34",
         "DVS-13",
-        "DVS-32",
-        "APP-34"
+        "DVS-32"
       ],
       "procedure": "Purpose: Complete clock and duration groups fit native cells.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-24]], [[DVS-13]], [[DVS-32]], [[APP-34]].\n\nProcedure and expected results: Require complete 00:00, 13:05 and 1:00.00 groups at fixed fonts in every native enlargement count and alignment, including required secondary seconds and one-pixel halos. No overflow or compact substitution.\n\nExecutable source: `tests/PresentationTests.mc`; named test `clockAndDurationFitEveryLayout`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Complete clock and duration groups fit native cells.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-24]], [[DVS-13]], [[DVS-32]], [[APP-34]].\n\nProcedure and expected results: Require complete 00:00, 13:05 and 1:00.00 groups at fixed fonts in every native enlargement count and alignment, including required secondary seconds and one-pixel halos. No overflow or compact substitution.\n\nExecutable source: `tests/PresentationTests.mc`; named test `clockAndDurationFitEveryLayout`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -967,10 +963,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 72,
+        "APP-24": 73,
+        "APP-34": 76,
         "DVS-13": 62,
-        "DVS-32": 47,
-        "APP-34": 60
+        "DVS-32": 47
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -981,9 +977,9 @@
       "title": "Rolling samples use activity time and valid values",
       "source": "tests/AcquisitionTests.mc",
       "requirements": [
+        "APP-35",
         "DVS-41",
-        "DVS-47",
-        "APP-35"
+        "DVS-47"
       ],
       "procedure": "Purpose: Rolling samples use activity time and valid values.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[APP-35]].\n\nProcedure and expected results: Exercise elapsed-activity second identity, sampling state, duplicates, gaps, measured zero and invalid/negative values. Reject stale bridges without confusing wall time or resetting unrelated channels.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `rollingActivityClockAndValidity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Rolling samples use activity time and valid values.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[APP-35]].\n\nProcedure and expected results: Exercise elapsed-activity second identity, sampling state, duplicates, gaps, measured zero and invalid/negative values. Reject stale bridges without confusing wall time or resetting unrelated channels.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `rollingActivityClockAndValidity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -993,9 +989,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
+        "APP-35": 39,
         "DVS-41": 43,
-        "DVS-47": 61,
-        "APP-35": 38
+        "DVS-47": 63
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1019,10 +1015,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-42": 26,
-        "DVS-45": 20,
-        "DVS-46": 31,
-        "DVS-48": 31
+        "DVS-42": 33,
+        "DVS-45": 29,
+        "DVS-46": 45,
+        "DVS-48": 45
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1033,14 +1029,14 @@
       "title": "Current-lap distance time and weighted averages",
       "source": "tests/AcquisitionTests.mc",
       "requirements": [
+        "FUNC-10",
         "FUNC-3",
         "FUNC-4",
         "FUNC-5",
         "FUNC-6",
         "FUNC-7",
         "FUNC-8",
-        "FUNC-9",
-        "FUNC-10"
+        "FUNC-9"
       ],
       "procedure": "Purpose: Current-lap distance time and weighted averages.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[FUNC-3]], [[FUNC-4]], [[FUNC-5]], [[FUNC-6]], [[FUNC-7]], [[FUNC-8]], [[FUNC-9]], [[FUNC-10]].\n\nProcedure and expected results: Use known boundaries/counters to verify lap distance, active duration, distance/time speed and time-weighted HR/power/cadence. Include measured zero, valid endpoints and pause behavior.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `currentLapAcquisition`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Current-lap distance time and weighted averages.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[FUNC-3]], [[FUNC-4]], [[FUNC-5]], [[FUNC-6]], [[FUNC-7]], [[FUNC-8]], [[FUNC-9]], [[FUNC-10]].\n\nProcedure and expected results: Use known boundaries/counters to verify lap distance, active duration, distance/time speed and time-weighted HR/power/cadence. Include measured zero, valid endpoints and pause behavior.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `currentLapAcquisition`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -1050,14 +1046,14 @@
       "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "FUNC-3": 23,
-        "FUNC-4": 14,
-        "FUNC-5": 24,
-        "FUNC-6": 20,
-        "FUNC-7": 17,
-        "FUNC-8": 18,
-        "FUNC-9": 16,
-        "FUNC-10": 13
+        "FUNC-10": 13,
+        "FUNC-3": 25,
+        "FUNC-4": 16,
+        "FUNC-5": 25,
+        "FUNC-6": 23,
+        "FUNC-7": 21,
+        "FUNC-8": 20,
+        "FUNC-9": 17
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1068,9 +1064,9 @@
       "title": "Late loading and gaps do not invent lap history",
       "source": "tests/AcquisitionTests.mc",
       "requirements": [
-        "FUNC-9",
         "FUNC-10",
-        "FUNC-17"
+        "FUNC-17",
+        "FUNC-9"
       ],
       "procedure": "Purpose: Late loading and gaps do not invent lap history.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[FUNC-9]], [[FUNC-10]], [[FUNC-17]].\n\nProcedure and expected results: After late attachment wait for a confirmed boundary; reject unknown/regressing baselines. Missing intervals and stopped periods must not contribute to averages or recover an unobserved boundary.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `currentLapLateAttachAndGaps`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Late loading and gaps do not invent lap history.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[FUNC-9]], [[FUNC-10]], [[FUNC-17]].\n\nProcedure and expected results: After late attachment wait for a confirmed boundary; reject unknown/regressing baselines. Missing intervals and stopped periods must not contribute to averages or recover an unobserved boundary.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `currentLapLateAttachAndGaps`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -1080,9 +1076,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "FUNC-9": 16,
         "FUNC-10": 13,
-        "FUNC-17": 16
+        "FUNC-17": 16,
+        "FUNC-9": 17
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1106,10 +1102,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-34": 60,
+        "APP-34": 76,
         "DVS-2": 56,
-        "DVS-3": 78,
-        "SPEC-157": 60
+        "DVS-3": 80,
+        "SPEC-157": 62
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1122,8 +1118,8 @@
       "requirements": [
         "APP-24",
         "APP-34",
-        "DVS-6",
         "DVS-12",
+        "DVS-6",
         "SPEC-157"
       ],
       "procedure": "Purpose: Guaranteed normal values stay inside native cell borders.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-24]], [[APP-34]], [[DVS-6]], [[DVS-12]], [[SPEC-157]].\n\nProcedure and expected results: Use real font metrics across every declared normal context, role and alignment. Require complete header/value/secondary glyph and halo bounds; no trimming, overflow sign or compact substitution. Count explicitly unsupported contexts separately.\n\nExecutable source: `tests/NormalRangeTests.mc`; named test `normalRangeCellBounds`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -1134,11 +1130,11 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 72,
-        "APP-34": 60,
-        "DVS-6": 50,
-        "DVS-12": 83,
-        "SPEC-157": 60
+        "APP-24": 73,
+        "APP-34": 76,
+        "DVS-12": 94,
+        "DVS-6": 67,
+        "SPEC-157": 62
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1150,9 +1146,9 @@
       "source": "tests/PerformanceTests.mc",
       "requirements": [
         "APP-26",
+        "DVS-32",
         "DVS-4",
-        "DVS-50",
-        "DVS-32"
+        "DVS-50"
       ],
       "procedure": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].",
       "definition": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].",
@@ -1162,10 +1158,10 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 47,
-        "DVS-4": 45,
-        "DVS-50": 46,
-        "DVS-32": 47
+        "APP-26": 63,
+        "DVS-32": 47,
+        "DVS-4": 46,
+        "DVS-50": 54
       },
       "suite_stable_id": "TRGR-1",
       "implementation_status": "Implemented duplicate-slot isolation, immutable earlier snapshots and descriptor bounds through 64 reassignments; matching-source results are separate."
@@ -1178,7 +1174,6 @@
       "source": "tests/PerformanceTests.mc",
       "requirements": [
         "APP-26",
-        "APP-12",
         "APP-32",
         "DVS-43"
       ],
@@ -1190,10 +1185,9 @@
       "revision": 15,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 47,
-        "APP-12": 18,
-        "APP-32": 58,
-        "DVS-43": 61
+        "APP-26": 63,
+        "APP-32": 62,
+        "DVS-43": 67
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1216,9 +1210,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 47,
-        "APP-37": 23,
-        "DVS-35": 33
+        "APP-26": 63,
+        "APP-37": 24,
+        "DVS-35": 34
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1242,8 +1236,8 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-47": 14,
-        "APP-48": 17,
-        "SPEC-177": 21
+        "APP-48": 22,
+        "SPEC-177": 26
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1266,9 +1260,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-25": 25,
+        "APP-25": 30,
         "APP-28": 56,
-        "SPEC-177": 21
+        "SPEC-177": 26
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1280,9 +1274,9 @@
       "source": "tests/PlacementTests.mc",
       "requirements": [
         "APP-24",
+        "APP-26",
         "APP-28",
-        "APP-34",
-        "APP-26"
+        "APP-34"
       ],
       "procedure": "Purpose: Actual overflow and compact layout cache behavior.\n\nSuite: Placement. Explicit user request only; never launched by Core or a build.\n\nRequirement references: [[APP-24]], [[APP-28]], [[APP-34]], [[APP-26]].\n\nProcedure and expected results: Exercise oversized values, recovery to a normal value without font-size changes, reduced-area compact wrapping, repeated cached redraws and areas too small for a caption. Require the specified marker/message/background-only behavior with no repeated resource loading.\n\nExecutable source: `tests/PlacementTests.mc`; named test `actualValueFitAndCompactCache`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Actual overflow and compact layout cache behavior.\n\nSuite: Placement. Explicit user request only; never launched by Core or a build.\n\nRequirement references: [[APP-24]], [[APP-28]], [[APP-34]], [[APP-26]].\n\nProcedure and expected results: Exercise oversized values, recovery to a normal value without font-size changes, reduced-area compact wrapping, repeated cached redraws and areas too small for a caption. Require the specified marker/message/background-only behavior with no repeated resource loading.\n\nExecutable source: `tests/PlacementTests.mc`; named test `actualValueFitAndCompactCache`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -1292,10 +1286,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 72,
+        "APP-24": 73,
+        "APP-26": 63,
         "APP-28": 56,
-        "APP-34": 60,
-        "APP-26": 47
+        "APP-34": 76
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1310,8 +1304,8 @@
         "APP-21",
         "APP-34",
         "APP-36",
-        "DVS-6",
-        "DVS-51"
+        "DVS-51",
+        "DVS-6"
       ],
       "procedure": "Purpose: Unsupported and reduced-area presentation matrix.\n\nSuite: Placement. Explicit user request only; never launched by Core or a build.\n\nRequirement references: [[APP-20]], [[APP-21]], [[APP-34]], [[APP-36]], [[DVS-6]], [[DVS-51]].\n\nProcedure and expected results: Run the production drawing matrix including unsupported combinations, both alignments, themes, inversion and enlargement counts. Require correct clipping, separators, backgrounds, contours and full compact caption when it fits; never count fallback as a normal-value guarantee.\n\nExecutable source: `tests/PlacementTests.mc`; named test `presentationDrawAndAlignment`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "definition": "Purpose: Unsupported and reduced-area presentation matrix.\n\nSuite: Placement. Explicit user request only; never launched by Core or a build.\n\nRequirement references: [[APP-20]], [[APP-21]], [[APP-34]], [[APP-36]], [[DVS-6]], [[DVS-51]].\n\nProcedure and expected results: Run the production drawing matrix including unsupported combinations, both alignments, themes, inversion and enlargement counts. Require correct clipping, separators, backgrounds, contours and full compact caption when it fits; never count fallback as a normal-value guarantee.\n\nExecutable source: `tests/PlacementTests.mc`; named test `presentationDrawAndAlignment`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
@@ -1321,12 +1315,12 @@
       "revision": 9,
       "status": "approved",
       "requirement_revisions": {
-        "APP-20": 70,
-        "APP-21": 63,
-        "APP-34": 60,
-        "APP-36": 55,
-        "DVS-6": 50,
-        "DVS-51": 59
+        "APP-20": 72,
+        "APP-21": 75,
+        "APP-34": 76,
+        "APP-36": 65,
+        "DVS-51": 67,
+        "DVS-6": 67
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1349,9 +1343,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 72,
-        "APP-34": 60,
-        "SPEC-157": 60
+        "APP-24": 73,
+        "APP-34": 76,
+        "SPEC-157": 62
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1362,23 +1356,23 @@
       "title": "Normal Data Field runtime memory validation",
       "source": "validation/memory/MemoryValidation.mc",
       "requirements": [
-        "APP-47",
-        "APP-48",
         "APP-37",
-        "APP-38"
+        "APP-38",
+        "APP-47",
+        "APP-48"
       ],
-      "procedure": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n",
-      "definition": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n",
+      "procedure": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.",
+      "definition": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.",
       "category": "performance",
       "runner": "runtime",
       "stable_id": "TPRF-9",
-      "revision": 20,
-      "status": "approved",
+      "revision": 22,
+      "status": "draft",
       "requirement_revisions": {
+        "APP-37": 24,
+        "APP-38": 44,
         "APP-47": 14,
-        "APP-48": 17,
-        "APP-37": 23,
-        "APP-38": 40
+        "APP-48": 22
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1399,17 +1393,17 @@
         "SPEC-225"
       ],
       "title": "Core: verify second-set settings, defaults and migration",
-      "definition": "Verification definition; implementation and execution evidence are recorded separately. Use production settings loaders and generated XML/catalogue inspection. Verify exactly 57 unique active properties, all existing 26 keys/codes/defaults unchanged, all 26 second_ counterparts, five selector codes/default Manual lap and four threshold keys. Compare both sets' types, 32 choice mappings and allowed presentation options. Verify group/divider, control ordering, explicit dependency prompts, and identical activation titles in grouped/flat clients and unambiguous flat-client identification without a dummy property. Exercise a populated 26-property upgrade, empty installation, restart, missing/malformed values, unknown field codes, hidden and duplicate assignments; valid first-set values remain byte-for-byte equivalent and second defaults are factory values. Change second options and None independently: neither erases the other set. Check integer/type/range fallback, return > activation safe-default behavior and unused-invalid-pair isolation. Pass only if every expected key, fallback, title and retained value matches the contract. This is Core; include no deliberate insufficient-area or Memory probes.\n\nAssert the exact second-set factory preset in [[SPEC-209]] in the generated catalogue/XML, a freshly constructed configuration and missing/null/malformed-property fallback: one enlarged field, the ten ordered field identifiers, effects true only for slots 1 through 4, and no inherited first-set assignments. Explicit valid 0 enlarged fields, false effects, alternate assignments and other saved options survive restart and preset upgrades. The trigger remains governed by its existing factory contract.\n\nVerify that fresh/missing/invalid trigger settings select Manual lap, remain on the first set at startup, toggle on the first qualifying lap and return on the second. Explicitly saved None remains None across reload and ignores lap events. Retain typed/legacy callback filtering and the legacy Auto Lap restriction.\n",
-      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Use production settings loaders and generated XML/catalogue inspection. Verify exactly 57 unique active properties, all existing 26 keys/codes/defaults unchanged, all 26 second_ counterparts, five selector codes/default Manual lap and four threshold keys. Compare both sets' types, 32 choice mappings and allowed presentation options. Verify group/divider, control ordering, explicit dependency prompts, and identical activation titles in grouped/flat clients and unambiguous flat-client identification without a dummy property. Exercise a populated 26-property upgrade, empty installation, restart, missing/malformed values, unknown field codes, hidden and duplicate assignments; valid first-set values remain byte-for-byte equivalent and second defaults are factory values. Change second options and None independently: neither erases the other set. Check integer/type/range fallback, return > activation safe-default behavior and unused-invalid-pair isolation. Pass only if every expected key, fallback, title and retained value matches the contract. This is Core; include no deliberate insufficient-area or Memory probes.\n\nAssert the exact second-set factory preset in [[SPEC-209]] in the generated catalogue/XML, a freshly constructed configuration and missing/null/malformed-property fallback: one enlarged field, the ten ordered field identifiers, effects true only for slots 1 through 4, and no inherited first-set assignments. Explicit valid 0 enlarged fields, false effects, alternate assignments and other saved options survive restart and preset upgrades. The trigger remains governed by its existing factory contract.\n\nVerify that fresh/missing/invalid trigger settings select Manual lap, remain on the first set at startup, toggle on the first qualifying lap and return on the second. Explicitly saved None remains None across reload and ignores lap events. Retain typed/legacy callback filtering and the legacy Auto Lap restriction.\n",
-      "revision": 12,
-      "status": "approved",
+      "definition": "Core definition; not executed here. Verify both 56-property sets, their exact second_ mappings and the complete counts in [[SPEC-209]], including hidden bridge keys. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and Team font availability. Preserve all valid saved settings through the migration Tests.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
+      "procedure": "Core definition; not executed here. Verify both 56-property sets, their exact second_ mappings and the complete counts in [[SPEC-209]], including hidden bridge keys. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and Team font availability. Preserve all valid saved settings through the migration Tests.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
+      "revision": 14,
+      "status": "draft",
       "requirement_revisions": {
-        "SPEC-208": 4,
-        "SPEC-209": 10,
-        "SPEC-210": 5,
-        "SPEC-211": 7,
+        "SPEC-208": 9,
+        "SPEC-209": 34,
+        "SPEC-210": 11,
+        "SPEC-211": 8,
         "SPEC-212": 4,
-        "SPEC-225": 12
+        "SPEC-225": 19
       }
     },
     {
@@ -1434,7 +1428,7 @@
       "revision": 4,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-211": 7,
+        "SPEC-211": 8,
         "SPEC-212": 4,
         "SPEC-213": 4,
         "SPEC-214": 5,
@@ -1463,7 +1457,7 @@
       "requirement_revisions": {
         "SPEC-217": 3,
         "SPEC-218": 3,
-        "SPEC-223": 4
+        "SPEC-223": 5
       }
     },
     {
@@ -1485,7 +1479,7 @@
       "revision": 4,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-211": 7,
+        "SPEC-211": 8,
         "SPEC-219": 4,
         "SPEC-220": 5
       }
@@ -1512,12 +1506,12 @@
       "revision": 4,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-208": 4,
+        "SPEC-208": 9,
         "SPEC-220": 5,
         "SPEC-221": 4,
         "SPEC-222": 4,
-        "SPEC-223": 4,
-        "SPEC-224": 14
+        "SPEC-223": 5,
+        "SPEC-224": 15
       }
     },
     {
@@ -1538,8 +1532,8 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-223": 4,
-        "SPEC-224": 14
+        "SPEC-223": 5,
+        "SPEC-224": 15
       }
     },
     {
@@ -1560,9 +1554,839 @@
       "revision": 4,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-208": 4,
+        "SPEC-208": 9,
         "SPEC-222": 4
       }
+    },
+    {
+      "key": "spec-286",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team catalogue compatibility",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck generated/runtime choices 0..32, exact team identifier/caption and all old mappings. Upgrade saved assignments in both banks and verify their layout, presets and switching remain unchanged.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck generated/runtime choices 0..32, exact team identifier/caption and all old mappings. Upgrade saved assignments in both banks and verify their layout, presets and switching remain unchanged.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-46",
+        "SPEC-155",
+        "SPEC-210",
+        "SPEC-253"
+      ],
+      "requirement_revisions": {
+        "APP-46": 54,
+        "SPEC-155": 79,
+        "SPEC-210": 11,
+        "SPEC-253": 5
+      },
+      "stable_id": "SPEC-286"
+    },
+    {
+      "key": "spec-272",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify enlarged semantic label fill",
+      "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nUse qualified HR/power fixtures and temperature bands with one/two enlarged slots in each set. Assert full-width/full-band fill and ordinary value pixels in both alignments/themes and inverted enlarged palettes.",
+      "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nUse qualified HR/power fixtures and temperature bands with one/two enlarged slots in each set. Assert full-width/full-band fill and ordinary value pixels in both alignments/themes and inverted enlarged palettes.",
+      "revision": 2,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-239"
+      ],
+      "requirement_revisions": {
+        "SPEC-239": 4
+      },
+      "stable_id": "SPEC-272"
+    },
+    {
+      "key": "spec-273",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify enlarged neutral fallback",
+      "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nExercise no custom source, missing/invalid/unsupported/expired/unqualified sources and recovery, including valid zero. Verify both gray shades, each mode, both sets and inversion without hiding valid values.",
+      "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nExercise no custom source, missing/invalid/unsupported/expired/unqualified sources and recovery, including valid zero. Verify both gray shades, each mode, both sets and inversion without hiding valid values.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-51",
+        "SPEC-240"
+      ],
+      "requirement_revisions": {
+        "DVS-51": 67,
+        "SPEC-240": 2
+      },
+      "stable_id": "SPEC-273"
+    },
+    {
+      "key": "spec-274",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify enlarged color bounds and contrast",
+      "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nCompare cell commands/pixels before/after effects for zero/one/two enlarged layouts, all grid modes and both alignments. Check complete glyphs/halos, shared band bounds and neighboring cells.",
+      "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nCompare cell commands/pixels before/after effects for zero/one/two enlarged layouts, all grid modes and both alignments. Check complete glyphs/halos, shared band bounds and neighboring cells.",
+      "revision": 2,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-241"
+      ],
+      "requirement_revisions": {
+        "SPEC-241": 2
+      },
+      "stable_id": "SPEC-274"
+    },
+    {
+      "key": "spec-275",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify color-only packet invalidation",
+      "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nHold displayed text/bounds constant while changing thresholds, source validity, theme and coverage. Verify replacement packets and complete erasure; earlier snapshots remain byte-for-byte unchanged.",
+      "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nHold displayed text/bounds constant while changing thresholds, source validity, theme and coverage. Verify replacement packets and complete erasure; earlier snapshots remain byte-for-byte unchanged.",
+      "revision": 2,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-242"
+      ],
+      "requirement_revisions": {
+        "SPEC-242": 2
+      },
+      "stable_id": "SPEC-275"
+    },
+    {
+      "key": "spec-276",
+      "function": "typedSettingsAndHiddenSlots",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify legacy background migration",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor both banks and hidden slots test effective legacy false/true on upgrade or unknown install history, including slope true -> Whole cell. A confirmed fresh installation uses new factory modes. Valid explicit modes 0/1/2 win before first start; private -1 is not a visible choice. Test interrupted/repeated migration, unrelated settings and hidden legacy declaration/type retention. Do not treat SDK defaults as proof of raw persistence.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor both banks and hidden slots test effective legacy false/true on upgrade or unknown install history, including slope true -> Whole cell. A confirmed fresh installation uses new factory modes. Valid explicit modes 0/1/2 win before first start; private -1 is not a visible choice. Test interrupted/repeated migration, unrelated settings and hidden legacy declaration/type retention. Do not treat SDK defaults as proof of raw persistence.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-225",
+        "SPEC-243"
+      ],
+      "requirement_revisions": {
+        "SPEC-225": 19,
+        "SPEC-243": 9
+      },
+      "stable_id": "SPEC-276"
+    },
+    {
+      "key": "spec-277",
+      "function": "typedSettingsAndHiddenSlots",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify interrupted migration retry",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInterrupt each required write and version commit, restart, and retry twice. Assert the version remains old until complete, successful values persist and explicit None/false/zero are never mistaken for absence.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInterrupt each required write and version commit, restart, and retry twice. Assert the version remains old until complete, successful values persist and explicit None/false/zero are never mistaken for absence.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-244"
+      ],
+      "requirement_revisions": {
+        "SPEC-244": 5
+      },
+      "stable_id": "SPEC-277"
+    },
+    {
+      "key": "spec-278",
+      "function": "typedSettingsAndHiddenSlots",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify future schema preservation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nLoad malformed, negative, fractional and version>1 markers with mixed known/unknown properties. Assert zero writes, unchanged stored bytes/version and deterministic safe rendering.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nLoad malformed, negative, fractional and version>1 markers with mixed known/unknown properties. Assert zero writes, unchanged stored bytes/version and deterministic safe rendering.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-245"
+      ],
+      "requirement_revisions": {
+        "SPEC-245": 3
+      },
+      "stable_id": "SPEC-278"
+    },
+    {
+      "key": "spec-267",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify background mode choices",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck all 20 keys, exact captions/codes/types and both bank presets. Edit duplicate and hidden slots independently; reload and verify their modes. No Boolean switch remains visible.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck all 20 keys, exact captions/codes/types and both bank presets. Edit duplicate and hidden slots independently; reload and verify their modes. No Boolean switch remains visible.",
+      "revision": 5,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-49",
+        "SPEC-209",
+        "SPEC-234"
+      ],
+      "requirement_revisions": {
+        "APP-49": 68,
+        "SPEC-209": 34,
+        "SPEC-234": 7
+      },
+      "stable_id": "SPEC-267"
+    },
+    {
+      "key": "spec-268",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify background coverage regions",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor None/Label/Whole cell, compare production fill commands and pixels in regular/enlarged cells, both sets/themes/alignments. Assert unchanged alignment anchors and clipping at cell borders; any required clearance refit is confined to the affected cell. Exercise the Team and slope exceptions.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor None/Label/Whole cell, compare production fill commands and pixels in regular/enlarged cells, both sets/themes/alignments. Assert unchanged alignment anchors and clipping at cell borders; any required clearance refit is confined to the affected cell. Exercise the Team and slope exceptions.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-43",
+        "DVS-49",
+        "SPEC-235"
+      ],
+      "requirement_revisions": {
+        "DVS-43": 67,
+        "DVS-49": 56,
+        "SPEC-235": 11
+      },
+      "stable_id": "SPEC-268"
+    },
+    {
+      "key": "spec-269",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify whole-cell text contrast",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nRender all palette colors, including magenta #FF00FF with black text and an opposite white one-pixel halo, both neutral grays and all coverage modes. Assert foreground/halo colors and transparency for header, primary and secondary glyphs, including enlarged inversion. Changing coverage leaves no obsolete fill/halo.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nRender all palette colors, including magenta #FF00FF with black text and an opposite white one-pixel halo, both neutral grays and all coverage modes. Assert foreground/halo colors and transparency for header, primary and secondary glyphs, including enlarged inversion. Changing coverage leaves no obsolete fill/halo.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-36",
+        "DVS-6",
+        "SPEC-236"
+      ],
+      "requirement_revisions": {
+        "APP-36": 65,
+        "DVS-6": 67,
+        "SPEC-236": 3
+      },
+      "stable_id": "SPEC-269"
+    },
+    {
+      "key": "spec-270",
+      "function": "typedSettingsAndHiddenSlots",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify isolated mode validation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInject missing/null/Boolean/fractional/negative/unknown values in one slot. Verify its bank-specific fallback and unchanged other slots/settings; valid explicit 0 survives reload and migration.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInject missing/null/Boolean/fractional/negative/unknown values in one slot. Verify its bank-specific fallback and unchanged other slots/settings; valid explicit 0 survives reload and migration.",
+      "revision": 4,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-31",
+        "SPEC-237"
+      ],
+      "requirement_revisions": {
+        "APP-31": 90,
+        "SPEC-237": 5
+      },
+      "stable_id": "SPEC-270"
+    },
+    {
+      "key": "spec-271",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify mode-only invalidation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nChange one mode with unchanged text, readings and bounds. Assert new production packets/fills on next update, unchanged geometry, other slots and lap/rolling/grade/trigger state. Fitting counters remain unchanged when clearance is unchanged; otherwise only the affected cell may refit to keep complete glyphs/halos inside its bounds.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nChange one mode with unchanged text, readings and bounds. Assert new production packets/fills on next update, unchanged geometry, other slots and lap/rolling/grade/trigger state. Fitting counters remain unchanged when clearance is unchanged; otherwise only the affected cell may refit to keep complete glyphs/halos inside its bounds.",
+      "revision": 4,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-238"
+      ],
+      "requirement_revisions": {
+        "SPEC-238": 2
+      },
+      "stable_id": "SPEC-271"
+    },
+    {
+      "key": "spec-285",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify cadence option validation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck types/keys/defaults, all boundary limits, Boolean/fractional/negative/>300 values, equal/reversed bounds and partially absent settings. Assert shared profile across both sets and unchanged stored invalid data.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck types/keys/defaults, all boundary limits, Boolean/fractional/negative/>300 values, equal/reversed bounds and partially absent settings. Assert shared profile across both sets and unchanged stored invalid data.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-252"
+      ],
+      "requirement_revisions": {
+        "SPEC-252": 3
+      },
+      "stable_id": "SPEC-285"
+    },
+    {
+      "key": "spec-287",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team text options",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck all 20 keys, default, empty, 32/33 characters, spaces/case, wrong types and characters outside the declared repertoire. Reload/reassign/hide slots and verify values are independent and saved data unchanged.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck all 20 keys, default, empty, 32/33 characters, spaces/case, wrong types and characters outside the declared repertoire. Reload/reassign/hide slots and verify values are independent and saved data unchanged.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-254"
+      ],
+      "requirement_revisions": {
+        "SPEC-254": 5
+      },
+      "stable_id": "SPEC-287"
+    },
+    {
+      "key": "spec-288",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team binding options",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck keys/types/captions/defaults for all 20 slots, each valid code and invalid Boolean/fraction/unknown values. Verify binding and coverage remain independent through reload and bank switching.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck keys/types/captions/defaults for all 20 slots, each valid code and invalid Boolean/fraction/unknown values. Verify binding and coverage remain independent through reload and bank switching.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-255"
+      ],
+      "requirement_revisions": {
+        "SPEC-255": 4
+      },
+      "stable_id": "SPEC-288"
+    },
+    {
+      "key": "spec-299",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team preparation invalidation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and isolated text/font/bounds/source/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and isolated text/font/bounds/source/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples.",
+      "revision": 4,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-26",
+        "SPEC-266"
+      ],
+      "requirement_revisions": {
+        "APP-26": 63,
+        "SPEC-266": 3
+      },
+      "stable_id": "SPEC-299"
+    },
+    {
+      "key": "spec-289",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team literal rendering",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nRender TEAM, mixed case, digits, punctuation, spaces and empty text. Assert exact glyph sequence and no numeric conversion, unit/header or separator, with units on/off in both banks.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nRender TEAM, mixed case, digits, punctuation, spaces and empty text. Assert exact glyph sequence and no numeric conversion, unit/header or separator, with units on/off in both banks.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-12",
+        "DVS-50",
+        "SPEC-156",
+        "SPEC-256"
+      ],
+      "requirement_revisions": {
+        "DVS-12": 94,
+        "DVS-50": 54,
+        "SPEC-156": 17,
+        "SPEC-256": 4
+      },
+      "stable_id": "SPEC-289"
+    },
+    {
+      "key": "spec-290",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team settings isolation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nAssign different text/font/bindings to duplicates and both banks; hide, reassign, switch None/manual/threshold modes and restart. Assert every saved value survives without cross-slot copying.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nAssign different text/font/bindings to duplicates and both banks; hide, reassign, switch None/manual/threshold modes and restart. Assert every saved value survives without cross-slot copying.",
+      "revision": 4,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-208",
+        "SPEC-257"
+      ],
+      "requirement_revisions": {
+        "SPEC-208": 9,
+        "SPEC-257": 1
+      },
+      "stable_id": "SPEC-290",
+      "additional_executable_checks": [
+        {
+          "source": "tests/FieldSetTests.mc",
+          "function": "secondaryManualLapCallbacks",
+          "helper": "TeamLapCallbackScenario",
+          "scope": "Actual app callback, native Dc layout and both Team banks; no memory measurements."
+        }
+      ]
+    },
+    {
+      "key": "spec-291",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team native text bounds",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nOn all nine full-screen profile layouts, render fitting wide/narrow/punctuation strings using qualified fonts. Measure visible ink and reserved one-pixel halo against exact padding and alignment in every mode, regular/enlarged in both sets. Do not count overflow markers as a normal-fit pass.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nOn all nine full-screen profile layouts, render fitting wide/narrow/punctuation strings using qualified fonts. Measure visible ink and reserved one-pixel halo against exact padding and alignment in every mode, regular/enlarged in both sets. Do not count overflow markers as a normal-fit pass.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-21",
+        "APP-34",
+        "SPEC-258"
+      ],
+      "requirement_revisions": {
+        "APP-21": 75,
+        "APP-34": 76,
+        "SPEC-258": 5
+      },
+      "stable_id": "SPEC-291"
+    },
+    {
+      "key": "spec-292",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify native Team font selection",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nUse the five declared Automatic candidates with deterministic metrics and actual native drawing to verify largest-fit/tie selection, fixed AUX identity and normal fitting. Verify no bundled resource/font ladder is added. Deliberately unfit cases belong to the Placement test.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nUse the five declared Automatic candidates with deterministic metrics and actual native drawing to verify largest-fit/tie selection, fixed AUX identity and normal fitting. Verify no bundled resource/font ladder is added. Deliberately unfit cases belong to the Placement test.",
+      "revision": 5,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-25",
+        "SPEC-259"
+      ],
+      "requirement_revisions": {
+        "APP-25": 30,
+        "SPEC-259": 6
+      },
+      "stable_id": "SPEC-292"
+    },
+    {
+      "key": "spec-293",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team source binding and fallback",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor a qualified Power binding above zone 5, assert magenta #FF00FF under [[SPEC-251]] with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor a qualified Power binding above zone 5, assert magenta #FF00FF under [[SPEC-251]] with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.",
+      "revision": 4,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-260"
+      ],
+      "requirement_revisions": {
+        "SPEC-260": 3
+      },
+      "stable_id": "SPEC-293"
+    },
+    {
+      "key": "spec-294",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team coloring regions",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nRender all three modes with semantic and neutral colors, both alignments/themes and enlargement. Assert exact inner/full-cell fill bounds, unchanged padding/text coordinates and correct contrast.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nRender all three modes with semantic and neutral colors, both alignments/themes and enlargement. Assert exact inner/full-cell fill bounds, unchanged padding/text coordinates and correct contrast.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-261"
+      ],
+      "requirement_revisions": {
+        "SPEC-261": 6
+      },
+      "stable_id": "SPEC-294"
+    },
+    {
+      "key": "spec-297",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify AUX font choices and glyph coverage",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nOn each profile inspect available constants and draw/measure the complete allowed repertoire for every AUX candidate before exposing it. Check device-specific settings choices and stable codes; absent symbols never execute on legacy profiles. Record each font as qualified or unavailable, not assumed from symbol presence.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nOn each profile inspect available constants and draw/measure the complete allowed repertoire for every AUX candidate before exposing it. Check device-specific settings choices and stable codes; absent symbols never execute on legacy profiles. Record each font as qualified or unavailable, not assumed from symbol presence.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-38",
+        "SPEC-176",
+        "SPEC-177",
+        "SPEC-264"
+      ],
+      "requirement_revisions": {
+        "APP-38": 44,
+        "SPEC-176": 20,
+        "SPEC-177": 26,
+        "SPEC-264": 9
+      },
+      "stable_id": "SPEC-297"
+    },
+    {
+      "key": "spec-298",
+      "function": "presentationSettingsAndUnits",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify Team font fallback preservation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInject invalid codes, unavailable AUX and missing glyphs; verify Automatic rendering and unchanged saved settings, text and other slots after reload/switches. Verify fallback recovery when the chosen font becomes qualified; deliberate no-font/no-fit cases use Placement.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInject invalid codes, unavailable AUX and missing glyphs; verify Automatic rendering and unchanged saved settings, text and other slots after reload/switches. Verify fallback recovery when the chosen font becomes qualified; deliberate no-font/no-fit cases use Placement.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-265"
+      ],
+      "requirement_revisions": {
+        "SPEC-265": 4
+      },
+      "stable_id": "SPEC-298"
+    },
+    {
+      "key": "spec-279",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify exact five-zone colors",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nAssert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nAssert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
+      "revision": 5,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-45",
+        "SPEC-246"
+      ],
+      "requirement_revisions": {
+        "DVS-45": 29,
+        "SPEC-246": 5
+      },
+      "stable_id": "SPEC-279"
+    },
+    {
+      "key": "spec-280",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify cadence boundary table",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor defaults and edited thresholds test below/equal/above every bound, rounding across a bound, zero and invalid readings. Assert exactly one zone for every valid nonnegative displayed value.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor defaults and edited thresholds test below/equal/above every bound, rounding across a bound, zero and invalid readings. Assert exactly one zone for every valid nonnegative displayed value.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-247"
+      ],
+      "requirement_revisions": {
+        "SPEC-247": 2
+      },
+      "stable_id": "SPEC-280"
+    },
+    {
+      "key": "spec-281",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify all metric family colors",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nProvide simultaneous current, 3s, activity-average and lap values in different zones; verify each family and numeric-zone field. Include measured zero watts/rpm, missing lap coverage and duplicate slots with different modes.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nProvide simultaneous current, 3s, activity-average and lap values in different zones; verify each family and numeric-zone field. Include measured zero watts/rpm, missing lap coverage and duplicate slots with different modes.",
+      "revision": 6,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-46",
+        "DVS-48",
+        "FUNC-11",
+        "SPEC-248"
+      ],
+      "requirement_revisions": {
+        "DVS-46": 45,
+        "DVS-48": 45,
+        "FUNC-11": 28,
+        "SPEC-248": 19
+      },
+      "stable_id": "SPEC-281"
+    },
+    {
+      "key": "spec-282",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify zone fallback and recovery",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInject invalid readings/profiles separately and together, including malformed cadence bounds and unsupported native power metadata. Verify neutral fill, preserved valid readings, None suppression and recovery without a restart.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInject invalid readings/profiles separately and together, including malformed cadence bounds and unsupported native power metadata. Verify neutral fill, preserved valid readings, None suppression and recovery without a restart.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-249"
+      ],
+      "requirement_revisions": {
+        "SPEC-249": 4
+      },
+      "stable_id": "SPEC-282"
+    },
+    {
+      "key": "spec-283",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify classification cache isolation",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument source/classifier calls across duplicates, zone fields and Team bindings. Change one reading/profile/coverage and assert only dependent records change; old snapshots and other channels remain unchanged.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument source/classifier calls across duplicates, zone fields and Team bindings. Change one reading/profile/coverage and assert only dependent records change; old snapshots and other channels remain unchanged.",
+      "revision": 3,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "SPEC-250"
+      ],
+      "requirement_revisions": {
+        "SPEC-250": 1
+      },
+      "stable_id": "SPEC-283"
+    },
+    {
+      "key": "spec-284",
+      "function": "exactEffectBands",
+      "source": "tests/CoreTests.mc",
+      "runner": "logic",
+      "title": "Verify native power-zone mapping",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor qualified native power zones 1..5 assert [[SPEC-246]] colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor qualified native power zones 1..5 assert [[SPEC-246]] colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.",
+      "revision": 5,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-42",
+        "SPEC-251"
+      ],
+      "requirement_revisions": {
+        "DVS-42": 33,
+        "SPEC-251": 6
+      },
+      "stable_id": "SPEC-284"
+    },
+    {
+      "key": "spec-168",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify: specify each displayed value acquisition path and deterministic sensor fixtures",
+      "definition": "Verify every one of the 33 selectable identifiers has one explicit acquisition/normalization contract under [[SPEC-156]]. Cover current/activity-average speed, cadence, heart rate and power; distance, elevation, ascent/descent, grade, timers, local time, calories, battery, heading, waypoint distance, zones, completed laps and the six current-lap fields. Check each Label text, Unit text, producer API/units, validity/ranges and conversion/rounding against the production adapter; do not substitute whole-activity values for lap values.\n\nReplay zero, negative where valid, null/non-finite, absent members, sensor interruption/recovery, unit changes, activity reset and clock/timer boundaries. Verify current readings become unavailable while explicitly accumulated/cache values obey their own retention rules. Inspect all complete exact headers and the distinct unavailable/overflow markers. Unavailable navigation or zone metadata must not become fabricated zeros. Use [[TFNC-21]] for lap lifecycle/weighted fixtures and [[TFNC-10]]..[[TFNC-19]] for existing derived acquisitions. Physical source/callback evidence remains separate under [[SPEC-171]]. Record actual results under [[SPEC-162]].\n\nCore fixtures requestedFieldPrecision and normalRangeFormatting verify magnitude-based precision for current/average/lap speed, activity/lap/waypoint distance after unit conversion; slope always has one decimal; temperature keeps one decimal, elevation stays integral, and other field-specific precision rules remain in force. normalRangeCellBounds covers the declared per-layout intervals under [[APP-34]]; formatting correctness outside them does not imply fit. Preserve canonical two-decimal smoothed grade/effect calculations under [[FUNC-13]] and existing acquisition validity/lifecycle rules.\n\nTeam has settings-sourced literal text and no numeric/sensor acquisition under [[SPEC-254]]/[[SPEC-256]]; its optional color source is tested independently under [[SPEC-260]].",
+      "procedure": "Verify every one of the 33 selectable identifiers has one explicit acquisition/normalization contract under [[SPEC-156]]. Cover current/activity-average speed, cadence, heart rate and power; distance, elevation, ascent/descent, grade, timers, local time, calories, battery, heading, waypoint distance, zones, completed laps and the six current-lap fields. Check each Label text, Unit text, producer API/units, validity/ranges and conversion/rounding against the production adapter; do not substitute whole-activity values for lap values.\n\nReplay zero, negative where valid, null/non-finite, absent members, sensor interruption/recovery, unit changes, activity reset and clock/timer boundaries. Verify current readings become unavailable while explicitly accumulated/cache values obey their own retention rules. Inspect all complete exact headers and the distinct unavailable/overflow markers. Unavailable navigation or zone metadata must not become fabricated zeros. Use [[TFNC-21]] for lap lifecycle/weighted fixtures and [[TFNC-10]]..[[TFNC-19]] for existing derived acquisitions. Physical source/callback evidence remains separate under [[SPEC-171]]. Record actual results under [[SPEC-162]].\n\nCore fixtures requestedFieldPrecision and normalRangeFormatting verify magnitude-based precision for current/average/lap speed, activity/lap/waypoint distance after unit conversion; slope always has one decimal; temperature keeps one decimal, elevation stays integral, and other field-specific precision rules remain in force. normalRangeCellBounds covers the declared per-layout intervals under [[APP-34]]; formatting correctness outside them does not imply fit. Preserve canonical two-decimal smoothed grade/effect calculations under [[FUNC-13]] and existing acquisition validity/lifecycle rules.\n\nTeam has settings-sourced literal text and no numeric/sensor acquisition under [[SPEC-254]]/[[SPEC-256]]; its optional color source is tested independently under [[SPEC-260]].",
+      "revision": 42,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-10",
+        "DVS-11",
+        "DVS-16",
+        "DVS-17",
+        "DVS-18",
+        "DVS-19",
+        "DVS-20",
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "DVS-24",
+        "DVS-25",
+        "DVS-26",
+        "DVS-27",
+        "DVS-28",
+        "DVS-33",
+        "DVS-35",
+        "DVS-37",
+        "DVS-40",
+        "DVS-8",
+        "DVS-9",
+        "SPEC-156"
+      ],
+      "requirement_revisions": {
+        "DVS-10": 33,
+        "DVS-11": 34,
+        "DVS-16": 15,
+        "DVS-17": 9,
+        "DVS-18": 42,
+        "DVS-19": 42,
+        "DVS-20": 31,
+        "DVS-21": 41,
+        "DVS-22": 42,
+        "DVS-23": 40,
+        "DVS-24": 31,
+        "DVS-25": 36,
+        "DVS-26": 34,
+        "DVS-27": 30,
+        "DVS-28": 30,
+        "DVS-33": 34,
+        "DVS-35": 34,
+        "DVS-37": 35,
+        "DVS-40": 21,
+        "DVS-8": 46,
+        "DVS-9": 37,
+        "SPEC-156": 17
+      },
+      "stable_id": "SPEC-168"
+    },
+    {
+      "key": "tstfunc-1",
+      "function": "optionalRuntimeQueries",
+      "source": "tests/PerformanceTests.mc",
+      "runner": "logic",
+      "title": "Verify battery percentage validity before rounding",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nThrough the production formatter verify [[DVS-14]]: 0, 50 and 100 remain valid; 50.4 displays 50 and 50.6 displays 51 under [[DVS-7]]. Inputs -0.01, 100.01, missing, NaN and infinities display --; do not clamp or round an out-of-range input into validity. Check battery header/unit visibility separately under [[DVS-50]] and preserve a valid zero. No memory sampling is part of this test.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nThrough the production formatter verify [[DVS-14]]: 0, 50 and 100 remain valid; 50.4 displays 50 and 50.6 displays 51 under [[DVS-7]]. Inputs -0.01, 100.01, missing, NaN and infinities display --; do not clamp or round an out-of-range input into validity. Check battery header/unit visibility separately under [[DVS-50]] and preserve a valid zero. No memory sampling is part of this test.",
+      "revision": 4,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "DVS-14"
+      ],
+      "requirement_revisions": {
+        "DVS-14": 44
+      },
+      "stable_id": "TSTFUNC-1"
+    },
+    {
+      "key": "spec-167",
+      "function": "normalPresentationDrawAndAlignment",
+      "source": "tests/PresentationTests.mc",
+      "runner": "logic",
+      "title": "Verify: publish one typed settings catalogue shared by XML, runtime and tests",
+      "definition": "Core definition; not executed here. Compare generated catalogue, property/settings XML and runtime validation under [[SPEC-155]]/[[SPEC-209]]: exact active/hidden counts, 33 append-only choices, stable codes, both presets, all mode/Team/cadence keys and retired-key behavior. Verify defaults and saved/missing/malformed values independently, hidden/duplicate slots, all six layouts and grouped/flat settings order.\n\nCheck live changes preserve active recording and unrelated settings. Exercise explicit None/zero/false, source-binding independence and versioned Boolean migration through the linked new Tests. Core contains no Memory or deliberate insufficient-area probes. Record current source/product/requirement revisions only when executed.",
+      "procedure": "Core definition; not executed here. Compare generated catalogue, property/settings XML and runtime validation under [[SPEC-155]]/[[SPEC-209]]: exact active/hidden counts, 33 append-only choices, stable codes, both presets, all mode/Team/cadence keys and retired-key behavior. Verify defaults and saved/missing/malformed values independently, hidden/duplicate slots, all six layouts and grouped/flat settings order.\n\nCheck live changes preserve active recording and unrelated settings. Exercise explicit None/zero/false, source-binding independence and versioned Boolean migration through the linked new Tests. Core contains no Memory or deliberate insufficient-area probes. Record current source/product/requirement revisions only when executed.",
+      "revision": 24,
+      "status": "draft",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "requirements": [
+        "APP-46",
+        "SPEC-155"
+      ],
+      "requirement_revisions": {
+        "APP-46": 54,
+        "SPEC-155": 79
+      },
+      "stable_id": "SPEC-167"
+    },
+    {
+      "key": "spec-296",
+      "function": "secondaryFieldSetRuntime",
+      "source": "validation/memory/MemorySwitching.mc",
+      "runner": "explicit_request",
+      "title": "Verify Team and coloring runtime memory",
+      "definition": "Suite: Memory. Definition; execution evidence is separate.\n\nExplicit-request Memory: run the normal Data Field runtime on all nine profiles with maximum valid Team strings, all three bundled fonts, native text, all colored families/modes and repeated edits/switches. Record peak/steady memory, device limit, source/binary hashes and failures; synthetic test-application memory is insufficient.",
+      "procedure": "Suite: Memory. Definition; execution evidence is separate.\n\nExplicit-request Memory: run the normal Data Field runtime on all nine profiles with maximum valid Team strings, all three bundled fonts, native text, all colored families/modes and repeated edits/switches. Record peak/steady memory, device limit, source/binary hashes and failures; synthetic test-application memory is insufficient.",
+      "revision": 2,
+      "status": "draft",
+      "suite": "Memory",
+      "suite_stable_id": "TPER-1",
+      "requirements": [
+        "SPEC-263"
+      ],
+      "requirement_revisions": {
+        "SPEC-263": 5
+      },
+      "stable_id": "SPEC-296"
+    },
+    {
+      "key": "spec-295",
+      "function": "documentedUnsupportedCombinations",
+      "source": "tests/PlacementTests.mc",
+      "runner": "explicit_request",
+      "title": "Verify Team insufficient-area handling",
+      "definition": "Suite: Placement. Definition; execution evidence is separate.\n\nExplicit-request Placement: use overlong/wide strings, oversized AUX and tiny bounds; verify !, then blank when ! cannot fit, and unchanged neighbors. Repeat regular/enlarged, both alignments/themes and sets.",
+      "procedure": "Suite: Placement. Definition; execution evidence is separate.\n\nExplicit-request Placement: use overlong/wide strings, oversized AUX and tiny bounds; verify !, then blank when ! cannot fit, and unchanged neighbors. Repeat regular/enlarged, both alignments/themes and sets.",
+      "revision": 2,
+      "status": "draft",
+      "suite": "Placement",
+      "suite_stable_id": "TRGR-2",
+      "requirements": [
+        "SPEC-262"
+      ],
+      "requirement_revisions": {
+        "SPEC-262": 4
+      },
+      "stable_id": "SPEC-295"
     }
-  ]
+  ],
+  "baseline_id": null,
+  "baseline_name": "Draft coloring and Team working specification"
 }

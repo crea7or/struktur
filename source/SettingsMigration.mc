@@ -10,12 +10,12 @@ module SettingsMigration {
     function validMode(value) { return value instanceof Lang.Number && value>=0 && value<=2; }
     function load() {
         var fresh=false;
-        try { fresh=Application.Storage.getValue("settings_install_origin")=="fresh"; } catch(e) {}
+        try { var origin=Application.Storage.getValue("settings_install_origin");fresh=origin instanceof Lang.String && "fresh".equals(origin); } catch(e) {}
         return read(new SettingsPropertyStore(),fresh);
     }
     function read(store,fresh) {
         var values={};var keys=SettingsCatalogue.keys();
-        for(var i=0;i<keys.size();i+=1) { values[keys[i]]=store.get(keys[i]); }
+        for(var i=0;i<keys.size();i+=1) { var value=store.get(keys[i]);values[keys[i]]=keys[i].find("_team_text")!=null?TeamOptions.text(value):value; }
         var version=values["settings_schema_version"];
         if(version!=null && (!(version instanceof Lang.Number) || version!=0)) { return values; }
         var complete=true;

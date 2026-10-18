@@ -203,6 +203,32 @@ class ZoneFamilyScenario {
         props={"slot_1_value"=>"current_cadence","slot_1_background_mode"=>1,"cadence_zone_1_max_rpm"=>200};raw={"current_cadence"=>70};sample();
         Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("70",snapshot[:values][0][:text]);
         props["cadence_zone_1_max_rpm"]=60;sample();Test.assertEqual("green",snapshot[:values][0][:band]);
+        props={"slot_1_value"=>"heart_rate_zone","slot_2_value"=>"power_zone","slot_1_background_mode"=>1,"slot_2_background_mode"=>2};
+        raw={"current_heart_rate"=>130,"heart_rate_zone"=>5,"current_power"=>650,"power_zone"=>10};
+        engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);sample();
+        Test.assertEqual("3",snapshot[:values][0][:text]);Test.assertEqual("yellow",snapshot[:values][0][:band]);
+        Test.assertEqual("7",snapshot[:values][1][:text]);Test.assertEqual("magenta",snapshot[:values][1][:band]);old=snapshot;
+        engine._hrZones=ZoneMetadata.heart([0,140,150,160,180,200]);sample();
+        Test.assertEqual("1",snapshot[:values][0][:text]);Test.assertEqual("blue",snapshot[:values][0][:band]);Test.assertEqual("3",old[:values][0][:text]);
         var banks=new FieldSetsSettings();banks.apply({});Test.assert(banks.primary.cadenceBounds==banks.secondary.cadenceBounds);
     }
+}
+
+(:testSupport)
+function verifyTeamOptions() {
+    Test.assertEqual("team",SettingsCatalogue.decode("slot_1_value",32));Test.assertEqual("team",Catalog.LABELS[32]);
+    var invalid=[null,42,true,"abcdefghijklmnopqrstuvwxyzABCDEFG","line\nline","café"];
+    for(var i=0;i<invalid.size();i+=1) { Test.assertEqual("TEAM",TeamOptions.text(invalid[i])); }
+    Test.assertEqual("",TeamOptions.text(""));Test.assertEqual("  Aa!  ",TeamOptions.text("  Aa!  "));
+    for(var start=0;start<TeamOptions.REPERTOIRE.length();start+=1) { Test.assertEqual(TeamOptions.REPERTOIRE.substring(start,start+1),TeamOptions.text(TeamOptions.REPERTOIRE.substring(start,start+1))); }
+    var props={"slot_1_team_text"=>"ONE","slot_1_team_font"=>9,"slot_1_team_color_source"=>2,
+        "second_slot_1_team_text"=>"TWO","second_slot_10_team_text"=>" HIDDEN ","second_slot_1_team_font"=>7,"second_slot_1_team_color_source"=>1};
+    var banks=new FieldSetsSettings();banks.apply(props);
+    Test.assertEqual("ONE",banks.primary.teamTexts[0]);Test.assertEqual("TWO",banks.secondary.teamTexts[0]);
+    Test.assertEqual(" HIDDEN ",banks.secondary.teamTexts[9]);Test.assertEqual(9,banks.primary.teamFonts[0]);
+    Test.assertEqual(7,banks.secondary.teamFonts[0]);Test.assertEqual(2,banks.primary.teamSources[0]);
+    props["slot_1_value"]="team";props["second_slot_1_value"]="team";banks.apply(props);
+    Test.assertEqual("ONE",banks.primary.teamTexts[0]);Test.assertEqual(" HIDDEN ",banks.secondary.teamTexts[9]);
+    var saved=[true,1.0,-1,10,"1",null];
+    for(var j=0;j<saved.size();j+=1) { Test.assertEqual(0,TeamOptions.code(saved[j],9)); }
 }

@@ -2,7 +2,7 @@
   {
     "identifier": "current_speed",
     "requirement": "DVS-8",
-    "version": 45,
+    "version": 46,
     "source": "Activity.Info.currentSpeed",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -54,7 +54,7 @@
   {
     "identifier": "current_cadence",
     "requirement": "DVS-10",
-    "version": 31,
+    "version": 33,
     "source": "Activity.Info.currentCadence",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -80,7 +80,7 @@
   {
     "identifier": "average_cadence",
     "requirement": "DVS-11",
-    "version": 33,
+    "version": 34,
     "source": "Activity.Info.averageCadence",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -106,7 +106,7 @@
   {
     "identifier": "current_heart_rate",
     "requirement": "DVS-18",
-    "version": 39,
+    "version": 42,
     "source": "Activity.Info.currentHeartRate",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -132,7 +132,7 @@
   {
     "identifier": "average_heart_rate",
     "requirement": "DVS-19",
-    "version": 40,
+    "version": 42,
     "source": "Activity.Info.averageHeartRate",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -158,7 +158,7 @@
   {
     "identifier": "heart_rate_zone",
     "requirement": "DVS-20",
-    "version": 29,
+    "version": 31,
     "source": "UserProfile.getHeartRateZones(HR_ZONE_SPORT_BIKING)",
     "context": "Foreground UserProfile permission; power method guarded and unavailable on older APIs; metadata loaded at initialization/settings reload.",
     "raw_type": "nullable numeric",
@@ -185,7 +185,7 @@
   {
     "identifier": "current_power",
     "requirement": "DVS-21",
-    "version": 39,
+    "version": 41,
     "source": "Activity.Info.currentPower",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -211,7 +211,7 @@
   {
     "identifier": "power_3s",
     "requirement": "DVS-22",
-    "version": 39,
+    "version": 42,
     "source": "Latest three consecutive delivered one-second Activity.Info.currentPower readings; arithmetic mean.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -238,7 +238,7 @@
   {
     "identifier": "average_power",
     "requirement": "DVS-23",
-    "version": 38,
+    "version": 40,
     "source": "Activity.Info.averagePower",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -264,7 +264,7 @@
   {
     "identifier": "power_zone",
     "requirement": "DVS-24",
-    "version": 29,
+    "version": 31,
     "source": "UserProfile.getPowerZones(Activity.SPORT_CYCLING)",
     "context": "Foreground UserProfile permission; power method guarded and unavailable on older APIs; metadata loaded at initialization/settings reload.",
     "raw_type": "nullable numeric",
@@ -317,7 +317,7 @@
   {
     "identifier": "elevation",
     "requirement": "DVS-26",
-    "version": 33,
+    "version": 34,
     "source": "Activity.Info.altitude",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -395,7 +395,7 @@
   {
     "identifier": "grade",
     "requirement": "DVS-29",
-    "version": 136,
+    "version": 137,
     "source": "FUNC-12..FUNC-14: five-sample least-squares altitude/distance regression followed by a partial mean of up to three consecutive one-second estimates; canonical two-decimal smoothed grade.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -529,7 +529,7 @@
   {
     "identifier": "temperature",
     "requirement": "DVS-34",
-    "version": 144,
+    "version": 145,
     "source": "Sensor.getInfo().temperature inside TemperatureSource.read in background TemperatureService; four-element protocol-2 edge-native-v2 packet.",
     "context": "Background/Sensor permissions; Sensor.getRegisteredSensors(SENSOR_TEMPERATURE) must be available. Empty or explicitly onboard-only registry before and after read. No foreground sensor calls.",
     "raw_type": "nullable numeric",
@@ -560,7 +560,7 @@
   {
     "identifier": "battery",
     "requirement": "DVS-35",
-    "version": 33,
+    "version": 34,
     "source": "System.getSystemStats().battery",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -586,7 +586,7 @@
   {
     "identifier": "heading",
     "requirement": "DVS-36",
-    "version": 70,
+    "version": 71,
     "source": "Activity.Info.currentHeading",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -672,7 +672,7 @@
   {
     "identifier": "heart_rate_3s",
     "requirement": "DVS-47",
-    "version": 61,
+    "version": 63,
     "source": "Latest three consecutive delivered one-second Activity.Info.currentHeartRate readings; arithmetic mean.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -699,7 +699,7 @@
   {
     "identifier": "lap_distance",
     "requirement": "FUNC-3",
-    "version": 23,
+    "version": 25,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -728,7 +728,7 @@
   {
     "identifier": "lap_time",
     "requirement": "FUNC-4",
-    "version": 14,
+    "version": 16,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -757,7 +757,7 @@
   {
     "identifier": "lap_speed",
     "requirement": "FUNC-5",
-    "version": 24,
+    "version": 25,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -786,7 +786,7 @@
   {
     "identifier": "lap_heart_rate",
     "requirement": "FUNC-6",
-    "version": 20,
+    "version": 23,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -815,7 +815,7 @@
   {
     "identifier": "lap_power",
     "requirement": "FUNC-7",
-    "version": 17,
+    "version": 21,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -844,7 +844,7 @@
   {
     "identifier": "lap_cadence",
     "requirement": "FUNC-8",
-    "version": 18,
+    "version": 20,
     "source": "Shared CurrentLap state from guarded Activity.Info counters/channels and onTimerLap capture",
     "context": "One foreground acquisition per compute, shared across duplicate/hidden slots.",
     "raw_type": "nullable numeric",
@@ -869,5 +869,17 @@
     "presentation_precision": 0,
     "normal_display_contract": "config/display-limits.json",
     "normal_display_field": "lap_cadence"
+  },
+  {
+    "identifier": "team",
+    "requirement": "SPEC-253",
+    "version": 5,
+    "source": "Validated per-slot Team text settings",
+    "context": "Both saved sets; literal ASCII text independent of activity samples",
+    "raw_type": "string",
+    "raw_unit": "",
+    "validity": "0..32 printable ASCII characters; invalid uses TEAM without rewriting storage",
+    "trigger": "Settings changes only; color binding reuses current heart/power classification",
+    "clock": "No sensor acquisition"
   }
 ]

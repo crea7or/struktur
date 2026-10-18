@@ -4,7 +4,7 @@ using Toybox.Math;
 // Fixed-shape fitting state avoids a separate symbol hash table for every cell.
 class FittedRun {
     var size;var text;var unit;var width;var unitWidth;var total;var top;
-    var ink;var unitInk;var margin;var radius;var labelBand;var font=null;
+    var isNative=false;var inner;var ink;var unitInk;var margin;var radius;var labelBand;var font=null;
     function initialize(s,t,u,w,uw,all,y,bounds,ubounds) {
         size=s;text=t;unit=u;width=w;unitWidth=uw;total=all;top=y;
         ink=bounds;unitInk=ubounds;
@@ -12,13 +12,14 @@ class FittedRun {
 }
 // A prepared cell stores a fixed set of commands, without a per-cell hash table.
 class PreparedCell {
-    var coverage;var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
+    var team=false;var inner;var coverage;var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
     function initialize(n,b,a,bg,e,c,l,p,u) {
         night=n;band=b;angle=a;background=bg;labelEffect=e;color=c;label=l;primary=p;unit=u;
     }
 }
 // APP-24/28: exactly three fixed profile fonts; measured bounds prevent clipping.
 class FieldRenderer {
+    var _nativeFonts;
     var _cells=[];
     var _runs=[];
     var _polygons=[];
@@ -73,6 +74,7 @@ class FieldRenderer {
     var _clearBackground=Graphics.COLOR_WHITE;
     var _lineColorIndex=3;
     function initialize() {
+        _nativeFonts=new NativeTextCache();
         _labelBandHeight=FieldPresentation.headerBandHeight(metric(DeviceProfile.LABEL_SIZE,true),_labelTop);
         var line=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
         _headerHeight=line>_labelBandHeight?line:_labelBandHeight;
@@ -87,6 +89,7 @@ class FieldRenderer {
     }
     function needsLayout() { return _needsLayout; }
     function coverage(value) { return value.hasKey(:coverage)?value[:coverage]:(value[:angle]!=null?2:1); }
+    function isTeam(value) { return "text".equals(value[:format]); }
     function painted(value) { return value[:band]!=null || value[:angle]!=null; }
     function numericSizes(enlarged) {
         return enlarged?_bigSizes:_regularSizes;
@@ -150,7 +153,9 @@ class FieldRenderer {
             var runs=[];
             for(var i=0;i<cells.size();i+=1) {
                 var value=_preparedValues[i];var text=displayText(value);
-                var run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]);
+                var run=null;
+                if(isTeam(value)) { fitCount+=1;run=_nativeFonts.fit(cells[i],value); }
+                else { run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]); }
                 if(run==null && overflow==1) { run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
                 if(run==null) { break; }
                 runs.add(run);
@@ -160,6 +165,7 @@ class FieldRenderer {
         return null;
     }
     function layout(dc,settings) {
+        _nativeFonts.setContext(dc);
         var width=dc.getWidth();var height=dc.getHeight();
         if(_width!=width || _height!=height) { _geometryDirty=true;_needsLayout=true; }
         _width=width;_height=height;configure(settings);
@@ -222,7 +228,7 @@ class FieldRenderer {
             _cells=selected[0];_runs=selected[1];var labelSize=selected[2];
             _labels=selectFont(labelSize,true,nextFonts);_labelHeight=FontSelection.height(labelSize,true);
             _labelMetrics=metric(labelSize,true);
-            for(var i=0;i<_runs.size();i+=1) { _runs[i].font=selectFont(_runs[i].size,false,nextFonts); }
+            for(var i=0;i<_runs.size();i+=1) { if(!_runs[i].isNative) { _runs[i].font=selectFont(_runs[i].size,false,nextFonts); } }
             prepareSeparators();
         }
         _fonts=nextFonts; // discard unused handles, bounded by visible selected variants
@@ -239,7 +245,8 @@ class FieldRenderer {
                 var old=_preparedValues[i];
                 if(!old[:label].equals(next[:label])) { headersChanged=true; }
                 if(!old[:label].equals(next[:label]) || !displayText(old).equals(displayText(next)) ||
-                    !old[:unit].equals(next[:unit]) || painted(old)!=painted(next) ||
+                    !old[:unit].equals(next[:unit]) || isTeam(old)!=isTeam(next) ||
+                    (isTeam(next) && old[:nativeFont]!=next[:nativeFont]) || (!isTeam(next) && painted(old)!=painted(next)) ||
                     (old[:expandedUnit]==null?next[:expandedUnit]!=null:(next[:expandedUnit]==null || !old[:expandedUnit].equals(next[:expandedUnit])))) { changed=true; }
             }
             // Hidden candidate cells can permit recovery from a smaller fallback.
@@ -269,10 +276,12 @@ class FieldRenderer {
     function refreshRuns() {
         for(var n=0;n<_dirtyCount;n+=1) {
             var i=_dirtyFields[n];var value=_preparedValues[i];var text=displayText(value);
-            var run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]);
+            var run=null;
+            if(isTeam(value)) { fitCount+=1;run=_nativeFonts.fit(_cells[i],value); }
+            else { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]); }
             if(run==null) { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
             if(run==null) { _needsLayout=true;return; }
-            run.font=_runs[i].font;_runs[i]=run;_packets[i]=null;
+            if(!run.isNative) { run.font=_runs[i].isNative?selectFont(run.size,false,_fonts):_runs[i].font; } _runs[i]=run;_packets[i]=null;
         }
     }
     function prepareGeometry() {
@@ -294,7 +303,7 @@ class FieldRenderer {
                     _polygonAngles[i]=value[:angle];
                     if(value[:angle]!=null) { polygonBuilds+=1; }
                 }
-                _packets[i]=preparePacket(i,night);packetBuilds+=1;
+                _packets[i]=_runs[i].isNative?prepareTeam(i,night):preparePacket(i,night);packetBuilds+=1;
             }
         }
     }
@@ -319,6 +328,21 @@ class FieldRenderer {
         var prepared=new PreparedCell(night,v[:band],v[:angle],background,labelEffect,
             v[:band]==null?null:color(v[:band]),label,primary,unit);
         prepared.coverage=mode;return prepared;
+    }
+    function prepareTeam(i,night) {
+        var cell=_cells[i];var value=_preparedValues[i];var run=_runs[i];var band=value[:band];
+        var dark=band==null?!night:("white".equals(band) || "yellow".equals(band) || "cyan".equals(band) || "green".equals(band) || "light_gray".equals(band) || "magenta".equals(band));
+        var foreground=dark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+        var ordinary=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;var mode=coverage(value);
+        var background=band!=null && mode==2?color(band):ordinary;
+        var right="right".equals(_settings.alignment);
+        var x=right?cell[:x]+cell[:w]-run.margin-run.total:cell[:x]+(cell[:w]-run.total)/2;
+        var text=run.text.length()==0?null:MaskedText.prepare(x,cell[:y]+run.top,run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,foreground,band==null?0:1);
+        var packet=new PreparedCell(night,band,null,background,band!=null && mode==1,band==null?null:color(band),null,text,null);
+        packet.coverage=mode;packet.team=true;
+        if(run.inner[2]<=0 || run.inner[3]<=0) { packet.labelEffect=false; }
+        packet.inner=[cell[:x]+run.inner[0],cell[:y]+run.inner[1],run.inner[2],run.inner[3]];
+        return packet;
     }
     function prepareSeparators() {
         if("none".equals(_settings.gridType)) { _separators=[];return; }
@@ -393,15 +417,16 @@ class FieldRenderer {
             dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(p.background,Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
             if(p.labelEffect) {
                 dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);
-                dc.fillRectangle(c[:x],c[:y],c[:w],bandHeight);
+                if(p.team) { dc.fillRectangle(p.inner[0],p.inner[1],p.inner[2],p.inner[3]); }
+                else { dc.fillRectangle(c[:x],c[:y],c[:w],bandHeight); }
             }
             if(_polygons[i]!=null) {
                 dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
             }
-            if(p.labelEffect) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
-            MaskedText.drawPrepared(dc,p.label);
+            if(p.labelEffect && !p.team) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
+            if(p.label!=null) { MaskedText.drawPrepared(dc,p.label); }
             if(p.labelEffect) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
-            MaskedText.drawPrepared(dc,p.primary);
+            if(p.primary!=null) { MaskedText.drawPrepared(dc,p.primary); }
             if(p.unit!=null) { MaskedText.drawPrepared(dc,p.unit); }
             dc.clearClip();
         }

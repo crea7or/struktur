@@ -15,7 +15,7 @@ module NormalDisplayFixtures {
 (:test)
 function normalRangeFormatting(logger) {
     var cases=NormalDisplayFixtures.cases();
-    Test.assertEqual(Catalog.IDS.size(),cases.size());
+    Test.assertEqual(Catalog.IDS.size()-1,cases.size());
     var engine=new SnapshotEngine();var settings=new DisplaySettings();var clock=new PresentationClock();
     for(var i=0;i<cases.size();i+=1) {
         Test.assertEqual(Catalog.IDS[i],cases[i][0]);
@@ -71,7 +71,7 @@ function normalFixtureValue(row,point,engine,settings) {
 (:test)
 function normalRangeCellBounds(logger) {
     var cases=NormalLimits.cases();var fieldsSeen=[];
-    for(var field=0;field<Catalog.IDS.size();field+=1) { fieldsSeen.add(false); }
+    for(var field=0;field<Catalog.IDS.size()-1;field+=1) { fieldsSeen.add(false); }
     var renderer=new FieldRenderer();var settings=new DisplaySettings();var engine=new SnapshotEngine();
     var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
     var cells=[smallestNormalCell(false),smallestNormalCell(true)];

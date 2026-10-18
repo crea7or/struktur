@@ -32,9 +32,14 @@ class MemorySwitchingField extends StrukturField {
         var grids=["none","horizontal","full"];
         first.gridType=grids[variant%3];second.gridType=grids[(variant+1)%3];
         first.usesClock=false;second.usesClock=false;
+        var families=["current_heart_rate","heart_rate_3s","average_heart_rate","lap_heart_rate","current_power","power_3s","average_power","lap_power","current_cadence","average_cadence","lap_cadence","team"];
         for(var slot=0;slot<10;slot+=1) {
-            first.slots[slot]="current_power";second.slots[slot]="current_heart_rate";
-            first.effects[slot]=true;second.effects[slot]=true;
+            first.slots[slot]=families[(slot+variant)%families.size()];second.slots[slot]=families[(slot+variant+3)%families.size()];
+            first.modes[slot]=(slot+variant)%3;second.modes[slot]=(slot+variant+1)%3;
+            first.teamTexts[slot]="ABCDEFGHIJKLMNOPQRSTUVWXYZabc0"+slot.toString();second.teamTexts[slot]="ABCDEFGHIJKLMNOPQRSTUVWXYZabc1"+slot.toString();
+            first.teamFonts[slot]=slot%10;second.teamFonts[slot]=(slot+1)%10;
+            first.teamSources[slot]=slot%3;second.teamSources[slot]=(slot+1)%3;
+            first.effects[slot]=first.modes[slot]!=0;second.effects[slot]=second.modes[slot]!=0;
         }
         return banks;
     }

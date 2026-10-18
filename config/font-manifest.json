@@ -3,22 +3,22 @@
   "pillow": "12.2.0",
   "python": "3.14.7",
   "inventory_inputs": {
-    "config/catalogue.json": "8d8f5055570e1c72fd4a75648840380fb46a8ba33dad5d0c8b951c13b546e051",
-    "config/decisions.json": "d6b767ecd306a11c3d6af00f974c4d1b5fd5a4d08f2e27b3a4fdf759a9ebd8e5",
+    "config/catalogue.json": "a649d0a642bc3a3fc94fc8b326f60981d0bdc36caa56754924a91b89d201dce8",
+    "config/decisions.json": "dfdbf88dafb6449f558ec1572b8cf84823dc2e0d3f1281979d7a1afc518f341a",
     "config/devices.json": "849592e2e3ae403d4461410306f49d3ff74ebfef13483fe5a35a621dd0c2ed99",
-    "requirements/workspace-snapshot.json": "92c0f0df1e194ca0ea09cbb9430837a3d9e8cb0ff9c6328844a33f7f5103f617",
-    "source/Snapshot.mc": "e7d5732db6663218797df8626fb10abf5d2f5d1be08682382e3c7ee2a0bde1fe",
-    "source/FieldRenderer.mc": "ba1aa500f8ba5ce85876cf723b91dfb3ea92efd544dbbe9d02aa704cdfb2a963",
+    "requirements/workspace-snapshot.json": "f791c437ec1328a97f8ad3835fa68823ff6df1076d5a54029f02668328583c01",
+    "source/Snapshot.mc": "8b77f3d447e721df6fba1c7af9297535e8e6164db65c0a8465862fb73ca9cee6",
+    "source/FieldRenderer.mc": "9b1a78055fdbe76f28a5874dcc6f7bd7f5fb2b775acd459b8de835896cec64d1",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
     "source/Policy.mc": "ac108943550289229b45ddce5f73bd42b36bf96e6b613bade14ff1a70ab03316",
     "source/Formatting.mc": "b16ffbdad83a032a5319ac08e96f560c110d01d074bb4e2753514a00df8e02e3",
     "source/FieldPresentation.mc": "b60532192c787f1a762f483629c9d1fca2af02b24cc0328cc35aedc8792c8eb6",
-    "tools/font_glyphs.py": "28b6ae5b949a2c08d9855593b89d7dcc553d51fc074432752399632873d93780",
+    "tools/font_glyphs.py": "b7de0f52d73e5fc6f1eda6660d36f21012765027b2dfbf1e4a99b8ad6650cb2a",
     "tools/generate_fonts.py": "ca238d133b81084517703d25bdc0ea7881dacd93b7d82d0aea058f5adc10b44f",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "bfdeee1c1822ed178823f9fddc77368cd0f7b4027c6f04e540108b5bd4ac2570",
-    "source/Catalog.mc": "ffab9325a51b60e08497ad0413a096de16593a5e1a0a2ed47bd5590122842722",
+    "tools/generate_catalog.py": "ce16234e0d37e70f6c89fd021ede3ca75cb8ec36f2b0d4921505df760055136b",
+    "source/Catalog.mc": "2d0188db74a9d50aadaa2e005db93f0ab63b1740d4952d9f2799b078fb43cc7d",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
     "profiles/edge550/DeviceProfile.mc": "ca9e89b8aa44ec279d5519489ef25b0db56650075831f48cb7eab374b3f801c3",
@@ -31,7 +31,7 @@
   },
   "requirement_refs": {
     "APP-24": {
-      "revision": 72,
+      "revision": 73,
       "description_sha256": "d162844e58a9256f084e1d0d99338b48bf3c4cf3eac21217c649e490c5c6b486"
     },
     "APP-28": {
@@ -39,8 +39,8 @@
       "description_sha256": "027595ceaa6c082627b073b1d0b2a907c231f9d8378e0589b74bb0496de53676"
     },
     "APP-34": {
-      "revision": 60,
-      "description_sha256": "d9b509b4103a34b1e593a41ec3647553a4e0c1f9d9af494308c9c67bab26ebfb"
+      "revision": 76,
+      "description_sha256": "f3fc7079427ab505e6f37cfe715c124ce498214c09e3a73421da4bd54ad1bff2"
     },
     "SPEC-154": {
       "revision": 34,

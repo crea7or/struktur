@@ -84,12 +84,12 @@ class MemoryValidationField extends StrukturField {
     var _lastReturn=null;
     var _growthReturns=0;
     var _done=false;
-    var _coverage=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]b;
+    var _coverage=[]b;
     var _fieldsSeen=0;
     var _unsupportedHeaders=0;
     var _eligibilityWidth=0;
-    var _plainFits=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]b;
-    var _unitFits=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]b;
+    var _plainFits=[]b;
+    var _unitFits=[]b;
     const CASES=216;
     const CYCLES=3;
     function boundedHistory() {
@@ -107,6 +107,7 @@ class MemoryValidationField extends StrukturField {
     }
     function initialize() {
         _started=System.getTimer();
+        for(var field=0;field<Catalog.IDS.size();field+=1) { _coverage.add(0);_plainFits.add(0);_unitFits.add(0); }
         RuntimeMetrics.enabled=true; // Explicit validation build only; production remains off.
         StrukturField.initialize();
         _reference=new DisplaySettings(); _reference.load();
@@ -180,6 +181,9 @@ class MemoryValidationField extends StrukturField {
             }
             next.slots[slot]=selected;
             next.effects[slot]=slot%2==0 || index%2==0;
+            next.modes[slot]=next.effects[slot]?((slot+index)%3==0?2:1):0;
+            next.teamTexts[slot]=index%2==0?"TEAM":"ABCDEFGHIJKLMNOPQRSTUVWXYZabc"+slot.toString();
+            next.teamFonts[slot]=(index+slot)%10;next.teamSources[slot]=slot%3;
         }
         if(index%17==0) { next.slots[9]="unknown-validation-value"; }
         if(index%19==0) { next.slots[0]="current_power";next.slots[1]="current_power"; }

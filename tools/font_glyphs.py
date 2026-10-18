@@ -33,7 +33,9 @@ def glyph_contract(root=ROOT):
     policy=(root/'source/Policy.mc').read_text(encoding='utf-8')
     formatting=(root/'source/Formatting.mc').read_text(encoding='utf-8')
     presentation=(root/'source/FieldPresentation.mc').read_text(encoding='utf-8')
-    formats=sorted({field['format'] for field in catalogue['fields']})
+    bundled_fields=[field for field in catalogue['fields'] if field['format']!='text']
+    assert all(field['id']=='team' and field['rendered_label']=='' and field['unit']=='' for field in catalogue['fields'] if field['format']=='text')
+    formats=sorted({field['format'] for field in bundled_fields})
     if set(formats)!={'float','integer','duration','clock'}:
         raise ValueError('Supported formatting modes changed; review glyph output rules.')
     patterns=sorted({text for text in literals(formatting) if text.startswith('%')})
@@ -53,7 +55,7 @@ def glyph_contract(root=ROOT):
     if degrees:unit_variants['degrees']=[json.loads(degrees.group(1))]
     if set(unit_variants)!={'speed','distance','elevation','temperature','degrees'}:
         raise ValueError('Unit-conversion text changed; review glyph-contract extraction.')
-    units=sorted({text for field in catalogue['fields'] for text in unit_variants.get(field['unit'],[field['unit']])})
+    units=sorted({text for field in bundled_fields for text in unit_variants.get(field['unit'],[field['unit']])})
     unknown=re.search(r'var\s+label\s*=\s*d\.index\s*==\s*null\s*\?\s*('+LITERAL+r')',snapshot)
     compact=re.search(r'_compactText\s*=\s*('+LITERAL+r')',renderer)
     if not unknown or not compact:raise ValueError('Fallback label text changed; review glyph coverage.')
@@ -64,10 +66,10 @@ def glyph_contract(root=ROOT):
     if not periods or 'd.am=d.label+" | am";d.pm=d.label+" | pm"' not in snapshot or 'label=clock.hour<12?d.am:d.pm' not in snapshot:
         raise ValueError('Clock header text changed; review font roles.')
     clock_units=[json.loads(periods.group(i)) for i in [1,2]]
-    labels=[field['label'] for field in catalogue['fields']]+fallbacks
+    labels=[field['label'] for field in bundled_fields]+fallbacks
     # Only rendered substitutions/literals contribute glyphs; braces and the
     # placeholder name are specification syntax and never appear on screen.
-    headers=[unit_header(field,unit) for field in catalogue['fields']
+    headers=[unit_header(field,unit) for field in bundled_fields
              for unit in unit_variants.get(field['unit'],[field['unit']]) if unit]
     labels+=headers
     directions=re.search(r'const DIRECTIONS=\[([^\n;]+)\];',formatting)

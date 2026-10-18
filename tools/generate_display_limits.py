@@ -191,6 +191,7 @@ def generate():
         groups.append(group)
     records=[]; fixture_by_group={g['id']:[] for g in groups}; missing_by_group={g['id']:[] for g in groups}
     for index,field in enumerate(fields):
+        if field['format']=='text':continue  # Native text bounds have separate executable checks.
         record=dict(field=field['id'],requirement=field['requirement'],precision=domains[field['id']]['precision'],contexts=[])
         for group in groups:
             device=devices[group['products'][0]]; label_record=fonts['Label'+str(group['sizes']['LABEL_SIZE'])]; labels=metrics(label_record)

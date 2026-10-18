@@ -1,0 +1,68 @@
+{
+  "scope": "Team uses standard native text fonts. No AUX face has yet passed target-specific general-text glyph/drawing qualification; API constants alone are insufficient.",
+  "automatic": [
+    "FONT_XTINY",
+    "FONT_TINY",
+    "FONT_SMALL",
+    "FONT_MEDIUM",
+    "FONT_LARGE"
+  ],
+  "logical_aux_codes": {
+    "1": "FONT_AUX1",
+    "2": "FONT_AUX2",
+    "3": "FONT_AUX3",
+    "4": "FONT_AUX4",
+    "5": "FONT_AUX5",
+    "6": "FONT_AUX6",
+    "7": "FONT_AUX7",
+    "8": "FONT_AUX8",
+    "9": "FONT_AUX9"
+  },
+  "profiles": {
+    "edge530": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge540": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge550": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge830": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge840": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge850": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge1030": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge1040": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    },
+    "edge1050": {
+      "offered_aux": [],
+      "status": "unqualified",
+      "fallback": "Automatic; preserve saved logical choice"
+    }
+  }
+}

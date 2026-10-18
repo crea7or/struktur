@@ -52,6 +52,8 @@ def main():
     assert all((ROOT/path).exists() for row in glyph_trace for group in ['source','verification'] for path in row[group])
     catalogue=read('config/catalogue.json');fields=catalogue['fields'];props=catalogue['properties']
     for field in fields:
+        if field['format']=='text':
+            assert field['id']=='team' and field['label']=='team' and field['rendered_label']=='' and field['unit']=='';continue
         description=by_id[field['requirement']]['description']
         assert field['label']==re.search(r'Label text:\s*`([^`]*)`',description)[1],field['requirement']
         header=re.search(r'Header text with units:\s*`([^`]*)`',description)
@@ -61,21 +63,22 @@ def main():
     catalogue_source=(ROOT/'source/Catalog.mc').read_text(encoding='utf-8')
     assert json.loads(re.search(r'const HEADERS_WITH_UNITS = (.*);',catalogue_source)[1])==[f.get('header_with_units') for f in fields]
     for field in fields:
+        if field['format']=='text':continue
         assert field['label']==re.search(r'Label text:\s*`([^`]*)`',by_id[field['requirement']]['description']).group(1)
         assert 'unit_label' not in field
-    expected={f'DVS-{i}' for i in [8,9,10,11,*range(18,38),39,47]} | {f'FUNC-{i}' for i in range(3,9)}
-    assert len(fields)==len({f['id'] for f in fields})==len(expected)==32
-    assert [f['id'] for f in fields[26:]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
+    expected={f'DVS-{i}' for i in [8,9,10,11,*range(18,38),39,47]} | {f'FUNC-{i}' for i in range(3,9)} | {'SPEC-253'}
+    assert len(fields)==len({f['id'] for f in fields})==len(expected)==33
+    assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==82 and len({p['key'] for p in props})==82
+    assert len(props)==142 and len({p['key'] for p in props})==142
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
     assert '| grid_type | number: 0 None, 1 Horizontal lines, 2 Full grid | 1 |' in by_id['SPEC-155']['description']
     grid=next(p for p in props if p['key']=='grid_type')
     assert grid['default']==1 and grid['choices']==[0,1,2] and grid['identifiers']==['none','horizontal','full']
     assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
-    assert '| slot_1_background_effects through slot_10_background_effects | Boolean | false |' in by_id['SPEC-155']['description']
+    assert '| slot_1_background_mode through slot_10_background_mode | number: 0 None, 1 Label, 2 Whole cell | 0 |' in by_id['SPEC-155']['description']
     assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
     by_key={p['key']:p for p in props}
     for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p['key'].startswith('cadence_zone_')]:
@@ -103,10 +106,22 @@ def main():
     settings=ET.parse(ROOT/'resources/settings/settings.xml')
     group=settings.find('.//group[@id="second_field_set"]');assert group is not None and group.attrib['id']=='second_field_set'
     assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props if p['key'].startswith('second_') and not p.get('hidden')]
-    assert len(settings.findall('./settings/setting'))==26
+    assert len(settings.findall('./settings/setting'))==56
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
     assert set(configured)=={p['key'] for p in props if not p.get('hidden')}
-    assert len(props)-len(configured)==21
+    native_fonts=read('config/native-fonts.json')
+    assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
+    assert native_fonts['logical_aux_codes']=={str(i):f'FONT_AUX{i}' for i in range(1,10)}
+    for p in props:
+        if p['key'].endswith('_team_font'):assert p['default']==0 and p['choices']==[0]
+        if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
+    native_fonts=read('config/native-fonts.json')
+    assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
+    assert native_fonts['logical_aux_codes']=={str(i):f'FONT_AUX{i}' for i in range(1,10)}
+    for p in props:
+        if p['key'].endswith('_team_font'):assert p['default']==0 and p['choices']==[0]
+        if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
+    assert len(configured)==121 and len(props)-len(configured)==21
     assert by_key['settings_schema_version']['default']==0
     for p in props:
         if p['key'].endswith('_background_mode'):
@@ -157,6 +172,8 @@ def main():
         assert png.read_bytes()[24:26]==bytes([1,3])
         assert all(int(x)+int(w)<=font['width'] for x,w in re.findall(r'\bx=(\d+) .*?width=(\d+)',text))
     for path in (ROOT/'resources').rglob('*.xml'):ET.parse(path)
+    strings=ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')
+    assert all(s.attrib.get('scope')=='settings' for s in strings if s.attrib['id']!='AppName')
     assert all(x.get('execution_result') for x in trace)
     tests='\n'.join(path.read_text() for path in (ROOT/'tests').glob('*.mc'))
     test_names=re.findall(r'\(:test\)\s*function\s+(\w+)\(',tests)

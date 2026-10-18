@@ -38,6 +38,7 @@ FIELDS = [
     ('lap_heart_rate','lap heart rate','FUNC-6',None,'integer','bpm'),
     ('lap_power','lap power','FUNC-7',None,'integer','w'),
     ('lap_cadence','lap cadence','FUNC-8',None,'integer','rpm'),
+    ('team','team','SPEC-253',None,'text',''),
 ]
 DEFAULTS=['current_speed','distance','activity_timer','time_of_day','current_heart_rate',
           'power_3s','elevation','grade','total_ascent','temperature']
@@ -55,6 +56,8 @@ def main():
     reviewed=json.loads((ROOT/'requirements/workspace-snapshot.json').read_text(encoding='utf-8-sig'))
     reviewed={r['stable_id']:r for r in reviewed}
     for field in fields:
+        if field['id']=='team':
+            field['header_with_units']=None;field['rendered_label']='';continue
         description=reviewed[field['requirement']]['description']
         field['label']=re.search(r'Label text:\s*`([^`]*)`',description).group(1)
         header=re.search(r'Header text with units:\s*`([^`]*)`',description)
@@ -75,7 +78,10 @@ def main():
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
                       dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False,hidden=True),
-                      dict(key=f'slot_{i+1}_background_mode',type='number',default=-1,factory_default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Field {i+1}: background coverage')])
+                      dict(key=f'slot_{i+1}_background_mode',type='number',default=-1,factory_default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Field {i+1}: background coverage'),
+                      dict(key=f'slot_{i+1}_team_text',type='string',default='TEAM',maxLength=32,title=f'Field {i+1}: Team text',prompt='Team field only. Up to 32 printable ASCII characters; preserve spaces and case.'),
+                      dict(key=f'slot_{i+1}_team_font',type='number',default=0,choices=[0],choice_labels=['Automatic'],title=f'Field {i+1}: Team font',prompt='Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.'),
+                      dict(key=f'slot_{i+1}_team_color_source',type='number',default=0,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title=f'Field {i+1}: Team color source')])
     first_props=list(props)
     props += [dict(key=f'cadence_zone_{i}_max_rpm',type='number',default=value,min=0,max=300,title=f'Cadence zone {i}: upper rpm',prompt='Four increasing upper bounds define five coloring zones; both field sets share these values.') for i,value in enumerate([60,80,100,120],1)]
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
@@ -118,8 +124,9 @@ def main():
         setting=ET.SubElement(second_group if second_group is not None else settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
         if p.get('prompt'):
             prompt='Prompt_'+p['key'];ET.SubElement(strings,'string',id=prompt).text=p['prompt'];setting.set('prompt','@Strings.'+prompt)
-        ctype='list' if 'choices' in p else ('boolean' if p['type']=='boolean' else 'numeric')
+        ctype='list' if 'choices' in p else ('boolean' if p['type']=='boolean' else ('alphaNumeric' if p['type']=='string' else 'numeric'))
         config=ET.SubElement(setting,'settingConfig',type=ctype)
+        if 'maxLength' in p:config.set('maxLength',str(p['maxLength']))
         if 'min' in p:config.set('min',str(p['min']));config.set('max',str(p['max']))
         for index,value in enumerate(p.get('choices',[])):
             identifier=p.get('identifiers',p.get('choices',[]))[index]
@@ -127,6 +134,9 @@ def main():
             field=next((f for f in fields if f['id']==identifier),None)
             if not any(s.attrib.get('id')==label for s in strings):ET.SubElement(strings,'string',id=label).text=p.get('choice_labels',[])[index] if p.get('choice_labels') else (field['label'] if field else str(identifier).replace('_',' ').capitalize())
             ET.SubElement(config,'listEntry',value=str(value)).text='@Strings.'+label
+    # Settings text is not runtime UI. Legacy VMs cap a module at 254 members.
+    for entry in strings:
+        if entry.attrib['id']!='AppName':entry.set('scope','settings')
     write_xml(ROOT/'resources/strings/strings.xml',resources)
     write_xml(ROOT/'resources/settings/properties.xml',properties_root)
     write_xml(ROOT/'resources/settings/settings.xml',settings_root)

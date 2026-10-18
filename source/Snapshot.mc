@@ -15,7 +15,7 @@ class SnapshotDescriptor {
     // Resolve static dispatch once per assignment, not once per delivered sample.
     var conversion=0;var style=0;var effect=0;var zoneChannel=-1;
     var record;var effectReady=false;var effectReading;var effectBounds;
-    var effectBand;var effectAngle;
+    var effectBand;var effectAngle;var effectInput;var nativeFont;
     function initialize(fieldId,fieldIndex) {
         id=fieldId;index=fieldIndex;
         kind=index==null?"":Catalog.UNITS[index];
@@ -26,7 +26,8 @@ class SnapshotDescriptor {
         else if("elevation".equals(kind)) { conversion=3; }
         else if("temperature".equals(kind)) { conversion=4; }
         else if("degrees".equals(kind)) { conversion=5; }
-        if("clock".equals(format)) { style=1; }
+        if("text".equals(format)) { style=6; }
+        else if("clock".equals(format)) { style=1; }
         else if("duration".equals(format)) { style=2; }
         else if(conversion==4 || "grade".equals(id)) { style=3; }
         else if("heading".equals(id)) { style=4; }
@@ -94,6 +95,7 @@ class SnapshotEngine {
             var units=FieldPresentation.headerUnits(kind);
             var unit=units[statute && units.size()>1?1:0];
             var label=d.index==null?"field":Catalog.LABELS[d.index];
+            if(d.style==6) { label=""; }
             var override=d.index==null?null:Catalog.HEADERS_WITH_UNITS[d.index];
             d.label=FieldPresentation.headerText(label,unit,override,hideUnits);
             if(d.style==1) { d.am=d.label+" | am";d.pm=d.label+" | pm"; }
@@ -101,6 +103,11 @@ class SnapshotEngine {
             d.ready=false;
         }
         return d;
+    }
+    function configureTeam(d,settings,i) {
+        var channel=settings.teamSources[i]==1?3:(settings.teamSources[i]==2?0:-1);
+        if(d.zoneChannel!=channel) { d.effectReady=false; }
+        d.zoneChannel=channel;d.effect=channel>=0?3:0;d.nativeFont=settings.teamFonts[i];
     }
     function reset() { _power.reset(); _heart.reset(); _identity=null; }
     function metadata() {
@@ -144,7 +151,14 @@ class SnapshotEngine {
         var values=[] as Lang.Array;
         for(var i=0;i<10;i+=1) {
             var d=configure?descriptor(i,settings.slots[i],settings.hideValueUnits,distanceStatute,elevationStatute,temperatureStatute):_descriptors[i];
-            var value=rawValue(raw,d.id);
+            if(d.style==6 && configure) { configureTeam(d,settings,i); }
+            var value=d.style==6?settings.teamTexts[i]:rawValue(raw,d.id);
+            // A profile refresh can occur between delivered samples. Reuse the
+            // current-source cache instead of a stale zone number in retained raw data.
+            if(d.effect==5) {
+                if("heart_rate_zone".equals(d.id) && raw.hasKey("current_heart_rate")) { value=zone(0,raw["current_heart_rate"]); }
+                else if("power_zone".equals(d.id) && raw.hasKey("current_power")) { value=zone(3,raw["current_power"]); }
+            }
             var label=d.label;var unit="";
             var reading=value;var text=null;var expandedUnit=null;
             if(d.ready && d.reading==reading && (d.style!=1 ||
@@ -159,7 +173,8 @@ class SnapshotEngine {
             // DVS-36: cardinal text is optional when the measured group fits.
             var cardinal=d.style==4?Formatting.cardinal(value):null;
             expandedUnit=cardinal==null?null:unit+(unit.length()>0?" ":"")+cardinal;
-            if(d.style==1) {
+            if(d.style==6) { text=value; }
+            else if(d.style==1) {
                 if(hasSample && clock!=null && clock has :hour && clock has :min) {
                     text=Formatting.clock(clock.hour,clock.min,clock24);
                     if(text!=null && !clock24) { label=clock.hour<12?d.am:d.pm; }
@@ -178,18 +193,19 @@ class SnapshotEngine {
             if(d.style==1) { d.hour=hour;d.minute=minute;d.clock24=clock24;d.hasSample=hasSample; }
             formatBuilds+=1;
             }
-            var band=null; var angle=null;var coverage=settings.modes[i];
+            var band=null; var angle=null;
+            d.effectInput=d.style==6?rawValue(raw,d.zoneChannel==3?"current_power":"current_heart_rate"):reading;
             if(settings.effects[i] && value!=null && d.effect!=0) {
                 var bounds=d.zoneChannel>=0?boundsFor(d.zoneChannel):(d.effect==5?("heart_rate_zone".equals(d.id)?_hrZones:_powerZones):null);
-                if(!d.effectReady || d.effectReading!=reading || d.effectBounds!=bounds) {
+                if(!d.effectReady || d.effectReading!=d.effectInput || d.effectBounds!=bounds) {
                     d.effectBand=null;d.effectAngle=null;
-                    if(d.effect==1) { d.effectBand=Effects.gradeBand(reading);d.effectAngle=Effects.horizonAngle(reading); }
-                    else if(d.effect==2) { d.effectBand=Effects.temperatureBand(reading); }
+                    if(d.effect==1) { d.effectBand=Effects.gradeBand(d.effectInput);d.effectAngle=Effects.horizonAngle(d.effectInput); }
+                    else if(d.effect==2) { d.effectBand=Effects.temperatureBand(d.effectInput); }
                     else if(d.effect==5) { d.effectBand=bounds!=null && reading instanceof Lang.Number && reading<bounds.size()?Effects.zoneColor(reading):null; }
-                    else { d.effectBand=Effects.zoneColor(zone(d.zoneChannel,reading)); }
-                    d.effectReady=true;d.effectReading=reading;d.effectBounds=bounds;effectBuilds+=1;
+                    else { d.effectBand=Effects.zoneColor(zone(d.zoneChannel,d.effectInput)); }
+                    d.effectReady=true;d.effectReading=d.effectInput;d.effectBounds=bounds;effectBuilds+=1;
                 }
-                band=d.effectBand;angle=coverage==2?d.effectAngle:null;
+                band=d.effectBand;angle=settings.modes[i]==2?d.effectAngle:null;
             }
             // Valid semantic effects win; every enabled known field has a gray default.
             if(settings.effects[i] && d.index!=null && band==null) {
@@ -198,8 +214,8 @@ class SnapshotEngine {
             }
             var old=d.record;
             if(old==null || !sameText(old[:label],label) || !sameText(old[:text],text) || !sameText(old[:unit],unit) ||
-                !sameText(old[:expandedUnit],expandedUnit) || !sameText(old[:band],band) || old[:angle]!=angle || old[:coverage]!=coverage) {
-                d.record={:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>d.format,:coverage=>coverage};
+                !sameText(old[:expandedUnit],expandedUnit) || !sameText(old[:band],band) || old[:angle]!=angle || old[:coverage]!=settings.modes[i] || old[:nativeFont]!=d.nativeFont) {
+                d.record={:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>d.format,:coverage=>settings.modes[i],:nativeFont=>d.nativeFont};
                 recordBuilds+=1;
             }
             values.add(d.record); // Never mutate a record retained by an earlier snapshot.
