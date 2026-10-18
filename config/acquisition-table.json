@@ -873,7 +873,7 @@
   {
     "identifier": "team",
     "requirement": "SPEC-253",
-    "version": 5,
+    "version": 6,
     "source": "Validated per-slot Team text settings",
     "context": "Both saved sets; literal ASCII text independent of activity samples",
     "raw_type": "string",

@@ -178,7 +178,7 @@
       ],
       "procedure": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-28]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "requirement_revisions": {
-        "APP-21": 75,
+        "APP-21": 76,
         "APP-24": 73,
         "APP-28": 56,
         "DVS-13": 62,
@@ -206,18 +206,18 @@
         "DVS-50",
         "SPEC-155"
       ],
-      "procedure": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam has no separate header/unit: physical-unit visibility does not alter its saved text under [[SPEC-256]]. Apply numeric header expectations only to numeric fields.",
+      "procedure": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam always displays header `team` and no unit under [[SPEC-256]]; physical-unit visibility does not alter its header or saved value.",
       "requirement_revisions": {
         "APP-31": 90,
         "APP-35": 39,
         "DVS-13": 62,
         "DVS-5": 35,
-        "DVS-50": 54,
+        "DVS-50": 55,
         "SPEC-155": 79
       },
-      "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam has no separate header/unit: physical-unit visibility does not alter its saved text under [[SPEC-256]]. Apply numeric header expectations only to numeric fields.",
+      "definition": "Purpose: Physical-unit header selection and retired settings.\n\nRequirement references: [[DVS-50]], [[DVS-5]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and hide_value_units false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. The retired use_units_as_labels key has no effect. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam always displays header `team` and no unit under [[SPEC-256]]; physical-unit visibility does not alter its header or saved value.",
       "stable_id": "TFNC-8",
-      "revision": 25,
+      "revision": 26,
       "status": "draft",
       "suite": "Core",
       "additional_functions": [
@@ -315,18 +315,18 @@
       ],
       "procedure": "Purpose: Verify production drawing and layout-specific normal display guarantees.\n\nSuite: Core. Default fast regression only; deliberately rejected layouts belong to Placement.\n\nRequirement references: [[SPEC-157]], [[APP-24]], [[APP-21]], [[APP-22]], [[APP-34]], [[APP-36]], [[DVS-51]], [[APP-49]], [[DVS-6]], [[DVS-43]].\n\nCore procedure: Run sampleDefaultUnitHeaderGrid with the default sample ride, physical units shown/hidden, both themes and alignments, requiring all native visible fields with exact headers and no overflow or compact substitution. Run clockAndDurationFitEveryLayout for complete 00:00, 13:05 and 1:00.00 groups in every native enlargement count and alignment, including one-pixel halos. Run normalRangeCellBounds against every declared guaranteed field/context and its endpoint, interior and width-transition values. Require exact primary/mandatory secondary text, complete headers, real-font widths and glyph/halo bounds in the minimum native cell of each role. Count documented contexts with no guarantee explicitly; do not label them passing rendering coverage. Run normalPresentationDrawAndAlignment with compatible normal assignments through every native enlargement count, both alignments and Day/Night. Check the shared R=max(label line height, band height) value inset for enabled and disabled effects, separators and theme inversion. Independently verify the minimum padded-height calculation and full-glyph/halo safety bound against all supported complete headers: currently H=30 px for the 21 px label role and H=46 px for the 35 px label role. Require unchanged cached H across redraws and assignment/unit/theme/inversion changes, common band edges for headers with different ascenders/descenders, complete glyph/halo containment and aligned primary-value centers. For power-zone, heart-rate-zone and temperature effects, verify that only the full-width top band around the resolved label is colored, with the same cached catalogue-wide smallest safe padded band height in every regular/enlarged cell, independently of label glyphs, unit visibility, clock indicators and field assignment; primary/secondary value regions and their foregrounds remain ordinary under the effective theme. Require complete label glyphs and halos inside the band and no band/value-glyph overlap, including headers with descenders and unit separators. Cover both alignments, header units shown/hidden, all enlarged-inversion combinations, independent duplicate slots, and transitions to disabled/invalid/unavailable effects without residual colors or halos. For all 32 existing numeric field assignments, verify that every enabled known field receives the neutral-gray label default whenever it has no valid custom effect, including missing/invalid/unqualified/expired readings, unavailable or unsupported zone metadata, and standalone zone/lap fields; unknown identifiers stay ordinary. Require exact #CCCCCC Day and #333333 Night fills, including enlarged inversion, ordinary value areas, independent duplicates and hidden slots. Exercise enable/disable, valid/unavailable values, theme/inversion changes and reassignment to/from grade and other custom fields without stale fills. Validate revised small-cell guarantees with band/halo clearance. Check effect-band header contrast and label-only clipped halos, plus valid grade's unchanged sky/ground geometry and text halos. Verify all eight custom-effect field types switch from valid custom color to gray default and back without stale colors/geometry or lost valid numeric values. Cover valid zero grade, temperature and power, preserve white temperature bands in Night, and require no horizon for unavailable grade. Disabled effects remain ordinary. No `!` or compact substitution may pass a guaranteed normal case.\n\nGrid type Core procedure: Run gridTypeAndRepaint across both alignments, Day/Night, enlarged-theme inversion on/off and all native enlargement counts. Require Horizontal lines as constructor and missing/null/malformed fallback; accept numeric codes 0/1/2 and canonical none/horizontal/full identifiers, and ignore retired show_grid. In one reused renderer, switch Horizontal/None/Full/None/Horizontal/Full. Independently check the exact pattern line counts, horizontal/vertical orientations, clipping and [[HFER-7]]/[[HFER-8]] palette gradients for the selected type, without reading alignment to choose the style. None must issue zero drawLine calls. Require unchanged cell drawing records, field-fit/layout/geometry/font-load counters, backgrounds and grade polygons during grid-only changes. Compact-fallback separator coverage belongs to the separate Placement suite and runs only on request. Acquisition state must not reset.\n\nCache/drawing Core procedure: Run snapshotCacheInvalidation, rendererCacheAndDrawPurity and optionalRuntimeQueries from tests/PerformanceTests.mc. Require ten bounded assignment caches, unchanged-input formatting/header reuse, selective value/header/unit/clock invalidation and immutable published value text. Instrument actual production rendering to require zero unchanged refits/geometry rebuilds, exactly one refit for one changed normal cell, unchanged-angle polygon reuse and style refresh on theme/effect-kind changes. Lock layout/metric/color preparation during drawing and require the prepared graphics path to succeed. Check battery selection includes hidden slots, clock selection follows retained assignments, and normal callbacks leave runtime diagnostics disabled. Keep existing drawing/format/acquisition correctness assertions; Core performs no memory sampling. Requirements: [[APP-26]], [[APP-12]], [[APP-8]], [[APP-32]], [[APP-37]], [[DVS-35]], [[SPEC-157]].\n\nPlacement-only assertions are defined by the separate Placement suite and its linked Tests; do not execute them through this Core definition.\n\nExecutable sources: tests/NormalRangeTests.mc, tests/PresentationTests.mc, tests/PresentationSupport.mc and generated tests/limits fixtures. Evidence follows [[SPEC-162]]; these instrumented checks do not establish native-layout/hardware visual qualification. Historical executions retain their captured scope.\n\nPrimary executable: `tests/PresentationTests.mc`, named test `normalPresentationDrawAndAlignment`. Other named Core checks have their own linked Test definitions; no Memory or Placement execution is implied.\n\nThe existing snapshotCacheInvalidation and rendererCacheAndDrawPurity Core cases additionally cover immutable presentation-record reuse, shared zone classification, metadata/null invalidation, header-measurement reuse on changed values, repeated identical layout callbacks and the complete DataField.onUpdate missing-bounds/ordinary-redraw paths. Keep Core as the only default suite; these assertions do not certify memory consumption or hardware battery savings.\n\nTeam literal text/native-font bounds are covered separately by [[SPEC-291]]/[[SPEC-292]]; numeric normal-range/header formulas do not apply to Team.",
       "requirement_revisions": {
-        "APP-21": 75,
+        "APP-21": 76,
         "APP-22": 52,
         "APP-24": 73,
         "APP-26": 63,
         "APP-32": 62,
-        "APP-34": 76,
-        "APP-36": 65,
+        "APP-34": 77,
+        "APP-36": 66,
         "APP-37": 24,
         "APP-49": 68,
         "DVS-10": 33,
         "DVS-11": 34,
-        "DVS-12": 94,
+        "DVS-12": 95,
         "DVS-18": 42,
         "DVS-19": 42,
         "DVS-20": 31,
@@ -351,7 +351,7 @@
         "DVS-43": 67,
         "DVS-47": 63,
         "DVS-51": 67,
-        "DVS-6": 67,
+        "DVS-6": 68,
         "DVS-8": 46,
         "DVS-9": 37,
         "FUNC-3": 25,
@@ -775,9 +775,9 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-24": 73,
-        "APP-34": 76,
-        "DVS-12": 94,
-        "DVS-50": 54
+        "APP-34": 77,
+        "DVS-12": 95,
+        "DVS-50": 55
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -802,7 +802,7 @@
       "requirement_revisions": {
         "DVS-32": 47,
         "DVS-4": 46,
-        "DVS-50": 54
+        "DVS-50": 55
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -828,8 +828,8 @@
       "requirement_revisions": {
         "APP-20": 72,
         "APP-24": 73,
-        "APP-34": 76,
-        "DVS-50": 54
+        "APP-34": 77,
+        "DVS-50": 55
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -906,9 +906,9 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-26": 63,
-        "APP-36": 65,
+        "APP-36": 66,
         "DVS-43": 67,
-        "DVS-6": 67
+        "DVS-6": 68
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -964,7 +964,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-24": 73,
-        "APP-34": 76,
+        "APP-34": 77,
         "DVS-13": 62,
         "DVS-32": 47
       },
@@ -1102,7 +1102,7 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-34": 76,
+        "APP-34": 77,
         "DVS-2": 56,
         "DVS-3": 80,
         "SPEC-157": 62
@@ -1131,9 +1131,9 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-24": 73,
-        "APP-34": 76,
-        "DVS-12": 94,
-        "DVS-6": 67,
+        "APP-34": 77,
+        "DVS-12": 95,
+        "DVS-6": 68,
         "SPEC-157": 62
       },
       "suite_stable_id": "TRGR-1"
@@ -1161,7 +1161,7 @@
         "APP-26": 63,
         "DVS-32": 47,
         "DVS-4": 46,
-        "DVS-50": 54
+        "DVS-50": 55
       },
       "suite_stable_id": "TRGR-1",
       "implementation_status": "Implemented duplicate-slot isolation, immutable earlier snapshots and descriptor bounds through 64 reassignments; matching-source results are separate."
@@ -1289,7 +1289,7 @@
         "APP-24": 73,
         "APP-26": 63,
         "APP-28": 56,
-        "APP-34": 76
+        "APP-34": 77
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1316,11 +1316,11 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-20": 72,
-        "APP-21": 75,
-        "APP-34": 76,
-        "APP-36": 65,
+        "APP-21": 76,
+        "APP-34": 77,
+        "APP-36": 66,
         "DVS-51": 67,
-        "DVS-6": 67
+        "DVS-6": 68
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1344,7 +1344,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-24": 73,
-        "APP-34": 76,
+        "APP-34": 77,
         "SPEC-157": 62
       },
       "suite_stable_id": "TRGR-2"
@@ -1580,7 +1580,7 @@
         "APP-46": 54,
         "SPEC-155": 79,
         "SPEC-210": 11,
-        "SPEC-253": 5
+        "SPEC-253": 6
       },
       "stable_id": "SPEC-286"
     },
@@ -1794,8 +1794,8 @@
         "SPEC-236"
       ],
       "requirement_revisions": {
-        "APP-36": 65,
-        "DVS-6": 67,
+        "APP-36": 66,
+        "DVS-6": 68,
         "SPEC-236": 3
       },
       "stable_id": "SPEC-269"
@@ -1930,9 +1930,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team literal rendering",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nRender TEAM, mixed case, digits, punctuation, spaces and empty text. Assert exact glyph sequence and no numeric conversion, unit/header or separator, with units on/off in both banks.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nRender TEAM, mixed case, digits, punctuation, spaces and empty text. Assert exact glyph sequence and no numeric conversion, unit/header or separator, with units on/off in both banks.",
-      "revision": 6,
+      "definition": "Suite: Core. Render TEAM, mixed case, digits, punctuation, repeated spaces and empty text in both sets with units shown/hidden. Assert the exact lowercase team header, unchanged user value and no physical unit or numeric conversion. Empty text retains the header.",
+      "procedure": "Suite: Core. Render TEAM, mixed case, digits, punctuation, repeated spaces and empty text in both sets with units shown/hidden. Assert the exact lowercase team header, unchanged user value and no physical unit or numeric conversion. Empty text retains the header.",
+      "revision": 7,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -1943,10 +1943,10 @@
         "SPEC-256"
       ],
       "requirement_revisions": {
-        "DVS-12": 94,
-        "DVS-50": 54,
+        "DVS-12": 95,
+        "DVS-50": 55,
         "SPEC-156": 17,
-        "SPEC-256": 4
+        "SPEC-256": 5
       },
       "stable_id": "SPEC-289"
     },
@@ -1986,9 +1986,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team native text bounds",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nOn all nine full-screen profile layouts, render fitting wide/narrow/punctuation strings using qualified fonts. Measure visible ink and reserved one-pixel halo against exact padding and alignment in every mode, regular/enlarged in both sets. Do not count overflow markers as a normal-fit pass.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nOn all nine full-screen profile layouts, render fitting wide/narrow/punctuation strings using qualified fonts. Measure visible ink and reserved one-pixel halo against exact padding and alignment in every mode, regular/enlarged in both sets. Do not count overflow markers as a normal-fit pass.",
-      "revision": 6,
+      "definition": "Suite: Core. On all nine profiles verify fitting native Team lines below the shared header in regular/enlarged slots, both sets and alignments. Check five-percent value-area padding, one-pixel clearance, per-line alignment and vertically centered block. Markers do not count as normal-fit evidence.",
+      "procedure": "Suite: Core. On all nine profiles verify fitting native Team lines below the shared header in regular/enlarged slots, both sets and alignments. Check five-percent value-area padding, one-pixel clearance, per-line alignment and vertically centered block. Markers do not count as normal-fit evidence.",
+      "revision": 7,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -1998,9 +1998,9 @@
         "SPEC-258"
       ],
       "requirement_revisions": {
-        "APP-21": 75,
-        "APP-34": 76,
-        "SPEC-258": 5
+        "APP-21": 76,
+        "APP-34": 77,
+        "SPEC-258": 6
       },
       "stable_id": "SPEC-291"
     },
@@ -2010,9 +2010,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify native Team font selection",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nUse the five declared Automatic candidates with deterministic metrics and actual native drawing to verify largest-fit/tie selection, fixed AUX identity and normal fitting. Verify no bundled resource/font ladder is added. Deliberately unfit cases belong to the Placement test.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nUse the five declared Automatic candidates with deterministic metrics and actual native drawing to verify largest-fit/tie selection, fixed AUX identity and normal fitting. Verify no bundled resource/font ladder is added. Deliberately unfit cases belong to the Placement test.",
-      "revision": 5,
+      "definition": "Suite: Core. Verify greedy space-only wrapping with repeated spaces, one-line and multiline values. Assert words remain whole and within-line spaces survive. Using deterministic metrics and native drawing, verify the largest complete-block fit and tie rule, fixed eligible AUX identity and unchanged fit cache on source/color-only changes. No-fit cases belong to Placement.",
+      "procedure": "Suite: Core. Verify greedy space-only wrapping with repeated spaces, one-line and multiline values. Assert words remain whole and within-line spaces survive. Using deterministic metrics and native drawing, verify the largest complete-block fit and tie rule, fixed eligible AUX identity and unchanged fit cache on source/color-only changes. No-fit cases belong to Placement.",
+      "revision": 6,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -2022,7 +2022,7 @@
       ],
       "requirement_revisions": {
         "APP-25": 30,
-        "SPEC-259": 6
+        "SPEC-259": 7
       },
       "stable_id": "SPEC-292"
     },
@@ -2052,9 +2052,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team coloring regions",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nRender all three modes with semantic and neutral colors, both alignments/themes and enlargement. Assert exact inner/full-cell fill bounds, unchanged padding/text coordinates and correct contrast.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nRender all three modes with semantic and neutral colors, both alignments/themes and enlargement. Assert exact inner/full-cell fill bounds, unchanged padding/text coordinates and correct contrast.",
-      "revision": 3,
+      "definition": "Suite: Core. Render None, Label and Whole cell with semantic/neutral colors in both themes, alignments, sets and regular/enlarged slots. Assert Label fills only the common full-width team header band, Whole fills the cell, and None keeps ordinary backgrounds. Check header/value contrast independently and unchanged wrap/positions across color-only edits.",
+      "procedure": "Suite: Core. Render None, Label and Whole cell with semantic/neutral colors in both themes, alignments, sets and regular/enlarged slots. Assert Label fills only the common full-width team header band, Whole fills the cell, and None keeps ordinary backgrounds. Check header/value contrast independently and unchanged wrap/positions across color-only edits.",
+      "revision": 4,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -2062,7 +2062,7 @@
         "SPEC-261"
       ],
       "requirement_revisions": {
-        "SPEC-261": 6
+        "SPEC-261": 7
       },
       "stable_id": "SPEC-294"
     },
@@ -2372,9 +2372,9 @@
       "source": "tests/PlacementTests.mc",
       "runner": "explicit_request",
       "title": "Verify Team insufficient-area handling",
-      "definition": "Suite: Placement. Definition; execution evidence is separate.\n\nExplicit-request Placement: use overlong/wide strings, oversized AUX and tiny bounds; verify !, then blank when ! cannot fit, and unchanged neighbors. Repeat regular/enlarged, both alignments/themes and sets.",
-      "procedure": "Suite: Placement. Definition; execution evidence is separate.\n\nExplicit-request Placement: use overlong/wide strings, oversized AUX and tiny bounds; verify !, then blank when ! cannot fit, and unchanged neighbors. Repeat regular/enlarged, both alignments/themes and sets.",
-      "revision": 2,
+      "definition": "Suite: Placement. On explicit request, test Team values with overlong words, oversized fonts and insufficient value area: expect !, then no value when ! cannot fit, while retaining the team header and other cells. When the fixed header itself cannot fit, use the shared grid fallback under [[APP-34]]. Repeat regular/enlarged cells, both alignments/themes and sets.",
+      "procedure": "Suite: Placement. On explicit request, test Team values with overlong words, oversized fonts and insufficient value area: expect !, then no value when ! cannot fit, while retaining the team header and other cells. When the fixed header itself cannot fit, use the shared grid fallback under [[APP-34]]. Repeat regular/enlarged cells, both alignments/themes and sets.",
+      "revision": 3,
       "status": "draft",
       "suite": "Placement",
       "suite_stable_id": "TRGR-2",

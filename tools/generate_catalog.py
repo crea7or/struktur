@@ -57,7 +57,7 @@ def main():
     reviewed={r['stable_id']:r for r in reviewed}
     for field in fields:
         if field['id']=='team':
-            field['header_with_units']=None;field['rendered_label']='';continue
+            field['header_with_units']=None;field['rendered_label']='team';continue
         description=reviewed[field['requirement']]['description']
         field['label']=re.search(r'Label text:\s*`([^`]*)`',description).group(1)
         header=re.search(r'Header text with units:\s*`([^`]*)`',description)

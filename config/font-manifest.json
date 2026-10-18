@@ -3,21 +3,21 @@
   "pillow": "12.2.0",
   "python": "3.14.7",
   "inventory_inputs": {
-    "config/catalogue.json": "a649d0a642bc3a3fc94fc8b326f60981d0bdc36caa56754924a91b89d201dce8",
-    "config/decisions.json": "dfdbf88dafb6449f558ec1572b8cf84823dc2e0d3f1281979d7a1afc518f341a",
+    "config/catalogue.json": "afd4bcb192041ad7e58aa1282d31ce711df783e4c928033a6349cf61c9d310d7",
+    "config/decisions.json": "3b3e58e04bb6c7b58797fcdc64e12708e536c374f4dbf38e0f8023adb023f60c",
     "config/devices.json": "849592e2e3ae403d4461410306f49d3ff74ebfef13483fe5a35a621dd0c2ed99",
-    "requirements/workspace-snapshot.json": "f791c437ec1328a97f8ad3835fa68823ff6df1076d5a54029f02668328583c01",
-    "source/Snapshot.mc": "8b77f3d447e721df6fba1c7af9297535e8e6164db65c0a8465862fb73ca9cee6",
-    "source/FieldRenderer.mc": "9b1a78055fdbe76f28a5874dcc6f7bd7f5fb2b775acd459b8de835896cec64d1",
+    "requirements/workspace-snapshot.json": "67aa61f49e986b19154e6164428427e31118cc7ef69a82f8951182e1d1d4d0f0",
+    "source/Snapshot.mc": "2bbd6849c1b893ec6499441ab2bbb7db5343d703f8f8d6f6c01ec9214f5d91ac",
+    "source/FieldRenderer.mc": "67bb0445f3a9e4f2710a28be0156fe9de571f81d1a757f8af99de0b6ffc8b2ff",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
     "source/Policy.mc": "ac108943550289229b45ddce5f73bd42b36bf96e6b613bade14ff1a70ab03316",
     "source/Formatting.mc": "b16ffbdad83a032a5319ac08e96f560c110d01d074bb4e2753514a00df8e02e3",
     "source/FieldPresentation.mc": "b60532192c787f1a762f483629c9d1fca2af02b24cc0328cc35aedc8792c8eb6",
-    "tools/font_glyphs.py": "b7de0f52d73e5fc6f1eda6660d36f21012765027b2dfbf1e4a99b8ad6650cb2a",
+    "tools/font_glyphs.py": "0fd3e9e0905dc18dc9f58672b5f0930aac4fc56271718d5d4ac435d75aa4e295",
     "tools/generate_fonts.py": "ca238d133b81084517703d25bdc0ea7881dacd93b7d82d0aea058f5adc10b44f",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "ce16234e0d37e70f6c89fd021ede3ca75cb8ec36f2b0d4921505df760055136b",
+    "tools/generate_catalog.py": "107bb88ef3fbc9547e7a14cd88be98cfe128438f7c738da3d3dfaf0163837516",
     "source/Catalog.mc": "2d0188db74a9d50aadaa2e005db93f0ab63b1740d4952d9f2799b078fb43cc7d",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
@@ -39,8 +39,8 @@
       "description_sha256": "027595ceaa6c082627b073b1d0b2a907c231f9d8378e0589b74bb0496de53676"
     },
     "APP-34": {
-      "revision": 76,
-      "description_sha256": "f3fc7079427ab505e6f37cfe715c124ce498214c09e3a73421da4bd54ad1bff2"
+      "revision": 77,
+      "description_sha256": "09a85edae072a40e57c49c1789e4ccd3eef6c98086743c214b4576c6f3701b5c"
     },
     "SPEC-154": {
       "revision": 34,
@@ -85,6 +85,7 @@
       "lap heart rate",
       "lap watts",
       "lap cadence",
+      "team",
       "field",
       "full grid needs larger area",
       "speed | km/h",

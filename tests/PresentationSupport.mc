@@ -601,16 +601,26 @@ class TeamScenario {
     }
     function check() {
         Test.assert(renderer._cells.size()>0);var cell=renderer._cells[0];var run=renderer._runs[0];var packet=renderer._packets[0];
-        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual("Aa 12!",run.text);Test.assertEqual("",snapshot[:values][0][:label]);
-        Test.assert(packet.label==null && packet.unit==null);Test.assert(packet.primary!=null);
-        Test.assert(packet.primary[0]-1>=packet.inner[0]);Test.assert(packet.primary[0]+run.total+1<=packet.inner[0]+packet.inner[2]);
-        Test.assert(packet.primary[1]-1>=packet.inner[1]);Test.assert(packet.primary[1]+run.size+1<=packet.inner[1]+packet.inner[3]);
-        Test.assert(((packet.primary[1]+run.size/2.0)-(cell[:y]+cell[:h]/2.0)).abs()<=1);
-        for(var i=0;i<renderer._nativeFonts.candidates.size();i+=1) {
-            var candidate=renderer._nativeFonts.candidates[i];
-            if(candidate[1]>run.size && candidate[1]+2<=run.inner[3]) { Test.assert(dc.getTextWidthInPixels(run.text,candidate[0])+2>run.inner[2]); }
+        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual(props[prefix+"slot_1_team_text"],run.text);Test.assertEqual("team",snapshot[:values][0][:label]);
+        Test.assert(packet.label!=null && packet.unit==null);Test.assert(packet.primary!=null);
+        Test.assertEqual("team",packet.label[3]);
+        Test.assertEqual("right".equals(settings.alignment)?cell[:x]+cell[:w]-4-(packet.band==null?0:1):cell[:x]+cell[:w]/2,packet.label[0]);
+        for(var line=0;line<packet.lines.size();line+=1) {
+            var command=packet.lines[line];var width=run.lines[1][line];
+            Test.assert(command[0]-1>=packet.inner[0]);Test.assert(command[0]+width+1<=packet.inner[0]+packet.inner[2]);
+            Test.assert(command[1]-1>=packet.inner[1]);Test.assert(command[1]+run.size+1<=packet.inner[1]+packet.inner[3]);
+            if("right".equals(settings.alignment)) { Test.assertEqual(cell[:x]+cell[:w]-run.margin,command[0]+width); }
+            else { Test.assert(((command[0]+width/2.0)-(cell[:x]+cell[:w]/2.0)).abs()<=1); }
         }
-        Test.assertEqual(settings.modes[0]==0?1:9,dc.records[0][:texts].size());
+        Test.assert(((run.top+run.size*packet.lines.size()/2.0)-(run.inner[1]+run.inner[3]/2.0)).abs()<=1);
+        Test.assert(packet.inner[1]>cell[:y]+renderer._headerHeight);
+        if(settings.modes[0]==1) {
+            Test.assertEqual(renderer._labelBandHeight,run.labelBand);
+            Test.assertEqual(2,dc.records[0][:rectangles].size());
+            Test.assertEqual(cell[:w],dc.records[0][:rectangles][1][2]);Test.assertEqual(run.labelBand,dc.records[0][:rectangles][1][3]);
+            Test.assertEqual(packet.night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,packet.primary[5]);
+        }
+        Test.assertEqual(settings.modes[0]==0?1+packet.lines.size():(settings.modes[0]==1?9+packet.lines.size():9+9*packet.lines.size()),dc.records[0][:texts].size());
     }
     function run() {
         sample(110);automatic=renderer._runs[0].font;check();Test.assertEqual("green",snapshot[:values][0][:band]);old=snapshot;fits=renderer.fitCount;geometry=renderer.geometryBuilds;measures=renderer._nativeFonts.measurements;
@@ -628,8 +638,28 @@ class TeamScenario {
         Test.assertEqual("magenta",snapshot[:values][0][:band]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);
         props[prefix+"slot_1_team_color_source"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
-        props[prefix+"slot_1_team_text"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);
+        props[prefix+"slot_1_team_text"]="BLUE TEAM";automatic=null;sample(110);check();
+        props[prefix+"hide_value_units"]=false;measures=renderer._nativeFonts.measurements;sample(110);check();Test.assertEqual(measures,renderer._nativeFonts.measurements);
+        props[prefix+"slot_1_team_text"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);Test.assertEqual("team",renderer._packets[0].label[3]);
         props[prefix+"slot_1_value"]="current_power";sample(110);Test.assert(!renderer._runs[0].isNative);
         Test.assertEqual(FontSelection.height(renderer._cells[0][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,false),Graphics.getFontHeight(renderer._runs[0].font));
     }
+}
+
+// Independent deterministic widths exercise wrapping without depending on a
+// particular device's native font metrics. Production drawing is covered above.
+(:testSupport)
+class TeamWrapDc {
+    function getTextWidthInPixels(text,font) { return text.length()*10; }
+}
+(:testSupport)
+function verifyTeamWrapping() {
+    var cache=new NativeTextCache();cache.candidates=[[Graphics.FONT_TINY,10]];cache.headerHeight=20;cache.setContext(new TeamWrapDc());
+    var cell={:w=>100,:h=>80};var value={:text=>"BLUE  TRAIN"};var run=cache.fit(cell,value);
+    Test.assertEqual("BLUE  TRAIN",run.text);Test.assertEqual(2,run.lines[0].size());
+    Test.assertEqual("BLUE",run.lines[0][0]);Test.assertEqual("TRAIN",run.lines[0][1]);
+    Test.assertEqual(10,run.size);Test.assertEqual(2,run.lines[1].size());
+    Test.assertEqual(20+4+(52-20)/2,run.top);
+    cell[:w]=200;run=cache.fit(cell,value);Test.assertEqual(1,run.lines[0].size());Test.assertEqual("BLUE  TRAIN",run.lines[0][0]);
+    value[:text]="";run=cache.fit(cell,value);Test.assertEqual(0,run.lines[0].size());
 }

@@ -270,6 +270,7 @@ function approvedForegroundAndMetricWidths(logger) {
 // Fast normal native-area drawing cases; fallback belongs to PlacementTests.
 (:test)
 function normalPresentationDrawAndAlignment(logger) {
+    verifyTeamWrapping();
     for(var teamCase=0;teamCase<12;teamCase+=1) { new TeamScenario(teamCase).run(); }
     for(var modeCase=0;modeCase<24;modeCase+=1) { new CoverageScenario(modeCase).run(); }
     for(var bandCase=0;bandCase<24;bandCase+=1) { new EnlargedLabelScenario(bandCase).run(); }

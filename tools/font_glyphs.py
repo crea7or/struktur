@@ -34,7 +34,7 @@ def glyph_contract(root=ROOT):
     formatting=(root/'source/Formatting.mc').read_text(encoding='utf-8')
     presentation=(root/'source/FieldPresentation.mc').read_text(encoding='utf-8')
     bundled_fields=[field for field in catalogue['fields'] if field['format']!='text']
-    assert all(field['id']=='team' and field['rendered_label']=='' and field['unit']=='' for field in catalogue['fields'] if field['format']=='text')
+    assert all(field['id']=='team' and field['rendered_label']=='team' and field['unit']=='' for field in catalogue['fields'] if field['format']=='text')
     formats=sorted({field['format'] for field in bundled_fields})
     if set(formats)!={'float','integer','duration','clock'}:
         raise ValueError('Supported formatting modes changed; review glyph output rules.')
@@ -66,7 +66,7 @@ def glyph_contract(root=ROOT):
     if not periods or 'd.am=d.label+" | am";d.pm=d.label+" | pm"' not in snapshot or 'label=clock.hour<12?d.am:d.pm' not in snapshot:
         raise ValueError('Clock header text changed; review font roles.')
     clock_units=[json.loads(periods.group(i)) for i in [1,2]]
-    labels=[field['label'] for field in bundled_fields]+fallbacks
+    labels=[field['label'] for field in catalogue['fields']]+fallbacks
     # Only rendered substitutions/literals contribute glyphs; braces and the
     # placeholder name are specification syntax and never appear on screen.
     headers=[unit_header(field,unit) for field in bundled_fields

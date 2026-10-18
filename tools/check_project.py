@@ -53,7 +53,7 @@ def main():
     catalogue=read('config/catalogue.json');fields=catalogue['fields'];props=catalogue['properties']
     for field in fields:
         if field['format']=='text':
-            assert field['id']=='team' and field['label']=='team' and field['rendered_label']=='' and field['unit']=='';continue
+            assert field['id']=='team' and field['label']=='team' and field['rendered_label']=='team' and field['unit']=='';continue
         description=by_id[field['requirement']]['description']
         assert field['label']==re.search(r'Label text:\s*`([^`]*)`',description)[1],field['requirement']
         header=re.search(r'Header text with units:\s*`([^`]*)`',description)

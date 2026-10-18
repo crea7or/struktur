@@ -247,14 +247,14 @@
     "approved_requirement_revisions": {
       "APP-22": 52,
       "APP-25": 30,
-      "APP-36": 65,
+      "APP-36": 66,
       "SPEC-154": 34
     },
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
       "APP-22": 52,
       "APP-25": 30,
-      "APP-36": 65,
+      "APP-36": 66,
       "SPEC-154": 34
     },
     "requirement_states": {
@@ -292,13 +292,13 @@
     "requirement_revisions": {
       "APP-46": 54,
       "SPEC-155": 79,
-      "DVS-50": 54
+      "DVS-50": 55
     },
     "reviewed_on": "2026-10-17",
     "approved_requirement_revisions": {
       "APP-46": 54,
       "SPEC-155": 79,
-      "DVS-50": 54
+      "DVS-50": 55
     },
     "requirement_states": {
       "APP-46": "draft",

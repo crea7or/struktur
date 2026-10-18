@@ -141,4 +141,6 @@ function verifyTeamInsufficientArea() {
     var run=fonts.fit({:w=>20,:h=>200},value);Test.assertEqual(PresentationPolicy.OVERFLOW,run.text);
     run=fonts.fit({:w=>1,:h=>1},value);Test.assertEqual("",run.text);
     value[:text]="";run=fonts.fit({:w=>20,:h=>20},value);Test.assertEqual("",run.text);
+    fonts.headerHeight=30;fonts.headerWidth=40;Test.assert(fonts.fit({:w=>49,:h=>100},value)==null);
+    Test.assert(fonts.fit({:w=>100,:h=>29},value)==null);
 }

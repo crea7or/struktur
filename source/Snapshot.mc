@@ -95,7 +95,6 @@ class SnapshotEngine {
             var units=FieldPresentation.headerUnits(kind);
             var unit=units[statute && units.size()>1?1:0];
             var label=d.index==null?"field":Catalog.LABELS[d.index];
-            if(d.style==6) { label=""; }
             var override=d.index==null?null:Catalog.HEADERS_WITH_UNITS[d.index];
             d.label=FieldPresentation.headerText(label,unit,override,hideUnits);
             if(d.style==1) { d.am=d.label+" | am";d.pm=d.label+" | pm"; }

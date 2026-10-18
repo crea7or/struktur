@@ -14,7 +14,7 @@ from header_text import unit_header
 
 def audit():
     catalogue = read('config/catalogue.json')
-    fields = [f for f in catalogue['fields'] if f['format']!='text']
+    fields = catalogue['fields']
     fonts = {font['id']: font for font in read('config/font-manifest.json')['fonts']}
     defaults = {prop['default']: int(prop['key'].split('_')[1])
                 for prop in catalogue['properties'] if prop['key'].endswith('_value')}
