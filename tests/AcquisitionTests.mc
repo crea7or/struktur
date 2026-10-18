@@ -13,8 +13,20 @@ function gradeRegression(logger) {
     Test.assertEqual(10.0d,g.push(102,20,2000,true,100));
     Test.assertEqual(10.0d,g.push(999,20,2000,true,100));
     g.push(103,30,3000,true,100);g.push(104,40,4000,true,100);
-    Test.assertEqual(14.0d,g.push(107,50,5000,true,100)); // [101,102,103,104,107]: slope .14
-    Test.assertEqual(5,g.sampleCount());Test.assertEqual(10,g.point(0)[0]);
+    Test.assertEqual(11.33d,g.push(107,50,5000,true,100));
+    Test.assertEqual(14.0d,g.estimate()); // Unsmoothed regression; published mean is (10+10+14)/3. // [101,102,103,104,107]: slope .14
+    Test.assertEqual(5,g.sampleCount());Test.assertEqual(10,g.point(0)[0]);Test.assertEqual(3,g._smoothCount);
+    g.reset();Test.assertEqual(0,g._smoothCount);
+    Test.assertEqual(4.0d,g.smooth(4,10));Test.assertEqual(5.0d,g.smooth(6,11));
+    Test.assertEqual(6.0d,g.smooth(8,12));Test.assertEqual(8.0d,g.smooth(10,13));
+    Test.assertEqual(8.0d,g.smooth(100,13));Test.assertEqual(3,g._smoothCount);
+    Test.assertEqual(20.0d,g.smooth(20,15));Test.assertEqual(1,g._smoothCount); // Missing second resets only mean.
+    Test.assertEqual(10.0d,g.smooth(0,16));Test.assertEqual(3.33d,g.smooth(-10,17));
+    Test.assertEqual(7.0d,g.smooth(7,14)); // Regressing second resets.
+    Test.assert(g.smooth(null,15)==null);Test.assertEqual(0,g._smoothCount);
+    Test.assertEqual(-2.01d,g.smooth(-2.01d,16));Test.assertEqual(-2.02d,g.smooth(-2.02d,17));
+    Test.assertEqual(-2.02d,g.smooth(-2.04d,18));
+    g.reset();g.smooth(-0.004d,1);Test.assertEqual(0.0,g._value);
     g.reset();g.push(-10,0,0,true,100);g.push(-11,10,1000,true,100);
     Test.assertEqual(-10.0d,g.push(-12,20,2000,true,100));
     g.reset();g.push(0,0,0,true,100);g.push(20,10,1000,true,100);
@@ -29,11 +41,12 @@ function gradeRegression(logger) {
     g.reset();g.push(1000000.0d,1000000000.0d,0,true,100);g.push(1000001.0d,1000000010.0d,1000,true,100);
     Test.assertEqual(10.0d,g.push(1000002.0d,1000000020.0d,2000,true,100));
     Test.assertEqual("10.0",Formatting.floating(10));
-    Test.assertEqual("-2.06",Formatting.floating(-2.06));
+    Test.assertEqual("-2.1",Formatting.fixed(-2.06,1));
     Test.assertEqual("10000",Formatting.floating(9999.99));
     Test.assertEqual("100000",Formatting.floating(100000));
     Test.assertEqual("N",Formatting.cardinal(0.0));Test.assertEqual("NW",Formatting.cardinal(-45));
     Test.assert(Formatting.cardinal(null)==null);
+    fixedSlopePrecision(logger);
     return true;
 }
 
@@ -54,10 +67,10 @@ function gradeResetAndBounds(logger) {
     Test.assertEqual(0.0,g.push(3,29,4000,true,100)); // distance regression resets
     Test.assertEqual(0.0,g.push(4,39,5000,true,200)); // identity resets
     Test.assert(g.push(5,49,6000,false,200)==null);Test.assertEqual(0,g.sampleCount());
-    for(var i=0;i<150;i+=1) {g.push(0,i/10.0,i*1000,true,200);Test.assert(g.sampleCount()<=5);}
+    for(var i=0;i<150;i+=1) {g.push(0,i/10.0,i*1000,true,200);Test.assert(g.sampleCount()<=5);Test.assert(g._smoothCount<=3);}
     Test.assertEqual(5,g.sampleCount());Test.assertEqual(145000,g.point(0)[2]);
     g.reset();g.push(0,0,0,true,200);g.push(1,1,500,true,200);Test.assertEqual(1,g.sampleCount());
-    Test.assert(g.push(null,2,1000,true,200)==null);Test.assertEqual(0,g.sampleCount());
+    Test.assert(g.push(null,2,1000,true,200)==null);Test.assertEqual(0,g.sampleCount());Test.assertEqual(0,g._smoothCount);
     return true;
 }
 
@@ -396,5 +409,28 @@ function acquisitionInvalidInputs(logger) {
     var packetCache=new TemperatureCache();
     Test.assertEqual(false,packetCache.receive([2.0,0,1000,"edge-native-v2"],1000,0,true));
     Test.assertEqual(false,packetCache.receive([2,0,1000.0,"edge-native-v2"],1000,0,true));
+    return true;
+}
+
+(:testSupport)
+function fixedSlopePrecision(logger) {
+    var cases=[[0,"0.0"],[-0.04,"0.0"],[2.01,"2.0"],[5.1,"5.1"],[-5.15,"-5.2"],
+        [9.95,"10.0"],[99.96,"100.0"],[100,"100.0"],[-100,"-100.0"]];
+    var banks=new FieldSetsSettings();var engine=new SnapshotEngine();var clock=new PresentationClock();
+    var device=new PresentationDevice(false,true,false);
+    for(var enlarged=0;enlarged<=2;enlarged+=1) {
+        banks.apply({"enlarged_field_count"=>enlarged,"second_enlarged_field_count"=>enlarged,
+            "slot_1_value"=>"grade","slot_2_value"=>"grade","slot_1_background_effects"=>true,
+            "second_slot_1_value"=>"grade","second_slot_2_value"=>"grade","second_slot_1_background_effects"=>true});
+        for(var bank=0;bank<2;bank+=1) {
+            var settings=bank==0?banks.primary:banks.secondary;
+            for(var i=0;i<cases.size();i+=1) {
+                var frame=engine.prepareWithPreferences({"grade"=>cases[i][0]},settings,true,device,clock);
+                Test.assertEqual(cases[i][1],frame[:values][0][:text]);
+                Test.assertEqual(cases[i][1],frame[:values][1][:text]);
+                Test.assertEqual(Effects.gradeBand(cases[i][0]),frame[:values][0][:band]);
+            }
+        }
+    }
     return true;
 }

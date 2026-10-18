@@ -11,10 +11,32 @@ class GradeEstimator {
     var _progressTime as Lang.Numeric or Null;
     var _identity as Lang.Numeric or Null;
     var _value as Lang.Numeric or Null;
+    var _smoothSamples=[0.0d,0.0d,0.0d];
+    var _smoothCount=0;var _smoothNext=0;var _smoothSecond=null;
     function initialize() { _points=new [CAPACITY]; reset(); }
     function clearWindow() {
         for(var i=0;i<CAPACITY;i+=1) { _points[i]=null; }
-        _head=0; _count=0; _value=null;
+        _head=0; _count=0; _value=null;clearSmoothing();
+    }
+    function clearSmoothing() { _smoothCount=0;_smoothNext=0;_smoothSecond=null; }
+    // FUNC-13: one shared partial-window mean; no draw-time work or additional warm-up.
+    function smooth(value,second) {
+        if(!Numeric.finite(value) || !Numeric.finite(second)) { clearSmoothing();_value=null;return null; }
+        if(_smoothSecond!=null && second==_smoothSecond) { return _value; }
+        if(_smoothSecond!=null && second!=_smoothSecond+1) { clearSmoothing(); }
+        // Estimates are canonical hundredths; average those integral hundredths to preserve exact halves.
+        var scaled=value*100.0d;
+        if(!Numeric.finite(scaled)) { clearSmoothing();_value=null;return null; }
+        _smoothSamples[_smoothNext]=Numeric.whole(scaled);_smoothNext=(_smoothNext+1)%3;
+        _smoothCount=_smoothCount<3?_smoothCount+1:3;_smoothSecond=second;
+        var sum=0.0d;
+        for(var i=0;i<_smoothCount;i+=1) { sum+=_smoothSamples[i]; }
+        scaled=sum/_smoothCount;
+        if(!Numeric.finite(scaled)) { clearSmoothing();_value=null;return null; }
+        _value=Numeric.whole(scaled)/100.0d;
+        if(!Numeric.finite(_value)) { clearSmoothing();_value=null; }
+        if(_value==0) { _value=0.0; }
+        return _value;
     }
     function reset() { clearWindow(); _lastTime=null; _lastDistance=null; _progressTime=null; _identity=null; }
     function point(index) { return _points[(_head+index)%CAPACITY]; }
@@ -57,7 +79,7 @@ class GradeEstimator {
         if(_count>0 && Math.floor(point(_count-1)[2]/1000.0)==Math.floor(elapsedMs/1000.0)) { return _value; }
         if(_count==CAPACITY) { discardOldest(); }
         _points[(_head+_count)%CAPACITY]=[distance,altitude,elapsedMs]; _count+=1;
-        _value=estimate();
-        return _value;
+        if(_count<3) { clearSmoothing();_value=0.0;return _value; }
+        return smooth(estimate(),Math.floor(elapsedMs/1000.0));
     }
 }
