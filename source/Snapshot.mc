@@ -22,7 +22,7 @@ class SnapshotDescriptor {
         format=index==null?"integer":Catalog.FORMATS[index];
         conversion="speed".equals(kind)?1:("distance".equals(kind)?2:("elevation".equals(kind)?3:("temperature".equals(kind)?4:("degrees".equals(kind)?5:0))));
         style="clock".equals(format)?1:("duration".equals(format)?2:
-            (conversion==1 || conversion==4 || "grade".equals(id)?3:("heading".equals(id)?4:("float".equals(format) && !"elevation".equals(id)?5:0))));
+            (conversion==4 || "grade".equals(id)?3:("heading".equals(id)?4:("float".equals(format) && !"elevation".equals(id)?5:0))));
         if("grade".equals(id)) { effect=1; }
         else if("temperature".equals(id)) { effect=2; }
         else {

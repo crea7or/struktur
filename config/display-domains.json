@@ -4,30 +4,30 @@
     {
       "field": "current_speed",
       "requirement": "DVS-8",
-      "precision": 1,
+      "precision": "magnitude-based under DVS-2",
       "normal_range": {
         "km/h": [
           0,
-          199.9
+          200
         ],
         "mph": [
           0,
-          199.9
+          200
         ]
       }
     },
     {
       "field": "average_speed",
       "requirement": "DVS-9",
-      "precision": 1,
+      "precision": "magnitude-based under DVS-2",
       "normal_range": {
         "km/h": [
           0,
-          199.9
+          200
         ],
         "mph": [
           0,
-          199.9
+          200
         ]
       }
     },
@@ -133,15 +133,15 @@
     {
       "field": "distance",
       "requirement": "DVS-25",
-      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "precision": "magnitude-based under DVS-2",
       "normal_range": {
         "km": [
           0,
-          999.9
+          1000
         ],
         "mi": [
           0,
-          999.9
+          1000
         ]
       }
     },
@@ -285,15 +285,15 @@
     {
       "field": "distance_next_waypoint",
       "requirement": "DVS-37",
-      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "precision": "magnitude-based under DVS-2",
       "normal_range": {
         "km": [
           0,
-          999.9
+          1000
         ],
         "mi": [
           0,
-          999.9
+          1000
         ]
       }
     },
@@ -322,15 +322,15 @@
     {
       "field": "lap_distance",
       "requirement": "FUNC-3",
-      "precision": "adaptive: 2, then 1, then 0 decimal places under DVS-2",
+      "precision": "magnitude-based under DVS-2",
       "normal_range": {
         "km": [
           0,
-          999.9
+          1000
         ],
         "mi": [
           0,
-          999.9
+          1000
         ]
       }
     },
@@ -348,15 +348,15 @@
     {
       "field": "lap_speed",
       "requirement": "FUNC-5",
-      "precision": 1,
+      "precision": "magnitude-based under DVS-2",
       "normal_range": {
         "km/h": [
           0,
-          199.9
+          200
         ],
         "mph": [
           0,
-          199.9
+          200
         ]
       }
     },

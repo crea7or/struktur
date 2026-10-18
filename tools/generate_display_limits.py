@@ -31,6 +31,18 @@ def rounded(value, places):
     return Decimal(str(value)).quantize(Decimal(1).scaleb(-places), rounding=ROUND_HALF_UP)
 
 
+def magnitude_text(value):
+    magnitude=abs(Decimal(str(value)))
+    precision=2 if magnitude<10 else (1 if magnitude<100 else 0)
+    result=rounded(value,precision)
+    if precision==2 and abs(result)>=10:
+        precision=1; result=rounded(value,precision)
+    if precision==1 and abs(result)>=100:
+        precision=0; result=rounded(value,precision)
+    if not result: result=abs(result)
+    return f'{result:.{precision}f}'
+
+
 def formatted(field, value, clock24=True):
     fmt=field['format']; unit=field['unit']
     if fmt=='duration':
@@ -40,7 +52,10 @@ def formatted(field, value, clock24=True):
     if fmt=='clock':
         hour=int(value)//60; minute=int(value)%60
         return (f'{hour:02}:{minute:02}' if clock24 else f'{hour%12 or 12}:{minute:02}'), ''
-    if unit=='speed' or field['id'] in ['grade','temperature']: return f'{rounded(value,1):.1f}', ''
+    if field['id']=='grade':
+        result=rounded(value,1);return f'{(abs(result) if not result else result):.1f}', ''
+    if field['id']=='temperature': return f'{rounded(value,1):.1f}', ''
+    if fmt=='float' and field['id']!='elevation': return magnitude_text(value), ''
     if fmt=='integer' or field['id']=='elevation': return str(int(rounded(value,0))), ''
     for precision in [2,1,0]:
         result=rounded(value,precision)
@@ -56,7 +71,10 @@ def segments(field, low, high, clock24):
     elif fmt=='clock':
         candidates=[(0,1439)] if clock24 else [(0,59),(60,599),(600,779),(780,1319),(1320,1439)]
         step=1
-    elif field['unit']=='speed' or field['id'] in ['grade','temperature']:
+    elif fmt=='float' and field['id'] not in ['temperature','grade','elevation']:
+        candidates=[(-99999,-10000,1),(-9999,-1000,1),(-999,-100,1),(-99.9,-10,0.1),(-9.99,-0.01,0.01),(0,9.99,0.01),(10,99.9,0.1),(100,999,1),(1000,9999,1),(10000,99999,1)]
+        return [(max(a,low),min(b,high),step) for a,b,step in candidates if max(a,low)<=min(b,high)]
+    elif field['id'] in ['temperature','grade']:
         candidates=[(-99.9,-10),(-9.9,-0.1),(0,9.9),(10,99.9),(100,199.9)]; step=0.1
     elif fmt=='integer' or field['id']=='elevation':
         candidates=[(-1000,-1000),(-999,-100),(-99,-10),(-9,-1),(0,9),(10,99),(100,999),(1000,9999),(10000,99999)]; step=1
@@ -137,7 +155,7 @@ def range_text(field, intervals):
         if field['format']=='clock': return f'{int(value)//60:02}:{int(value)%60:02}'
         if field['format']=='duration':
             seconds=int(value); return f'{seconds//3600}:{seconds%3600//60:02}:{seconds%60:02}'
-        if field['unit']=='speed' or field['id']=='grade': return f'{value:.1f}'
+        if field['format']=='float' and field['id'] not in ['temperature','grade','elevation']: return str(int(value)) if int(value)==value else str(value)
         return str(value)
     return '; '.join(number(row['min'])+'–'+number(row['max']) for row in intervals) or 'none'
 
@@ -188,7 +206,7 @@ def generate():
                         for clock24 in ([True,False] if field['format']=='clock' else [True]):
                             header=unit_header(field,unit,shown)
                             # Every known field can now paint a semantic or neutral band.
-                            radius=1; bands=[]; samples=[]
+                            radius=1; bands=[]; samples=[]; previous_step=None
                             for low,high,step in segments(field,*domain,clock24):
                                 points=examples(low,high,step); prepared=[]; accepted=True
                                 for value in points:
@@ -198,9 +216,9 @@ def generate():
                                     if not fits(text,secondary,label,numeric,labels,label_record['line_height'],w,h,radius,field['id']!='grade'): accepted=False
                                     prepared.append([value*1000 if field['format']=='duration' else value,text,secondary])
                                 if accepted:
-                                    if bands and abs(bands[-1]['max']+step-low)<0.000001: bands[-1]['max']=high
+                                    if bands and abs(bands[-1]['max']+min(previous_step,step)-low)<0.000001: bands[-1]['max']=high
                                     else: bands.append(dict(min=low,max=high))
-                                    samples.extend(prepared)
+                                    samples.extend(prepared); previous_step=step
                             samples=list({json.dumps(s):s for s in samples}.values())
                             context=dict(group=group['id'],enlarged=enlarged,statute=statute,headers_shown=shown,clock24=clock24,unit=unit,intervals=bands)
                             if not bands:

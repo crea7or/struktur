@@ -5,11 +5,14 @@ using Toybox.WatchUi;
 
 (:test)
 function floatingBoundaries(logger) {
-    Test.assertEqual("9.99",Formatting.floating(9.99));
-    Test.assertEqual("1000",Formatting.floating(999.999));
-    Test.assertEqual("-9.99",Formatting.floating(-9.99));
-    Test.assertEqual("overflow",Formatting.floating(100000.0));
+    var cases=[[0,"0.00"],[0.0049,"0.00"],[-0.0049,"0.00"],[0.005,"0.01"],[-0.005,"-0.01"],
+        [9.994,"9.99"],[9.995,"10.0"],[9.999,"10.0"],[10,"10.0"],[12.345,"12.3"],
+        [99.94,"99.9"],[99.95,"100"],[99.999,"100"],[100,"100"],[100.5,"101"],
+        [-9.99,"-9.99"],[-9.995,"-10.0"],[-99.94,"-99.9"],[-99.95,"-100"],[-100.5,"-101"],
+        [999.999,"1000"],[100000.0,"100000"],[-99999.5,"-100000"],[2147483648.0d,"2147483648"]];
+    for(var i=0;i<cases.size();i+=1) { Test.assertEqual(cases[i][1],Formatting.floating(cases[i][0])); }
     Test.assert(Formatting.floating(null)==null);
+    Test.assert(Formatting.floating(Math.acos(2.0))==null);
     Test.assertEqual(false,Numeric.finite("0"));
     Test.assertEqual(false,Numeric.finite(true));
     Test.assertEqual(false,Numeric.finite(Math.acos(2.0)));
@@ -193,5 +196,19 @@ function requestedFieldPrecision(logger) {
     Test.assertEqual("3281",imperial[:values][1][:text]);
     var negative=engine.prepareWithPreferences({"elevation"=>-12.5,"grade"=>-0.04},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
     Test.assertEqual("-13",negative[:values][1][:text]);Test.assertEqual("0.0",negative[:values][0][:text]);
+    // Conversion precedes magnitude selection; all speed assignments share the cached style.
+    var speedCases=[[0,"0.00"],[9.994,"9.99"],[9.996,"10.0"],[10,"10.0"],
+        [99.94,"99.9"],[99.96,"100"],[100,"100"],[200,"200"]];
+    for(var id=0;id<ids.size();id+=1) {
+        settings.apply({"slot_1_value"=>ids[id]});
+        for(var mode=0;mode<2;mode+=1) {
+            for(var point=0;point<speedCases.size();point+=1) {
+                var raw={};raw[ids[id]]=speedCases[point][0]/(mode==1?2.2369362921:3.6);
+                var result=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(mode==1,true,false),new PresentationClock());
+                Test.assertEqual(speedCases[point][1],result[:values][0][:text]);
+            }
+        }
+    }
+
     return true;
 }

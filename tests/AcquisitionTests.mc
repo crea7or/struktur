@@ -28,10 +28,10 @@ function gradeRegression(logger) {
     Test.assertEqual(-2.13d,g.push(-2.125d,100,2000,true,100));
     g.reset();g.push(1000000.0d,1000000000.0d,0,true,100);g.push(1000001.0d,1000000010.0d,1000,true,100);
     Test.assertEqual(10.0d,g.push(1000002.0d,1000000020.0d,2000,true,100));
-    Test.assertEqual("10.00",Formatting.floating(10));
+    Test.assertEqual("10.0",Formatting.floating(10));
     Test.assertEqual("-2.06",Formatting.floating(-2.06));
     Test.assertEqual("10000",Formatting.floating(9999.99));
-    Test.assertEqual("overflow",Formatting.floating(100000));
+    Test.assertEqual("100000",Formatting.floating(100000));
     Test.assertEqual("N",Formatting.cardinal(0.0));Test.assertEqual("NW",Formatting.cardinal(-45));
     Test.assert(Formatting.cardinal(null)==null);
     return true;

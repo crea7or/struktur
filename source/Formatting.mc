@@ -14,20 +14,20 @@ module Formatting {
         if(result==0) { result=0.0; }
         return result.format(precision==2?"%.2f":(precision==1?"%.1f":"%.0f"));
     }
+    // DVS-2: select decimal places by converted magnitude; promote on rounding carry.
     function floating(value) {
         if (!Numeric.finite(value)) { return null; }
-        for (var precision = 2; precision >= 0; precision -= 1) {
-            var scale = precision == 2 ? 100.0 : (precision == 1 ? 10.0 : 1.0);
-            // Avoid integer conversion until a bounded result is known.
-            if (value.abs() > 99999.5) { return "overflow"; }
-            var result = Numeric.rounded(value * scale) / scale;
-            // Do not show a negative zero after rounding.
-            if (result == 0) { result = 0.0; }
-            var pattern = precision == 2 ? "%.2f" : (precision == 1 ? "%.1f" : "%.0f");
-            var text = result.format(pattern);
-            if (text.length() <= 5) { return text; }
+        var magnitude=value.abs();
+        var precision=magnitude<10?2:(magnitude<100?1:0);
+        if(precision==0) { return integral(value); }
+        var scale=precision==2?100.0:10.0;
+        var result=Numeric.rounded(value*scale)/scale;
+        if(precision==2 && result.abs()>=10) {
+            precision=1;result=Numeric.rounded(value*10.0)/10.0;
         }
-        return "overflow";
+        if(precision==1 && result.abs()>=100) { return integral(value); }
+        if(result==0) { result=0.0; }
+        return result.format(precision==2?"%.2f":"%.1f");
     }
     function integral(value) {
         if (!Numeric.finite(value)) { return null; }

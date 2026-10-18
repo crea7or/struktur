@@ -41,10 +41,10 @@ function verifySnapshotSlotIsolation() {
     raw["current_speed"]=11;
     s.apply({"slot_1_value"=>"distance","slot_2_value"=>"current_speed"});
     var next=e.prepareWithPreferences(raw,s,true,d,null);
-    Test.assertEqual("20.00",next[:values][0][:text]);Test.assertEqual("39.6",next[:values][1][:text]);
+    Test.assertEqual("20.0",next[:values][0][:text]);Test.assertEqual("39.6",next[:values][1][:text]);
     d.distanceUnits=System.UNIT_STATUTE;
     next=e.prepareWithPreferences(raw,s,true,d,null);
-    Test.assertEqual("12.43",next[:values][0][:text]);Test.assertEqual("24.6",next[:values][1][:text]);
+    Test.assertEqual("12.4",next[:values][0][:text]);Test.assertEqual("24.6",next[:values][1][:text]);
     for(var i=0;i<64;i+=1) {
         s.apply({"slot_1_value"=>Catalog.IDS[i%Catalog.IDS.size()],"slot_2_value"=>"current_speed"});
         e.prepareWithPreferences(raw,s,true,d,null);
