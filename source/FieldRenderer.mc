@@ -118,33 +118,29 @@ class FieldRenderer {
     }
     function fitRun(cell,value,labelSize,text,unit) {
         fitCount+=1;
-        var lm=_labelMetrics;
         var labelFit=_headerFits.hasKey(value[:label])?_headerFits[value[:label]]:null;
         if(labelFit==null) {
-            labelFit=[FontMetrics.width(value[:label],lm),FontMetrics.bounds(value[:label],lm)[1]];
+            labelFit=[FontMetrics.width(value[:label],_labelMetrics),FontMetrics.bounds(value[:label],_labelMetrics)[1]];
             _headerFits[value[:label]]=labelFit;headerMeasures+=1;
         }
-        var radius=painted(value)?1:0; var margin=4+radius;
-        var labelBand=value[:band]!=null && value[:angle]==null && coverage(value)==1?_labelBandHeight:0;
-        if(labelFit[0]>cell[:w]-2*margin) { return null; }
-        var size=cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE;
-        if(size<=labelSize) { return null; }
-            var metrics=cell[:enlarged]?_bigMetrics:_regularMetrics; var ink=FontMetrics.bounds(text,metrics);
-            var valueWidth=FontMetrics.width(text,metrics);
-            var secondary=unit; var unitWidth=FontMetrics.width(secondary,lm);
-            var expanded=value.hasKey(:expandedUnit)?value[:expandedUnit]:null;
-            if(!PresentationPolicy.OVERFLOW.equals(text) && expanded!=null && valueWidth+FontMetrics.width(expanded,lm)+2<=cell[:w]-2*margin) {
-                secondary=expanded;unitWidth=FontMetrics.width(secondary,lm);
-            }
-            var total=valueWidth+(unitWidth>0?unitWidth+2:0);
-            var top=Numeric.rounded(_headerHeight+(cell[:h]-_headerHeight-(ink[1]-ink[0]))/2.0);
-            var unitInk=FontMetrics.bounds(secondary,lm);
-            var secondaryHeight=unitInk[1]-unitInk[0];
-            if(total<=cell[:w]-2*margin && top>=labelBand && top-radius>=_headerHeight && top-radius>=4+labelFit[1]+radius+2 &&
-                top+ink[1]-ink[0]+radius<=cell[:h] && top+secondaryHeight+radius<=cell[:h]) {
-                var fitted=new FittedRun(size,text,secondary,valueWidth,unitWidth,total,top,ink,unitInk);
-                fitted.margin=margin;fitted.radius=radius;fitted.labelBand=labelBand;return fitted;
-            }
+        // Keep fitting state in the result object: this path also runs inside
+        // settings and typed-lap callbacks with a small VM operand stack.
+        var run=new FittedRun(cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,text,unit,0,0,0,0,null,null);
+        run.radius=painted(value)?1:0;run.margin=4+run.radius;
+        run.labelBand=value[:band]!=null && value[:angle]==null && coverage(value)==1?_labelBandHeight:0;
+        if(labelFit[0]>cell[:w]-2*run.margin || run.size<=labelSize) { return null; }
+        var metrics=cell[:enlarged]?_bigMetrics:_regularMetrics;
+        run.ink=FontMetrics.bounds(text,metrics);run.width=FontMetrics.width(text,metrics);
+        run.unitWidth=FontMetrics.width(run.unit,_labelMetrics);
+        var expanded=value.hasKey(:expandedUnit)?value[:expandedUnit]:null;
+        if(!PresentationPolicy.OVERFLOW.equals(text) && expanded!=null && run.width+FontMetrics.width(expanded,_labelMetrics)+2<=cell[:w]-2*run.margin) {
+            run.unit=expanded;run.unitWidth=FontMetrics.width(expanded,_labelMetrics);
+        }
+        run.total=run.width+(run.unitWidth>0?run.unitWidth+2:0);
+        run.top=Numeric.rounded(_headerHeight+(cell[:h]-_headerHeight-(run.ink[1]-run.ink[0]))/2.0);
+        run.unitInk=FontMetrics.bounds(run.unit,_labelMetrics);
+        if(run.total<=cell[:w]-2*run.margin && run.top>=run.labelBand && run.top-run.radius>=_headerHeight && run.top-run.radius>=4+labelFit[1]+run.radius+2 &&
+            run.top+run.ink[1]-run.ink[0]+run.radius<=cell[:h] && run.top+run.unitInk[1]-run.unitInk[0]+run.radius<=cell[:h]) { return run; }
         return null;
     }
     function plan(rows) {
@@ -171,7 +167,7 @@ class FieldRenderer {
         var width=dc.getWidth();var height=dc.getHeight();
         if(_width!=width || _height!=height) { _geometryDirty=true;_needsLayout=true; }
         _width=width;_height=height;configure(settings);
-        if(_needsLayout) { rebuild(); }
+        if(_needsLayout) { rebuild();prepareGeometry(); }
     }
     function configure(settings) {
         if(_configuredEnlarged!=settings.enlarged) {
@@ -235,7 +231,6 @@ class FieldRenderer {
         }
         _fonts=nextFonts; // discard unused handles, bounded by visible selected variants
         _needsLayout=false;
-        prepareGeometry();
     }
     function prepare(snapshot) {
         _dirtyCount=0;var headersChanged=false;
@@ -273,7 +268,8 @@ class FieldRenderer {
             if(_cells.size()!=_nativeCapacity) { _needsLayout=true; }
             else { refreshRuns(); }
         }
-        if(_needsLayout) { rebuild(); } else { prepareGeometry(); }
+        if(_needsLayout) { rebuild(); }
+        prepareGeometry();
     }
     function refreshRuns() {
         for(var n=0;n<_dirtyCount;n+=1) {

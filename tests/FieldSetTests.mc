@@ -38,7 +38,7 @@ function secondarySettingsAndMigration(logger) {
         "second_alignment"=>1,"second_slot_1_value"=>"lap_power","second_slot_10_value"=>"future-field",
         "second_slot_1_background_effects"=>true,"second_enlarged_field_count"=>2,"second_hide_value_units"=>false};
     var s=secondSetConfiguration(saved);
-    Test.assertEqual(123,SettingsCatalogue.keys().size());
+    Test.assertEqual(85,SettingsCatalogue.keys().size());
     Test.assertEqual("center",s.primary.alignment);Test.assertEqual("right",s.secondary.alignment);
     Test.assertEqual("battery",s.primary.slots[9]);Test.assert(s.primary.effects[9]);
     Test.assertEqual("lap_power",s.secondary.slots[0]);Test.assertEqual("future-field",s.secondary.slots[9]);
@@ -234,9 +234,81 @@ class TeamLapCallbackScenario {
         dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
         field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);
         for(var event=0;event<4;event+=1) {
-            if(field.typedLapSupported()) { field.onLapNotification(true); } else { field.onTimerLap(); }
+            if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
             Test.assertEqual(event%2==0,field._fieldSets.second);field.method(:onLayout).invoke(dc);field.method(:onUpdate).invoke(dc);
             Test.assert(field._renderer._runs[0].isNative);Test.assertEqual("TEAM",field._renderer._runs[0].text);
         }
     }
 }
+
+// Exercise the complete callback after layout with native text AND sprite values.
+(:testSupport)
+class MixedTeamLapCallbackScenario {
+    var field;var props;var configuration;var dc;
+    function initialize() {
+        props={"second_set_trigger"=>3,"slot_1_value"=>32,"slot_2_value"=>32,"second_slot_1_value"=>32,"slot_1_team_text"=>"TEAM RIDE"};
+        dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
+    }
+    function run() {
+        field=new TeamLapField();
+        for(var shape=0;shape<3;shape+=1) {
+            for(var mode=0;mode<3;mode+=1) {
+                props["enlarged_field_count"]=shape;props["second_enlarged_field_count"]=2-shape;
+                props["alignment"]=shape%2;props["second_alignment"]=1-shape%2;
+                props["slot_1_background_mode"]=mode;props["second_slot_1_background_mode"]=mode;
+                configuration=new FieldSetsSettings();configuration.apply(props);field.applyFieldSets(configuration);
+                field.method(:onLayout).invoke(dc);field.onTimerStart();
+                for(var event=0;event<4;event+=1) {
+                    if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
+                    Test.assertEqual(event%2==0,field._fieldSets.second);
+                    field.method(:onUpdate).invoke(dc);
+                    Test.assert(field._renderer._runs[0].isNative);Test.assertEqual("TEAM RIDE",field._renderer._runs[0].text);
+                    Test.assert(!field._renderer._runs[2].isNative);Test.assert(field._renderer._packets[0].lines.size()>0);
+                    Test.assert(field._renderer._packets[2].primary!=null);
+                }
+            }
+        }
+    }
+}
+// Real Garmin Properties bridge and app callback; restore the test app's values.
+(:testSupport)
+class NativeSettingsCallbackScenario {
+    var app;var oldView;var saved={};var props;var field;var dc;var loaded;
+    function initialize() {
+        props={"slot_1_value"=>32,"slot_2_value"=>32,"slot_1_team_text"=>"NATIVE TEAM","team_font"=>9,"team_color_source"=>2,"alignment"=>0,"grid_type"=>2,"second_set_trigger"=>3,"second_slot_1_value"=>32};
+    }
+    function run() {
+        app=Toybox.Application.getApp();oldView=app._view;
+        // Migration can update hidden coverage/schema declarations too.
+        var keys=SettingsCatalogue.keys();for(var i=0;i<keys.size();i+=1) { saved[keys[i]]=Toybox.Application.Properties.getValue(keys[i]); }
+        try {
+            field=new TeamLapField();app._view=field;dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
+            field.method(:onLayout).invoke(dc);
+            keys=props.keys();for(var i=0;i<keys.size();i+=1) { Toybox.Application.Properties.setValue(keys[i],props[keys[i]]); }
+            app.onSettingsChanged();field.method(:onUpdate).invoke(dc);
+            Test.assertEqual("team",field._settings.slots[0]);Test.assertEqual("team",field._settings.slots[1]);
+            Test.assertEqual(9,field._settings.teamFont);Test.assertEqual(2,field._settings.teamSource);
+            Test.assertEqual("NATIVE TEAM",field._snapshot[:values][1][:text]);Test.assert(field._renderer._runs[0].isNative);
+            Test.assertEqual("center",field._settings.alignment);Test.assertEqual("full",field._settings.gridType);
+            field.onTimerStart();
+            if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
+            Test.assert(field._fieldSets.second);
+            Toybox.Application.Properties.setValue("slot_1_team_text","UPDATED TEAM");
+            Toybox.Application.Properties.setValue("team_font",0);Toybox.Application.Properties.setValue("team_color_source",1);app.onSettingsChanged();
+            Test.assert(field._fieldSets.second);Test.assertEqual("UPDATED TEAM",field._snapshot[:values][0][:text]);
+            loaded=new FieldSetsSettings();loaded.load();
+            Test.assertEqual(0,loaded.primary.teamFont);Test.assertEqual(0,loaded.secondary.teamFont);
+            Test.assertEqual(1,loaded.primary.teamSource);Test.assertEqual(1,loaded.secondary.teamSource);
+            Test.assertEqual("UPDATED TEAM",loaded.primary.teamText);Test.assertEqual("UPDATED TEAM",loaded.secondary.teamText);
+            Test.assertEqual("team",loaded.primary.slots[1]);
+        } finally {
+            app._view=oldView;
+            keys=saved.keys();for(var i=0;i<keys.size();i+=1) { Toybox.Application.Properties.setValue(keys[i],saved[keys[i]]); }
+        }
+    }
+}
+
+(:test)
+function mixedTeamLapCallbacks(logger) { new MixedTeamLapCallbackScenario().run();return true; }
+(:test)
+function nativeSettingsCallbacks(logger) { new NativeSettingsCallbackScenario().run();return true; }

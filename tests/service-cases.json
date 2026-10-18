@@ -236,7 +236,7 @@
       ],
       "procedure": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-32": 77,
+        "APP-32": 79,
         "APP-45": 56,
         "DVS-51": 74
       },
@@ -306,8 +306,8 @@
       "requirement_revisions": {
         "APP-21": 95,
         "APP-24": 77,
-        "APP-26": 84,
-        "APP-32": 77,
+        "APP-26": 86,
+        "APP-32": 79,
         "APP-34": 97,
         "APP-36": 80,
         "APP-49": 89,
@@ -322,7 +322,7 @@
         "DVS-23": 54,
         "DVS-24": 46,
         "DVS-25": 44,
-        "DVS-26": 44,
+        "DVS-26": 48,
         "DVS-27": 38,
         "DVS-28": 38,
         "DVS-29": 156,
@@ -349,7 +349,7 @@
         "SPEC-157": 71,
         "SPEC-235": 34,
         "SPEC-249": 17,
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "definition": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
       "stable_id": "TUI-1",
@@ -563,7 +563,7 @@
       ],
       "procedure": "Purpose: Data Field callbacks preserve lap continuity.\n\nRequirement references: [[APP-32]], [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `datafieldCallbackIsolation`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-32": 77,
+        "APP-32": 79,
         "DVS-39": 120,
         "FUNC-9": 36
       },
@@ -708,7 +708,7 @@
       "revision": 20,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-26": 44,
+        "DVS-26": 48,
         "DVS-29": 156,
         "DVS-8": 55,
         "DVS-9": 45,
@@ -863,7 +863,7 @@
       "revision": 11,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 84,
+        "APP-26": 86,
         "APP-36": 80,
         "DVS-29": 156,
         "DVS-6": 101
@@ -893,8 +893,8 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-22": 64,
-        "APP-26": 84,
-        "APP-32": 77,
+        "APP-26": 86,
+        "APP-32": 79,
         "HFER-7": 23,
         "HFER-8": 23,
         "SPEC-155": 106
@@ -1114,7 +1114,7 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 84,
+        "APP-26": 86,
         "DVS-32": 57,
         "DVS-4": 50,
         "DVS-50": 61
@@ -1141,8 +1141,8 @@
       "revision": 19,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 84,
-        "APP-32": 77,
+        "APP-26": 86,
+        "APP-32": 79,
         "DVS-29": 156
       },
       "suite_stable_id": "TRGR-1"
@@ -1166,7 +1166,7 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 84,
+        "APP-26": 86,
         "APP-37": 35,
         "DVS-35": 47
       },
@@ -1242,7 +1242,7 @@
       "requirement_revisions": {
         "APP-24": 77,
         "APP-25": 39,
-        "APP-26": 84,
+        "APP-26": 86,
         "APP-34": 97
       },
       "suite_stable_id": "TRGR-2"
@@ -1348,15 +1348,15 @@
         "SPEC-243"
       ],
       "title": "Core: verify second-set settings, defaults and migration",
-      "definition": "Core definition; not executed here. Verify every bank-scoped property and its exact second_ counterpart, plus each global trigger/threshold/cadence/Team text/schema property, against the owning option requirements. Derive and compare complete active/hidden counts, including compatibility keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and Team font availability. Preserve all valid saved settings through the migration Tests.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
-      "procedure": "Core definition; not executed here. Verify every bank-scoped property and its exact second_ counterpart, plus each global trigger/threshold/cadence/Team text/schema property, against the owning option requirements. Derive and compare complete active/hidden counts, including compatibility keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and Team font availability. Preserve all valid saved settings through the migration Tests.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
-      "revision": 19,
+      "definition": "Core definition; not executed here. Verify every bank-scoped property and its exact second_ counterpart, plus each global trigger/threshold/cadence/Team text/font/color-source/schema property, against the owning option requirements. Derive and compare complete active/hidden counts, including compatibility keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and Team font availability. Preserve all valid saved settings through the migration Tests.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
+      "procedure": "Core definition; not executed here. Verify every bank-scoped property and its exact second_ counterpart, plus each global trigger/threshold/cadence/Team text/font/color-source/schema property, against the owning option requirements. Derive and compare complete active/hidden counts, including compatibility keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and Team font availability. Preserve all valid saved settings through the migration Tests.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
+      "revision": 20,
       "status": "draft",
       "requirement_revisions": {
         "APP-31": 109,
-        "SPEC-208": 20,
+        "SPEC-208": 21,
         "SPEC-209": 64,
-        "SPEC-210": 22,
+        "SPEC-210": 23,
         "SPEC-211": 17,
         "SPEC-212": 10,
         "SPEC-243": 21
@@ -1406,14 +1406,14 @@
         "SPEC-218"
       ],
       "title": "Core: verify manual-lap adapters and exactly-once boundaries",
-      "definition": "Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.",
-      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.",
-      "revision": 7,
+      "definition": "Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.\nAfter native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0/1/2 enlarged fields, both alignments and all coverage modes. Repeated manual toggles must prepare drawable headers/values without stack overflow; do not substitute onLapNotification for the typed entry point.",
+      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.\nAfter native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0/1/2 enlarged fields, both alignments and all coverage modes. Repeated manual toggles must prepare drawable headers/values without stack overflow; do not substitute onLapNotification for the typed entry point.",
+      "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 84,
-        "SPEC-217": 7,
-        "SPEC-218": 8
+        "APP-26": 86,
+        "SPEC-217": 8,
+        "SPEC-218": 9
       }
     },
     {
@@ -1461,8 +1461,8 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 84,
-        "SPEC-208": 20,
+        "APP-26": 86,
+        "SPEC-208": 21,
         "SPEC-220": 12,
         "SPEC-221": 13,
         "SPEC-222": 11
@@ -1485,7 +1485,7 @@
       "revision": 12,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 84
+        "APP-26": 86
       }
     },
     {
@@ -1506,7 +1506,7 @@
       "revision": 4,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-208": 20,
+        "SPEC-208": 21,
         "SPEC-222": 11
       }
     },
@@ -1531,8 +1531,8 @@
       "requirement_revisions": {
         "APP-46": 71,
         "SPEC-155": 106,
-        "SPEC-210": 22,
-        "SPEC-253": 26
+        "SPEC-210": 23,
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-286"
     },
@@ -1620,7 +1620,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 84
+        "APP-26": 86
       },
       "stable_id": "SPEC-275"
     },
@@ -1795,8 +1795,8 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 84,
-        "APP-32": 77
+        "APP-26": 86,
+        "APP-32": 79
       },
       "stable_id": "SPEC-271"
     },
@@ -1826,9 +1826,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team text options",
-      "definition": "Suite: Core. Check exactly one Team text edit control before every slot control, with no second-set copy. Verify default, empty, 32/33 characters, spaces/case, wrong types and non-ASCII input. Retain the old first-slot text key; ignore other legacy text keys without changing stored data. Select Team in duplicate, hidden and reassigned slots in both banks: every Team value uses the shared string after edits, reload and switches; slot font/binding remain independent.",
-      "procedure": "Suite: Core. Check exactly one Team text edit control before every slot control, with no second-set copy. Verify default, empty, 32/33 characters, spaces/case, wrong types and non-ASCII input. Retain the old first-slot text key; ignore other legacy text keys without changing stored data. Select Team in duplicate, hidden and reassigned slots in both banks: every Team value uses the shared string after edits, reload and switches; slot font/binding remain independent.",
-      "revision": 6,
+      "definition": "Suite: Core. Check exactly three shared Team controls before every slot control: Team name, Team font, Team color source, with no per-slot or second-set copies. Verify Slot N captions for all slot options. Verify default, empty, 32/33 characters, spaces/case, wrong types and non-ASCII input. Retain the old first-slot text key; ignore other legacy text keys without changing stored data. Select Team in duplicate, hidden and reassigned slots in both banks: every Team value uses the shared string after edits, reload and switches; font and color source stay shared while slot coverage remains independent.",
+      "procedure": "Suite: Core. Check exactly three shared Team controls before every slot control: Team name, Team font, Team color source, with no per-slot or second-set copies. Verify Slot N captions for all slot options. Verify default, empty, 32/33 characters, spaces/case, wrong types and non-ASCII input. Retain the old first-slot text key; ignore other legacy text keys without changing stored data. Select Team in duplicate, hidden and reassigned slots in both banks: every Team value uses the shared string after edits, reload and switches; font and color source stay shared while slot coverage remains independent.",
+      "revision": 7,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -1836,7 +1836,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-287"
     },
@@ -1856,7 +1856,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-288"
     },
@@ -1866,9 +1866,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team preparation invalidation",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and shared-text and isolated slot font/bounds/source/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples. A shared-text change invalidates every affected Team presentation; earlier snapshots retain their old text.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and shared-text and isolated slot font/bounds/source/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples. A shared-text change invalidates every affected Team presentation; earlier snapshots retain their old text.",
-      "revision": 6,
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and shared text/font/source edits and isolated slot bounds/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples. Shared text/font/source changes update every affected Team presentation; earlier snapshots retain their old content.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and shared text/font/source edits and isolated slot bounds/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples. Shared text/font/source changes update every affected Team presentation; earlier snapshots retain their old content.",
+      "revision": 7,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -1876,7 +1876,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 84
+        "APP-26": 86
       },
       "stable_id": "SPEC-299"
     },
@@ -1902,7 +1902,7 @@
         "DVS-12": 111,
         "DVS-50": 61,
         "SPEC-156": 21,
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-289"
     },
@@ -1912,9 +1912,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team settings isolation",
-      "definition": "Suite: Core. Use one shared Team name with different slot fonts/bindings in both banks. Hide/reassign duplicate slots, disable the second set, switch banks and reload: text stays shared, font/binding remain independent, and inactive or retired text keys cannot override it. Preserve saved values without copying slot-specific styles.",
-      "procedure": "Suite: Core. Use one shared Team name with different slot fonts/bindings in both banks. Hide/reassign duplicate slots, disable the second set, switch banks and reload: text stays shared, font/binding remain independent, and inactive or retired text keys cannot override it. Preserve saved values without copying slot-specific styles.",
-      "revision": 7,
+      "definition": "Suite: Core. Set different retired per-slot Team font/color keys, then set one shared Team text/font/color source. Hide/reassign duplicate slots, disable the second set, switch banks and reload: all Team slots retain the shared values; retired keys cannot override them. Slot assignments and coverage remain independent.",
+      "procedure": "Suite: Core. Set different retired per-slot Team font/color keys, then set one shared Team text/font/color source. Hide/reassign duplicate slots, disable the second set, switch banks and reload: all Team slots retain the shared values; retired keys cannot override them. Slot assignments and coverage remain independent.",
+      "revision": 8,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -1923,8 +1923,8 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-208": 20,
-        "SPEC-253": 26
+        "SPEC-208": 21,
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-290",
       "additional_executable_checks": [
@@ -1956,7 +1956,7 @@
       "requirement_revisions": {
         "APP-21": 95,
         "APP-34": 97,
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-291"
     },
@@ -1978,7 +1978,7 @@
       ],
       "requirement_revisions": {
         "APP-25": 39,
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-292"
     },
@@ -1998,7 +1998,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-293"
     },
@@ -2018,7 +2018,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-294"
     },
@@ -2044,7 +2044,7 @@
         "APP-38": 55,
         "SPEC-176": 26,
         "SPEC-177": 34,
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-297"
     },
@@ -2064,7 +2064,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-298"
     },
@@ -2168,7 +2168,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 84
+        "APP-26": 86
       },
       "stable_id": "SPEC-283"
     },
@@ -2241,7 +2241,7 @@
         "DVS-23": 54,
         "DVS-24": 46,
         "DVS-25": 44,
-        "DVS-26": 44,
+        "DVS-26": 48,
         "DVS-27": 38,
         "DVS-28": 38,
         "DVS-33": 42,
@@ -2332,9 +2332,53 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 26
+        "SPEC-253": 32
       },
       "stable_id": "SPEC-295"
+    },
+    {
+      "stable_id": "TSTFUNC-2",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "source": "tests/FieldSetTests.mc",
+      "function": "mixedTeamLapCallbacks",
+      "requirements": [
+        "APP-26",
+        "SPEC-217",
+        "SPEC-218",
+        "SPEC-253"
+      ],
+      "title": "Mixed Team and metric layouts through typed lap callbacks",
+      "definition": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.",
+      "procedure": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.",
+      "revision": 5,
+      "status": "draft",
+      "requirement_revisions": {
+        "APP-26": 86,
+        "SPEC-217": 8,
+        "SPEC-218": 9,
+        "SPEC-253": 32
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-3",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "source": "tests/FieldSetTests.mc",
+      "function": "nativeSettingsCallbacks",
+      "requirements": [
+        "APP-32",
+        "SPEC-253"
+      ],
+      "title": "Native properties persistence and settings callback",
+      "definition": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/font/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.",
+      "procedure": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/font/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.",
+      "revision": 7,
+      "status": "draft",
+      "requirement_revisions": {
+        "APP-32": 79,
+        "SPEC-253": 32
+      }
     }
   ],
   "baseline_id": null,

@@ -222,13 +222,14 @@ function verifyTeamOptions() {
     Test.assertEqual("",TeamOptions.text(""));Test.assertEqual("  Aa!  ",TeamOptions.text("  Aa!  "));
     Test.assertEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef",TeamOptions.text("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"));
     for(var start=0;start<TeamOptions.REPERTOIRE.length();start+=1) { Test.assertEqual(TeamOptions.REPERTOIRE.substring(start,start+1),TeamOptions.text(TeamOptions.REPERTOIRE.substring(start,start+1))); }
-    var props={"slot_1_team_text"=>"ONE","slot_1_team_font"=>9,"slot_1_team_color_source"=>2,
+    var props={"slot_1_team_text"=>"ONE","team_font"=>9,"team_color_source"=>2,
+        "slot_1_team_font"=>4,"slot_1_team_color_source"=>1,
         "slot_2_team_text"=>"IGNORED","second_slot_1_team_text"=>"TWO","second_slot_10_team_text"=>" HIDDEN ",
         "second_slot_1_team_font"=>7,"second_slot_1_team_color_source"=>1};
     var banks=new FieldSetsSettings();banks.apply(props);
     Test.assertEqual("ONE",banks.primary.teamText);Test.assertEqual("ONE",banks.secondary.teamText);
-    Test.assertEqual(9,banks.primary.teamFonts[0]);Test.assertEqual(7,banks.secondary.teamFonts[0]);
-    Test.assertEqual(2,banks.primary.teamSources[0]);Test.assertEqual(1,banks.secondary.teamSources[0]);
+    Test.assertEqual(9,banks.primary.teamFont);Test.assertEqual(9,banks.secondary.teamFont);
+    Test.assertEqual(2,banks.primary.teamSource);Test.assertEqual(2,banks.secondary.teamSource);
     props["slot_1_value"]="team";props["slot_2_value"]="team";props["second_slot_10_value"]="team";
     props["slot_1_team_text"]=" SAME TEAM ";banks.apply(props);
     Test.assertEqual(" SAME TEAM ",banks.primary.teamText);Test.assertEqual(" SAME TEAM ",banks.secondary.teamText);

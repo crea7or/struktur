@@ -182,8 +182,8 @@ class MemoryValidationField extends StrukturField {
             next.slots[slot]=selected;
             next.effects[slot]=slot%2==0 || index%2==0;
             next.modes[slot]=next.effects[slot]?((slot+index)%3==0?2:1):0;
-            next.teamFonts[slot]=(index+slot)%10;next.teamSources[slot]=slot%3;
         }
+        next.teamFont=index%10;next.teamSource=index%3;
         next.teamText=index%2==0?"TEAM":"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";
         if(index%17==0) { next.slots[9]="unknown-validation-value"; }
         if(index%19==0) { next.slots[0]="current_power";next.slots[1]="current_power"; }

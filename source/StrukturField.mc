@@ -75,10 +75,16 @@ class StrukturField extends LapAwareDataField {
     function onTimerLap() { onLapNotification(!typedLapSupported()); }
     function onLapNotification(manual) {
         var info=null;try { info=Activity.getActivityInfo(); } catch(e) {}
-        handleLap(info,manual);
+        recordLap(info,manual);refreshPresentation();WatchUi.requestUpdate();
     }
     function handleLap(info,manual) {
-        _acquisition.boundary(info);_fieldSets.lap(manual);refreshLaps();WatchUi.requestUpdate();
+        recordLap(info,manual);refreshPresentation();WatchUi.requestUpdate();
+    }
+    // Finish lap mutations before entering the fitting/drawing preparation stack.
+    function recordLap(info,manual) {
+        _acquisition.boundary(info);_fieldSets.lap(manual);
+        _snapshot[:raw]["completed_laps"]=_acquisition.laps.value();
+        _acquisition.currentLap.publish(_snapshot[:raw]);
     }
     function refreshLaps() {
         _snapshot[:raw]["completed_laps"]=_acquisition.laps.value();

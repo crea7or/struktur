@@ -38,7 +38,7 @@
     <string id="SecondSetTitle" scope="settings">Second field set</string>
     <string id="SecondSetDescription" scope="settings">Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.</string>
     <string id="CadenceZonesTitle" scope="settings">Cadence coloring zones</string>
-    <string id="Setting_enlarged_field_count" scope="settings">Enlarged field count</string>
+    <string id="Setting_enlarged_field_count" scope="settings">Enlarged slot count</string>
     <string id="Choice_0" scope="settings">0</string>
     <string id="Choice_1" scope="settings">1</string>
     <string id="Choice_2" scope="settings">2</string>
@@ -50,14 +50,22 @@
     <string id="Choice_day" scope="settings">Day</string>
     <string id="Choice_night" scope="settings">Night</string>
     <string id="Setting_hide_value_units" scope="settings">Hide physical units in headers</string>
-    <string id="Setting_inverse_enlarged_theme" scope="settings">Inverse theme for enlarged fields</string>
+    <string id="Setting_inverse_enlarged_theme" scope="settings">Inverse theme for enlarged slots</string>
     <string id="Setting_grid_type" scope="settings">Grid type</string>
     <string id="Choice_grid_type_none" scope="settings">None</string>
     <string id="Choice_grid_type_horizontal" scope="settings">Horizontal lines</string>
     <string id="Choice_grid_type_full" scope="settings">Full grid</string>
     <string id="Setting_slot_1_team_text" scope="settings">Team name</string>
     <string id="Prompt_slot_1_team_text" scope="settings">Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.</string>
-    <string id="Setting_slot_1_value" scope="settings">Slot 1 value</string>
+    <string id="Setting_team_font" scope="settings">Team font</string>
+    <string id="Prompt_team_font" scope="settings">Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic.</string>
+    <string id="Choice_team_font_0" scope="settings">Automatic</string>
+    <string id="Setting_team_color_source" scope="settings">Team color source</string>
+    <string id="Prompt_team_color_source" scope="settings">Shared by all Team slots in both sets.</string>
+    <string id="Choice_team_color_source_0" scope="settings">None</string>
+    <string id="Choice_team_color_source_1" scope="settings">Power</string>
+    <string id="Choice_team_color_source_2" scope="settings">Heart rate</string>
+    <string id="Setting_slot_1_value" scope="settings">Slot 1: value</string>
     <string id="Choice_current_speed" scope="settings">speed</string>
     <string id="Choice_average_speed" scope="settings">average speed</string>
     <string id="Choice_current_cadence" scope="settings">cadence</string>
@@ -91,125 +99,55 @@
     <string id="Choice_lap_power" scope="settings">lap watts</string>
     <string id="Choice_lap_cadence" scope="settings">lap cadence</string>
     <string id="Choice_team" scope="settings">team</string>
-    <string id="Setting_slot_1_background_mode" scope="settings">Field 1: background coverage</string>
+    <string id="Setting_slot_1_background_mode" scope="settings">Slot 1: background coverage</string>
     <string id="Choice_slot_1_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_1_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_1_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_1_team_font" scope="settings">Field 1: Team font</string>
-    <string id="Prompt_slot_1_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_1_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_1_team_color_source" scope="settings">Field 1: Team color source</string>
-    <string id="Choice_slot_1_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_1_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_1_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_2_value" scope="settings">Slot 2 value</string>
-    <string id="Setting_slot_2_background_mode" scope="settings">Field 2: background coverage</string>
+    <string id="Setting_slot_2_value" scope="settings">Slot 2: value</string>
+    <string id="Setting_slot_2_background_mode" scope="settings">Slot 2: background coverage</string>
     <string id="Choice_slot_2_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_2_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_2_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_2_team_font" scope="settings">Field 2: Team font</string>
-    <string id="Prompt_slot_2_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_2_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_2_team_color_source" scope="settings">Field 2: Team color source</string>
-    <string id="Choice_slot_2_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_2_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_2_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_3_value" scope="settings">Slot 3 value</string>
-    <string id="Setting_slot_3_background_mode" scope="settings">Field 3: background coverage</string>
+    <string id="Setting_slot_3_value" scope="settings">Slot 3: value</string>
+    <string id="Setting_slot_3_background_mode" scope="settings">Slot 3: background coverage</string>
     <string id="Choice_slot_3_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_3_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_3_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_3_team_font" scope="settings">Field 3: Team font</string>
-    <string id="Prompt_slot_3_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_3_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_3_team_color_source" scope="settings">Field 3: Team color source</string>
-    <string id="Choice_slot_3_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_3_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_3_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_4_value" scope="settings">Slot 4 value</string>
-    <string id="Setting_slot_4_background_mode" scope="settings">Field 4: background coverage</string>
+    <string id="Setting_slot_4_value" scope="settings">Slot 4: value</string>
+    <string id="Setting_slot_4_background_mode" scope="settings">Slot 4: background coverage</string>
     <string id="Choice_slot_4_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_4_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_4_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_4_team_font" scope="settings">Field 4: Team font</string>
-    <string id="Prompt_slot_4_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_4_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_4_team_color_source" scope="settings">Field 4: Team color source</string>
-    <string id="Choice_slot_4_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_4_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_4_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_5_value" scope="settings">Slot 5 value</string>
-    <string id="Setting_slot_5_background_mode" scope="settings">Field 5: background coverage</string>
+    <string id="Setting_slot_5_value" scope="settings">Slot 5: value</string>
+    <string id="Setting_slot_5_background_mode" scope="settings">Slot 5: background coverage</string>
     <string id="Choice_slot_5_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_5_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_5_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_5_team_font" scope="settings">Field 5: Team font</string>
-    <string id="Prompt_slot_5_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_5_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_5_team_color_source" scope="settings">Field 5: Team color source</string>
-    <string id="Choice_slot_5_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_5_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_5_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_6_value" scope="settings">Slot 6 value</string>
-    <string id="Setting_slot_6_background_mode" scope="settings">Field 6: background coverage</string>
+    <string id="Setting_slot_6_value" scope="settings">Slot 6: value</string>
+    <string id="Setting_slot_6_background_mode" scope="settings">Slot 6: background coverage</string>
     <string id="Choice_slot_6_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_6_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_6_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_6_team_font" scope="settings">Field 6: Team font</string>
-    <string id="Prompt_slot_6_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_6_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_6_team_color_source" scope="settings">Field 6: Team color source</string>
-    <string id="Choice_slot_6_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_6_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_6_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_7_value" scope="settings">Slot 7 value</string>
-    <string id="Setting_slot_7_background_mode" scope="settings">Field 7: background coverage</string>
+    <string id="Setting_slot_7_value" scope="settings">Slot 7: value</string>
+    <string id="Setting_slot_7_background_mode" scope="settings">Slot 7: background coverage</string>
     <string id="Choice_slot_7_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_7_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_7_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_7_team_font" scope="settings">Field 7: Team font</string>
-    <string id="Prompt_slot_7_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_7_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_7_team_color_source" scope="settings">Field 7: Team color source</string>
-    <string id="Choice_slot_7_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_7_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_7_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_8_value" scope="settings">Slot 8 value</string>
-    <string id="Setting_slot_8_background_mode" scope="settings">Field 8: background coverage</string>
+    <string id="Setting_slot_8_value" scope="settings">Slot 8: value</string>
+    <string id="Setting_slot_8_background_mode" scope="settings">Slot 8: background coverage</string>
     <string id="Choice_slot_8_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_8_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_8_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_8_team_font" scope="settings">Field 8: Team font</string>
-    <string id="Prompt_slot_8_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_8_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_8_team_color_source" scope="settings">Field 8: Team color source</string>
-    <string id="Choice_slot_8_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_8_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_8_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_9_value" scope="settings">Slot 9 value</string>
-    <string id="Setting_slot_9_background_mode" scope="settings">Field 9: background coverage</string>
+    <string id="Setting_slot_9_value" scope="settings">Slot 9: value</string>
+    <string id="Setting_slot_9_background_mode" scope="settings">Slot 9: background coverage</string>
     <string id="Choice_slot_9_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_9_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_9_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_9_team_font" scope="settings">Field 9: Team font</string>
-    <string id="Prompt_slot_9_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_9_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_9_team_color_source" scope="settings">Field 9: Team color source</string>
-    <string id="Choice_slot_9_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_9_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_9_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_slot_10_value" scope="settings">Slot 10 value</string>
-    <string id="Setting_slot_10_background_mode" scope="settings">Field 10: background coverage</string>
+    <string id="Setting_slot_10_value" scope="settings">Slot 10: value</string>
+    <string id="Setting_slot_10_background_mode" scope="settings">Slot 10: background coverage</string>
     <string id="Choice_slot_10_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_10_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_10_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_10_team_font" scope="settings">Field 10: Team font</string>
-    <string id="Prompt_slot_10_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_slot_10_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_slot_10_team_color_source" scope="settings">Field 10: Team color source</string>
-    <string id="Choice_slot_10_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_slot_10_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_slot_10_team_color_source_2" scope="settings">Heart rate</string>
     <string id="Setting_cadence_zone_1_max_rpm" scope="settings">Cadence zone 1: upper rpm</string>
     <string id="Prompt_cadence_zone_1_max_rpm" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
     <string id="Setting_cadence_zone_2_max_rpm" scope="settings">Cadence zone 2: upper rpm</string>
@@ -233,134 +171,64 @@
     <string id="Prompt_second_hr_activate_bpm" scope="settings">Heart rate mode only. Return threshold must be less than or equal to activation.</string>
     <string id="Setting_second_hr_return_bpm" scope="settings">Heart rate: return below (bpm)</string>
     <string id="Prompt_second_hr_return_bpm" scope="settings">Heart rate mode only. Return threshold must be less than or equal to activation.</string>
-    <string id="Setting_second_enlarged_field_count" scope="settings">Second set: Enlarged field count</string>
+    <string id="Setting_second_enlarged_field_count" scope="settings">Second set: Enlarged slot count</string>
     <string id="Setting_second_alignment" scope="settings">Second set: Alignment</string>
     <string id="Setting_second_theme_mode" scope="settings">Second set: Theme mode</string>
     <string id="Setting_second_hide_value_units" scope="settings">Second set: Hide physical units in headers</string>
-    <string id="Setting_second_inverse_enlarged_theme" scope="settings">Second set: Inverse theme for enlarged fields</string>
+    <string id="Setting_second_inverse_enlarged_theme" scope="settings">Second set: Inverse theme for enlarged slots</string>
     <string id="Setting_second_grid_type" scope="settings">Second set: Grid type</string>
     <string id="Choice_second_grid_type_none" scope="settings">None</string>
     <string id="Choice_second_grid_type_horizontal" scope="settings">Horizontal lines</string>
     <string id="Choice_second_grid_type_full" scope="settings">Full grid</string>
-    <string id="Setting_second_slot_1_value" scope="settings">Second set: Slot 1 value</string>
-    <string id="Setting_second_slot_1_background_mode" scope="settings">Second set: Field 1: background coverage</string>
+    <string id="Setting_second_slot_1_value" scope="settings">Second set: Slot 1: value</string>
+    <string id="Setting_second_slot_1_background_mode" scope="settings">Second set: Slot 1: background coverage</string>
     <string id="Choice_second_slot_1_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_1_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_1_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_1_team_font" scope="settings">Second set: Field 1: Team font</string>
-    <string id="Prompt_second_slot_1_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_1_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_1_team_color_source" scope="settings">Second set: Field 1: Team color source</string>
-    <string id="Choice_second_slot_1_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_1_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_1_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_2_value" scope="settings">Second set: Slot 2 value</string>
-    <string id="Setting_second_slot_2_background_mode" scope="settings">Second set: Field 2: background coverage</string>
+    <string id="Setting_second_slot_2_value" scope="settings">Second set: Slot 2: value</string>
+    <string id="Setting_second_slot_2_background_mode" scope="settings">Second set: Slot 2: background coverage</string>
     <string id="Choice_second_slot_2_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_2_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_2_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_2_team_font" scope="settings">Second set: Field 2: Team font</string>
-    <string id="Prompt_second_slot_2_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_2_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_2_team_color_source" scope="settings">Second set: Field 2: Team color source</string>
-    <string id="Choice_second_slot_2_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_2_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_2_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_3_value" scope="settings">Second set: Slot 3 value</string>
-    <string id="Setting_second_slot_3_background_mode" scope="settings">Second set: Field 3: background coverage</string>
+    <string id="Setting_second_slot_3_value" scope="settings">Second set: Slot 3: value</string>
+    <string id="Setting_second_slot_3_background_mode" scope="settings">Second set: Slot 3: background coverage</string>
     <string id="Choice_second_slot_3_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_3_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_3_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_3_team_font" scope="settings">Second set: Field 3: Team font</string>
-    <string id="Prompt_second_slot_3_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_3_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_3_team_color_source" scope="settings">Second set: Field 3: Team color source</string>
-    <string id="Choice_second_slot_3_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_3_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_3_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_4_value" scope="settings">Second set: Slot 4 value</string>
-    <string id="Setting_second_slot_4_background_mode" scope="settings">Second set: Field 4: background coverage</string>
+    <string id="Setting_second_slot_4_value" scope="settings">Second set: Slot 4: value</string>
+    <string id="Setting_second_slot_4_background_mode" scope="settings">Second set: Slot 4: background coverage</string>
     <string id="Choice_second_slot_4_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_4_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_4_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_4_team_font" scope="settings">Second set: Field 4: Team font</string>
-    <string id="Prompt_second_slot_4_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_4_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_4_team_color_source" scope="settings">Second set: Field 4: Team color source</string>
-    <string id="Choice_second_slot_4_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_4_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_4_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_5_value" scope="settings">Second set: Slot 5 value</string>
-    <string id="Setting_second_slot_5_background_mode" scope="settings">Second set: Field 5: background coverage</string>
+    <string id="Setting_second_slot_5_value" scope="settings">Second set: Slot 5: value</string>
+    <string id="Setting_second_slot_5_background_mode" scope="settings">Second set: Slot 5: background coverage</string>
     <string id="Choice_second_slot_5_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_5_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_5_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_5_team_font" scope="settings">Second set: Field 5: Team font</string>
-    <string id="Prompt_second_slot_5_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_5_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_5_team_color_source" scope="settings">Second set: Field 5: Team color source</string>
-    <string id="Choice_second_slot_5_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_5_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_5_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_6_value" scope="settings">Second set: Slot 6 value</string>
-    <string id="Setting_second_slot_6_background_mode" scope="settings">Second set: Field 6: background coverage</string>
+    <string id="Setting_second_slot_6_value" scope="settings">Second set: Slot 6: value</string>
+    <string id="Setting_second_slot_6_background_mode" scope="settings">Second set: Slot 6: background coverage</string>
     <string id="Choice_second_slot_6_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_6_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_6_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_6_team_font" scope="settings">Second set: Field 6: Team font</string>
-    <string id="Prompt_second_slot_6_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_6_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_6_team_color_source" scope="settings">Second set: Field 6: Team color source</string>
-    <string id="Choice_second_slot_6_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_6_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_6_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_7_value" scope="settings">Second set: Slot 7 value</string>
-    <string id="Setting_second_slot_7_background_mode" scope="settings">Second set: Field 7: background coverage</string>
+    <string id="Setting_second_slot_7_value" scope="settings">Second set: Slot 7: value</string>
+    <string id="Setting_second_slot_7_background_mode" scope="settings">Second set: Slot 7: background coverage</string>
     <string id="Choice_second_slot_7_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_7_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_7_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_7_team_font" scope="settings">Second set: Field 7: Team font</string>
-    <string id="Prompt_second_slot_7_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_7_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_7_team_color_source" scope="settings">Second set: Field 7: Team color source</string>
-    <string id="Choice_second_slot_7_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_7_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_7_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_8_value" scope="settings">Second set: Slot 8 value</string>
-    <string id="Setting_second_slot_8_background_mode" scope="settings">Second set: Field 8: background coverage</string>
+    <string id="Setting_second_slot_8_value" scope="settings">Second set: Slot 8: value</string>
+    <string id="Setting_second_slot_8_background_mode" scope="settings">Second set: Slot 8: background coverage</string>
     <string id="Choice_second_slot_8_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_8_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_8_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_8_team_font" scope="settings">Second set: Field 8: Team font</string>
-    <string id="Prompt_second_slot_8_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_8_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_8_team_color_source" scope="settings">Second set: Field 8: Team color source</string>
-    <string id="Choice_second_slot_8_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_8_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_8_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_9_value" scope="settings">Second set: Slot 9 value</string>
-    <string id="Setting_second_slot_9_background_mode" scope="settings">Second set: Field 9: background coverage</string>
+    <string id="Setting_second_slot_9_value" scope="settings">Second set: Slot 9: value</string>
+    <string id="Setting_second_slot_9_background_mode" scope="settings">Second set: Slot 9: background coverage</string>
     <string id="Choice_second_slot_9_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_9_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_9_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_9_team_font" scope="settings">Second set: Field 9: Team font</string>
-    <string id="Prompt_second_slot_9_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_9_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_9_team_color_source" scope="settings">Second set: Field 9: Team color source</string>
-    <string id="Choice_second_slot_9_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_9_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_9_team_color_source_2" scope="settings">Heart rate</string>
-    <string id="Setting_second_slot_10_value" scope="settings">Second set: Slot 10 value</string>
-    <string id="Setting_second_slot_10_background_mode" scope="settings">Second set: Field 10: background coverage</string>
+    <string id="Setting_second_slot_10_value" scope="settings">Second set: Slot 10: value</string>
+    <string id="Setting_second_slot_10_background_mode" scope="settings">Second set: Slot 10: background coverage</string>
     <string id="Choice_second_slot_10_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_10_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_10_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_10_team_font" scope="settings">Second set: Field 10: Team font</string>
-    <string id="Prompt_second_slot_10_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_second_slot_10_team_font_0" scope="settings">Automatic</string>
-    <string id="Setting_second_slot_10_team_color_source" scope="settings">Second set: Field 10: Team color source</string>
-    <string id="Choice_second_slot_10_team_color_source_0" scope="settings">None</string>
-    <string id="Choice_second_slot_10_team_color_source_1" scope="settings">Power</string>
-    <string id="Choice_second_slot_10_team_color_source_2" scope="settings">Heart rate</string>
   </strings>
 </resources>

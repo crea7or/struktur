@@ -317,7 +317,7 @@
   {
     "identifier": "elevation",
     "requirement": "DVS-26",
-    "version": 44,
+    "version": 48,
     "source": "Activity.Info.altitude",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
@@ -873,7 +873,7 @@
   {
     "identifier": "team",
     "requirement": "SPEC-253",
-    "version": 26,
+    "version": 32,
     "source": "One validated shared Team name setting",
     "context": "All Team slots in both saved sets; literal ASCII text independent of activity samples",
     "raw_type": "string",

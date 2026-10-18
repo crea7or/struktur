@@ -592,7 +592,7 @@ class TeamScenario {
         props[prefix+"slot_1_value"]="team";props["slot_1_team_text"]="Aa 12!";
         for(var slot=2;slot<=10;slot+=1) { props[prefix+"slot_"+slot.toString()+"_value"]="elevation"; }
         props[prefix+"slot_2_value"]="team";props[prefix+"slot_10_value"]="team";
-        props[prefix+"slot_1_team_color_source"]=2;props[prefix+"slot_1_background_mode"]=1;
+        props["team_color_source"]=2;props[prefix+"slot_1_background_mode"]=1;
         settings=new DisplaySettings();engine=new SnapshotEngine();renderer=new FieldRenderer();device=new PresentationDevice(false,true,false);
         engine._hrZones=ZoneMetadata.heart([0,100,120,140,160,200]);
     }
@@ -607,6 +607,8 @@ class TeamScenario {
         for(var duplicate=1;duplicate<renderer._cells.size();duplicate+=1) {
             if("team".equals(settings.slots[duplicate])) {
                 Test.assertEqual(run.text,renderer._runs[duplicate].text);
+                Test.assertEqual(engine._descriptors[0].nativeFont,engine._descriptors[duplicate].nativeFont);
+                Test.assertEqual(engine._descriptors[0].zoneChannel,engine._descriptors[duplicate].zoneChannel);
                 Test.assertEqual("team",renderer._packets[duplicate].label[3]);
                 Test.assert(renderer._packets[duplicate].lines.size()>0);
             }
@@ -639,13 +641,13 @@ class TeamScenario {
         props[prefix+"theme_mode"]=2;sample(null);check();Test.assertEqual(fits,renderer.fitCount);
         props[prefix+"slot_1_background_mode"]=0;sample(110);check();Test.assert(snapshot[:values][0][:band]==null);Test.assertEqual(fits,renderer.fitCount);
         for(var code=1;code<=9;code+=1) {
-            props[prefix+"slot_1_team_font"]=code;sample(110);check();Test.assertEqual(code,settings.teamFonts[0]);
+            props["team_font"]=code;sample(110);check();Test.assertEqual(code,settings.teamFont);
         }
-        props[prefix+"slot_1_team_font"]=0;props[prefix+"slot_1_team_color_source"]=1;props[prefix+"slot_1_background_mode"]=2;
+        props["team_font"]=0;props["team_color_source"]=1;props[prefix+"slot_1_background_mode"]=2;
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);watts=650;sample(110);check();
         Test.assertEqual("magenta",snapshot[:values][0][:band]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);
-        props[prefix+"slot_1_team_color_source"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
+        props["team_color_source"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
         old=snapshot;props["slot_1_team_text"]="BLUE TEAM";automatic=null;sample(110);check();
         Test.assertEqual("Aa 12!",old[:values][0][:text]);Test.assertEqual("Aa 12!",old[:values][1][:text]);
         props[prefix+"hide_value_units"]=false;measures=renderer._nativeFonts.measurements;sample(110);check();Test.assertEqual(measures,renderer._nativeFonts.measurements);

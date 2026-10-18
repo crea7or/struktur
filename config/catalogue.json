@@ -310,7 +310,8 @@
         0,
         1,
         2
-      ]
+      ],
+      "title": "Enlarged slot count"
     },
     {
       "key": "alignment",
@@ -350,7 +351,7 @@
       "key": "inverse_enlarged_theme",
       "type": "boolean",
       "default": true,
-      "title": "Inverse theme for enlarged fields"
+      "title": "Inverse theme for enlarged slots"
     },
     {
       "key": "grid_type",
@@ -381,6 +382,38 @@
       "shared": true,
       "title": "Team name",
       "prompt": "Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case."
+    },
+    {
+      "key": "team_font",
+      "type": "number",
+      "default": 0,
+      "shared": true,
+      "choices": [
+        0
+      ],
+      "choice_labels": [
+        "Automatic"
+      ],
+      "title": "Team font",
+      "prompt": "Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic."
+    },
+    {
+      "key": "team_color_source",
+      "type": "number",
+      "default": 0,
+      "shared": true,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Power",
+        "Heart rate"
+      ],
+      "title": "Team color source",
+      "prompt": "Shared by all Team slots in both sets."
     },
     {
       "key": "slot_1_value",
@@ -455,7 +488,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 1: value"
     },
     {
       "key": "slot_1_background_effects",
@@ -478,36 +512,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 1: background coverage"
-    },
-    {
-      "key": "slot_1_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 1: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_1_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 1: Team color source"
+      "title": "Slot 1: background coverage"
     },
     {
       "key": "slot_2_value",
@@ -582,7 +587,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 2: value"
     },
     {
       "key": "slot_2_background_effects",
@@ -605,36 +611,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 2: background coverage"
-    },
-    {
-      "key": "slot_2_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 2: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_2_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 2: Team color source"
+      "title": "Slot 2: background coverage"
     },
     {
       "key": "slot_3_value",
@@ -709,7 +686,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 3: value"
     },
     {
       "key": "slot_3_background_effects",
@@ -732,36 +710,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 3: background coverage"
-    },
-    {
-      "key": "slot_3_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 3: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_3_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 3: Team color source"
+      "title": "Slot 3: background coverage"
     },
     {
       "key": "slot_4_value",
@@ -836,7 +785,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 4: value"
     },
     {
       "key": "slot_4_background_effects",
@@ -859,36 +809,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 4: background coverage"
-    },
-    {
-      "key": "slot_4_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 4: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_4_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 4: Team color source"
+      "title": "Slot 4: background coverage"
     },
     {
       "key": "slot_5_value",
@@ -963,7 +884,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 5: value"
     },
     {
       "key": "slot_5_background_effects",
@@ -986,36 +908,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 5: background coverage"
-    },
-    {
-      "key": "slot_5_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 5: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_5_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 5: Team color source"
+      "title": "Slot 5: background coverage"
     },
     {
       "key": "slot_6_value",
@@ -1090,7 +983,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 6: value"
     },
     {
       "key": "slot_6_background_effects",
@@ -1113,36 +1007,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 6: background coverage"
-    },
-    {
-      "key": "slot_6_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 6: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_6_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 6: Team color source"
+      "title": "Slot 6: background coverage"
     },
     {
       "key": "slot_7_value",
@@ -1217,7 +1082,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 7: value"
     },
     {
       "key": "slot_7_background_effects",
@@ -1240,36 +1106,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 7: background coverage"
-    },
-    {
-      "key": "slot_7_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 7: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_7_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 7: Team color source"
+      "title": "Slot 7: background coverage"
     },
     {
       "key": "slot_8_value",
@@ -1344,7 +1181,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 8: value"
     },
     {
       "key": "slot_8_background_effects",
@@ -1367,36 +1205,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 8: background coverage"
-    },
-    {
-      "key": "slot_8_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 8: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_8_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 8: Team color source"
+      "title": "Slot 8: background coverage"
     },
     {
       "key": "slot_9_value",
@@ -1471,7 +1280,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 9: value"
     },
     {
       "key": "slot_9_background_effects",
@@ -1494,36 +1304,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 9: background coverage"
-    },
-    {
-      "key": "slot_9_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 9: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_9_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 9: Team color source"
+      "title": "Slot 9: background coverage"
     },
     {
       "key": "slot_10_value",
@@ -1598,7 +1379,8 @@
         "lap_power",
         "lap_cadence",
         "team"
-      ]
+      ],
+      "title": "Slot 10: value"
     },
     {
       "key": "slot_10_background_effects",
@@ -1621,36 +1403,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Field 10: background coverage"
-    },
-    {
-      "key": "slot_10_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Field 10: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "slot_10_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Field 10: Team color source"
+      "title": "Slot 10: background coverage"
     },
     {
       "key": "cadence_zone_1_max_rpm",
@@ -1761,7 +1514,7 @@
         1,
         2
       ],
-      "title": "Second set: Enlarged field count"
+      "title": "Second set: Enlarged slot count"
     },
     {
       "key": "second_alignment",
@@ -1803,7 +1556,7 @@
       "key": "second_inverse_enlarged_theme",
       "type": "boolean",
       "default": true,
-      "title": "Second set: Inverse theme for enlarged fields"
+      "title": "Second set: Inverse theme for enlarged slots"
     },
     {
       "key": "second_grid_type",
@@ -1900,7 +1653,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 1 value"
+      "title": "Second set: Slot 1: value"
     },
     {
       "key": "second_slot_1_background_effects",
@@ -1924,36 +1677,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 1: background coverage"
-    },
-    {
-      "key": "second_slot_1_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 1: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_1_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 1: Team color source"
+      "title": "Second set: Slot 1: background coverage"
     },
     {
       "key": "second_slot_2_value",
@@ -2029,7 +1753,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 2 value"
+      "title": "Second set: Slot 2: value"
     },
     {
       "key": "second_slot_2_background_effects",
@@ -2053,36 +1777,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 2: background coverage"
-    },
-    {
-      "key": "second_slot_2_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 2: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_2_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 2: Team color source"
+      "title": "Second set: Slot 2: background coverage"
     },
     {
       "key": "second_slot_3_value",
@@ -2158,7 +1853,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 3 value"
+      "title": "Second set: Slot 3: value"
     },
     {
       "key": "second_slot_3_background_effects",
@@ -2182,36 +1877,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 3: background coverage"
-    },
-    {
-      "key": "second_slot_3_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 3: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_3_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 3: Team color source"
+      "title": "Second set: Slot 3: background coverage"
     },
     {
       "key": "second_slot_4_value",
@@ -2287,7 +1953,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 4 value"
+      "title": "Second set: Slot 4: value"
     },
     {
       "key": "second_slot_4_background_effects",
@@ -2311,36 +1977,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 4: background coverage"
-    },
-    {
-      "key": "second_slot_4_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 4: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_4_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 4: Team color source"
+      "title": "Second set: Slot 4: background coverage"
     },
     {
       "key": "second_slot_5_value",
@@ -2416,7 +2053,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 5 value"
+      "title": "Second set: Slot 5: value"
     },
     {
       "key": "second_slot_5_background_effects",
@@ -2440,36 +2077,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 5: background coverage"
-    },
-    {
-      "key": "second_slot_5_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 5: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_5_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 5: Team color source"
+      "title": "Second set: Slot 5: background coverage"
     },
     {
       "key": "second_slot_6_value",
@@ -2545,7 +2153,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 6 value"
+      "title": "Second set: Slot 6: value"
     },
     {
       "key": "second_slot_6_background_effects",
@@ -2569,36 +2177,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 6: background coverage"
-    },
-    {
-      "key": "second_slot_6_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 6: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_6_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 6: Team color source"
+      "title": "Second set: Slot 6: background coverage"
     },
     {
       "key": "second_slot_7_value",
@@ -2674,7 +2253,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 7 value"
+      "title": "Second set: Slot 7: value"
     },
     {
       "key": "second_slot_7_background_effects",
@@ -2698,36 +2277,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 7: background coverage"
-    },
-    {
-      "key": "second_slot_7_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 7: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_7_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 7: Team color source"
+      "title": "Second set: Slot 7: background coverage"
     },
     {
       "key": "second_slot_8_value",
@@ -2803,7 +2353,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 8 value"
+      "title": "Second set: Slot 8: value"
     },
     {
       "key": "second_slot_8_background_effects",
@@ -2827,36 +2377,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 8: background coverage"
-    },
-    {
-      "key": "second_slot_8_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 8: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_8_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 8: Team color source"
+      "title": "Second set: Slot 8: background coverage"
     },
     {
       "key": "second_slot_9_value",
@@ -2932,7 +2453,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 9 value"
+      "title": "Second set: Slot 9: value"
     },
     {
       "key": "second_slot_9_background_effects",
@@ -2956,36 +2477,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 9: background coverage"
-    },
-    {
-      "key": "second_slot_9_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 9: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_9_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 9: Team color source"
+      "title": "Second set: Slot 9: background coverage"
     },
     {
       "key": "second_slot_10_value",
@@ -3061,7 +2553,7 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 10 value"
+      "title": "Second set: Slot 10: value"
     },
     {
       "key": "second_slot_10_background_effects",
@@ -3085,36 +2577,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Field 10: background coverage"
-    },
-    {
-      "key": "second_slot_10_team_font",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Second set: Field 10: Team font",
-      "prompt": "Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic."
-    },
-    {
-      "key": "second_slot_10_team_color_source",
-      "type": "number",
-      "default": 0,
-      "choices": [
-        0,
-        1,
-        2
-      ],
-      "choice_labels": [
-        "None",
-        "Power",
-        "Heart rate"
-      ],
-      "title": "Second set: Field 10: Team color source"
+      "title": "Second set: Slot 10: background coverage"
     },
     {
       "key": "settings_schema_version",

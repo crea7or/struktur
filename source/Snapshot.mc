@@ -103,10 +103,10 @@ class SnapshotEngine {
         }
         return d;
     }
-    function configureTeam(d,settings,i) {
-        var channel=settings.teamSources[i]==1?3:(settings.teamSources[i]==2?0:-1);
+    function configureTeam(d,settings) {
+        var channel=settings.teamSource==1?3:(settings.teamSource==2?0:-1);
         if(d.zoneChannel!=channel) { d.effectReady=false; }
-        d.zoneChannel=channel;d.effect=channel>=0?3:0;d.nativeFont=settings.teamFonts[i];
+        d.zoneChannel=channel;d.effect=channel>=0?3:0;d.nativeFont=settings.teamFont;
     }
     function reset() { _power.reset(); _heart.reset(); _identity=null; }
     function metadata() {
@@ -150,7 +150,7 @@ class SnapshotEngine {
         var values=[] as Lang.Array;
         for(var i=0;i<10;i+=1) {
             var d=configure?descriptor(i,settings.slots[i],settings.hideValueUnits,distanceStatute,elevationStatute,temperatureStatute):_descriptors[i];
-            if(d.style==6 && configure) { configureTeam(d,settings,i); }
+            if(d.style==6 && configure) { configureTeam(d,settings); }
             var value=d.style==6?settings.teamText:rawValue(raw,d.id);
             // A profile refresh can occur between delivered samples. Reuse the
             // current-source cache instead of a stale zone number in retained raw data.

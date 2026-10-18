@@ -12,7 +12,7 @@ The screenshots use sample data. Power zones show `--` while their data source a
 
 - 33 selectable fields: speed, distance, heart rate, cadence, power, elevation, ascent/descent, slope, timers, time of day, battery, heading, calories, completed laps and more.
 - Shared five-zone colors for heart-rate, power and cadence metrics, including activity and lap averages; four configurable cadence boundaries. Qualified power zones above five use magenta.
-- A Team text field with one shared **Team name** option before the slot controls (up to 32 printable ASCII characters), used by every Team slot in both sets, a `team` header, wrapping at spaces within the value area, native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; unsupported saved AUX font choices fall back to Automatic. AUX choices are offered only after target qualification.
+- A Team text field with shared **Team name** (up to 32 printable ASCII characters), **Team font** and **Team color source** options before all slot controls, used by every Team slot in both sets, a `team` header, wrapping at spaces within the value area, native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; unsupported saved AUX font choices fall back to Automatic. AUX choices are offered only after target qualification.
 - Six current-lap fields: distance, active time, average speed, heart rate, power and cadence.
 - Two independent sets of ten saved field assignments, including temporarily hidden slots. Repeated metrics are supported.
 - Choose a second-set trigger: **3s power**, **Heart rate**, **Manual lap** (factory default), **Workout started**, or **None** to disable switching without losing the saved set.
@@ -108,7 +108,7 @@ The [suite definitions](tests/suites.json) keep three workflows separate:
 | Memory | Font loading and memory use in the actual Data Field runtime | Explicitly requested validation |
 | Placement | Overflow, insufficient drawing areas and compact fallback | Explicitly requested validation |
 
-Core contains 42 named Monkey C tests. To compile and run Core with the SDK simulator already open:
+Core contains 44 named Monkey C tests. To compile and run Core with the SDK simulator already open:
 
 ```powershell
 & (Join-Path $env:CONNECTIQ_SDK 'bin/monkeyc.bat') `
@@ -117,6 +117,8 @@ Core contains 42 named Monkey C tests. To compile and run Core with the SDK simu
 & (Join-Path $env:CONNECTIQ_SDK 'bin/monkeydo.bat') `
     bin/Struktur-core-tests.prg edge1040 /t
 ```
+
+Core uses a separate application identity so native settings regressions cannot alter production preferences.
 
 Memory runs the 648-case layout/resource stress matrix and the 1000-transition/200-settings-change second-set scenario in separate normal Data Field programs. Both must pass within the device allocation; font probes alone do not establish memory qualification. Each report retains its source and binary hashes, used/free/total measurements and raw log.
 

@@ -36,10 +36,10 @@ class MemorySwitchingField extends StrukturField {
         for(var slot=0;slot<10;slot+=1) {
             first.slots[slot]=families[(slot+variant)%families.size()];second.slots[slot]=families[(slot+variant+3)%families.size()];
             first.modes[slot]=(slot+variant)%3;second.modes[slot]=(slot+variant+1)%3;
-            first.teamFonts[slot]=slot%10;second.teamFonts[slot]=(slot+1)%10;
-            first.teamSources[slot]=slot%3;second.teamSources[slot]=(slot+1)%3;
             first.effects[slot]=first.modes[slot]!=0;second.effects[slot]=second.modes[slot]!=0;
         }
+        first.teamFont=variant%10;second.teamFont=first.teamFont;
+        first.teamSource=variant%3;second.teamSource=first.teamSource;
         first.teamText="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";second.teamText=first.teamText;
         return banks;
     }

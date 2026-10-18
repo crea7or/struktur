@@ -31,6 +31,12 @@ def validate_suites():
     assert set(assigned) == set(discovered), ('Unassigned tests', set(discovered) - set(assigned))
     assert result['Memory'] == ['profileFontLoad', 'allFontVariantsLoad']
     assert {'proportionalCaptionFit', 'actualValueFitAndCompactCache', 'presentationDrawAndAlignment'} <= set(result['Placement'])
+    import xml.etree.ElementTree as ET
+    ns={'iq':'http://www.garmin.com/xml/connectiq'}
+    production=ET.parse(ROOT/'manifest.xml').find('iq:application',ns)
+    core=ET.parse(ROOT/'tests/CoreManifest.xml').find('iq:application',ns)
+    assert production.attrib['id']!=core.attrib['id'], 'Core Properties tests must not share production storage'
+    assert 'project.manifest = tests/CoreManifest.xml' in (ROOT/'tests.jungle').read_text()
     assert (ROOT / 'logic-tests.jungle').read_bytes() == (ROOT / 'tests.jungle').read_bytes()
     for script in ['run-tests.ps1', 'ci.ps1', 'compile-tests.ps1']:
         text = (ROOT / 'scripts' / script).read_text()

@@ -73,7 +73,7 @@ def main():
     assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==123 and len({p['key'] for p in props})==123
+    assert len(props)==85 and len({p['key'] for p in props})==85
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
     assert 'grid_type' in by_id['APP-22']['description'] and '0 None, 1 Horizontal lines (default), 2 Full grid' in by_id['APP-22']['description']
@@ -108,28 +108,39 @@ def main():
     settings=ET.parse(ROOT/'resources/settings/settings.xml')
     group=settings.find('.//group[@id="second_field_set"]');assert group is not None and group.attrib['id']=='second_field_set'
     assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props if p['key'].startswith('second_') and not p.get('hidden')]
-    assert len(settings.findall('./settings/setting'))==47
+    assert len(settings.findall('./settings/setting'))==29
     text_controls=[s for s in settings.findall('.//setting') if s.attrib['propertyKey'].endswith('_team_text')]
     assert len(text_controls)==1 and text_controls[0].attrib['propertyKey']=='@Properties.slot_1_team_text'
     ordered=list(settings.findall('.//setting'));team_index=ordered.index(text_controls[0])
-    assert all(team_index<i for i,s in enumerate(ordered) if re.search(r'(?:second_)?slot_\d+_(?:value|background_mode|team_font|team_color_source)$',s.attrib['propertyKey']))
+    assert all(team_index<i for i,s in enumerate(ordered) if re.search(r'(?:second_)?slot_\d+_(?:value|background_mode)$',s.attrib['propertyKey']))
+    shared_keys=['slot_1_team_text','team_font','team_color_source']
+    assert [p['key'] for p in props if p.get('shared')]==shared_keys
+    assert not any(re.fullmatch(r'(?:second_)?slot_\d+_team_(?:font|color_source)',p['key']) for p in props)
+    assert [s.attrib['propertyKey'].split('.')[-1] for s in ordered[team_index:team_index+3]]==shared_keys
+    assert all(ordered.index(config)<min(i for i,x in enumerate(ordered) if re.search(r'slot_\d+_value$',x.attrib['propertyKey'])) for config in ordered if config.attrib['propertyKey'].split('.')[-1] in shared_keys)
     assert by_key['slot_1_team_text']['shared'] and by_key['slot_1_team_text']['title']=='Team name'
     assert [p['key'] for p in props if p['key'].endswith('_team_text')]==['slot_1_team_text']
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
     assert set(configured)=={p['key'] for p in props if not p.get('hidden')}
+    strings_by_id={x.attrib['id']:x.text for x in ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')}
+    for key,control in configured.items():
+        match=re.fullmatch(r'(second_)?slot_(\d+)_(value|background_mode)',key)
+        if match:
+            caption=strings_by_id[control.attrib['title'].split('.')[-1]]
+            assert caption==('Second set: ' if match[1] else '')+'Slot '+match[2]+(': value' if match[3]=='value' else ': background coverage')
     native_fonts=read('config/native-fonts.json')
     assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
     assert native_fonts['logical_aux_codes']=={str(i):f'FONT_AUX{i}' for i in range(1,10)}
     for p in props:
-        if p['key'].endswith('_team_font'):assert p['default']==0 and p['choices']==[0]
+        if p['key']=='team_font':assert p['default']==0 and p['choices']==[0]
         if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
     native_fonts=read('config/native-fonts.json')
     assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
     assert native_fonts['logical_aux_codes']=={str(i):f'FONT_AUX{i}' for i in range(1,10)}
     for p in props:
-        if p['key'].endswith('_team_font'):assert p['default']==0 and p['choices']==[0]
+        if p['key']=='team_font':assert p['default']==0 and p['choices']==[0]
         if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
-    assert len(configured)==102 and len(props)-len(configured)==21
+    assert len(configured)==64 and len(props)-len(configured)==21
     assert by_key['settings_schema_version']['default']==0
     for p in props:
         if p['key'].endswith('_background_mode'):

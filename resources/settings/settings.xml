@@ -37,6 +37,18 @@
     <setting propertyKey="@Properties.slot_1_team_text" title="@Strings.Setting_slot_1_team_text" prompt="@Strings.Prompt_slot_1_team_text">
       <settingConfig type="alphaNumeric" maxLength="32" />
     </setting>
+    <setting propertyKey="@Properties.team_font" title="@Strings.Setting_team_font" prompt="@Strings.Prompt_team_font">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_team_font_0</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.team_color_source" title="@Strings.Setting_team_color_source" prompt="@Strings.Prompt_team_color_source">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_team_color_source_0</listEntry>
+        <listEntry value="1">@Strings.Choice_team_color_source_1</listEntry>
+        <listEntry value="2">@Strings.Choice_team_color_source_2</listEntry>
+      </settingConfig>
+    </setting>
     <setting propertyKey="@Properties.slot_1_value" title="@Strings.Setting_slot_1_value">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -79,18 +91,6 @@
         <listEntry value="0">@Strings.Choice_slot_1_background_mode_0</listEntry>
         <listEntry value="1">@Strings.Choice_slot_1_background_mode_1</listEntry>
         <listEntry value="2">@Strings.Choice_slot_1_background_mode_2</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_1_team_font" title="@Strings.Setting_slot_1_team_font" prompt="@Strings.Prompt_slot_1_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_1_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_1_team_color_source" title="@Strings.Setting_slot_1_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_1_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_1_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_1_team_color_source_2</listEntry>
       </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_2_value" title="@Strings.Setting_slot_2_value">
@@ -137,18 +137,6 @@
         <listEntry value="2">@Strings.Choice_slot_2_background_mode_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_2_team_font" title="@Strings.Setting_slot_2_team_font" prompt="@Strings.Prompt_slot_2_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_2_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_2_team_color_source" title="@Strings.Setting_slot_2_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_2_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_2_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_2_team_color_source_2</listEntry>
-      </settingConfig>
-    </setting>
     <setting propertyKey="@Properties.slot_3_value" title="@Strings.Setting_slot_3_value">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -191,18 +179,6 @@
         <listEntry value="0">@Strings.Choice_slot_3_background_mode_0</listEntry>
         <listEntry value="1">@Strings.Choice_slot_3_background_mode_1</listEntry>
         <listEntry value="2">@Strings.Choice_slot_3_background_mode_2</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_3_team_font" title="@Strings.Setting_slot_3_team_font" prompt="@Strings.Prompt_slot_3_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_3_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_3_team_color_source" title="@Strings.Setting_slot_3_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_3_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_3_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_3_team_color_source_2</listEntry>
       </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_4_value" title="@Strings.Setting_slot_4_value">
@@ -249,18 +225,6 @@
         <listEntry value="2">@Strings.Choice_slot_4_background_mode_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_4_team_font" title="@Strings.Setting_slot_4_team_font" prompt="@Strings.Prompt_slot_4_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_4_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_4_team_color_source" title="@Strings.Setting_slot_4_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_4_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_4_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_4_team_color_source_2</listEntry>
-      </settingConfig>
-    </setting>
     <setting propertyKey="@Properties.slot_5_value" title="@Strings.Setting_slot_5_value">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -303,18 +267,6 @@
         <listEntry value="0">@Strings.Choice_slot_5_background_mode_0</listEntry>
         <listEntry value="1">@Strings.Choice_slot_5_background_mode_1</listEntry>
         <listEntry value="2">@Strings.Choice_slot_5_background_mode_2</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_5_team_font" title="@Strings.Setting_slot_5_team_font" prompt="@Strings.Prompt_slot_5_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_5_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_5_team_color_source" title="@Strings.Setting_slot_5_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_5_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_5_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_5_team_color_source_2</listEntry>
       </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_6_value" title="@Strings.Setting_slot_6_value">
@@ -361,18 +313,6 @@
         <listEntry value="2">@Strings.Choice_slot_6_background_mode_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_6_team_font" title="@Strings.Setting_slot_6_team_font" prompt="@Strings.Prompt_slot_6_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_6_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_6_team_color_source" title="@Strings.Setting_slot_6_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_6_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_6_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_6_team_color_source_2</listEntry>
-      </settingConfig>
-    </setting>
     <setting propertyKey="@Properties.slot_7_value" title="@Strings.Setting_slot_7_value">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -415,18 +355,6 @@
         <listEntry value="0">@Strings.Choice_slot_7_background_mode_0</listEntry>
         <listEntry value="1">@Strings.Choice_slot_7_background_mode_1</listEntry>
         <listEntry value="2">@Strings.Choice_slot_7_background_mode_2</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_7_team_font" title="@Strings.Setting_slot_7_team_font" prompt="@Strings.Prompt_slot_7_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_7_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_7_team_color_source" title="@Strings.Setting_slot_7_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_7_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_7_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_7_team_color_source_2</listEntry>
       </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_8_value" title="@Strings.Setting_slot_8_value">
@@ -473,18 +401,6 @@
         <listEntry value="2">@Strings.Choice_slot_8_background_mode_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_8_team_font" title="@Strings.Setting_slot_8_team_font" prompt="@Strings.Prompt_slot_8_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_8_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_8_team_color_source" title="@Strings.Setting_slot_8_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_8_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_8_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_8_team_color_source_2</listEntry>
-      </settingConfig>
-    </setting>
     <setting propertyKey="@Properties.slot_9_value" title="@Strings.Setting_slot_9_value">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -529,18 +445,6 @@
         <listEntry value="2">@Strings.Choice_slot_9_background_mode_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_9_team_font" title="@Strings.Setting_slot_9_team_font" prompt="@Strings.Prompt_slot_9_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_9_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_9_team_color_source" title="@Strings.Setting_slot_9_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_9_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_9_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_9_team_color_source_2</listEntry>
-      </settingConfig>
-    </setting>
     <setting propertyKey="@Properties.slot_10_value" title="@Strings.Setting_slot_10_value">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -583,18 +487,6 @@
         <listEntry value="0">@Strings.Choice_slot_10_background_mode_0</listEntry>
         <listEntry value="1">@Strings.Choice_slot_10_background_mode_1</listEntry>
         <listEntry value="2">@Strings.Choice_slot_10_background_mode_2</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_10_team_font" title="@Strings.Setting_slot_10_team_font" prompt="@Strings.Prompt_slot_10_team_font">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_10_team_font_0</listEntry>
-      </settingConfig>
-    </setting>
-    <setting propertyKey="@Properties.slot_10_team_color_source" title="@Strings.Setting_slot_10_team_color_source">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_10_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_10_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_10_team_color_source_2</listEntry>
       </settingConfig>
     </setting>
     <group id="cadence_zones" title="@Strings.CadenceZonesTitle">
@@ -710,18 +602,6 @@
           <listEntry value="2">@Strings.Choice_second_slot_1_background_mode_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_1_team_font" title="@Strings.Setting_second_slot_1_team_font" prompt="@Strings.Prompt_second_slot_1_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_1_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_1_team_color_source" title="@Strings.Setting_second_slot_1_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_1_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_1_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_1_team_color_source_2</listEntry>
-        </settingConfig>
-      </setting>
       <setting propertyKey="@Properties.second_slot_2_value" title="@Strings.Setting_second_slot_2_value">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -764,18 +644,6 @@
           <listEntry value="0">@Strings.Choice_second_slot_2_background_mode_0</listEntry>
           <listEntry value="1">@Strings.Choice_second_slot_2_background_mode_1</listEntry>
           <listEntry value="2">@Strings.Choice_second_slot_2_background_mode_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_2_team_font" title="@Strings.Setting_second_slot_2_team_font" prompt="@Strings.Prompt_second_slot_2_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_2_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_2_team_color_source" title="@Strings.Setting_second_slot_2_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_2_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_2_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_2_team_color_source_2</listEntry>
         </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_3_value" title="@Strings.Setting_second_slot_3_value">
@@ -822,18 +690,6 @@
           <listEntry value="2">@Strings.Choice_second_slot_3_background_mode_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_3_team_font" title="@Strings.Setting_second_slot_3_team_font" prompt="@Strings.Prompt_second_slot_3_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_3_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_3_team_color_source" title="@Strings.Setting_second_slot_3_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_3_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_3_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_3_team_color_source_2</listEntry>
-        </settingConfig>
-      </setting>
       <setting propertyKey="@Properties.second_slot_4_value" title="@Strings.Setting_second_slot_4_value">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -876,18 +732,6 @@
           <listEntry value="0">@Strings.Choice_second_slot_4_background_mode_0</listEntry>
           <listEntry value="1">@Strings.Choice_second_slot_4_background_mode_1</listEntry>
           <listEntry value="2">@Strings.Choice_second_slot_4_background_mode_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_4_team_font" title="@Strings.Setting_second_slot_4_team_font" prompt="@Strings.Prompt_second_slot_4_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_4_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_4_team_color_source" title="@Strings.Setting_second_slot_4_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_4_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_4_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_4_team_color_source_2</listEntry>
         </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_5_value" title="@Strings.Setting_second_slot_5_value">
@@ -934,18 +778,6 @@
           <listEntry value="2">@Strings.Choice_second_slot_5_background_mode_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_5_team_font" title="@Strings.Setting_second_slot_5_team_font" prompt="@Strings.Prompt_second_slot_5_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_5_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_5_team_color_source" title="@Strings.Setting_second_slot_5_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_5_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_5_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_5_team_color_source_2</listEntry>
-        </settingConfig>
-      </setting>
       <setting propertyKey="@Properties.second_slot_6_value" title="@Strings.Setting_second_slot_6_value">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -988,18 +820,6 @@
           <listEntry value="0">@Strings.Choice_second_slot_6_background_mode_0</listEntry>
           <listEntry value="1">@Strings.Choice_second_slot_6_background_mode_1</listEntry>
           <listEntry value="2">@Strings.Choice_second_slot_6_background_mode_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_6_team_font" title="@Strings.Setting_second_slot_6_team_font" prompt="@Strings.Prompt_second_slot_6_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_6_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_6_team_color_source" title="@Strings.Setting_second_slot_6_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_6_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_6_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_6_team_color_source_2</listEntry>
         </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_7_value" title="@Strings.Setting_second_slot_7_value">
@@ -1046,18 +866,6 @@
           <listEntry value="2">@Strings.Choice_second_slot_7_background_mode_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_7_team_font" title="@Strings.Setting_second_slot_7_team_font" prompt="@Strings.Prompt_second_slot_7_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_7_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_7_team_color_source" title="@Strings.Setting_second_slot_7_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_7_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_7_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_7_team_color_source_2</listEntry>
-        </settingConfig>
-      </setting>
       <setting propertyKey="@Properties.second_slot_8_value" title="@Strings.Setting_second_slot_8_value">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -1100,18 +908,6 @@
           <listEntry value="0">@Strings.Choice_second_slot_8_background_mode_0</listEntry>
           <listEntry value="1">@Strings.Choice_second_slot_8_background_mode_1</listEntry>
           <listEntry value="2">@Strings.Choice_second_slot_8_background_mode_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_8_team_font" title="@Strings.Setting_second_slot_8_team_font" prompt="@Strings.Prompt_second_slot_8_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_8_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_8_team_color_source" title="@Strings.Setting_second_slot_8_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_8_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_8_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_8_team_color_source_2</listEntry>
         </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_9_value" title="@Strings.Setting_second_slot_9_value">
@@ -1158,18 +954,6 @@
           <listEntry value="2">@Strings.Choice_second_slot_9_background_mode_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_9_team_font" title="@Strings.Setting_second_slot_9_team_font" prompt="@Strings.Prompt_second_slot_9_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_9_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_9_team_color_source" title="@Strings.Setting_second_slot_9_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_9_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_9_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_9_team_color_source_2</listEntry>
-        </settingConfig>
-      </setting>
       <setting propertyKey="@Properties.second_slot_10_value" title="@Strings.Setting_second_slot_10_value">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
@@ -1212,18 +996,6 @@
           <listEntry value="0">@Strings.Choice_second_slot_10_background_mode_0</listEntry>
           <listEntry value="1">@Strings.Choice_second_slot_10_background_mode_1</listEntry>
           <listEntry value="2">@Strings.Choice_second_slot_10_background_mode_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_10_team_font" title="@Strings.Setting_second_slot_10_team_font" prompt="@Strings.Prompt_second_slot_10_team_font">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_10_team_font_0</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.second_slot_10_team_color_source" title="@Strings.Setting_second_slot_10_team_color_source">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_10_team_color_source_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_10_team_color_source_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_10_team_color_source_2</listEntry>
         </settingConfig>
       </setting>
     </group>

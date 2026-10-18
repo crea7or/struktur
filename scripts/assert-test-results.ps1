@@ -10,6 +10,9 @@ function Assert-StrukturTestResults {
        $countMatch.Groups[1].Value -ne $passedMatch.Groups[1].Value){
         throw 'Missing/failed/nonempty test-results confirmation or required test count mismatch.'
     }
+    if($Text -match 'Unable to serialize app data|Out Of Memory|Stack Overflow'){
+        throw 'Simulator reported a persistence or runtime resource error despite test assertions.'
+    }
     $caseResults=@()
     foreach($match in [regex]::Matches($Text,'(?ms)^Executing test (\w+)\.\.\.\r?\n(.*?)(?=^-{10,}|\z)')){
         $body=$match.Groups[2].Value

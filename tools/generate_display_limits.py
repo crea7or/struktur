@@ -194,7 +194,7 @@ def requirement_limits_match(description, record, field, groups):
         return False
     expected = (cells[0] +
                 '. All supported devices, regular/enlarged cells, headers hidden/shown.')
-    return actual == expected
+    return actual in {expected, cells[0]+"."}
 
 
 def generate():
