@@ -8,7 +8,6 @@
     <property id="a_inv" type="boolean">true</property>
     <property id="a_grid" type="number">1</property>
     <property id="team" type="string">TEAM</property>
-    <property id="tfont" type="number">0</property>
     <property id="tsrc" type="number">0</property>
     <property id="a1" type="number">0</property>
     <property id="a1_bg" type="number">0</property>

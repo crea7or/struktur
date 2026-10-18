@@ -236,13 +236,6 @@
       ],
       "shared": "SPEC-253"
     },
-    "tfont": {
-      "requirement": "SPEC-309",
-      "fields": [
-        "SPEC-253"
-      ],
-      "shared": "SPEC-253"
-    },
     "tsrc": {
       "requirement": "SPEC-310",
       "fields": [

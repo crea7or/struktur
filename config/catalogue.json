@@ -393,21 +393,6 @@
       "requirement": "SPEC-308"
     },
     {
-      "key": "tfont",
-      "type": "number",
-      "default": 0,
-      "shared": true,
-      "choices": [
-        0
-      ],
-      "choice_labels": [
-        "Automatic"
-      ],
-      "title": "Team font",
-      "prompt": "Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic.",
-      "requirement": "SPEC-309"
-    },
-    {
       "key": "tsrc",
       "type": "number",
       "default": 0,

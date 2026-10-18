@@ -15,7 +15,7 @@ class SnapshotDescriptor {
     // Resolve static dispatch once per assignment, not once per delivered sample.
     var conversion=0;var style=0;var effect=0;var zoneChannel=-1;
     var record;var effectReady=false;var effectReading;var effectBounds;
-    var effectBand;var effectAngle;var effectInput;var nativeFont;
+    var effectBand;var effectAngle;var effectInput;
     function initialize(fieldId,fieldIndex) {
         id=fieldId;index=fieldIndex;
         kind=index==null?"":Catalog.UNITS[index];
@@ -106,7 +106,7 @@ class SnapshotEngine {
     function configureTeam(d,settings) {
         var channel=settings.teamSource==1?3:(settings.teamSource==2?0:-1);
         if(d.zoneChannel!=channel) { d.effectReady=false; }
-        d.zoneChannel=channel;d.effect=channel>=0?3:0;d.nativeFont=settings.teamFont;
+        d.zoneChannel=channel;d.effect=channel>=0?3:0;
     }
     function reset() { _power.reset(); _heart.reset(); _identity=null; }
     function metadata() {
@@ -213,8 +213,8 @@ class SnapshotEngine {
             }
             var old=d.record;
             if(old==null || !sameText(old[:label],label) || !sameText(old[:text],text) || !sameText(old[:unit],unit) ||
-                !sameText(old[:expandedUnit],expandedUnit) || !sameText(old[:band],band) || old[:angle]!=angle || old[:coverage]!=settings.modes[i] || old[:nativeFont]!=d.nativeFont) {
-                d.record={:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>d.format,:coverage=>settings.modes[i],:nativeFont=>d.nativeFont};
+                !sameText(old[:expandedUnit],expandedUnit) || !sameText(old[:band],band) || old[:angle]!=angle || old[:coverage]!=settings.modes[i]) {
+                d.record={:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>d.format,:coverage=>settings.modes[i]};
                 recordBuilds+=1;
             }
             values.add(d.record); // Never mutate a record retained by an earlier snapshot.

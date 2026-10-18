@@ -1,6 +1,6 @@
 # Application properties
 
-All 64 properties use compact keys. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
+All 63 properties use compact keys. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
 
 The SDK serialization check includes keys and overhead, with the maximum 32-character Team value. Both default and maximum dictionaries must fit 8,000 bytes.
 
@@ -13,7 +13,6 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `a_inv` | Inverse theme for enlarged slots | boolean | `true` |
 | `a_grid` | Grid type | number: 0 None, 1 Horizontal lines, 2 Full grid | `1` |
 | `team` | Team name | string: 0?32 printable ASCII characters | `TEAM` |
-| `tfont` | Team font | number: 0 Automatic | `0` |
 | `tsrc` | Team color source | number: 0 None, 1 Power, 2 Heart rate | `0` |
 | `a1` | Slot 1: value | number: field codes 0?32 (below) | `0` |
 | `a1_bg` | Slot 1: background coverage | number: 0 None, 1 Label, 2 Whole cell | `0` |
@@ -71,7 +70,7 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `b10` | Second set: Slot 10: value | number: field codes 0?32 (below) | `20` |
 | `b10_bg` | Second set: Slot 10: background coverage | number: 0 None, 1 Label, 2 Whole cell | `0` |
 
-All Team slots share `team`, `tfont` and `tsrc`. They are configured before the slot controls. AUX fonts appear only after device-specific qualification; the current profiles offer Automatic.
+All Team slots share `team` and `tsrc`. They are configured before the slot controls. Team font fitting is automatic; no font selector is exposed.
 
 Cadence bounds must increase strictly. Invalid present bounds disable cadence coloring. Each activation return threshold must be no greater than its activation threshold; invalid selected pairs keep the default dashboard.
 

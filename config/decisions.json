@@ -272,9 +272,9 @@
     ],
     "status": "draft",
     "owner": "product reviewer",
-    "implementation": "The generated catalogue defines 64 compact properties, two independent saved banks and global Team/cadence/activation options; no compatibility declarations or migration.",
+    "implementation": "The generated catalogue defines 63 compact properties, two independent saved banks and global Team/cadence/activation options; no compatibility declarations or migration.",
     "decision": {
-      "active_properties": 64,
+      "active_properties": 63,
       "saved_slots": 10,
       "existing_codes": "0..32 retained",
       "lap_codes": "26..31 retained",
@@ -285,7 +285,7 @@
       ],
       "physical_units": "header decoration controlled by hide_value_units",
       "grid_type": "0 None, 1 Horizontal lines (default), 2 Full grid; independent of alignment",
-      "total_properties": 64
+      "total_properties": 63
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",

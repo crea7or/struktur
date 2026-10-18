@@ -12,8 +12,7 @@ module TeamOptions {
 }
 // Standard system text fonts are the portable candidates. Measurements use
 // the current layout Dc only; clear it before the callback returns. No text bitmap,
-// extra atlas or retained width ladder. AUX faces remain
-// unqualified in the pinned device libraries; retain logical saved selections.
+// extra atlas, retained width ladder or user font-selection property.
 class NativeTextCache {
     var candidates=[];var measurements=0;var _dc;
     function initialize() {

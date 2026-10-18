@@ -126,7 +126,7 @@ class PropertyReadStore {
 (:testSupport)
 function verifyCompactProperties() {
     var store=new PropertyReadStore();store.values={"a1"=>32,"team"=>"SAVED TEAM","b1_bg"=>0,"unrelated"=>42};
-    var data=SettingsStore.read(store);Test.assertEqual(64,store.reads);Test.assertEqual(64,data.size());
+    var data=SettingsStore.read(store);Test.assertEqual(63,store.reads);Test.assertEqual(63,data.size());
     Test.assertEqual(32,data["a1"]);Test.assertEqual("SAVED TEAM",data["team"]);Test.assertEqual(0,data["b1_bg"]);
     Test.assert(!data.hasKey("unrelated"));Test.assertEqual(4,store.values.size());
     var keys=SettingsCatalogue.keys();var seen={};
@@ -197,10 +197,10 @@ function verifyTeamOptions() {
     Test.assertEqual("",TeamOptions.text(""));Test.assertEqual("  Aa!  ",TeamOptions.text("  Aa!  "));
     Test.assertEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef",TeamOptions.text("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"));
     for(var start=0;start<TeamOptions.REPERTOIRE.length();start+=1) { Test.assertEqual(TeamOptions.REPERTOIRE.substring(start,start+1),TeamOptions.text(TeamOptions.REPERTOIRE.substring(start,start+1))); }
-    var props={"team"=>"ONE","tfont"=>9,"tsrc"=>2};
+    var props={"team"=>"ONE","tsrc"=>2};
     var banks=new FieldSetsSettings();banks.apply(props);
     Test.assertEqual("ONE",banks.primary.teamText);Test.assertEqual("ONE",banks.secondary.teamText);
-    Test.assertEqual(9,banks.primary.teamFont);Test.assertEqual(9,banks.secondary.teamFont);
+
     Test.assertEqual(2,banks.primary.teamSource);Test.assertEqual(2,banks.secondary.teamSource);
     props["a1"]="team";props["a2"]="team";props["b10"]="team";
     props["team"]=" SAME TEAM ";banks.apply(props);
@@ -219,5 +219,5 @@ function verifyTeamOptions() {
     Test.assertEqual("SAVED TEAM",banks.primary.teamText);Test.assertEqual("SAVED TEAM",banks.secondary.teamText);
     Test.assertEqual("SAVED TEAM",store.values["team"]);
     var saved=[true,1.0,-1,10,"1",null];
-    for(var j=0;j<saved.size();j+=1) { Test.assertEqual(0,TeamOptions.code(saved[j],9)); }
+    for(var j=0;j<saved.size();j+=1) { Test.assertEqual(0,TeamOptions.code(saved[j],2)); }
 }

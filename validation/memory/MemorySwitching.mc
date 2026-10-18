@@ -38,7 +38,6 @@ class MemorySwitchingField extends StrukturField {
             first.modes[slot]=(slot+variant)%3;second.modes[slot]=(slot+variant+1)%3;
             first.effects[slot]=first.modes[slot]!=0;second.effects[slot]=second.modes[slot]!=0;
         }
-        first.teamFont=variant%10;second.teamFont=first.teamFont;
         first.teamSource=variant%3;second.teamSource=first.teamSource;
         first.teamText="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";second.teamText=first.teamText;
         return banks;

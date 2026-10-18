@@ -10,7 +10,7 @@ module Catalog {
     function secondaryDefaultSlots() { return ["power_3s", "current_heart_rate", "current_cadence", "grade", "lap_power", "current_speed", "lap_distance", "lap_time", "elevation", "temperature"]; }
 }
 module SettingsCatalogue {
-    function keys() { return ["a_big", "a_align", "a_theme", "a_hideu", "a_inv", "a_grid", "team", "tfont", "tsrc", "a1", "a1_bg", "a2", "a2_bg", "a3", "a3_bg", "a4", "a4_bg", "a5", "a5_bg", "a6", "a6_bg", "a7", "a7_bg", "a8", "a8_bg", "a9", "a9_bg", "a10", "a10_bg", "cad1", "cad2", "cad3", "cad4", "trig", "p_on", "p_off", "hr_on", "hr_off", "b_big", "b_align", "b_theme", "b_hideu", "b_inv", "b_grid", "b1", "b1_bg", "b2", "b2_bg", "b3", "b3_bg", "b4", "b4_bg", "b5", "b5_bg", "b6", "b6_bg", "b7", "b7_bg", "b8", "b8_bg", "b9", "b9_bg", "b10", "b10_bg"]; }
+    function keys() { return ["a_big", "a_align", "a_theme", "a_hideu", "a_inv", "a_grid", "team", "tsrc", "a1", "a1_bg", "a2", "a2_bg", "a3", "a3_bg", "a4", "a4_bg", "a5", "a5_bg", "a6", "a6_bg", "a7", "a7_bg", "a8", "a8_bg", "a9", "a9_bg", "a10", "a10_bg", "cad1", "cad2", "cad3", "cad4", "trig", "p_on", "p_off", "hr_on", "hr_off", "b_big", "b_align", "b_theme", "b_hideu", "b_inv", "b_grid", "b1", "b1_bg", "b2", "b2_bg", "b3", "b3_bg", "b4", "b4_bg", "b5", "b5_bg", "b6", "b6_bg", "b7", "b7_bg", "b8", "b8_bg", "b9", "b9_bg", "b10", "b10_bg"]; }
     // Garmin settings lists store numeric codes; internal fixtures may use identifiers.
     function decode(key,value) {
         if (!(value instanceof Toybox.Lang.Number)) { return value; }

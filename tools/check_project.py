@@ -75,7 +75,7 @@ def main():
     assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==len({p['key'] for p in props})==64
+    assert len(props)==len({p['key'] for p in props})==63
     assert all(re.fullmatch('[a-z][a-z0-9_]{0,7}',p['key']) and not p.get('hidden') for p in props)
     by_key={p['key']:p for p in props}
     for first in [p for p in props if re.match(r'a(?:_|[0-9])',p['key'])]:
@@ -87,12 +87,12 @@ def main():
     assert set(xml)==set(by_key)
     settings=ET.parse(ROOT/'resources/settings/settings.xml');controls=settings.findall('.//setting')
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in controls}
-    assert len(controls)==64 and set(configured)==set(by_key)
+    assert len(controls)==63 and set(configured)==set(by_key)
     group=settings.find('.//group[@id="second_field_set"]')
     assert [s.attrib['propertyKey'].split('.')[-1] for s in group.findall('setting')]==[p['key'] for p in props if p['key'] in ['trig','p_on','p_off','hr_on','hr_off'] or p['key'].startswith('b')]
-    shared=['team','tfont','tsrc'];order=list(configured)
+    shared=['team','tsrc'];order=list(configured)
     assert [p['key'] for p in props if p.get('shared')]==shared
-    assert order[6:9]==shared and all(order.index(k)<order.index('a1') for k in shared)
+    assert order[6:8]==shared and all(order.index(k)<order.index('a1') for k in shared)
     assert [p['key'] for p in props if p['type']=='string']==['team']
     strings={x.attrib['id']:x.text for x in ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')}
     for p in props:
@@ -105,9 +105,7 @@ def main():
         if key.endswith('_bg'):assert p['choices']==[0,1,2] and p['default']==(1 if key in ['b1_bg','b2_bg','b3_bg','b4_bg'] else 0)
     assert [by_key['a'+str(i)]['identifiers'][by_key['a'+str(i)]['default']] for i in range(1,11)]==['current_speed','distance','activity_timer','time_of_day','current_heart_rate','power_3s','elevation','grade','total_ascent','temperature']
     assert [by_key['b'+str(i)]['identifiers'][by_key['b'+str(i)]['default']] for i in range(1,11)]==['power_3s','current_heart_rate','current_cadence','grade','lap_power','current_speed','lap_distance','lap_time','elevation','temperature']
-    native_fonts=read('config/native-fonts.json')
-    assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
-    assert by_key['tfont']['choices']==[0] and by_key['team']['maxLength']==32
+    assert by_key['team']['maxLength']==32 and 'tfont' not in by_key
     devices=read('config/devices.json');manifest=ET.parse(ROOT/'manifest.xml');ns={'iq':'http://www.garmin.com/xml/connectiq'}
     app=manifest.find('iq:application',ns);assert app.attrib['type']=='datafield'
     assert {p.attrib['id'] for p in app.findall('iq:products/iq:product',ns)}=={p['id'] for p in devices}

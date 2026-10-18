@@ -38,7 +38,7 @@ function secondarySettingsAndDefaults(logger) {
         "b_align"=>1,"b1"=>"lap_power","b10"=>"future-field",
         "b1_bg"=>1,"b_big"=>2,"b_hideu"=>false};
     var s=secondSetConfiguration(saved);
-    Test.assertEqual(64,SettingsCatalogue.keys().size());
+    Test.assertEqual(63,SettingsCatalogue.keys().size());
     Test.assertEqual("center",s.primary.alignment);Test.assertEqual("right",s.secondary.alignment);
     Test.assertEqual("battery",s.primary.slots[9]);Test.assert(s.primary.effects[9]);
     Test.assertEqual("lap_power",s.secondary.slots[0]);Test.assertEqual("future-field",s.secondary.slots[9]);
@@ -284,7 +284,7 @@ class MixedTeamLapCallbackScenario {
 class NativeSettingsCallbackScenario {
     var app;var oldView;var saved={};var props;var field;var dc;var loaded;
     function initialize() {
-        props={"a1"=>32,"a2"=>32,"team"=>"NATIVE TEAM","tfont"=>9,"tsrc"=>2,"a_align"=>0,"a_grid"=>2,"trig"=>3,"b1"=>32};
+        props={"a1"=>32,"a2"=>32,"team"=>"NATIVE TEAM","tsrc"=>2,"a_align"=>0,"a_grid"=>2,"trig"=>3,"b1"=>32};
     }
     function run() {
         app=Toybox.Application.getApp();oldView=app._view;
@@ -301,7 +301,7 @@ class NativeSettingsCallbackScenario {
             dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;
             Test.assert(field._renderer._nativeFonts._dc==null);Test.assert(dc.widthReads>reads);
             Test.assertEqual("team",field._settings.slots[0]);Test.assertEqual("team",field._settings.slots[1]);
-            Test.assertEqual(9,field._settings.teamFont);Test.assertEqual(2,field._settings.teamSource);
+Test.assertEqual(2,field._settings.teamSource);
             Test.assertEqual("NATIVE TEAM",field._snapshot[:values][1][:text]);Test.assert(field._renderer._runs[0].isNative);
             Test.assertEqual("center",field._settings.alignment);Test.assertEqual("full",field._settings.gridType);
             reads=dc.widthReads;field.refreshPresentation();Test.assertEqual(reads,dc.widthReads);
@@ -310,13 +310,13 @@ class NativeSettingsCallbackScenario {
             if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
             Test.assert(field._fieldSets.second);
             Toybox.Application.Properties.setValue("team","UPDATED TEAM");
-            Toybox.Application.Properties.setValue("tfont",0);Toybox.Application.Properties.setValue("tsrc",1);
+            Toybox.Application.Properties.setValue("tsrc",1);
             reads=dc.widthReads;app.onSettingsChanged();Test.assertEqual(reads,dc.widthReads);
             dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
             Test.assertEqual("UPDATED TEAM",field._renderer._runs[0].text);
             Test.assert(field._fieldSets.second);Test.assertEqual("UPDATED TEAM",field._snapshot[:values][0][:text]);
             loaded=new FieldSetsSettings();loaded.load();
-            Test.assertEqual(0,loaded.primary.teamFont);Test.assertEqual(0,loaded.secondary.teamFont);
+
             Test.assertEqual(1,loaded.primary.teamSource);Test.assertEqual(1,loaded.secondary.teamSource);
             Test.assertEqual("UPDATED TEAM",loaded.primary.teamText);Test.assertEqual("UPDATED TEAM",loaded.secondary.teamText);
             Test.assertEqual("team",loaded.primary.slots[1]);

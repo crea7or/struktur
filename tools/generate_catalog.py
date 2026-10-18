@@ -77,8 +77,7 @@ def main():
            dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged slots'),
            dict(key='grid_type',type='number',default=1,choices=[0,1,2],identifiers=['none','horizontal','full'],choice_labels=['None','Horizontal lines','Full grid'],title='Grid type')]
     props.append(dict(key='slot_1_team_text',type='string',default='TEAM',maxLength=32,shared=True,title='Team name',prompt='Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.'))
-    props.extend([dict(key='team_font',type='number',default=0,shared=True,choices=[0],choice_labels=['Automatic'],title='Team font',prompt='Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic.'),
-                  dict(key='team_color_source',type='number',default=0,shared=True,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title='Team color source',prompt='Shared by all Team slots in both sets.')])
+    props.extend([dict(key='team_color_source',type='number',default=0,shared=True,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title='Team color source',prompt='Shared by all Team slots in both sets.')])
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields],title=f'Slot {i+1}: value'),
                       dict(key=f'slot_{i+1}_background_mode',type='number',default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Slot {i+1}: background coverage')])
@@ -101,7 +100,7 @@ def main():
         elif coverage:second['default']=1 if int(coverage[1])<=4 else 0
         props.append(second)
     # Authoring names stay readable; only compact keys enter resources/runtime.
-    compact={'slot_1_team_text':'team','team_font':'tfont','team_color_source':'tsrc',
+    compact={'slot_1_team_text':'team','team_color_source':'tsrc',
              'second_set_trigger':'trig','second_power_activate_w':'p_on','second_power_return_w':'p_off',
              'second_hr_activate_bpm':'hr_on','second_hr_return_bpm':'hr_off'}
     layout_keys={'enlarged_field_count':'_big','alignment':'_align','theme_mode':'_theme',

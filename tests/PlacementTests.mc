@@ -137,7 +137,7 @@ function secondaryFieldSetPlacement(logger) {
 (:testSupport)
 function verifyTeamInsufficientArea() {
     var fonts=new NativeTextCache();fonts.setContext(new PresentationDrawDc(profileDrawWidth(),profileDrawHeight()));
-    var value={:text=>"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",:nativeFont=>0};
+    var value={:text=>"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"};
     var run=fonts.fit({:w=>20,:h=>200},value);Test.assertEqual(PresentationPolicy.OVERFLOW,run.text);
     run=fonts.fit({:w=>1,:h=>1},value);Test.assertEqual("",run.text);
     value[:text]="";run=fonts.fit({:w=>20,:h=>20},value);Test.assertEqual("",run.text);

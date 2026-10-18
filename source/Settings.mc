@@ -9,7 +9,7 @@ class DisplaySettings {
     var slots;
     var effects;
     var modes;
-    var teamText;var teamFont;var teamSource;
+    var teamText;var teamSource;
     var cadenceBounds=[60,80,100,120];
     var hideValueUnits;
     var inverseEnlargedTheme;
@@ -23,7 +23,7 @@ class DisplaySettings {
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
         modes=[0,0,0,0,0,0,0,0,0,0];
         teamText="TEAM";
-        teamFont=0;teamSource=0;
+        teamSource=0;
         hideValueUnits=true; inverseEnlargedTheme=true; gridType="horizontal"; usesBattery=false; usesClock=true;
     }
     function load() {
@@ -37,9 +37,8 @@ class DisplaySettings {
     }
     function apply(values as Lang.Dictionary) {
         revision+=1;var nextBounds=CadenceZones.configured(values);
-        // All Team slots in both sets share these three properties.
+        // All Team slots in both sets share these two properties.
         teamText=TeamOptions.text(values.hasKey("team")?values["team"]:null);
-        teamFont=TeamOptions.code(values.hasKey("tfont")?values["tfont"]:null,9);
         teamSource=TeamOptions.code(values.hasKey("tsrc")?values["tsrc"]:null,2);
         if(!CadenceZones.same(cadenceBounds,nextBounds)) { cadenceBounds=nextBounds; }
         var second="b".equals(_prefix);

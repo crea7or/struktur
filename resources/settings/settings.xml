@@ -37,11 +37,6 @@
     <setting propertyKey="@Properties.team" title="@Strings.Setting_team" prompt="@Strings.Prompt_team">
       <settingConfig type="alphaNumeric" maxLength="32" />
     </setting>
-    <setting propertyKey="@Properties.tfont" title="@Strings.Setting_tfont" prompt="@Strings.Prompt_tfont">
-      <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_tfont_0</listEntry>
-      </settingConfig>
-    </setting>
     <setting propertyKey="@Properties.tsrc" title="@Strings.Setting_tsrc" prompt="@Strings.Prompt_tsrc">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_tsrc_0</listEntry>

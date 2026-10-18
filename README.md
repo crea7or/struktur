@@ -12,7 +12,7 @@ The screenshots use sample data. Power zones show `--` while their data source a
 
 - 33 selectable fields: speed, distance, heart rate, cadence, power, elevation, ascent/descent, slope, timers, time of day, battery, heading, calories, completed laps and more.
 - Shared five-zone colors for heart-rate, power and cadence metrics, including activity and lap averages; four configurable cadence boundaries. Qualified power zones above five use magenta.
-- A Team text field with shared **Team name** (up to 32 printable ASCII characters), **Team font** and **Team color source** options before all slot controls, used by every Team slot in both sets, a `team` header, wrapping at spaces within the value area, native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; unsupported saved AUX font choices fall back to Automatic. AUX choices are offered only after target qualification.
+- A Team text field with shared **Team name** (up to 32 printable ASCII characters) and **Team color source** options before all slot controls, used by every Team slot in both sets, a `team` header, wrapping at spaces within the value area, native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; font fitting is automatic with no font selector.
 - Six current-lap fields: distance, active time, average speed, heart rate, power and cadence.
 - Two independent sets of ten saved field assignments, including temporarily hidden slots. Repeated metrics are supported.
 - Choose a second-set trigger: **3s power**, **Heart rate**, **Manual lap** (factory default), **Workout started**, or **None** to disable switching without losing the saved set.
@@ -39,7 +39,7 @@ These are development profiles. Emulator verification does not establish physica
 
 For development sideloading, build a PRG for the matching device and copy it into the device's `GARMIN/APPS` directory. Add Struktur to a cycling activity using a full-page, single Data Field layout.
 
-Application settings control field assignments, alignment, enlargement, grid type, themes, unit headers and per-slot backgrounds. Changing a layout retains assignments in hidden slots. The [property reference](docs/properties.md) lists all 64 compact storage keys, defaults and limits. This schema starts fresh; previous property names are not migrated. Builds check the serialized settings against an 8,000-byte budget.
+Application settings control field assignments, alignment, enlargement, grid type, themes, unit headers and per-slot backgrounds. Changing a layout retains assignments in hidden slots. The [property reference](docs/properties.md) lists all 63 compact storage keys, defaults and limits. This schema starts fresh; previous property names are not migrated. Builds check the serialized settings against an 8,000-byte budget.
 
 The **Second field set** section follows the default-set settings. Its activation selector controls when the entire second dashboard replaces the first. Each set saves ten assignments and independently configures fields, alignment, enlargement, themes, unit headers, backgrounds and grid.
 

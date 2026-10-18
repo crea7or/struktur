@@ -57,9 +57,6 @@
     <string id="Choice_a_grid_full" scope="settings">Full grid</string>
     <string id="Setting_team" scope="settings">Team name</string>
     <string id="Prompt_team" scope="settings">Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.</string>
-    <string id="Setting_tfont" scope="settings">Team font</string>
-    <string id="Prompt_tfont" scope="settings">Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic.</string>
-    <string id="Choice_tfont_0" scope="settings">Automatic</string>
     <string id="Setting_tsrc" scope="settings">Team color source</string>
     <string id="Prompt_tsrc" scope="settings">Shared by all Team slots in both sets.</string>
     <string id="Choice_tsrc_0" scope="settings">None</string>

@@ -607,7 +607,6 @@ class TeamScenario {
         for(var duplicate=1;duplicate<renderer._cells.size();duplicate+=1) {
             if("team".equals(settings.slots[duplicate])) {
                 Test.assertEqual(run.text,renderer._runs[duplicate].text);
-                Test.assertEqual(engine._descriptors[0].nativeFont,engine._descriptors[duplicate].nativeFont);
                 Test.assertEqual(engine._descriptors[0].zoneChannel,engine._descriptors[duplicate].zoneChannel);
                 Test.assertEqual("team",renderer._packets[duplicate].label[3]);
                 Test.assert(renderer._packets[duplicate].lines.size()>0);
@@ -640,10 +639,7 @@ class TeamScenario {
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(measures,renderer._nativeFonts.measurements);
         props[prefix+"_theme"]=2;sample(null);check();Test.assertEqual(fits,renderer.fitCount);
         props[prefix+"1_bg"]=0;sample(110);check();Test.assert(snapshot[:values][0][:band]==null);Test.assertEqual(fits,renderer.fitCount);
-        for(var code=1;code<=9;code+=1) {
-            props["tfont"]=code;sample(110);check();Test.assertEqual(code,settings.teamFont);
-        }
-        props["tfont"]=0;props["tsrc"]=1;props[prefix+"1_bg"]=2;
+        props["tsrc"]=1;props[prefix+"1_bg"]=2;
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);watts=650;sample(110);check();
         Test.assertEqual("magenta",snapshot[:values][0][:band]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);

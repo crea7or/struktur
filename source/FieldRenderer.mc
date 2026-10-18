@@ -246,7 +246,7 @@ class FieldRenderer {
                 if(!old[:label].equals(next[:label])) { headersChanged=true; }
                 if(!old[:label].equals(next[:label]) || !displayText(old).equals(displayText(next)) ||
                     !old[:unit].equals(next[:unit]) || isTeam(old)!=isTeam(next) ||
-                    (isTeam(next) && old[:nativeFont]!=next[:nativeFont]) || (!isTeam(next) && painted(old)!=painted(next)) ||
+                    (!isTeam(next) && painted(old)!=painted(next)) ||
                     (old[:expandedUnit]==null?next[:expandedUnit]!=null:(next[:expandedUnit]==null || !old[:expandedUnit].equals(next[:expandedUnit])))) { changed=true; }
             }
             // Hidden candidate cells can permit recovery from a smaller fallback.
