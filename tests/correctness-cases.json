@@ -15,8 +15,7 @@
     "fixture": "approvedZoneSnapshot",
     "requirements": [
       "DVS-42",
-      "DVS-46",
-      "DVS-48"
+      "SPEC-248"
     ],
     "issues": [
       "R8"
@@ -55,9 +54,9 @@
     "fixture": "reviewedFormattingAndCatalogue",
     "requirements": [
       "DVS-7",
-      "DVS-14",
+      "DVS-35",
       "DVS-36",
-      "FUNC-11"
+      "SPEC-155"
     ],
     "issues": [
       "R5",
@@ -70,7 +69,7 @@
     "fixture": "actualValueFitAndCompactCache",
     "requirements": [
       "APP-26",
-      "APP-28",
+      "APP-25",
       "APP-34"
     ],
     "issues": [
@@ -96,7 +95,7 @@
     "fixture": "fixedThreeRoleFonts",
     "requirements": [
       "APP-24",
-      "APP-28",
+      "APP-25",
       "SPEC-176"
     ],
     "issues": [

@@ -5,11 +5,11 @@
       "DVS-13",
       "SPEC-161"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "user / product reviewer",
     "decision": "Use the DVS-13 primary duration and .SS secondary below ten hours; at ten hours or more omit secondary seconds. Keep all primary hour digits.",
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "affected_tasks": [
       "DVS-13",
       "DVS-30",
@@ -43,25 +43,29 @@
     },
     "implementation": "Implemented in production and deterministic fixtures; source-matched validation is recorded separately in artifacts. Requirement review states are preserved.",
     "requirement_revisions": {
-      "DVS-13": 62,
-      "SPEC-161": 17
+      "DVS-13": 66,
+      "SPEC-161": 20
     },
     "reviewed_on": "2026-10-17",
-    "approved_requirement_revisions": {
-      "DVS-13": 62,
-      "SPEC-161": 17
+    "requirement_states": {
+      "DVS-13": "draft",
+      "SPEC-161": "draft"
     },
-    "approved_on": "2026-10-17"
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_on": "2026-10-17",
+      "approved_requirement_revisions": {
+        "DVS-13": 62,
+        "SPEC-161": 17
+      }
+    }
   },
   {
     "id": "DEC-TEMPERATURE",
     "requirements": [
-      "DVS-34",
-      "DVS-49",
-      "FUNC-15",
-      "FUNC-16"
+      "DVS-34"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer and hardware verifier",
     "implementation": "Native Edge temperature background reads with runtime sensor-registration origin checks; no weather/external substitution. Physical qualification is independent.",
     "decision": {
@@ -71,40 +75,33 @@
       "unverified_source": "unavailable"
     },
     "rationale": "Enable the requested native device value without an empty firmware allowlist preventing all acquisition. Reject remote/unknown registrations before and after each read. Preserve 300s scheduling and 360s expiry.",
-    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
-    "approved_on": "2026-10-17",
-    "approved_requirement_revisions": {
-      "DVS-34": 145,
-      "DVS-49": 56,
-      "FUNC-15": 13,
-      "FUNC-16": 18
-    },
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "specification_review": "Native source guards and read-age/cache contracts approved; physical model/firmware provenance and sensor-pairing qualification remain pending.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-34": 145,
-      "DVS-49": 56,
-      "FUNC-15": 13,
-      "FUNC-16": 18
+      "DVS-34": 161
     },
     "requirement_states": {
-      "DVS-34": "approved",
-      "DVS-49": "draft",
-      "FUNC-15": "approved",
-      "FUNC-16": "approved"
+      "DVS-34": "draft"
+    },
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_on": "2026-10-17",
+      "approved_requirement_revisions": {
+        "DVS-34": 145,
+        "DVS-49": 56,
+        "FUNC-15": 13,
+        "FUNC-16": 18
+      }
     }
   },
   {
     "id": "DEC-GRADE",
     "requirements": [
-      "DVS-29",
-      "DVS-43",
-      "FUNC-12",
-      "FUNC-13",
-      "FUNC-14"
+      "DVS-29"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer",
     "implementation": "Implemented in production and deterministic fixtures; source-matched validation is recorded separately in artifacts. Requirement review states are preserved.",
     "decision": {
@@ -123,39 +120,33 @@
       "display_decimal_places": 1
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
-    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 137,
-      "DVS-43": 67,
-      "FUNC-12": 12,
-      "FUNC-13": 17,
-      "FUNC-14": 14
+      "DVS-29": 155
     },
     "reviewed_on": "2026-10-17",
-    "approved_requirement_revisions": {
-      "DVS-29": 137,
-      "DVS-43": 67,
-      "FUNC-12": 12,
-      "FUNC-13": 17,
-      "FUNC-14": 14
-    },
-    "approved_on": "2026-10-17",
     "requirement_states": {
-      "DVS-29": "approved",
-      "DVS-43": "draft",
-      "FUNC-12": "approved",
-      "FUNC-13": "approved",
-      "FUNC-14": "approved"
+      "DVS-29": "draft"
+    },
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_on": "2026-10-17",
+      "approved_requirement_revisions": {
+        "DVS-29": 137,
+        "DVS-43": 67,
+        "FUNC-12": 12,
+        "FUNC-13": 17,
+        "FUNC-14": 14
+      }
     }
   },
   {
     "id": "DEC-LAPS",
     "requirements": [
-      "DVS-39",
-      "FUNC-17"
+      "DVS-39"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer",
     "implementation": "Separate exact-baseline callback state machine; no zero inferred from startup onTimerStart.",
     "decision": {
@@ -165,28 +156,32 @@
       "persistent_counter_restore": false
     },
     "rationale": "An exact continuously observed total; earlier laps cannot be reconstructed through the documented activity snapshot or callback alone.",
-    "approval_status": "Current linked Requirement contracts are Approved. Specification/decision approval is separate from runtime, physical and source qualification.",
-    "approved_on": "2026-10-14",
-    "approved_requirement_revisions": {
-      "DVS-39": 108,
-      "FUNC-17": 16
-    },
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
-    "specification_review": "Completed-lap acquisition contract now belongs to FUNC-17.",
+    "specification_review": "Completed-lap acquisition contract now belongs to DVS-39.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-39": 108,
-      "FUNC-17": 16
+      "DVS-39": 117
+    },
+    "requirement_states": {
+      "DVS-39": "draft"
+    },
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_on": "2026-10-14",
+      "approved_requirement_revisions": {
+        "DVS-39": 108,
+        "FUNC-17": 16
+      }
     }
   },
   {
     "id": "DEC-ZONES",
     "requirements": [
       "DVS-45",
-      "DVS-46",
-      "DVS-48"
+      "SPEC-248"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer",
     "implementation": "One rounded, upper-inclusive production classifier. HR validates six min/max bounds. Ambiguous power metadata remains disabled under DVS-42; see requirements/zone-api-assessment.json.",
     "decision": {
@@ -196,23 +191,24 @@
       "invalid_metadata": "neutral"
     },
     "rationale": "User explicitly approved upper-inclusive thresholds classified from the displayed whole-number value during the workspace review.",
-    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
-    "approved_on": "2026-10-14",
-    "approved_requirement_revisions": {
-      "DVS-45": 29,
-      "DVS-46": 45,
-      "DVS-48": 45
-    },
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-45": 29,
-      "DVS-46": 45,
-      "DVS-48": 45
+      "DVS-45": 41,
+      "SPEC-248": 48
     },
     "requirement_states": {
       "DVS-45": "draft",
-      "DVS-46": "draft",
-      "DVS-48": "draft"
+      "SPEC-248": "draft"
+    },
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_on": "2026-10-14",
+      "approved_requirement_revisions": {
+        "DVS-45": 29,
+        "DVS-46": 45,
+        "DVS-48": 45
+      }
     }
   },
   {
@@ -223,7 +219,7 @@
       "APP-36",
       "SPEC-154"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer",
     "implementation": "Approved markers, foregrounds, heading and grade formatting implemented. Actual-value fitting and complete compact fallback are cached outside drawing. Runtime and physical visual qualification remain unrun.",
     "decision": {
@@ -237,31 +233,34 @@
       ],
       "fitting_requirements": [
         "APP-21",
-        "APP-28",
+        "APP-25",
         "APP-34"
       ]
     },
     "rationale": "User explicitly accepted existing marker/color/separator conventions. Exact formulas and RGB values are recorded in the reviewed requirements.",
-    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
-    "approved_on": "2026-10-14",
-    "approved_requirement_revisions": {
-      "APP-22": 52,
-      "APP-25": 30,
-      "APP-36": 66,
-      "SPEC-154": 34
-    },
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "APP-22": 52,
-      "APP-25": 30,
-      "APP-36": 66,
-      "SPEC-154": 34
+      "APP-22": 63,
+      "APP-25": 39,
+      "APP-36": 79,
+      "SPEC-154": 41
     },
     "requirement_states": {
-      "APP-22": "approved",
+      "APP-22": "draft",
       "APP-25": "draft",
       "APP-36": "draft",
-      "SPEC-154": "approved"
+      "SPEC-154": "draft"
+    },
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_on": "2026-10-14",
+      "approved_requirement_revisions": {
+        "APP-22": 52,
+        "APP-25": 30,
+        "APP-36": 66,
+        "SPEC-154": 34
+      }
     }
   },
   {
@@ -271,13 +270,13 @@
       "SPEC-155",
       "DVS-50"
     ],
-    "status": "approved",
+    "status": "draft",
     "owner": "product reviewer",
-    "implementation": "The 26 settings include independent Grid type; field headers, saved slots and other selections are preserved.",
+    "implementation": "The generated catalogue defines both saved banks, shared zone/schema settings and hidden compatibility declarations.",
     "decision": {
-      "active_properties": 26,
+      "active_properties": 121,
       "saved_slots": 10,
-      "existing_codes": "0..25 retained",
+      "existing_codes": "0..32 retained",
       "lap_codes": "26..31 retained",
       "retired_keys": [
         "use_units_as_labels",
@@ -285,25 +284,29 @@
         "show_grid"
       ],
       "physical_units": "header decoration controlled by hide_value_units",
-      "grid_type": "0 None, 1 Horizontal lines (default), 2 Full grid; independent of alignment"
+      "grid_type": "0 None, 1 Horizontal lines (default), 2 Full grid; independent of alignment",
+      "total_properties": 142
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
-    "approval_status": "Previous product decision approval is retained; current linked Draft requirement revisions are not Approved. Runtime, source and hardware qualification are separate.",
+    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "requirement_revisions": {
-      "APP-46": 54,
-      "SPEC-155": 79,
-      "DVS-50": 55
+      "APP-46": 71,
+      "SPEC-155": 105,
+      "DVS-50": 61
     },
     "reviewed_on": "2026-10-17",
-    "approved_requirement_revisions": {
-      "APP-46": 54,
-      "SPEC-155": 79,
-      "DVS-50": 55
-    },
     "requirement_states": {
       "APP-46": "draft",
       "SPEC-155": "draft",
       "DVS-50": "draft"
+    },
+    "historical_product_approval": {
+      "status": "approved",
+      "approved_requirement_revisions": {
+        "APP-46": 54,
+        "SPEC-155": 79,
+        "DVS-50": 55
+      }
     }
   },
   {
@@ -315,6 +318,14 @@
     "status": "open",
     "owner": "development and verification owner",
     "question": "Record validated exact tool versions, hardware coverage, durations/repetitions and primary host.",
-    "implementation": "SDK 9.2.0 and JetBrains Java 25.0.3 are recorded with compiler/device-package hashes. Hardware selection, duration and qualification remain open."
+    "implementation": "SDK 9.2.0 and JetBrains Java 25.0.3 are recorded with compiler/device-package hashes. Hardware selection, duration and qualification remain open.",
+    "requirement_revisions": {
+      "SPEC-151": 7,
+      "SPEC-159": 10
+    },
+    "requirement_states": {
+      "SPEC-151": "draft",
+      "SPEC-159": "draft"
+    }
   }
 ]

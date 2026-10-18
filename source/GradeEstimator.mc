@@ -1,6 +1,6 @@
 using Toybox.Lang;
 using Toybox.Math;
-// FUNC-12..14: one bounded five-sample regression in producer metres/milliseconds.
+// DVS-29: one bounded five-sample regression in producer metres/milliseconds.
 class GradeEstimator {
     const CAPACITY=5;
     var _points as Lang.Array;
@@ -19,7 +19,7 @@ class GradeEstimator {
         _head=0; _count=0; _value=null;clearSmoothing();
     }
     function clearSmoothing() { _smoothCount=0;_smoothNext=0;_smoothSecond=null; }
-    // FUNC-13: one shared partial-window mean; no draw-time work or additional warm-up.
+    // DVS-29: one shared partial-window mean; no draw-time work or additional warm-up.
     function smooth(value,second) {
         if(!Numeric.finite(value) || !Numeric.finite(second)) { clearSmoothing();_value=null;return null; }
         if(_smoothSecond!=null && second==_smoothSecond) { return _value; }

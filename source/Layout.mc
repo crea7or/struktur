@@ -1,5 +1,5 @@
 using Toybox.Math;
-// APP-20/HFER-2..4: pure logical geometry. Row eligibility is supplied by font-fit measurements.
+// APP-20: pure logical geometry. Row eligibility is supplied by font-fit measurements.
 module Grid {
     function capacity(rows, big) { return rows * 2 - big * 3; }
     function plan(width, height, rows, requestedBig) {

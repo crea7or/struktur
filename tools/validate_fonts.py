@@ -154,7 +154,7 @@ def validate_manifest(root=ROOT, baseline=None):
     require(manifest['glyph_contract'] == contract, 'inventory', 'manifest', 'source text/rules changed; regenerate resources')
     require(manifest['inventory_inputs'] == input_inventory(root), 'input_hash', 'manifest', 'traced input revisions changed; regenerate resources')
     specification={r['stable_id']:r for r in json.loads((root/'requirements/workspace-snapshot.json').read_text(encoding='utf-8-sig'))}
-    expected_refs={key:dict(revision=specification[key]['head_change_seq'],description_sha256=hashlib.sha256(specification[key]['description'].encode()).hexdigest()) for key in ['APP-24','APP-28','APP-34','SPEC-154']}
+    expected_refs={key:dict(revision=specification[key]['head_change_seq'],description_sha256=hashlib.sha256(specification[key]['description'].encode()).hexdigest()) for key in ['APP-24','APP-25','APP-34','SPEC-154']}
     require(manifest.get('requirement_refs')==expected_refs,'inventory','requirements','font-generation provenance differs from current specifications')
     require(manifest['pillow'] == pillow_version and manifest['python'] == platform.python_version(),
             'toolchain', 'manifest', 'Python/Pillow differ from recorded generation versions')

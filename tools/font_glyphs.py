@@ -91,5 +91,5 @@ def glyph_contract(root=ROOT):
                     numeric_alphabet='0123456789-.:',
                     trace='Formatting.mc: bounded decimal/integer outputs and colon-separated hours/minutes; Snapshot.mc uses lowercase clock-header indicators and .SS secondary below ten hours in the label role'),
                 expected_codepoints=dict(numeric=[ord(c) for c in numeric],label=[ord(c) for c in label_glyphs]),
-                marker_decision_status='approved under APP-35 and config/decisions.json',
+                marker_decision_status='specified by APP-35; review state tracked separately',
                 scope='Union of supported current UI text per font role; not the full source-font charset.')

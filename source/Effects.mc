@@ -1,6 +1,6 @@
 using Toybox.Math;
 using Toybox.Lang;
-// DVS-43/44 use the canonical rounded grade; DVS-49 uses raw Celsius.
+// DVS-29 uses the canonical rounded grade; DVS-34 uses raw Celsius.
 module Effects {
     const ZONE_COLORS=["blue","green","yellow","orange","red"];
     function hasCustomBackground(id) {

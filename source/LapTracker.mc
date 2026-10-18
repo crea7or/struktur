@@ -26,7 +26,7 @@ class LapTracker {
         if(_count>=2147483647) { invalidate(); return; } // unavailable instead of wrapping
         _count+=1;
     }
-    // FUNC-17: a clean pre-start snapshot readies the baseline; start establishes zero.
+    // DVS-39: a clean pre-start snapshot readies the baseline; start establishes zero.
     function value() { return _state==TRACKING?_count:null; }
     function observe(startPresent,identity,off,timerMs,elapsedMs,distance) {
         var complete=startPresent && identity==null && off==true && Numeric.finite(timerMs) && timerMs==0 &&

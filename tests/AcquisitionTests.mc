@@ -4,7 +4,7 @@ using Toybox.Time;
 using Toybox.Math;
 using Toybox.Sensor;
 
-// FUNC-13: fixed regression fixtures, including exactly representable halfway values.
+// DVS-29: fixed regression fixtures, including exactly representable halfway values.
 (:test)
 function gradeRegression(logger) {
     var g=new GradeEstimator();

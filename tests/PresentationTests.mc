@@ -339,7 +339,7 @@ function clockAndDurationFitEveryLayout(logger) {
 }
 
 
-// SPEC-239..242: exercise production effect selection, fitting and drawing in both banks.
+// DVS-6, APP-34 and APP-26: exercise production effect selection, fitting and drawing in both banks.
 (:testSupport)
 class EnlargedLabelScenario {
     var dc;var enlarged;var night;var bank;var align;var fits;var geometry;var packets;

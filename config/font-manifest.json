@@ -4,20 +4,20 @@
   "python": "3.14.7",
   "inventory_inputs": {
     "config/catalogue.json": "afd4bcb192041ad7e58aa1282d31ce711df783e4c928033a6349cf61c9d310d7",
-    "config/decisions.json": "3b3e58e04bb6c7b58797fcdc64e12708e536c374f4dbf38e0f8023adb023f60c",
+    "config/decisions.json": "ebfe7b6fa709c0e66eefea79e5e539dcfce56f1d5af237997bc9d232969cf13e",
     "config/devices.json": "849592e2e3ae403d4461410306f49d3ff74ebfef13483fe5a35a621dd0c2ed99",
-    "requirements/workspace-snapshot.json": "67aa61f49e986b19154e6164428427e31118cc7ef69a82f8951182e1d1d4d0f0",
+    "requirements/workspace-snapshot.json": "402580df69a71d01a593b3427c303ee84e6a49519afc46779363da464658233d",
     "source/Snapshot.mc": "2bbd6849c1b893ec6499441ab2bbb7db5343d703f8f8d6f6c01ec9214f5d91ac",
     "source/FieldRenderer.mc": "67bb0445f3a9e4f2710a28be0156fe9de571f81d1a757f8af99de0b6ffc8b2ff",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
     "source/Policy.mc": "ac108943550289229b45ddce5f73bd42b36bf96e6b613bade14ff1a70ab03316",
     "source/Formatting.mc": "b16ffbdad83a032a5319ac08e96f560c110d01d074bb4e2753514a00df8e02e3",
     "source/FieldPresentation.mc": "b60532192c787f1a762f483629c9d1fca2af02b24cc0328cc35aedc8792c8eb6",
-    "tools/font_glyphs.py": "0fd3e9e0905dc18dc9f58672b5f0930aac4fc56271718d5d4ac435d75aa4e295",
-    "tools/generate_fonts.py": "ca238d133b81084517703d25bdc0ea7881dacd93b7d82d0aea058f5adc10b44f",
+    "tools/font_glyphs.py": "3b76e4edc427440f02cfdbb96856ed267f2ade1e401edcc4cecebd4edc642e4c",
+    "tools/generate_fonts.py": "ccaa6b359fa201b8a84b6f87c62b2fcf3d4c3b6da6a8e345fb95f704e65847ec",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "107bb88ef3fbc9547e7a14cd88be98cfe128438f7c738da3d3dfaf0163837516",
+    "tools/generate_catalog.py": "196debaa5895c1b9b558db5bfa0d6dadd2d57801695ba46ba41618de359e11b3",
     "source/Catalog.mc": "2d0188db74a9d50aadaa2e005db93f0ab63b1740d4952d9f2799b078fb43cc7d",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
@@ -31,20 +31,20 @@
   },
   "requirement_refs": {
     "APP-24": {
-      "revision": 73,
-      "description_sha256": "d162844e58a9256f084e1d0d99338b48bf3c4cf3eac21217c649e490c5c6b486"
+      "revision": 77,
+      "description_sha256": "2b58838a4c93ce82a19bba4509c391be701ee66289161c10dd9c1091e61c2805"
     },
-    "APP-28": {
-      "revision": 56,
-      "description_sha256": "027595ceaa6c082627b073b1d0b2a907c231f9d8378e0589b74bb0496de53676"
+    "APP-25": {
+      "revision": 39,
+      "description_sha256": "9f6f5fb0b8e6b32b134ecc5065471dda372a26afe3496d8507247fbb09ecea33"
     },
     "APP-34": {
-      "revision": 77,
-      "description_sha256": "09a85edae072a40e57c49c1789e4ccd3eef6c98086743c214b4576c6f3701b5c"
+      "revision": 97,
+      "description_sha256": "3226e3d5fb9899f09cd15ab4ff4c7060767e01e99cee6a3130ae982991ffa5cf"
     },
     "SPEC-154": {
-      "revision": 34,
-      "description_sha256": "184ac1536d3a96aa19d045d4f3cfefe511186be1ed2c3cad8ee37167c189affa"
+      "revision": 41,
+      "description_sha256": "909931774c7b9782bf0602c9adbd9c62070880f4a6243d3e6bf3159f952e6469"
     }
   },
   "status": "generated; compiler and runtime evidence tracked separately",
@@ -239,7 +239,7 @@
         176
       ]
     },
-    "marker_decision_status": "approved under APP-35 and config/decisions.json",
+    "marker_decision_status": "specified by APP-35; review state tracked separately",
     "scope": "Union of supported current UI text per font role; not the full source-font charset."
   },
   "packing": "minimum one-bit scanline bytes across height-sorted shelves; trimmed non-power-of-two bounds",

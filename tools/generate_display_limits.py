@@ -179,6 +179,21 @@ def field_table(record, field, groups):
     return '\n'.join(lines)
 
 
+def requirement_limits_match(description, record, field, groups):
+    """Accept a full table, or one exact interval only when every context agrees."""
+    description = description.replace('\r', '')
+    table = field_table(record, field, groups)
+    if table in description:
+        return True
+    cells = [cell.strip() for row in table.splitlines()[2:]
+             for cell in row.strip('|').split('|')[1:]]
+    if not cells or len(set(cells)) != 1:
+        return False
+    statement = ('Normal display ranges: ' + cells[0] +
+                 '. All supported devices, regular/enlarged cells, headers hidden/shown.')
+    return statement in description
+
+
 def generate():
     fields=read('config/catalogue.json')['fields']; domains={r['field']:r for r in read('config/display-domains.json')['fields']}
     devices={d['id']:d for d in read('config/devices.json')}; fonts={f['id']:f for f in read('config/font-manifest.json')['fonts']}
@@ -263,8 +278,7 @@ def main():
         for field in contract['fields']:
             description=rows[field['requirement']]['description']
             assert 'Precision:' in description and 'Normal display ranges' in description, field['requirement']
-            assert all(group['title'] in description for group in contract['groups']), field['requirement']
-            assert field_table(field,catalogue[field['field']],contract['groups']) in description.replace('\r',''), ('Requirement table differs from executable limits',field['requirement'])
+            assert requirement_limits_match(description, field, catalogue[field['field']], contract['groups']), ('Requirement ranges differ from executable limits',field['requirement'])
         fonts={font['id']:font for font in read('config/font-manifest.json')['fonts']}
         devices={device['id']:device for device in read('config/devices.json')}
         for group in contract['groups']:

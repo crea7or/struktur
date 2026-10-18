@@ -8246,7 +8246,7 @@
     {
       "field": "time_of_day",
       "requirement": "DVS-32",
-      "precision": "1 minute under DVS-5",
+      "precision": "1 minute under DVS-32",
       "contexts": [
         {
           "group": "small",

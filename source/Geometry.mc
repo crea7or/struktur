@@ -1,5 +1,5 @@
 using Toybox.Math;
-// APP-26/DVS-43: clipped polygon points are prepared outside onUpdate; at most eight vertices.
+// APP-26/DVS-29: clipped polygon points are prepared outside onUpdate; at most eight vertices.
 module Geometry {
     function clip(points,axis,limit,less) {
         var out=[];

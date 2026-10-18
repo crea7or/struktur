@@ -101,7 +101,7 @@ def generate(root=ROOT):
     manifest=[]
     devices=json.loads((root/'config/devices.json').read_text(encoding='utf-8-sig'))
     requirements={r['stable_id']:r for r in json.loads((root/'requirements/workspace-snapshot.json').read_text(encoding='utf-8-sig'))}
-    requirement_refs={key:dict(revision=requirements[key]['head_change_seq'],description_sha256=hashlib.sha256(requirements[key]['description'].encode()).hexdigest()) for key in ['APP-24','APP-28','APP-34','SPEC-154']}
+    requirement_refs={key:dict(revision=requirements[key]['head_change_seq'],description_sha256=hashlib.sha256(requirements[key]['description'].encode()).hexdigest()) for key in ['APP-24','APP-25','APP-34','SPEC-154']}
     references_by_profile={}
     for device in devices:
         references=(root/'profiles'/device['id']/'DeviceProfile.mc').read_text(encoding='utf-8')

@@ -29,7 +29,7 @@ def main():
     # Development can track reviewed changes in Draft; build.ps1 separately
     # requires every current requirement to be Approved for release/package.
     contracts=read('config/acquisition-contracts.json')
-    assert contracts['requirement_revisions']=={k:by_id[k]['head_change_seq'] for k in ['DVS-29','DVS-34','DVS-39',*['FUNC-'+str(i) for i in range(12,18)]]}
+    assert contracts['requirement_revisions']=={k:by_id[k]['head_change_seq'] for k in ['DVS-29','DVS-34','DVS-39']}
     assert contracts['grade']==dict(maximum_samples=5,minimum_regression_samples=3,warmup_grade=0,canonical_decimal_places=2,stationary_reset_s=3,maximum_sample_gap_ms=2000,temporal_average_samples=3,temporal_average_period_s=1,temporal_average_warmup='mean of available estimates; regression warm-up zeros excluded',temporal_average_gap='clear on nonconsecutive elapsed-second buckets',display_decimal_places=1)
     assert contracts['temperature']==dict(background_interval_s=300,maximum_read_cache_age_s=360,onboard_only=True,unverified_source='unavailable')
     supporting=read('requirements/supporting-approved-snapshot.json')
@@ -74,11 +74,11 @@ def main():
     assert len(props)==142 and len({p['key'] for p in props})==142
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
-    assert '| grid_type | number: 0 None, 1 Horizontal lines, 2 Full grid | 1 |' in by_id['SPEC-155']['description']
+    assert 'grid_type' in by_id['APP-22']['description'] and '0 None, 1 Horizontal lines (default), 2 Full grid' in by_id['APP-22']['description']
     grid=next(p for p in props if p['key']=='grid_type')
     assert grid['default']==1 and grid['choices']==[0,1,2] and grid['identifiers']==['none','horizontal','full']
     assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
-    assert '| slot_1_background_mode through slot_10_background_mode | number: 0 None, 1 Label, 2 Whole cell | 0 |' in by_id['SPEC-155']['description']
+    assert 'slot_N_background_mode' in by_id['APP-49']['description'] and '0 None, 1 Label, 2 Whole cell' in by_id['APP-49']['description']
     assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
     by_key={p['key']:p for p in props}
     for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p['key'].startswith('cadence_zone_')]:

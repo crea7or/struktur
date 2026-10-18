@@ -55,10 +55,11 @@ def main():
     fields=[dict(id=f[0],label=f[1],requirement=f[2],member=f[3],format=f[4],unit=f[5]) for f in FIELDS]
     reviewed=json.loads((ROOT/'requirements/workspace-snapshot.json').read_text(encoding='utf-8-sig'))
     reviewed={r['stable_id']:r for r in reviewed}
-    for field in fields:
+    for code, field in enumerate(fields):
+        description=reviewed[field['requirement']]['description']
+        assert f"Field code: {code}; identifier: `{field['id']}`." in description, field['requirement']
         if field['id']=='team':
             field['header_with_units']=None;field['rendered_label']='team';continue
-        description=reviewed[field['requirement']]['description']
         field['label']=re.search(r'Label text:\s*`([^`]*)`',description).group(1)
         header=re.search(r'Header text with units:\s*`([^`]*)`',description)
         field['header_with_units']=header.group(1) if header else None
