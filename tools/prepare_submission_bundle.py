@@ -102,9 +102,9 @@ def main():
         settings = json.loads(member(variant.get('settings')))['settings']
         defaults = {s['key']: s['defaultValue'] for s in settings}
         assert set(defaults) == set(properties)
-        assert defaults['grid_type']==1 and 'show_grid' not in defaults
-        assert all(defaults[f'slot_{i}_background_effects'] is False for i in range(1, 11))
-        assert defaults['alignment'] == 1 and defaults['enlarged_field_count'] == 0
+        assert defaults['a_grid']==1 and 'show_grid' not in defaults
+        assert all(defaults[f'a{i}_bg'] == 0 for i in range(1, 11))
+        assert defaults['a_align'] == 1 and defaults['a_big'] == 0
         found.append(dict(product=variants[part], part_number=part,
                           binary_sha256=hashlib.sha256(binary).hexdigest()))
     assert {r['part_number'] for r in found} == set(variants) and len(found) == len(variants)
@@ -145,8 +145,8 @@ def main():
         assert sha(record['source_capture']) == record['source_sha256']
         assert sha(record['sample_binary']) == record['sample_binary_sha256']
         expected = f"STORE_OK id={record['id']} product=edge1050 width=480 height=800 fields={len(config['fields'])}"
-        grid=['none','horizontal','full'][config['settings'].get('grid_type',properties['grid_type'])]
-        alignment='center' if config['settings'].get('alignment',properties['alignment'])==0 else 'right'
+        grid=['none','horizontal','full'][config['settings'].get('a_grid',properties['a_grid'])]
+        alignment='center' if config['settings'].get('a_align',properties['a_align'])==0 else 'right'
         expected+=' grid='+grid+' alignment='+alignment+' lines='
         runtime=Path(record['log']).read_text('utf-8-sig')
         observation=re.search(re.escape(expected)+r'(\d+)',runtime)

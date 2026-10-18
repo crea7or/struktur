@@ -20,10 +20,13 @@ def main():
     device=next(d for d in read('config/devices.json') if d['id']==product)
     fields=read('config/catalogue.json')['fields'];catalog={f['id']:f for f in fields}
     props={p['key']:p['default'] for p in read('config/catalogue.json')['properties']}
-    defaults=[fields[props[f'slot_{i}_value']]['id'] for i in range(1,11)]
+    defaults=[fields[props[f'a{i}']]['id'] for i in range(1,11)]
     fonts={f['id']:f for f in read('config/font-manifest.json')['fonts']}
     label=fonts['Label'+str(device['label_font_reference'])];lm=metrics(label)
     out=ROOT/'.local/publishing-preview';source=out/'source';source.mkdir(parents=True,exist_ok=True)
+    # Drop stale generated source files after production renames.
+    for stale in source.glob('*.mc'):
+        if not (ROOT/'source'/stale.name).is_file():stale.unlink()
     sources=[]
     for path in sorted((ROOT/'source').glob('*.mc')):
         content=path.read_bytes()
@@ -36,25 +39,25 @@ def main():
     identities=[];covered=set()
     for index,config in enumerate(definition['configurations']):
         key=config['id'];directory=out/key;directory.mkdir(parents=True,exist_ok=True)
-        settings=dict(config['settings']);selected=config['fields'];big=settings.get('enlarged_field_count',0)
+        settings=dict(config['settings']);selected=config['fields'];big=settings.get('a_big',0)
         assert len(selected)==2*device['design_rows']-3*big==len(config['expected_primary'])==len(config['expected_secondary'])
         assert selected==defaults if index==0 else True
         assert 'temperature' not in config['raw'] and 'power_zone' not in config['raw']
         assert all(field in catalog for field in selected);covered.update(selected)
         if index:
-            settings.update({f'slot_{i+1}_value':field for i,field in enumerate(selected)})
+            settings.update({f'a{i+1}':field for i,field in enumerate(selected)})
         headers=[]
         for slot,field_id in enumerate(selected):
             field=catalog[field_id];unit=units(field,config['statute'])
-            header=unit_header(field,unit,not settings.get('hide_value_units',props['hide_value_units']))
+            header=unit_header(field,unit,not settings.get('a_hideu',props['a_hideu']))
             if field_id=='time_of_day' and not config['clock24']:header+=' | pm'
             headers.append(header)
-            effect=settings.get(f'slot_{slot+1}_background_effects',False)
+            effect=settings.get(f'a{slot+1}_bg',0)
             enlarged=slot<big;size=device['regular_font_reference'] if not enlarged else int(re.search(r'BIG_SIZE=(\d+)',(ROOT/'profiles'/product/'DeviceProfile.mc').read_text('utf-8'))[1])
             w=device['design_width'] if enlarged else device['design_width']//2;h=(2 if enlarged else 1)*device['design_height']//device['design_rows']
             assert fits(config['expected_primary'][slot] or '--',config['expected_secondary'][slot],header,metrics(fonts['Value'+str(size)]),lm,label['line_height'],w,h,int(effect),effect and field_id!='grade'),(key,field_id,'does not fit')
         code='module StoreConfig {\n'
-        for name,value in dict(ID=key,WIDTH=device['design_width'],HEIGHT=device['design_height'],DEFAULT=index==0,STATUTE=config['statute'],CLOCK24=config['clock24'],GRID_TYPE=['none','horizontal','full'][settings.get('grid_type',props['grid_type'])],ALIGNMENT='center' if settings.get('alignment',props['alignment'])==0 else 'right',PRIMARY=config['expected_primary'],SECONDARY=config['expected_secondary'],HEADERS=headers).items():code+='const '+name+' = '+mc(value)+';\n'
+        for name,value in dict(ID=key,WIDTH=device['design_width'],HEIGHT=device['design_height'],DEFAULT=index==0,STATUTE=config['statute'],CLOCK24=config['clock24'],GRID_TYPE=['none','horizontal','full'][settings.get('a_grid',props['a_grid'])],ALIGNMENT='center' if settings.get('a_align',props['a_align'])==0 else 'right',PRIMARY=config['expected_primary'],SECONDARY=config['expected_secondary'],HEADERS=headers).items():code+='const '+name+' = '+mc(value)+';\n'
         code+='function settings() { return '+mc(settings)+'; }\nfunction raw() { return '+mc(config['raw'])+'; }\n}\n'
         (directory/'StoreConfig.mc').write_text(code,'utf-8')
         seed=''.join(r['preview_sha256'] for r in sources)+sha(ROOT/'config/font-manifest.json')+sha(ROOT/'validation/publishing/StorePreview.mc')+code+product
@@ -63,7 +66,7 @@ def main():
         (directory/'preview.jungle').write_text('project.manifest = manifest.xml\nbase.sourcePath = ../source;../../../validation/publishing;.\nbase.resourcePath = ../../../resources/strings;../../../resources/settings;../../../resources/drawables\nbase.excludeAnnotations = test;testSupport\n'+product+'.sourcePath = $(base.sourcePath);../../../profiles/'+product+'\n'+product+'.resourcePath = $(base.resourcePath);../../../profiles/'+product+'/fonts\n','utf-8')
         identities.append(dict(id=key,application_id=preview_id,visible_fields=len(selected),jungle=(directory/'preview.jungle').relative_to(ROOT).as_posix(),headers=headers))
     assert len(identities)==9 and len({r['application_id'] for r in identities})==9 and covered==set(catalog)
-    assert {(c['settings'].get('alignment',props['alignment']),c['settings'].get('grid_type',props['grid_type'])) for c in definition['configurations']}=={(a,g) for a in [0,1] for g in [0,1,2]}
+    assert {(c['settings'].get('a_align',props['a_align']),c['settings'].get('a_grid',props['a_grid'])) for c in definition['configurations']}=={(a,g) for a in [0,1] for g in [0,1,2]}
     record=dict(product=product,scope=definition['scope'],sources=sources,configurations=identities,covered_fields=sorted(covered),unavailable_fields=['temperature','power_zone'],fixture_sha256=sha(ROOT/'validation/publishing/StorePreview.mc'),definition_sha256=sha(ROOT/'validation/publishing/configurations.json'))
     (ROOT/'artifacts/publishing-preview-inputs.json').write_text(json.dumps(record,indent=2)+'\n','utf-8')
     print('Prepared nine isolated configurations; all six alignment/grid-type combinations, all 32 fields and every expected value/header fit.')

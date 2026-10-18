@@ -7,6 +7,7 @@ from pathlib import Path
 from font_glyphs import glyph_contract
 from validate_fonts import validate_manifest
 from check_test_suites import validate_suites
+from check_properties import validate_properties
 from check_requirement_ownership import validate_ownership
 from generate_display_limits import outputs as display_limit_outputs
 
@@ -14,6 +15,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def read(path):return json.loads((ROOT/path).read_text(encoding='utf-8-sig'))
 def main():
     validate_suites()
+    validate_properties()
     validate_ownership()
     for name, expected in display_limit_outputs().items():
         assert (ROOT/name).read_text(encoding='utf-8')==expected, 'Stale display limits: '+name
@@ -73,87 +75,39 @@ def main():
     assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==85 and len({p['key'] for p in props})==85
-    assert next(p for p in props if p['key']=='alignment')['default']==1
-    assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
-    assert 'grid_type' in by_id['APP-22']['description'] and '0 None, 1 Horizontal lines (default), 2 Full grid' in by_id['APP-22']['description']
-    grid=next(p for p in props if p['key']=='grid_type')
-    assert grid['default']==1 and grid['choices']==[0,1,2] and grid['identifiers']==['none','horizontal','full']
-    assert all(next(p for p in props if p['key']==f'slot_{slot}_background_effects')['default'] is False for slot in range(1,11))
-    assert 'slot_N_background_mode' in by_id['APP-49']['description'] and '0 None, 1 Label, 2 Whole cell' in by_id['APP-49']['description']
-    assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
+    assert len(props)==len({p['key'] for p in props})==64
+    assert all(re.fullmatch('[a-z][a-z0-9_]{0,7}',p['key']) and not p.get('hidden') for p in props)
     by_key={p['key']:p for p in props}
-    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p.get('shared') and not p['key'].startswith('cadence_zone_')]:
-        second=by_key['second_'+first['key']]
-        for field in ['type','choices','identifiers']:
-            assert first.get(field)==second.get(field),(first['key'],field)
-    secondary=['power_3s','current_heart_rate','current_cadence','grade','lap_power','current_speed','lap_distance','lap_time','elevation','temperature']
-    assert by_key['second_enlarged_field_count']['default']==1
-    for i,identifier in enumerate(secondary,1):
-        prop=by_key[f'second_slot_{i}_value']
-        assert prop['identifiers'][prop['default']]==identifier
-        assert by_key[f'second_slot_{i}_background_effects']['default']==(i<=4)
-        assert f'| {i} | {identifier} |' in by_id['SPEC-209']['description']
-    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p.get('shared') and not p['key'].startswith('cadence_zone_')]:
-        if first['key'] in ['alignment','theme_mode','hide_value_units','inverse_enlarged_theme','grid_type']:
-            assert by_key['second_'+first['key']]['default']==first['default']
-    assert by_key['second_set_trigger']['choices']==[0,1,2,3,4] and by_key['second_set_trigger']['default']==3
-    tree=ET.parse(ROOT/'resources/settings/properties.xml')
-    xml={p.attrib['id']:p for p in tree.findall('.//property')}
-    assert set(xml)=={p['key'] for p in props}
+    for first in [p for p in props if re.match(r'a(?:_|[0-9])',p['key'])]:
+        second=by_key['b'+first['key'][1:]]
+        for attr in ['type','choices','identifiers']:assert first.get(attr)==second.get(attr)
+    assert by_key['a_align']['default']==1 and by_key['b_big']['default']==1
+    assert by_key['trig']['choices']==[0,1,2,3,4] and by_key['trig']['default']==3
+    tree=ET.parse(ROOT/'resources/settings/properties.xml');xml={p.attrib['id']:p for p in tree.findall('.//property')}
+    assert set(xml)==set(by_key)
+    settings=ET.parse(ROOT/'resources/settings/settings.xml');controls=settings.findall('.//setting')
+    configured={s.attrib['propertyKey'].split('.')[-1]:s for s in controls}
+    assert len(controls)==64 and set(configured)==set(by_key)
+    group=settings.find('.//group[@id="second_field_set"]')
+    assert [s.attrib['propertyKey'].split('.')[-1] for s in group.findall('setting')]==[p['key'] for p in props if p['key'] in ['trig','p_on','p_off','hr_on','hr_off'] or p['key'].startswith('b')]
+    shared=['team','tfont','tsrc'];order=list(configured)
+    assert [p['key'] for p in props if p.get('shared')]==shared
+    assert order[6:9]==shared and all(order.index(k)<order.index('a1') for k in shared)
+    assert [p['key'] for p in props if p['type']=='string']==['team']
+    strings={x.attrib['id']:x.text for x in ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')}
     for p in props:
-        assert xml[p['key']].attrib['type']==p['type']
-        expected_default=('true' if p['default'] else 'false') if p['type']=='boolean' else str(p['default'])
-        assert xml[p['key']].text==expected_default
-    settings=ET.parse(ROOT/'resources/settings/settings.xml')
-    group=settings.find('.//group[@id="second_field_set"]');assert group is not None and group.attrib['id']=='second_field_set'
-    assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props if p['key'].startswith('second_') and not p.get('hidden')]
-    assert len(settings.findall('./settings/setting'))==29
-    text_controls=[s for s in settings.findall('.//setting') if s.attrib['propertyKey'].endswith('_team_text')]
-    assert len(text_controls)==1 and text_controls[0].attrib['propertyKey']=='@Properties.slot_1_team_text'
-    ordered=list(settings.findall('.//setting'));team_index=ordered.index(text_controls[0])
-    assert all(team_index<i for i,s in enumerate(ordered) if re.search(r'(?:second_)?slot_\d+_(?:value|background_mode)$',s.attrib['propertyKey']))
-    shared_keys=['slot_1_team_text','team_font','team_color_source']
-    assert [p['key'] for p in props if p.get('shared')]==shared_keys
-    assert not any(re.fullmatch(r'(?:second_)?slot_\d+_team_(?:font|color_source)',p['key']) for p in props)
-    assert [s.attrib['propertyKey'].split('.')[-1] for s in ordered[team_index:team_index+3]]==shared_keys
-    assert all(ordered.index(config)<min(i for i,x in enumerate(ordered) if re.search(r'slot_\d+_value$',x.attrib['propertyKey'])) for config in ordered if config.attrib['propertyKey'].split('.')[-1] in shared_keys)
-    assert by_key['slot_1_team_text']['shared'] and by_key['slot_1_team_text']['title']=='Team name'
-    assert [p['key'] for p in props if p['key'].endswith('_team_text')]==['slot_1_team_text']
-    configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
-    assert set(configured)=={p['key'] for p in props if not p.get('hidden')}
-    strings_by_id={x.attrib['id']:x.text for x in ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')}
-    for key,control in configured.items():
-        match=re.fullmatch(r'(second_)?slot_(\d+)_(value|background_mode)',key)
-        if match:
-            caption=strings_by_id[control.attrib['title'].split('.')[-1]]
-            assert caption==('Second set: ' if match[1] else '')+'Slot '+match[2]+(': value' if match[3]=='value' else ': background coverage')
+        key=p['key'];control=configured[key]
+        assert xml[key].attrib['type']==p['type']
+        assert xml[key].text==(str(p['default']).lower() if p['type']=='boolean' else str(p['default']))
+        assert [x.attrib['value'] for x in control.findall('.//listEntry')]==[str(x) for x in p.get('choices',[])]
+        match=re.fullmatch(r'([ab])(\d+)(_bg)?',key)
+        if match:assert strings[control.attrib['title'].split('.')[-1]]==('Second set: ' if match[1]=='b' else '')+'Slot '+match[2]+(': background coverage' if match[3] else ': value')
+        if key.endswith('_bg'):assert p['choices']==[0,1,2] and p['default']==(1 if key in ['b1_bg','b2_bg','b3_bg','b4_bg'] else 0)
+    assert [by_key['a'+str(i)]['identifiers'][by_key['a'+str(i)]['default']] for i in range(1,11)]==['current_speed','distance','activity_timer','time_of_day','current_heart_rate','power_3s','elevation','grade','total_ascent','temperature']
+    assert [by_key['b'+str(i)]['identifiers'][by_key['b'+str(i)]['default']] for i in range(1,11)]==['power_3s','current_heart_rate','current_cadence','grade','lap_power','current_speed','lap_distance','lap_time','elevation','temperature']
     native_fonts=read('config/native-fonts.json')
     assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
-    assert native_fonts['logical_aux_codes']=={str(i):f'FONT_AUX{i}' for i in range(1,10)}
-    for p in props:
-        if p['key']=='team_font':assert p['default']==0 and p['choices']==[0]
-        if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
-    native_fonts=read('config/native-fonts.json')
-    assert len(native_fonts['profiles'])==9 and all(not row['offered_aux'] for row in native_fonts['profiles'].values())
-    assert native_fonts['logical_aux_codes']=={str(i):f'FONT_AUX{i}' for i in range(1,10)}
-    for p in props:
-        if p['key']=='team_font':assert p['default']==0 and p['choices']==[0]
-        if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
-    assert len(configured)==64 and len(props)-len(configured)==21
-    assert by_key['settings_schema_version']['default']==0
-    for p in props:
-        if p['key'].endswith('_background_mode'):
-            assert p['choices']==[0,1,2] and p['default']==-1 and p['factory_default'] in [0,1]
-        if p['key'].endswith('_background_effects'):assert p['hidden'] and p['type']=='boolean'
-    for p in props:
-        if p.get('hidden'):continue
-        entries=[x.attrib['value'] for x in configured[p['key']].findall('.//listEntry')]
-        assert entries==[str(x) for x in p.get('choices',[])]
-        if 'identifiers' in p:
-            assert p['type']=='number'
-            assert len(p['identifiers'])==len(p['choices'])
-    assert [p['identifiers'][p['default']] for p in props if p['key'] in [f'slot_{i}_value' for i in range(1,11)]]==['current_speed','distance','activity_timer','time_of_day','current_heart_rate','power_3s','elevation','grade','total_ascent','temperature']
+    assert by_key['tfont']['choices']==[0] and by_key['team']['maxLength']==32
     devices=read('config/devices.json');manifest=ET.parse(ROOT/'manifest.xml');ns={'iq':'http://www.garmin.com/xml/connectiq'}
     app=manifest.find('iq:application',ns);assert app.attrib['type']=='datafield'
     assert {p.attrib['id'] for p in app.findall('iq:products/iq:product',ns)}=={p['id'] for p in devices}

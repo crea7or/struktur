@@ -23,7 +23,7 @@ function normalRangeFormatting(logger) {
             for(var sample=0;sample<3;sample+=1) {
                 var displayed=cases[i][1][sample];var expected=cases[i][2][sample];
                 if(i==20 && statute==1) { displayed=sample==0?-40:(sample==1?70.5:140);expected=sample==0?"-40.0":(sample==1?"70.5":"140.0"); }
-                settings.apply({"slot_1_value"=>Catalog.IDS[i]});
+                settings.apply({"a1"=>Catalog.IDS[i]});
                 var raw={};raw[Catalog.IDS[i]]=normalDisplayRaw(i,displayed,statute==1);
                 if("clock".equals(Catalog.FORMATS[i])) { clock.hour=displayed/60;clock.min=displayed%60; }
                 var value=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(statute==1,true,false),clock)[:values][0];
@@ -58,7 +58,7 @@ function smallestNormalCell(enlarged) {
 (:testSupport)
 function normalFixtureValue(row,point,engine,settings) {
     var index=row[0];var displayed=point[0];
-    settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>row[2],"slot_1_background_effects"=>true});
+    settings.apply({"a1"=>Catalog.IDS[index],"a_hideu"=>row[2],"a1_bg"=>1});
     var raw={};raw[Catalog.IDS[index]]=normalDisplayRaw(index,displayed,row[1]);
     var clock=new PresentationClock();
     if("clock".equals(Catalog.FORMATS[index])) { var minutes=displayed.toNumber();clock.hour=minutes/60;clock.min=minutes%60; }

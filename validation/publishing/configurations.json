@@ -42,7 +42,7 @@
         ""
       ],
       "settings": {
-        "grid_type": 1
+        "a_grid": 1
       },
       "statute": false,
       "clock24": true,
@@ -129,9 +129,9 @@
         ""
       ],
       "settings": {
-        "hide_value_units": false,
-        "theme_mode": 1,
-        "grid_type": 2
+        "a_hideu": false,
+        "a_theme": 1,
+        "a_grid": 2
       },
       "statute": false,
       "clock24": true,
@@ -217,10 +217,10 @@
         ""
       ],
       "settings": {
-        "hide_value_units": false,
-        "theme_mode": 2,
-        "alignment": 0,
-        "grid_type": 0
+        "a_hideu": false,
+        "a_theme": 2,
+        "a_align": 0,
+        "a_grid": 0
       },
       "statute": false,
       "clock24": true,
@@ -297,14 +297,14 @@
         ""
       ],
       "settings": {
-        "enlarged_field_count": 1,
-        "hide_value_units": false,
-        "theme_mode": 1,
-        "slot_2_background_effects": true,
-        "slot_5_background_effects": true,
-        "slot_6_background_effects": true,
-        "slot_1_background_effects": true,
-        "grid_type": 1
+        "a_big": 1,
+        "a_hideu": false,
+        "a_theme": 1,
+        "a2_bg": 1,
+        "a5_bg": 1,
+        "a6_bg": 1,
+        "a1_bg": 1,
+        "a_grid": 1
       },
       "statute": false,
       "clock24": true,
@@ -373,13 +373,13 @@
         ""
       ],
       "settings": {
-        "enlarged_field_count": 2,
-        "hide_value_units": false,
-        "theme_mode": 2,
-        "alignment": 0,
-        "inverse_enlarged_theme": false,
-        "slot_2_background_effects": true,
-        "grid_type": 2
+        "a_big": 2,
+        "a_hideu": false,
+        "a_theme": 2,
+        "a_align": 0,
+        "a_inv": false,
+        "a2_bg": 1,
+        "a_grid": 2
       },
       "statute": true,
       "clock24": false,
@@ -454,11 +454,11 @@
         ""
       ],
       "settings": {
-        "enlarged_field_count": 1,
-        "hide_value_units": false,
-        "theme_mode": 1,
-        "inverse_enlarged_theme": false,
-        "grid_type": 0
+        "a_big": 1,
+        "a_hideu": false,
+        "a_theme": 1,
+        "a_inv": false,
+        "a_grid": 0
       },
       "statute": true,
       "clock24": true,
@@ -543,8 +543,8 @@
         ""
       ],
       "settings": {
-        "alignment": 1,
-        "grid_type": 0
+        "a_align": 1,
+        "a_grid": 0
       },
       "statute": false,
       "clock24": true,
@@ -628,8 +628,8 @@
         ""
       ],
       "settings": {
-        "alignment": 0,
-        "grid_type": 1
+        "a_align": 0,
+        "a_grid": 1
       },
       "statute": false,
       "clock24": true,
@@ -713,8 +713,8 @@
         ""
       ],
       "settings": {
-        "alignment": 0,
-        "grid_type": 0
+        "a_align": 0,
+        "a_grid": 0
       },
       "statute": false,
       "clock24": true,

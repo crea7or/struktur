@@ -81,8 +81,7 @@ def main():
                   dict(key='team_color_source',type='number',default=0,shared=True,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title='Team color source',prompt='Shared by all Team slots in both sets.')])
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields],title=f'Slot {i+1}: value'),
-                      dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False,hidden=True),
-                      dict(key=f'slot_{i+1}_background_mode',type='number',default=-1,factory_default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Slot {i+1}: background coverage')])
+                      dict(key=f'slot_{i+1}_background_mode',type='number',default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Slot {i+1}: background coverage')])
     first_props=[p for p in props if not p.get("shared")]
     props += [dict(key=f'cadence_zone_{i}_max_rpm',type='number',default=value,min=0,max=300,title=f'Cadence zone {i}: upper rpm',prompt='Four increasing upper bounds define five coloring zones; both field sets share these values.') for i,value in enumerate([60,80,100,120],1)]
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
@@ -96,14 +95,29 @@ def main():
     for p in first_props:
         second=dict(p,key='second_'+p['key'],title='Second set: '+p.get('title',p['key'].replace('_',' ').capitalize()))
         slot=re.fullmatch(r'slot_(\d+)_value',p['key'])
-        effect=re.fullmatch(r'slot_(\d+)_background_effects',p['key'])
         coverage=re.fullmatch(r'slot_(\d+)_background_mode',p['key'])
         if p['key']=='enlarged_field_count':second['default']=1
         elif slot:second['default']=[f['id'] for f in fields].index(SECOND_DEFAULTS[int(slot[1])-1])
-        elif effect:second['default']=int(effect[1])<=4
-        elif coverage:second['factory_default']=1 if int(coverage[1])<=4 else 0
+        elif coverage:second['default']=1 if int(coverage[1])<=4 else 0
         props.append(second)
-    props.append(dict(key='settings_schema_version',type='number',default=0,hidden=True))
+    # Authoring names stay readable; only compact keys enter resources/runtime.
+    compact={'slot_1_team_text':'team','team_font':'tfont','team_color_source':'tsrc',
+             'second_set_trigger':'trig','second_power_activate_w':'p_on','second_power_return_w':'p_off',
+             'second_hr_activate_bpm':'hr_on','second_hr_return_bpm':'hr_off'}
+    layout_keys={'enlarged_field_count':'_big','alignment':'_align','theme_mode':'_theme',
+                 'hide_value_units':'_hideu','inverse_enlarged_theme':'_inv','grid_type':'_grid'}
+    for bank,prefix in [('a',''),('b','second_')]:
+        compact.update({prefix+name:bank+suffix for name,suffix in layout_keys.items()})
+        for i in range(1,11):
+            compact[prefix+f'slot_{i}_value']=bank+str(i)
+            compact[prefix+f'slot_{i}_background_mode']=bank+str(i)+'_bg'
+    compact.update({f'cadence_zone_{i}_max_rpm':'cad'+str(i) for i in range(1,5)})
+    for p in props:
+        p.setdefault('title',p['key'].replace('_',' ').capitalize())
+        p['key']=compact[p['key']]
+    contracts=json.loads((ROOT/'config/property-contracts.json').read_text(encoding='utf-8'))['properties']
+    assert set(contracts)=={p['key'] for p in props}
+    for p in props:p['requirement']=contracts[p['key']]['requirement']
     (ROOT/'config/catalogue.json').write_text(json.dumps(dict(language='eng',status='full-capacity APP-20 layouts; APP-31 defines all ten defaults; SDK numeric mappings remain recorded implementation choices',fields=fields,properties=props),indent=2)+'\n',encoding='utf-8')
     resources=ET.Element('resources'); strings=ET.SubElement(resources,'strings')
     ET.SubElement(strings,'string',id='AppName').text='Struktur'
@@ -115,9 +129,9 @@ def main():
     ET.SubElement(strings,'string',id='CadenceZonesTitle').text='Cadence coloring zones'
     second_group=None
     for p in props:
-        if p['key']=='cadence_zone_1_max_rpm':
+        if p['key']=='cad1':
             second_group=ET.SubElement(settings,'group',id='cadence_zones',title='@Strings.CadenceZonesTitle')
-        if p['key']=='second_set_trigger':
+        if p['key']=='trig':
             second_group=ET.SubElement(settings,'group',id='second_field_set',title='@Strings.SecondSetTitle',description='@Strings.SecondSetDescription')
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])
         if p.get('hidden'):continue
@@ -151,13 +165,13 @@ def main():
         '    function defaultSlots() { return '+json.dumps(DEFAULTS)+'; }',
         '    function secondaryDefaultSlots() { return '+json.dumps(SECOND_DEFAULTS)+'; }','}',
         'module SettingsCatalogue {','    function keys() { return '+json.dumps([p['key'] for p in props])+'; }',
-        '    // Garmin settings lists store numeric codes; retain legacy strings without rewriting them.',
+        '    // Garmin settings lists store numeric codes; internal fixtures may use identifiers.',
         '    function decode(key,value) {',
         '        if (!(value instanceof Toybox.Lang.Number)) { return value; }',
-        '        if(key.find("second_")==0) { key=key.substring(7,key.length()); }',
-        '        var ids = "alignment".equals(key) ? ["center","right"] : ("theme_mode".equals(key) ? ["auto","day","night"] : ("grid_type".equals(key) ? ["none","horizontal","full"] : Catalog.IDS));',
+        '        if(key.find("b")==0) { key="a"+key.substring(1,key.length()); }',
+        '        var ids = "a_align".equals(key) ? ["center","right"] : ("a_theme".equals(key) ? ["auto","day","night"] : ("a_grid".equals(key) ? ["none","horizontal","full"] : Catalog.IDS));',
         '        if(value>=0 && value<ids.size()) { return ids[value]; }',
-        '        return key.find("slot_")==0 && value>=0?"unknown_field_"+value.toString():null;',
+        '        return key.find("a")==0 && value>=0?"unknown_field_"+value.toString():null;',
         '    }','}']
     (ROOT/'source/Catalog.mc').write_text('\n'.join(mc)+'\n',encoding='utf-8')
     adapter=['using Toybox.System;','using Toybox.Lang;','// SPEC-156: explicit optional Activity.Info members, raw producer units.','module ActivityReader {','    function read(info) as Lang.Dictionary { return readWithBattery(info,true); }','    function readWithBattery(info,includeBattery) as Lang.Dictionary {','        var raw = {} as Lang.Dictionary;']

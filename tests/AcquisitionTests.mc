@@ -135,7 +135,7 @@ function temperatureProtocolAndAge(logger) {
     Test.assertEqual(false,c.receive([2,null,1100,"edge-native-v2"],1100,100000,true));
     Test.assert(c.value(1100,100000)==null); // newer invalid read clears cache
     Test.assertEqual(false,c.receive([2,20,1000,"edge-native-v2"],1100,100000,true));
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>"temperature","slot_1_background_effects"=>true});
+    var settings=new DisplaySettings();settings.apply({"a1"=>"temperature","a1_bg"=>1});
     var engine=new SnapshotEngine();
     var samples=[[0,"0.0","32.0","cyan"],[12.34,"12.3","54.2","green"],
         [1.25,"1.3","34.3","white"],[-1.25,"-1.3","29.8","cyan"],
@@ -261,8 +261,8 @@ function approvedZoneSnapshot(logger) {
     var e=new SnapshotEngine();e._hrZones=ZoneMetadata.heart(bounds);
     // Qualified normalized power fixture; it does not qualify the production API adapter.
     e._powerZones=ZoneMetadata.power([0,110,200,300],true);
-    var s=new DisplaySettings();s.apply({"slot_1_value"=>4,"slot_2_value"=>6,"slot_3_value"=>7,"slot_4_value"=>10,
-        "slot_1_background_effects"=>true,"slot_3_background_effects"=>true});
+    var s=new DisplaySettings();s.apply({"a1"=>4,"a2"=>6,"a3"=>7,"a4"=>10,
+        "a1_bg"=>1,"a3_bg"=>1});
     var snapshot=e.compute({"current_heart_rate"=>110.4,"current_power"=>110.4},s);
     Test.assertEqual("110",snapshot[:values][0][:text]);Test.assertEqual("1",snapshot[:values][1][:text]);
     Test.assertEqual("blue",snapshot[:values][0][:band]);Test.assertEqual("blue",snapshot[:values][2][:band]);
@@ -338,8 +338,8 @@ function acquisitionToSnapshot(logger) {
     raw=acquisition.read(info,{}); Test.assertEqual(10.0d,raw["grade"]);
     acquisition.laps.onLap(); raw=acquisition.read(info,{}); Test.assertEqual(1,raw["completed_laps"]);
     var s=new DisplaySettings();
-    s.apply({"slot_1_value"=>15,"slot_2_value"=>15,"slot_3_value"=>24,"slot_4_value"=>24,"slot_5_value"=>20,"slot_6_value"=>20,
-        "slot_1_background_effects"=>true,"slot_2_background_effects"=>true,"slot_5_background_effects"=>true,"slot_6_background_effects"=>true});
+    s.apply({"a1"=>15,"a2"=>15,"a3"=>24,"a4"=>24,"a5"=>20,"a6"=>20,
+        "a1_bg"=>1,"a2_bg"=>1,"a5_bg"=>1,"a6_bg"=>1});
     var cache=new TemperatureCache(); cache.receive([2,0,1000,"edge-native-v2"],1000,0,true);
     raw["temperature"]=cache.value(1000,0);
     var e=new SnapshotEngine(); var snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(false,true,false),new PresentationClock());
@@ -357,7 +357,7 @@ function acquisitionToSnapshot(logger) {
     info.timerState=Activity.TIMER_STATE_PAUSED;
     raw=acquisition.read(info,{}); Test.assert(raw["grade"]==null);
     Test.assertEqual(1,raw["completed_laps"]);
-    var headingSettings=new DisplaySettings(); headingSettings.apply({"slot_1_value"=>22});
+    var headingSettings=new DisplaySettings(); headingSettings.apply({"a1"=>22});
     var heading=e.prepareWithPreferences({"heading"=>Math.PI/4.0},headingSettings,true,new PresentationDevice(false,true,false),new PresentationClock());
     Test.assertEqual("NE",heading[:values][0][:expandedUnit]);
     var dc=new PresentationDrawDc(246,470); var renderer=new FieldRenderer();
@@ -419,9 +419,9 @@ function fixedSlopePrecision(logger) {
     var banks=new FieldSetsSettings();var engine=new SnapshotEngine();var clock=new PresentationClock();
     var device=new PresentationDevice(false,true,false);
     for(var enlarged=0;enlarged<=2;enlarged+=1) {
-        banks.apply({"enlarged_field_count"=>enlarged,"second_enlarged_field_count"=>enlarged,
-            "slot_1_value"=>"grade","slot_2_value"=>"grade","slot_1_background_effects"=>true,
-            "second_slot_1_value"=>"grade","second_slot_2_value"=>"grade","second_slot_1_background_effects"=>true});
+        banks.apply({"a_big"=>enlarged,"b_big"=>enlarged,
+            "a1"=>"grade","a2"=>"grade","a1_bg"=>1,
+            "b1"=>"grade","b2"=>"grade","b1_bg"=>2});
         for(var bank=0;bank<2;bank+=1) {
             var settings=bank==0?banks.primary:banks.secondary;
             for(var i=0;i<cases.size();i+=1) {

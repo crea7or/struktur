@@ -1,55 +1,55 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
   <settings>
-    <setting propertyKey="@Properties.enlarged_field_count" title="@Strings.Setting_enlarged_field_count">
+    <setting propertyKey="@Properties.a_big" title="@Strings.Setting_a_big">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_0</listEntry>
         <listEntry value="1">@Strings.Choice_1</listEntry>
         <listEntry value="2">@Strings.Choice_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.alignment" title="@Strings.Setting_alignment">
+    <setting propertyKey="@Properties.a_align" title="@Strings.Setting_a_align">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_center</listEntry>
         <listEntry value="1">@Strings.Choice_right</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.theme_mode" title="@Strings.Setting_theme_mode">
+    <setting propertyKey="@Properties.a_theme" title="@Strings.Setting_a_theme">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_auto</listEntry>
         <listEntry value="1">@Strings.Choice_day</listEntry>
         <listEntry value="2">@Strings.Choice_night</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.hide_value_units" title="@Strings.Setting_hide_value_units">
+    <setting propertyKey="@Properties.a_hideu" title="@Strings.Setting_a_hideu">
       <settingConfig type="boolean" />
     </setting>
-    <setting propertyKey="@Properties.inverse_enlarged_theme" title="@Strings.Setting_inverse_enlarged_theme">
+    <setting propertyKey="@Properties.a_inv" title="@Strings.Setting_a_inv">
       <settingConfig type="boolean" />
     </setting>
-    <setting propertyKey="@Properties.grid_type" title="@Strings.Setting_grid_type">
+    <setting propertyKey="@Properties.a_grid" title="@Strings.Setting_a_grid">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_grid_type_none</listEntry>
-        <listEntry value="1">@Strings.Choice_grid_type_horizontal</listEntry>
-        <listEntry value="2">@Strings.Choice_grid_type_full</listEntry>
+        <listEntry value="0">@Strings.Choice_a_grid_none</listEntry>
+        <listEntry value="1">@Strings.Choice_a_grid_horizontal</listEntry>
+        <listEntry value="2">@Strings.Choice_a_grid_full</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_1_team_text" title="@Strings.Setting_slot_1_team_text" prompt="@Strings.Prompt_slot_1_team_text">
+    <setting propertyKey="@Properties.team" title="@Strings.Setting_team" prompt="@Strings.Prompt_team">
       <settingConfig type="alphaNumeric" maxLength="32" />
     </setting>
-    <setting propertyKey="@Properties.team_font" title="@Strings.Setting_team_font" prompt="@Strings.Prompt_team_font">
+    <setting propertyKey="@Properties.tfont" title="@Strings.Setting_tfont" prompt="@Strings.Prompt_tfont">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_team_font_0</listEntry>
+        <listEntry value="0">@Strings.Choice_tfont_0</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.team_color_source" title="@Strings.Setting_team_color_source" prompt="@Strings.Prompt_team_color_source">
+    <setting propertyKey="@Properties.tsrc" title="@Strings.Setting_tsrc" prompt="@Strings.Prompt_tsrc">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_team_color_source_0</listEntry>
-        <listEntry value="1">@Strings.Choice_team_color_source_1</listEntry>
-        <listEntry value="2">@Strings.Choice_team_color_source_2</listEntry>
+        <listEntry value="0">@Strings.Choice_tsrc_0</listEntry>
+        <listEntry value="1">@Strings.Choice_tsrc_1</listEntry>
+        <listEntry value="2">@Strings.Choice_tsrc_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_1_value" title="@Strings.Setting_slot_1_value">
+    <setting propertyKey="@Properties.a1" title="@Strings.Setting_a1">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -86,14 +86,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_1_background_mode" title="@Strings.Setting_slot_1_background_mode">
+    <setting propertyKey="@Properties.a1_bg" title="@Strings.Setting_a1_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_1_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_1_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_1_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a1_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a1_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a1_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_2_value" title="@Strings.Setting_slot_2_value">
+    <setting propertyKey="@Properties.a2" title="@Strings.Setting_a2">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -130,14 +130,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_2_background_mode" title="@Strings.Setting_slot_2_background_mode">
+    <setting propertyKey="@Properties.a2_bg" title="@Strings.Setting_a2_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_2_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_2_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_2_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a2_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a2_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a2_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_3_value" title="@Strings.Setting_slot_3_value">
+    <setting propertyKey="@Properties.a3" title="@Strings.Setting_a3">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -174,14 +174,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_3_background_mode" title="@Strings.Setting_slot_3_background_mode">
+    <setting propertyKey="@Properties.a3_bg" title="@Strings.Setting_a3_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_3_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_3_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_3_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a3_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a3_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a3_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_4_value" title="@Strings.Setting_slot_4_value">
+    <setting propertyKey="@Properties.a4" title="@Strings.Setting_a4">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -218,14 +218,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_4_background_mode" title="@Strings.Setting_slot_4_background_mode">
+    <setting propertyKey="@Properties.a4_bg" title="@Strings.Setting_a4_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_4_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_4_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_4_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a4_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a4_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a4_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_5_value" title="@Strings.Setting_slot_5_value">
+    <setting propertyKey="@Properties.a5" title="@Strings.Setting_a5">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -262,14 +262,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_5_background_mode" title="@Strings.Setting_slot_5_background_mode">
+    <setting propertyKey="@Properties.a5_bg" title="@Strings.Setting_a5_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_5_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_5_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_5_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a5_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a5_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a5_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_6_value" title="@Strings.Setting_slot_6_value">
+    <setting propertyKey="@Properties.a6" title="@Strings.Setting_a6">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -306,14 +306,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_6_background_mode" title="@Strings.Setting_slot_6_background_mode">
+    <setting propertyKey="@Properties.a6_bg" title="@Strings.Setting_a6_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_6_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_6_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_6_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a6_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a6_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a6_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_7_value" title="@Strings.Setting_slot_7_value">
+    <setting propertyKey="@Properties.a7" title="@Strings.Setting_a7">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -350,14 +350,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_7_background_mode" title="@Strings.Setting_slot_7_background_mode">
+    <setting propertyKey="@Properties.a7_bg" title="@Strings.Setting_a7_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_7_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_7_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_7_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a7_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a7_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a7_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_8_value" title="@Strings.Setting_slot_8_value">
+    <setting propertyKey="@Properties.a8" title="@Strings.Setting_a8">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -394,14 +394,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_8_background_mode" title="@Strings.Setting_slot_8_background_mode">
+    <setting propertyKey="@Properties.a8_bg" title="@Strings.Setting_a8_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_8_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_8_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_8_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a8_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a8_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a8_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_9_value" title="@Strings.Setting_slot_9_value">
+    <setting propertyKey="@Properties.a9" title="@Strings.Setting_a9">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -438,14 +438,14 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_9_background_mode" title="@Strings.Setting_slot_9_background_mode">
+    <setting propertyKey="@Properties.a9_bg" title="@Strings.Setting_a9_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_9_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_9_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_9_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a9_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a9_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a9_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_10_value" title="@Strings.Setting_slot_10_value">
+    <setting propertyKey="@Properties.a10" title="@Strings.Setting_a10">
       <settingConfig type="list">
         <listEntry value="0">@Strings.Choice_current_speed</listEntry>
         <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -482,83 +482,83 @@
         <listEntry value="32">@Strings.Choice_team</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_10_background_mode" title="@Strings.Setting_slot_10_background_mode">
+    <setting propertyKey="@Properties.a10_bg" title="@Strings.Setting_a10_bg">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_slot_10_background_mode_0</listEntry>
-        <listEntry value="1">@Strings.Choice_slot_10_background_mode_1</listEntry>
-        <listEntry value="2">@Strings.Choice_slot_10_background_mode_2</listEntry>
+        <listEntry value="0">@Strings.Choice_a10_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_a10_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_a10_bg_2</listEntry>
       </settingConfig>
     </setting>
     <group id="cadence_zones" title="@Strings.CadenceZonesTitle">
-      <setting propertyKey="@Properties.cadence_zone_1_max_rpm" title="@Strings.Setting_cadence_zone_1_max_rpm" prompt="@Strings.Prompt_cadence_zone_1_max_rpm">
+      <setting propertyKey="@Properties.cad1" title="@Strings.Setting_cad1" prompt="@Strings.Prompt_cad1">
         <settingConfig type="numeric" min="0" max="300" />
       </setting>
-      <setting propertyKey="@Properties.cadence_zone_2_max_rpm" title="@Strings.Setting_cadence_zone_2_max_rpm" prompt="@Strings.Prompt_cadence_zone_2_max_rpm">
+      <setting propertyKey="@Properties.cad2" title="@Strings.Setting_cad2" prompt="@Strings.Prompt_cad2">
         <settingConfig type="numeric" min="0" max="300" />
       </setting>
-      <setting propertyKey="@Properties.cadence_zone_3_max_rpm" title="@Strings.Setting_cadence_zone_3_max_rpm" prompt="@Strings.Prompt_cadence_zone_3_max_rpm">
+      <setting propertyKey="@Properties.cad3" title="@Strings.Setting_cad3" prompt="@Strings.Prompt_cad3">
         <settingConfig type="numeric" min="0" max="300" />
       </setting>
-      <setting propertyKey="@Properties.cadence_zone_4_max_rpm" title="@Strings.Setting_cadence_zone_4_max_rpm" prompt="@Strings.Prompt_cadence_zone_4_max_rpm">
+      <setting propertyKey="@Properties.cad4" title="@Strings.Setting_cad4" prompt="@Strings.Prompt_cad4">
         <settingConfig type="numeric" min="0" max="300" />
       </setting>
     </group>
     <group id="second_field_set" title="@Strings.SecondSetTitle" description="@Strings.SecondSetDescription">
-      <setting propertyKey="@Properties.second_set_trigger" title="@Strings.Setting_second_set_trigger" prompt="@Strings.Prompt_second_set_trigger">
+      <setting propertyKey="@Properties.trig" title="@Strings.Setting_trig" prompt="@Strings.Prompt_trig">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_set_trigger_trigger_none</listEntry>
-          <listEntry value="1">@Strings.Choice_second_set_trigger_trigger_power_3s</listEntry>
-          <listEntry value="2">@Strings.Choice_second_set_trigger_trigger_heart_rate</listEntry>
-          <listEntry value="3">@Strings.Choice_second_set_trigger_trigger_manual_lap</listEntry>
-          <listEntry value="4">@Strings.Choice_second_set_trigger_trigger_workout</listEntry>
+          <listEntry value="0">@Strings.Choice_trig_trigger_none</listEntry>
+          <listEntry value="1">@Strings.Choice_trig_trigger_power_3s</listEntry>
+          <listEntry value="2">@Strings.Choice_trig_trigger_heart_rate</listEntry>
+          <listEntry value="3">@Strings.Choice_trig_trigger_manual_lap</listEntry>
+          <listEntry value="4">@Strings.Choice_trig_trigger_workout</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_power_activate_w" title="@Strings.Setting_second_power_activate_w" prompt="@Strings.Prompt_second_power_activate_w">
+      <setting propertyKey="@Properties.p_on" title="@Strings.Setting_p_on" prompt="@Strings.Prompt_p_on">
         <settingConfig type="numeric" min="1" max="3000" />
       </setting>
-      <setting propertyKey="@Properties.second_power_return_w" title="@Strings.Setting_second_power_return_w" prompt="@Strings.Prompt_second_power_return_w">
+      <setting propertyKey="@Properties.p_off" title="@Strings.Setting_p_off" prompt="@Strings.Prompt_p_off">
         <settingConfig type="numeric" min="1" max="3000" />
       </setting>
-      <setting propertyKey="@Properties.second_hr_activate_bpm" title="@Strings.Setting_second_hr_activate_bpm" prompt="@Strings.Prompt_second_hr_activate_bpm">
+      <setting propertyKey="@Properties.hr_on" title="@Strings.Setting_hr_on" prompt="@Strings.Prompt_hr_on">
         <settingConfig type="numeric" min="30" max="250" />
       </setting>
-      <setting propertyKey="@Properties.second_hr_return_bpm" title="@Strings.Setting_second_hr_return_bpm" prompt="@Strings.Prompt_second_hr_return_bpm">
+      <setting propertyKey="@Properties.hr_off" title="@Strings.Setting_hr_off" prompt="@Strings.Prompt_hr_off">
         <settingConfig type="numeric" min="30" max="250" />
       </setting>
-      <setting propertyKey="@Properties.second_enlarged_field_count" title="@Strings.Setting_second_enlarged_field_count">
+      <setting propertyKey="@Properties.b_big" title="@Strings.Setting_b_big">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_0</listEntry>
           <listEntry value="1">@Strings.Choice_1</listEntry>
           <listEntry value="2">@Strings.Choice_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_alignment" title="@Strings.Setting_second_alignment">
+      <setting propertyKey="@Properties.b_align" title="@Strings.Setting_b_align">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_center</listEntry>
           <listEntry value="1">@Strings.Choice_right</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_theme_mode" title="@Strings.Setting_second_theme_mode">
+      <setting propertyKey="@Properties.b_theme" title="@Strings.Setting_b_theme">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_auto</listEntry>
           <listEntry value="1">@Strings.Choice_day</listEntry>
           <listEntry value="2">@Strings.Choice_night</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_hide_value_units" title="@Strings.Setting_second_hide_value_units">
+      <setting propertyKey="@Properties.b_hideu" title="@Strings.Setting_b_hideu">
         <settingConfig type="boolean" />
       </setting>
-      <setting propertyKey="@Properties.second_inverse_enlarged_theme" title="@Strings.Setting_second_inverse_enlarged_theme">
+      <setting propertyKey="@Properties.b_inv" title="@Strings.Setting_b_inv">
         <settingConfig type="boolean" />
       </setting>
-      <setting propertyKey="@Properties.second_grid_type" title="@Strings.Setting_second_grid_type">
+      <setting propertyKey="@Properties.b_grid" title="@Strings.Setting_b_grid">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_grid_type_none</listEntry>
-          <listEntry value="1">@Strings.Choice_second_grid_type_horizontal</listEntry>
-          <listEntry value="2">@Strings.Choice_second_grid_type_full</listEntry>
+          <listEntry value="0">@Strings.Choice_b_grid_none</listEntry>
+          <listEntry value="1">@Strings.Choice_b_grid_horizontal</listEntry>
+          <listEntry value="2">@Strings.Choice_b_grid_full</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_1_value" title="@Strings.Setting_second_slot_1_value">
+      <setting propertyKey="@Properties.b1" title="@Strings.Setting_b1">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -595,14 +595,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_1_background_mode" title="@Strings.Setting_second_slot_1_background_mode">
+      <setting propertyKey="@Properties.b1_bg" title="@Strings.Setting_b1_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_1_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_1_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_1_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b1_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b1_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b1_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_2_value" title="@Strings.Setting_second_slot_2_value">
+      <setting propertyKey="@Properties.b2" title="@Strings.Setting_b2">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -639,14 +639,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_2_background_mode" title="@Strings.Setting_second_slot_2_background_mode">
+      <setting propertyKey="@Properties.b2_bg" title="@Strings.Setting_b2_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_2_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_2_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_2_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b2_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b2_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b2_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_3_value" title="@Strings.Setting_second_slot_3_value">
+      <setting propertyKey="@Properties.b3" title="@Strings.Setting_b3">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -683,14 +683,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_3_background_mode" title="@Strings.Setting_second_slot_3_background_mode">
+      <setting propertyKey="@Properties.b3_bg" title="@Strings.Setting_b3_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_3_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_3_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_3_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b3_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b3_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b3_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_4_value" title="@Strings.Setting_second_slot_4_value">
+      <setting propertyKey="@Properties.b4" title="@Strings.Setting_b4">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -727,14 +727,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_4_background_mode" title="@Strings.Setting_second_slot_4_background_mode">
+      <setting propertyKey="@Properties.b4_bg" title="@Strings.Setting_b4_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_4_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_4_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_4_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b4_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b4_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b4_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_5_value" title="@Strings.Setting_second_slot_5_value">
+      <setting propertyKey="@Properties.b5" title="@Strings.Setting_b5">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -771,14 +771,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_5_background_mode" title="@Strings.Setting_second_slot_5_background_mode">
+      <setting propertyKey="@Properties.b5_bg" title="@Strings.Setting_b5_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_5_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_5_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_5_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b5_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b5_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b5_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_6_value" title="@Strings.Setting_second_slot_6_value">
+      <setting propertyKey="@Properties.b6" title="@Strings.Setting_b6">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -815,14 +815,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_6_background_mode" title="@Strings.Setting_second_slot_6_background_mode">
+      <setting propertyKey="@Properties.b6_bg" title="@Strings.Setting_b6_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_6_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_6_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_6_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b6_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b6_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b6_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_7_value" title="@Strings.Setting_second_slot_7_value">
+      <setting propertyKey="@Properties.b7" title="@Strings.Setting_b7">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -859,14 +859,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_7_background_mode" title="@Strings.Setting_second_slot_7_background_mode">
+      <setting propertyKey="@Properties.b7_bg" title="@Strings.Setting_b7_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_7_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_7_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_7_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b7_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b7_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b7_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_8_value" title="@Strings.Setting_second_slot_8_value">
+      <setting propertyKey="@Properties.b8" title="@Strings.Setting_b8">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -903,14 +903,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_8_background_mode" title="@Strings.Setting_second_slot_8_background_mode">
+      <setting propertyKey="@Properties.b8_bg" title="@Strings.Setting_b8_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_8_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_8_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_8_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b8_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b8_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b8_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_9_value" title="@Strings.Setting_second_slot_9_value">
+      <setting propertyKey="@Properties.b9" title="@Strings.Setting_b9">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -947,14 +947,14 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_9_background_mode" title="@Strings.Setting_second_slot_9_background_mode">
+      <setting propertyKey="@Properties.b9_bg" title="@Strings.Setting_b9_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_9_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_9_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_9_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b9_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b9_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b9_bg_2</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_10_value" title="@Strings.Setting_second_slot_10_value">
+      <setting propertyKey="@Properties.b10" title="@Strings.Setting_b10">
         <settingConfig type="list">
           <listEntry value="0">@Strings.Choice_current_speed</listEntry>
           <listEntry value="1">@Strings.Choice_average_speed</listEntry>
@@ -991,11 +991,11 @@
           <listEntry value="32">@Strings.Choice_team</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_10_background_mode" title="@Strings.Setting_second_slot_10_background_mode">
+      <setting propertyKey="@Properties.b10_bg" title="@Strings.Setting_b10_bg">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_second_slot_10_background_mode_0</listEntry>
-          <listEntry value="1">@Strings.Choice_second_slot_10_background_mode_1</listEntry>
-          <listEntry value="2">@Strings.Choice_second_slot_10_background_mode_2</listEntry>
+          <listEntry value="0">@Strings.Choice_b10_bg_0</listEntry>
+          <listEntry value="1">@Strings.Choice_b10_bg_1</listEntry>
+          <listEntry value="2">@Strings.Choice_b10_bg_2</listEntry>
         </settingConfig>
       </setting>
     </group>

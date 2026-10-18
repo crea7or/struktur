@@ -8,16 +8,16 @@ function verifyEffectDefaultContract() {
     var settings=new DisplaySettings();
     for(var initial=0;initial<10;initial+=1) { Test.assertEqual(false,settings.effects[initial]); }
     Test.assertEqual(true,settings.hideValueUnits);Test.assertEqual(true,settings.inverseEnlargedTheme);
-    var invalid=[null,0,1,"true","false",1.0];
-    var properties={"enlarged_field_count"=>2};
+    var invalid=[null,true,false,-1,3,"true","false",1.0];
+    var properties={"a_big"=>2};
     for(var candidate=0;candidate<invalid.size();candidate+=1) {
-        for(var slot=1;slot<=10;slot+=1) { properties["slot_"+slot.toString()+"_background_effects"]=invalid[candidate]; }
+        for(var slot=1;slot<=10;slot+=1) { properties["a"+slot.toString()+"_bg"]=invalid[candidate]; }
         settings.apply(properties);
         for(var index=0;index<10;index+=1) { Test.assertEqual(false,settings.effects[index]); }
     }
     for(var saved=1;saved<=10;saved+=1) {
-        properties["slot_"+saved.toString()+"_value"]="power_3s";
-        properties["slot_"+saved.toString()+"_background_effects"]=saved%2==0;
+        properties["a"+saved.toString()+""]="power_3s";
+        properties["a"+saved.toString()+"_bg"]=saved%2==0?1:0;
     }
     settings.apply(properties);
     var restarted=new DisplaySettings();restarted.apply(properties);
@@ -25,7 +25,7 @@ function verifyEffectDefaultContract() {
         Test.assertEqual(retained%2==1,settings.effects[retained]);
         Test.assertEqual(settings.effects[retained],restarted.effects[retained]);
     }
-    properties["enlarged_field_count"]=0;properties["slot_10_value"]="grade";
+    properties["a_big"]=0;properties["a10"]="grade";
     restarted.apply(properties);
     Test.assertEqual(true,restarted.effects[9]);Test.assertEqual(false,restarted.effects[0]);
     Test.assertEqual("grade",restarted.slots[9]);
@@ -119,52 +119,27 @@ class DurationDrawDc {
 
 
 (:testSupport)
-class MigrationStore {
-    var values={};var writes=0;var failAt=-1;
-    function initialize() {
-        for(var bank=0;bank<2;bank+=1) {
-            var defaults=bank==0?Catalog.defaultSlots():Catalog.secondaryDefaultSlots();
-            for(var slot=1;slot<=10;slot+=1) {
-                var p=(bank==1?"second_":"")+"slot_"+slot.toString();
-                values[p+"_value"]=defaults[slot-1];values[p+"_background_mode"]=-1;
-                values[p+"_background_effects"]=bank==1 && slot<=4;
-            }
-        }
-        values["settings_schema_version"]=0;values["unrelated"]=42;
-    }
-    function get(key) { return values.hasKey(key)?values[key]:null; }
-    function put(key,value) { writes+=1;if(writes==failAt) { throw new Toybox.Lang.InvalidValueException("injected write failure"); } values[key]=value; }
+class PropertyReadStore {
+    var values={};var reads=0;
+    function get(key) { reads+=1;return values.hasKey(key)?values[key]:null; }
 }
 (:testSupport)
-function verifyBackgroundMigration() {
-    var store=new MigrationStore();store.values["slot_10_value"]="grade";store.values["slot_10_background_effects"]=true;
-    store.values["second_slot_1_background_mode"]=0;
-    var data=SettingsMigration.read(store,false);
-    Test.assertEqual(2,data["slot_10_background_mode"]);Test.assertEqual(2,data["second_slot_4_background_mode"]);
-    Test.assertEqual(0,data["second_slot_1_background_mode"]);Test.assertEqual(1,data["settings_schema_version"]);
-    Test.assertEqual(true,store.values["slot_10_background_effects"]);Test.assertEqual(42,store.values["unrelated"]);
-    var writes=store.writes;SettingsMigration.read(store,false);Test.assertEqual(writes,store.writes);
-    store=new MigrationStore();data=SettingsMigration.read(store,true);
-    Test.assertEqual(1,data["second_slot_4_background_mode"]);Test.assertEqual(0,data["slot_1_background_mode"]);
-    store=new MigrationStore();store.failAt=5;data=SettingsMigration.read(store,false);
-    Test.assertEqual(0,store.values["settings_schema_version"]);Test.assertEqual(-1,store.values["slot_5_background_mode"]);
-    Test.assertEqual(0,data["slot_5_background_mode"]);store.failAt=-1;
-    data=SettingsMigration.read(store,false);Test.assertEqual(1,store.values["settings_schema_version"]);
-    var versions=[2,-1,true,"1",1.0];
-    for(var i=0;i<versions.size();i+=1) {
-        store=new MigrationStore();store.values["settings_schema_version"]=versions[i];
-        store.values["slot_1_background_mode"]=2;data=SettingsMigration.read(store,false);
-        Test.assertEqual(0,store.writes);var settings=new DisplaySettings();settings.apply(data);
-        Test.assertEqual(2,settings.modes[0]);Test.assertEqual(0,settings.modes[1]);
-    }
-    var invalid=[true,false,1.0,"1",3,-2,[],{}];
+function verifyCompactProperties() {
+    var store=new PropertyReadStore();store.values={"a1"=>32,"team"=>"SAVED TEAM","b1_bg"=>0,"unrelated"=>42};
+    var data=SettingsStore.read(store);Test.assertEqual(64,store.reads);Test.assertEqual(64,data.size());
+    Test.assertEqual(32,data["a1"]);Test.assertEqual("SAVED TEAM",data["team"]);Test.assertEqual(0,data["b1_bg"]);
+    Test.assert(!data.hasKey("unrelated"));Test.assertEqual(4,store.values.size());
+    var keys=SettingsCatalogue.keys();var seen={};
+    for(var i=0;i<keys.size();i+=1) { Test.assert(keys[i].length()<=8);Test.assert(!seen.hasKey(keys[i]));seen[keys[i]]=true; }
+    var banks=new FieldSetsSettings();banks.apply(data);Test.assertEqual("team",banks.primary.slots[0]);Test.assertEqual(0,banks.secondary.modes[0]);
+    var invalid=[null,true,"1",1.0,-1,3];
     for(var j=0;j<invalid.size();j+=1) {
-        var props={"settings_schema_version"=>1,"second_slot_1_background_mode"=>invalid[j],"second_slot_2_background_mode"=>0};
-        var secondary=new DisplaySettings();secondary.applyBank(props,"second_");
-        Test.assertEqual(1,secondary.modes[0]);Test.assertEqual(0,secondary.modes[1]);
-        Test.assertEqual(invalid[j],props["second_slot_1_background_mode"]);
+        banks.apply({"a1_bg"=>invalid[j],"b1_bg"=>invalid[j],"b2_bg"=>0});
+        Test.assertEqual(0,banks.primary.modes[0]);Test.assertEqual(1,banks.secondary.modes[0]);Test.assertEqual(0,banks.secondary.modes[1]);
     }
+    banks.apply({"a1_bg"=>2,"b1_bg"=>0});Test.assertEqual(2,banks.primary.modes[0]);Test.assertEqual(0,banks.secondary.modes[0]);
 }
+
 
 (:testSupport)
 function verifyColoringZones() {
@@ -173,7 +148,7 @@ function verifyColoringZones() {
     Test.assert(CadenceZones.classify(-1,bounds)==null);Test.assert(CadenceZones.classify(null,bounds)==null);
     Test.assert(CadenceZones.classify(Math.acos(2.0),bounds)==null);
     var invalid=[-1,301,80,true,"60",60.0,null];
-    for(var j=0;j<invalid.size();j+=1) { Test.assert(CadenceZones.configured({"cadence_zone_1_max_rpm"=>invalid[j]})==null); }
+    for(var j=0;j<invalid.size();j+=1) { Test.assert(CadenceZones.configured({"cad1"=>invalid[j]})==null); }
     var colors=["blue","green","yellow","orange","red","magenta"];
     var rgb=[0x00AAFF,0x00FF00,0xFFAA00,0xFF5500,0xFF0000,0xFF00FF];var renderer=new FieldRenderer();
     for(var z=1;z<=6;z+=1) { Test.assertEqual(colors[z-1],Effects.zoneColor(z));Test.assertEqual(rgb[z-1],renderer.color(colors[z-1])); }
@@ -194,16 +169,16 @@ class ZoneFamilyScenario {
         var readings=[90,110,130,150,50,150,250,650,60,81,121,2,7];
         var colors=["blue","green","yellow","orange","blue","green","yellow","magenta","blue","yellow","red","green","magenta"];
         for(var i=0;i<ids.size();i+=1) {
-            props={"slot_1_value"=>ids[i],"slot_2_value"=>ids[i],"slot_1_background_mode"=>1,"slot_2_background_mode"=>2};raw={};raw[ids[i]]=readings[i];sample();
+            props={"a1"=>ids[i],"a2"=>ids[i],"a1_bg"=>1,"a2_bg"=>2};raw={};raw[ids[i]]=readings[i];sample();
             Test.assertEqual(colors[i],snapshot[:values][0][:band]);Test.assertEqual(colors[i],snapshot[:values][1][:band]);
             old=snapshot;builds=engine.zoneBuilds;sample();Test.assertEqual(builds,engine.zoneBuilds);
             Test.assert(old[:values][0]==snapshot[:values][0]);
         }
         engine._powerZones=null;sample();Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("7",snapshot[:values][0][:text]);
-        props={"slot_1_value"=>"current_cadence","slot_1_background_mode"=>1,"cadence_zone_1_max_rpm"=>200};raw={"current_cadence"=>70};sample();
+        props={"a1"=>"current_cadence","a1_bg"=>1,"cad1"=>200};raw={"current_cadence"=>70};sample();
         Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("70",snapshot[:values][0][:text]);
-        props["cadence_zone_1_max_rpm"]=60;sample();Test.assertEqual("green",snapshot[:values][0][:band]);
-        props={"slot_1_value"=>"heart_rate_zone","slot_2_value"=>"power_zone","slot_1_background_mode"=>1,"slot_2_background_mode"=>2};
+        props["cad1"]=60;sample();Test.assertEqual("green",snapshot[:values][0][:band]);
+        props={"a1"=>"heart_rate_zone","a2"=>"power_zone","a1_bg"=>1,"a2_bg"=>2};
         raw={"current_heart_rate"=>130,"heart_rate_zone"=>5,"current_power"=>650,"power_zone"=>10};
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);sample();
         Test.assertEqual("3",snapshot[:values][0][:text]);Test.assertEqual("yellow",snapshot[:values][0][:band]);
@@ -216,37 +191,33 @@ class ZoneFamilyScenario {
 
 (:testSupport)
 function verifyTeamOptions() {
-    Test.assertEqual("team",SettingsCatalogue.decode("slot_1_value",32));Test.assertEqual("team",Catalog.LABELS[32]);
+    Test.assertEqual("team",SettingsCatalogue.decode("a1",32));Test.assertEqual("team",Catalog.LABELS[32]);
     var invalid=[null,42,true,"abcdefghijklmnopqrstuvwxyzABCDEFG","line\nline","café"];
     for(var i=0;i<invalid.size();i+=1) { Test.assertEqual("TEAM",TeamOptions.text(invalid[i])); }
     Test.assertEqual("",TeamOptions.text(""));Test.assertEqual("  Aa!  ",TeamOptions.text("  Aa!  "));
     Test.assertEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef",TeamOptions.text("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"));
     for(var start=0;start<TeamOptions.REPERTOIRE.length();start+=1) { Test.assertEqual(TeamOptions.REPERTOIRE.substring(start,start+1),TeamOptions.text(TeamOptions.REPERTOIRE.substring(start,start+1))); }
-    var props={"slot_1_team_text"=>"ONE","team_font"=>9,"team_color_source"=>2,
-        "slot_1_team_font"=>4,"slot_1_team_color_source"=>1,
-        "slot_2_team_text"=>"IGNORED","second_slot_1_team_text"=>"TWO","second_slot_10_team_text"=>" HIDDEN ",
-        "second_slot_1_team_font"=>7,"second_slot_1_team_color_source"=>1};
+    var props={"team"=>"ONE","tfont"=>9,"tsrc"=>2};
     var banks=new FieldSetsSettings();banks.apply(props);
     Test.assertEqual("ONE",banks.primary.teamText);Test.assertEqual("ONE",banks.secondary.teamText);
     Test.assertEqual(9,banks.primary.teamFont);Test.assertEqual(9,banks.secondary.teamFont);
     Test.assertEqual(2,banks.primary.teamSource);Test.assertEqual(2,banks.secondary.teamSource);
-    props["slot_1_value"]="team";props["slot_2_value"]="team";props["second_slot_10_value"]="team";
-    props["slot_1_team_text"]=" SAME TEAM ";banks.apply(props);
+    props["a1"]="team";props["a2"]="team";props["b10"]="team";
+    props["team"]=" SAME TEAM ";banks.apply(props);
     Test.assertEqual(" SAME TEAM ",banks.primary.teamText);Test.assertEqual(" SAME TEAM ",banks.secondary.teamText);
-    props["slot_1_value"]="elevation";props["second_set_trigger"]=0;banks.apply(props);
+    props["a1"]="elevation";props["trig"]=0;banks.apply(props);
     Test.assertEqual(" SAME TEAM ",banks.primary.teamText);Test.assertEqual(" SAME TEAM ",banks.secondary.teamText);
-    Test.assertEqual("TWO",props["second_slot_1_team_text"]);Test.assertEqual(" HIDDEN ",props["second_slot_10_team_text"]);
-    props["slot_1_team_text"]="";banks.apply(props);
+    props["team"]="";banks.apply(props);
     Test.assertEqual("",banks.primary.teamText);Test.assertEqual("",banks.secondary.teamText);
-    props["slot_1_team_text"]=42;banks.apply(props);
+    props["team"]=42;banks.apply(props);
     Test.assertEqual("TEAM",banks.primary.teamText);Test.assertEqual("TEAM",banks.secondary.teamText);
-    Test.assertEqual(42,props["slot_1_team_text"]);
-    banks.apply({"second_slot_1_team_text"=>"IGNORED"});
+    Test.assertEqual(42,props["team"]);
+    banks.apply({});
     Test.assertEqual("TEAM",banks.primary.teamText);Test.assertEqual("TEAM",banks.secondary.teamText);
-    var store=new MigrationStore();store.values["slot_1_team_text"]="SAVED TEAM";store.values["second_slot_1_team_text"]="OLD";
-    banks.apply(SettingsMigration.read(store,false));
+    var store=new PropertyReadStore();store.values["team"]="SAVED TEAM";
+    banks.apply(SettingsStore.read(store));
     Test.assertEqual("SAVED TEAM",banks.primary.teamText);Test.assertEqual("SAVED TEAM",banks.secondary.teamText);
-    Test.assertEqual("OLD",store.values["second_slot_1_team_text"]);Test.assertEqual("SAVED TEAM",store.values["slot_1_team_text"]);
+    Test.assertEqual("SAVED TEAM",store.values["team"]);
     var saved=[true,1.0,-1,10,"1",null];
     for(var j=0;j<saved.size();j+=1) { Test.assertEqual(0,TeamOptions.code(saved[j],9)); }
 }

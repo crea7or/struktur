@@ -7,6 +7,7 @@ $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -SdkRoot $SdkRoot -JavaHome $JavaHome -DeviceRoot $DeviceRoot -DeveloperKey $DeveloperKey -RequireKey
 $DeveloperKey=$environment.developer_key
+& (Join-Path $PSScriptRoot 'check-properties.ps1') -SdkRoot $environment.sdk -JavaHome $environment.java_home
 $targets=Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'config\devices.json')|ConvertFrom-Json
 if($Product -notin @($targets|ForEach-Object{$_.id})){throw 'Unknown product.'}
 if($TimeoutSeconds -lt 1){throw 'A positive timeout is required.'}
@@ -19,6 +20,10 @@ if(!$definition){throw 'Suite definition is missing.'}
 if(!$Python){
     $localPython=Join-Path $projectRoot '.local\font-venv\Scripts\python.exe'
     $Python=if(Test-Path -LiteralPath $localPython){$localPython}else{'python'}
+}
+if($Suite -eq 'Core'){
+    & $Python (Join-Path $projectRoot 'tools\test_property_budget.py') --sdk $environment.sdk --java $environment.java_home
+    if($LASTEXITCODE -ne 0){throw 'Property budget guard regression failed.'}
 }
 & $Python (Join-Path $projectRoot 'tools\check_test_suites.py')
 if($LASTEXITCODE -ne 0){throw 'Suite inventory does not match compiler inputs.'}

@@ -9,10 +9,10 @@ class FieldSetsSettings {
     var heartActivate=160;var heartReturn=150;
     function initialize() {
         primary=new DisplaySettings();secondary=new DisplaySettings();
-        secondary.applyBank({},"second_");
+        secondary.applyBank({},"b");
     }
     function load() {
-        var values=SettingsMigration.load();
+        var values=SettingsStore.load();
         apply(values);
     }
     function integer(values,key,low,high,fallback) {
@@ -20,13 +20,13 @@ class FieldSetsSettings {
         return value instanceof Lang.Number && value>=low && value<=high?value:fallback;
     }
     function apply(values) {
-        primary.applyBank(values,"");secondary.applyBank(values,"second_");
+        primary.applyBank(values,"a");secondary.applyBank(values,"b");
         secondary.cadenceBounds=primary.cadenceBounds;
-        trigger=integer(values,"second_set_trigger",0,4,3);
-        powerActivate=integer(values,"second_power_activate_w",1,3000,250);
-        powerReturn=integer(values,"second_power_return_w",1,3000,220);
-        heartActivate=integer(values,"second_hr_activate_bpm",30,250,160);
-        heartReturn=integer(values,"second_hr_return_bpm",30,250,150);
+        trigger=integer(values,"trig",0,4,3);
+        powerActivate=integer(values,"p_on",1,3000,250);
+        powerReturn=integer(values,"p_off",1,3000,220);
+        heartActivate=integer(values,"hr_on",30,250,160);
+        heartReturn=integer(values,"hr_off",30,250,150);
     }
     function activation() { return trigger==1?powerActivate:heartActivate; }
     function returning() { return trigger==1?powerReturn:heartReturn; }

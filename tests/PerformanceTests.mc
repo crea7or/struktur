@@ -19,11 +19,11 @@ function snapshotCacheInvalidation(logger) {
     Test.assertEqual("time | am",changed[:values][3][:label]);Test.assertEqual("12:05",changed[:values][3][:text]);
     clock.hour=13;changed=e.prepareWithPreferences(raw,s,true,d,clock);
     Test.assertEqual("time | pm",changed[:values][3][:label]);
-    s.apply({"hide_value_units"=>false,"slot_1_value"=>"distance"});
+    s.apply({"a_hideu"=>false,"a1"=>"distance"});
     changed=e.prepareWithPreferences(raw,s,true,d,clock);
     Test.assertEqual("distance | mi",changed[:values][0][:label]);Test.assertEqual(11,e.descriptorBuilds);
     // Unknown identifiers and unavailable initial clock state must invalidate safely.
-    s.apply({"slot_1_value"=>"future-metric"});changed=e.prepareWithPreferences({},s,false,d,null);
+    s.apply({"a1"=>"future-metric"});changed=e.prepareWithPreferences({},s,false,d,null);
     Test.assertEqual("field",changed[:values][0][:label]);Test.assert(changed[:values][0][:text]==null);
     Test.assertEqual("time",changed[:values][3][:label]);Test.assert(changed[:values][3][:text]==null);
     verifySnapshotSlotIsolation();
@@ -35,18 +35,18 @@ function snapshotCacheInvalidation(logger) {
 (:testSupport)
 function verifySnapshotSlotIsolation() {
     var e=new SnapshotEngine();var s=new DisplaySettings();var d=new PresentationDevice(false,true,false);
-    s.apply({"slot_1_value"=>"current_speed","slot_2_value"=>"current_speed"});
+    s.apply({"a1"=>"current_speed","a2"=>"current_speed"});
     var raw={"current_speed"=>10,"distance"=>20000};
     var first=e.prepareWithPreferences(raw,s,true,d,null);
     raw["current_speed"]=11;
-    s.apply({"slot_1_value"=>"distance","slot_2_value"=>"current_speed"});
+    s.apply({"a1"=>"distance","a2"=>"current_speed"});
     var next=e.prepareWithPreferences(raw,s,true,d,null);
     Test.assertEqual("20.0",next[:values][0][:text]);Test.assertEqual("39.6",next[:values][1][:text]);
     d.distanceUnits=System.UNIT_STATUTE;
     next=e.prepareWithPreferences(raw,s,true,d,null);
     Test.assertEqual("12.4",next[:values][0][:text]);Test.assertEqual("24.6",next[:values][1][:text]);
     for(var i=0;i<64;i+=1) {
-        s.apply({"slot_1_value"=>Catalog.IDS[i%Catalog.IDS.size()],"slot_2_value"=>"current_speed"});
+        s.apply({"a1"=>Catalog.IDS[i%Catalog.IDS.size()],"a2"=>"current_speed"});
         e.prepareWithPreferences(raw,s,true,d,null);
         Test.assertEqual(10,e._descriptors.size());
     }
@@ -69,7 +69,7 @@ class RendererCacheScenario {
     var settings;var raw;var engine;var renderer;var snapshot;var dc;var props;
     var fits;var geometry;var polygons;var packets;
     function initialize() {
-        props={"slot_1_value"=>"current_speed","slot_2_value"=>"grade","slot_2_background_effects"=>true};
+        props={"a1"=>"current_speed","a2"=>"grade","a2_bg"=>2};
         settings=new DisplaySettings();settings.apply(props);engine=new SnapshotEngine();renderer=new DrawOnlyRenderer();
         raw={"current_speed"=>10,"grade"=>3.4};sample();
         dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
@@ -91,7 +91,7 @@ class RendererCacheScenario {
         Test.assertEqual(headers,renderer.headerMeasures);
         Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(polygons,renderer.polygonBuilds);Test.assertEqual(packets+1,renderer.packetBuilds);
         fits=renderer.fitCount;packets=renderer.packetBuilds;
-        props["theme_mode"]=2;settings.apply(props);sample();
+        props["a_theme"]=2;settings.apply(props);sample();
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(polygons,renderer.polygonBuilds);
         Test.assert(renderer.packetBuilds>packets);
         raw["grade"]=null;sample();Test.assertEqual("dark_gray",snapshot[:values][1][:band]);
@@ -102,7 +102,7 @@ class RendererCacheScenario {
         renderer.locked=true;renderer.draw(dc,snapshot,settings);renderer.locked=false;
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(packets,renderer.packetBuilds);
         Test.assertEqual(renderer._cells.size(),dc.records.size());
-        props["enlarged_field_count"]=1;props["alignment"]=0;settings.apply(props);renderer.configure(settings);sample();
+        props["a_big"]=1;props["a_align"]=0;settings.apply(props);renderer.configure(settings);sample();
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,1),renderer._cells.size());
         Test.assert(renderer.geometryBuilds>geometry);Test.assert(renderer._cells[0][:enlarged]);
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
@@ -123,10 +123,10 @@ function rendererCacheAndDrawPurity(logger) {
 function optionalRuntimeQueries(logger) {
     var settings=new DisplaySettings();Test.assert(!settings.usesBattery);
     Test.assert(settings.usesClock);
-    settings.apply({"slot_10_value"=>"battery"});Test.assert(settings.usesBattery);
+    settings.apply({"a10"=>"battery"});Test.assert(settings.usesBattery);
     settings.apply({});Test.assert(!settings.usesBattery);
-    settings.apply({"slot_4_value"=>"battery"});Test.assert(!settings.usesClock && settings.usesBattery);
-    settings.apply({"slot_4_value"=>"battery","slot_10_value"=>"time_of_day"});Test.assert(settings.usesClock);
+    settings.apply({"a4"=>"battery"});Test.assert(!settings.usesClock && settings.usesBattery);
+    settings.apply({"a4"=>"battery","a10"=>"time_of_day"});Test.assert(settings.usesClock);
     Test.assert(ActivityReader.readWithBattery(new AcquisitionInfo(),false)["battery"]==null);
     Test.assert(!RuntimeMetrics.enabled);
     var maximum=RuntimeMetrics.maxUsedBytes;var deadline=RuntimeMetrics.deadlineMisses;
@@ -137,8 +137,8 @@ function optionalRuntimeQueries(logger) {
 
 (:testSupport)
 function verifyPresentationRecordReuse() {
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>"current_heart_rate","slot_2_value"=>"current_heart_rate",
-        "slot_1_background_effects"=>true,"slot_2_background_effects"=>true,"slot_3_value"=>"heart_rate_zone","slot_4_value"=>"current_heart_rate"});
+    var settings=new DisplaySettings();settings.apply({"a1"=>"current_heart_rate","a2"=>"current_heart_rate",
+        "a1_bg"=>1,"a2_bg"=>1,"a3"=>"heart_rate_zone","a4"=>"current_heart_rate"});
     var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
     var first=engine.compute({"current_heart_rate"=>130},settings);
     Test.assertEqual(2,engine.zoneBuilds); // One heart classification + one unavailable power classification.

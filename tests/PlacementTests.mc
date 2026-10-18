@@ -25,8 +25,8 @@ function proportionalCaptionFit(logger) {
     for(var big=0;big<=2;big+=1) {
         for(var align=0;align<=1;align+=1) {
             for(var durationCase=0;durationCase<durationInputs.size();durationCase+=1) {
-                var input={"enlarged_field_count"=>big,"alignment"=>align};
-                for(var slot=1;slot<=10;slot+=1) { input["slot_"+slot.toString()+"_value"]=slot%2==0?17:16; }
+                var input={"a_big"=>big,"a_align"=>align};
+                for(var slot=1;slot<=10;slot+=1) { input["a"+slot.toString()+""]=slot%2==0?17:16; }
                 var durationSettings=new DisplaySettings();durationSettings.apply(input);
                 var engine=new SnapshotEngine();
                 var snapshot=engine.prepare({"activity_timer"=>durationInputs[durationCase],"elapsed_time"=>durationInputs[durationCase]},durationSettings,true);
@@ -44,7 +44,7 @@ function proportionalCaptionFit(logger) {
 
 (:test)
 function actualValueFitAndCompactCache(logger) {
-    var s=new DisplaySettings();s.apply({"slot_1_value"=>19,"use_units_as_labels"=>false});
+    var s=new DisplaySettings();s.apply({"a1"=>19,"use_units_as_labels"=>false});
     var e=new SnapshotEngine();var r=new FieldRenderer();var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
     var value=e.prepare({"calories"=>9999999},s,true);r.prepare(value);r.layout(dc,s);
     Test.assertEqual(PresentationPolicy.OVERFLOW,r._runs[0].text);var fixed=r._runs[0].size;
@@ -88,7 +88,7 @@ function documentedUnsupportedCombinations(logger) {
     var settings=new DisplaySettings();var engine=new SnapshotEngine();
     for(var i=0;i<cases.size();i+=1) {
         var row=cases[i];var index=row[0];var point=[row[5],row[6],row[7]];
-        settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>row[2]});
+        settings.apply({"a1"=>Catalog.IDS[index],"a_hideu"=>row[2]});
         var raw={};raw[Catalog.IDS[index]]=normalDisplayRaw(index,point[0],row[1]);
         var clock=new PresentationClock();
         if("clock".equals(Catalog.FORMATS[index])) { var minutes=point[0].toNumber();clock.hour=minutes/60;clock.min=minutes%60; }
@@ -105,10 +105,10 @@ function documentedUnsupportedCombinations(logger) {
 // SPEC-232: deliberately rejected bank bounds belong only to Placement.
 (:test)
 function secondaryFieldSetPlacement(logger) {
-    var properties={"second_set_trigger"=>3,"second_enlarged_field_count"=>2};
+    var properties={"trig"=>3,"b_big"=>2};
     for(var slot=1;slot<=10;slot+=1) {
-        properties["slot_"+slot+"_value"]="current_power";
-        properties["second_slot_"+slot+"_value"]="current_power";
+        properties["a"+slot+""]="current_power";
+        properties["b"+slot+""]="current_power";
     }
     var renderer=new FieldRenderer();var engine=new SnapshotEngine();
     var raw={"current_power"=>0};
@@ -116,8 +116,8 @@ function secondaryFieldSetPlacement(logger) {
     var small=new PresentationDrawDc(100,100);
     for(var alignment=0;alignment<2;alignment+=1) {
         for(var grid=0;grid<3;grid+=1) {
-            properties["alignment"]=alignment;properties["second_alignment"]=alignment;
-            properties["grid_type"]=grid;properties["second_grid_type"]=grid;
+            properties["a_align"]=alignment;properties["b_align"]=alignment;
+            properties["a_grid"]=grid;properties["b_grid"]=grid;
             var banks=new FieldSetsSettings();banks.apply(properties);var c=new FieldSetController(banks);
             var snap=engine.prepareWithPreferences(raw,c.active(),true,new PresentationDevice(false,true,false),null);
             renderer.configure(c.active());renderer.prepare(snap);renderer.layout(large,c.active());

@@ -3,6 +3,7 @@ param([switch]$All,[string]$Product='edge1040',[ValidateSet('Core','Memory','Pla
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -RequireKey
+& (Join-Path $PSScriptRoot 'check-properties.ps1') -SdkRoot $environment.sdk -JavaHome $environment.java_home
 & (Join-Path $PSScriptRoot 'check-fonts.ps1')
 $env:JAVA_HOME=$environment.java_home
 $targets=Get-Content -Raw -LiteralPath (Join-Path $root 'config/devices.json')|ConvertFrom-Json

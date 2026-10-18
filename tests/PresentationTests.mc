@@ -9,7 +9,7 @@ function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     verifyTeamOptions();
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(85,SettingsCatalogue.keys().size());
+    Test.assertEqual(64,SettingsCatalogue.keys().size());
     Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
@@ -19,7 +19,7 @@ function presentationSettingsAndUnits(logger) {
         for(var retired=0;retired<2;retired+=1) {
             for(var hide=0;hide<2;hide+=1) {
                 for(var index=0;index<Catalog.IDS.size()-1;index+=1) {
-                    settings.apply({"slot_1_value"=>Catalog.IDS[index],"use_units_as_labels"=>retired==1,"hide_value_units"=>hide==1});
+                    settings.apply({"a1"=>Catalog.IDS[index],"use_units_as_labels"=>retired==1,"a_hideu"=>hide==1});
                     var raw={};raw[Catalog.IDS[index]]=0;
                     var value=engine.prepareWithPreferences(raw,settings,true,device,clock)[:values][0];
                     var physical=statute==1?imperial[index]:metric[index];
@@ -38,7 +38,7 @@ function presentationSettingsAndUnits(logger) {
             }
         }
     }
-    settings.apply({"slot_1_value"=>"time_of_day"});
+    settings.apply({"a1"=>"time_of_day"});
     var device12=new PresentationDevice(false,false,false);
     clock.hour=0;clock.min=0;
     var midnight=engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0];
@@ -51,7 +51,7 @@ function presentationSettingsAndUnits(logger) {
     clock.hour=24;
     var invalid=engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0];
     Test.assert(invalid[:text]==null);Test.assertEqual("time",invalid[:label]);
-    settings.apply({"slot_1_value"=>"future-metric","hide_value_units"=>false});
+    settings.apply({"a1"=>"future-metric","a_hideu"=>false});
     var unknown=engine.initial(settings)[:values][0];
     Test.assertEqual("field",unknown[:label]);Test.assertEqual("",unknown[:unit]);Test.assert(unknown[:text]==null);
     return true;
@@ -73,10 +73,10 @@ function composedHeaderWidthAudit(logger) {
     for(var statute=0;statute<2;statute+=1) {
         var device=new PresentationDevice(statute==1,true,false);
         for(var index=0;index<Catalog.IDS.size()-1;index+=1) {
-            settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>true});
+            settings.apply({"a1"=>Catalog.IDS[index],"a_hideu"=>true});
             var plain=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][:label];
             Test.assertEqual(Catalog.LABELS[index],plain);
-            settings.apply({"slot_1_value"=>Catalog.IDS[index],"hide_value_units"=>false});
+            settings.apply({"a1"=>Catalog.IDS[index],"a_hideu"=>false});
             var header=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][:label];
             var unit=statute==1?imperial[index]:metric[index];
             Test.assertEqual(expectedUnitHeader(index,unit,false),header);
@@ -129,9 +129,9 @@ function presentationThemeAndActivity(logger) {
         }
     }
     var engine=new SnapshotEngine(); var settings=new DisplaySettings();
-    settings.apply({"slot_1_value"=>"power_3s","slot_2_value"=>"activity_timer"});
+    settings.apply({"a1"=>"power_3s","a2"=>"activity_timer"});
     for(var second=1;second<=3;second+=1) { engine.compute({"current_power"=>second*100,"activity_timer"=>65000,"elapsed_time"=>second*1000,"_sampling_enabled"=>true},settings); }
-    settings.apply({"slot_1_value"=>"power_3s","slot_2_value"=>"activity_timer", "use_units_as_labels"=>false,"hide_value_units"=>false,"inverse_enlarged_theme"=>false});
+    settings.apply({"a1"=>"power_3s","a2"=>"activity_timer", "use_units_as_labels"=>false,"a_hideu"=>false,"a_inv"=>false});
     // Reformatting existing readings after settings changes must preserve averages.
     engine.prepare({"power_3s"=>200,"activity_timer"=>65000},settings,true);
     var next=engine.compute({"current_power"=>400,"activity_timer"=>65000,"elapsed_time"=>4000,"_sampling_enabled"=>true},settings);
@@ -153,7 +153,7 @@ function literalAndTemplateHeaderSelection(logger) {
     Test.assertEqual("speed | mph",FieldPresentation.headerText("speed","mph",null,false));
     Test.assertEqual("speed | mph",FieldPresentation.headerText("speed","mph","",false));
     Test.assertEqual("speed | km/h",FieldPresentation.headerText("speed","km/h",null,false));
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>0,"slot_2_value"=>12,"slot_3_value"=>20,"slot_4_value"=>19,"slot_5_value"=>7,"hide_value_units"=>false});
+    var settings=new DisplaySettings();settings.apply({"a1"=>0,"a2"=>12,"a3"=>20,"a4"=>19,"a5"=>7,"a_hideu"=>false});
     var device=new PresentationDevice(true,true,false);device.elevationUnits=System.UNIT_METRIC;
     var result=new SnapshotEngine().prepareWithPreferences({},settings,false,device,null)[:values];
     var expected=["speed | mph","elevation | m","temp | °f","kcal","watts"];
@@ -167,7 +167,7 @@ function sampleDefaultUnitHeaderGrid(logger) {
     for(var hideUnits=0;hideUnits<2;hideUnits+=1) {
         for(var night=0;night<2;night+=1) {
             for(var align=0;align<2;align+=1) {
-                var settings=new DisplaySettings();settings.apply({"hide_value_units"=>hideUnits==1,"theme_mode"=>night==1?2:1,"alignment"=>align});
+                var settings=new DisplaySettings();settings.apply({"a_hideu"=>hideUnits==1,"a_theme"=>night==1?2:1,"a_align"=>align});
                 var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
                 var raw={"current_speed"=>27.3/3.6,"distance"=>12340,"activity_timer"=>5025000,"current_heart_rate"=>154,
                     "power_3s"=>245,"elevation"=>1456,"grade"=>6.8,"total_ascent"=>456,"temperature"=>24.5};
@@ -198,7 +198,7 @@ function reviewedFormattingAndCatalogue(logger) {
     var ids=["lap_distance","lap_time","lap_speed","lap_heart_rate","lap_power","lap_cadence"];
     var labels=["lap distance","lap time","lap speed","lap heart rate","lap watts","lap cadence"];
     for(var i=0;i<6;i+=1) {
-        Test.assertEqual(ids[i],SettingsCatalogue.decode("slot_1_value",26+i));
+        Test.assertEqual(ids[i],SettingsCatalogue.decode("a1",26+i));
         Test.assertEqual(labels[i],Catalog.LABELS[26+i]);
     }
     Test.assertEqual("1000000000",Formatting.integral(1000000000));
@@ -207,7 +207,7 @@ function reviewedFormattingAndCatalogue(logger) {
     Test.assertEqual("0",Formatting.heading(Formatting.degrees(359.6*Math.PI/180.0)));
     Test.assertEqual("315",Formatting.heading(Formatting.degrees(-Math.PI/4.0)));
     Test.assertEqual("N",Formatting.cardinal(359.6));Test.assertEqual("NE",Formatting.cardinal(22.5));
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>22});
+    var settings=new DisplaySettings();settings.apply({"a1"=>22});
     var value=new SnapshotEngine().prepareWithPreferences({"heading"=>Math.PI/4.0},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
     Test.assertEqual("45",value[:values][0][:text]);Test.assertEqual("NE",value[:values][0][:expandedUnit]);
     return true;
@@ -215,7 +215,7 @@ function reviewedFormattingAndCatalogue(logger) {
 
 (:test)
 function fixedThreeRoleFonts(logger) {
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>0,"slot_2_value"=>16,"slot_3_value"=>17,"slot_4_value"=>21});
+    var settings=new DisplaySettings();settings.apply({"a1"=>0,"a2"=>16,"a3"=>17,"a4"=>21});
     var engine=new SnapshotEngine();var renderer=new FieldRenderer();
     var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
     for(var big=0;big<=2;big+=1) {
@@ -239,14 +239,14 @@ function fixedThreeRoleFonts(logger) {
 function approvedForegroundAndMetricWidths(logger) {
     var e=new SnapshotEngine();var clock=new PresentationClock();
     for(var night=0;night<2;night+=1) {
-        var s=new DisplaySettings();s.apply({"slot_1_value"=>15,"slot_1_background_effects"=>true,"theme_mode"=>night==1?2:1});
+        var s=new DisplaySettings();s.apply({"a1"=>15,"a1_bg"=>2,"a_theme"=>night==1?2:1});
         var snapshot=e.prepareWithPreferences({"grade"=>1},s,true,new PresentationDevice(false,true,night==1),clock);
         var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
         for(var f=0;f<snapshot[:values].size();f+=1) { dc.paintEffects.add(snapshot[:values][f][:band]!=null || snapshot[:values][f][:angle]!=null); }
         var r=new FieldRenderer();r.prepare(snapshot);r.layout(dc,s);r.draw(dc,snapshot,s);
         Test.assertEqual(night==1?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,dc.records[0][:texts][0][:color]);
     }
-    var settings=new DisplaySettings();settings.apply({"slot_1_value"=>4,"slot_1_background_effects"=>true});
+    var settings=new DisplaySettings();settings.apply({"a1"=>4,"a1_bg"=>1});
     var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
     var orange=engine.compute({"current_heart_rate"=>160},settings);
     var out=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
@@ -295,12 +295,12 @@ function gridTypeAndRepaint(logger) {
     var settings=new DisplaySettings();Test.assertEqual("horizontal",settings.gridType);
     var invalid=[null,-1,3,1.0,true,false,"true","bad",[],{}];
     for(var i=0;i<invalid.size();i+=1) {
-        settings.apply({"grid_type"=>invalid[i]});Test.assertEqual("horizontal",settings.gridType);
+        settings.apply({"a_grid"=>invalid[i]});Test.assertEqual("horizontal",settings.gridType);
     }
     var ids=["none","horizontal","full"];
     for(var type=0;type<3;type+=1) {
-        settings.apply({"grid_type"=>type});Test.assertEqual(ids[type],settings.gridType);
-        settings.apply({"grid_type"=>ids[type]});Test.assertEqual(ids[type],settings.gridType);
+        settings.apply({"a_grid"=>type});Test.assertEqual(ids[type],settings.gridType);
+        settings.apply({"a_grid"=>ids[type]});Test.assertEqual(ids[type],settings.gridType);
     }
     settings.apply({"show_grid"=>false});Test.assertEqual("horizontal",settings.gridType);
     settings.apply({});Test.assertEqual("horizontal",settings.gridType);
@@ -314,9 +314,9 @@ function clockAndDurationFitEveryLayout(logger) {
     for(var kind=0;kind<3;kind+=1) {
         for(var big=0;big<=2;big+=1) {
             for(var align=0;align<2;align+=1) {
-                var settings=new DisplaySettings();var props={"enlarged_field_count"=>big,"alignment"=>align};
+                var settings=new DisplaySettings();var props={"a_big"=>big,"a_align"=>align};
                 var id=kind==2?"activity_timer":"time_of_day";
-                for(var slot=1;slot<=10;slot+=1) { props["slot_"+slot.toString()+"_value"]=id; }
+                for(var slot=1;slot<=10;slot+=1) { props["a"+slot.toString()]=id; }
                 settings.apply(props);var clock=new PresentationClock();clock.hour=kind==0?0:13;clock.min=kind==0?0:5;
                 var snapshot=new SnapshotEngine().prepareWithPreferences({"activity_timer"=>3600000},settings,true,new PresentationDevice(false,true,false),clock);
                 var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
@@ -348,12 +348,12 @@ class EnlargedLabelScenario {
     function run() {
         enlarged=_scenario%3;night=(_scenario/3).toNumber()%2==1;
         bank=(_scenario/6).toNumber()%2;align=(_scenario/12).toNumber();
-        props={"enlarged_field_count"=>enlarged,"second_enlarged_field_count"=>enlarged,
-            "alignment"=>align,"second_alignment"=>align,"theme_mode"=>night?2:1,
-            "second_theme_mode"=>night?2:1,"hide_value_units"=>false,"second_hide_value_units"=>false};
+        props={"a_big"=>enlarged,"b_big"=>enlarged,
+            "a_align"=>align,"b_align"=>align,"a_theme"=>night?2:1,
+            "b_theme"=>night?2:1,"a_hideu"=>false,"b_hideu"=>false};
         for(var slot=1;slot<=10;slot+=1) {
-            props["slot_"+slot+"_value"]="current_power";props["second_slot_"+slot+"_value"]="current_power";
-            props["slot_"+slot+"_background_effects"]=true;props["second_slot_"+slot+"_background_effects"]=true;
+            props["a"+slot]="current_power";props["b"+slot]="current_power";
+            props["a"+slot+"_bg"]=1;props["b"+slot+"_bg"]=1;
         }
         banks=new FieldSetsSettings();banks.apply(props);settings=bank==0?banks.primary:banks.secondary;
         engine=new SnapshotEngine();engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500],true);
@@ -399,8 +399,8 @@ class EnlargedLabelScenario {
 class CoverageScenario {
     var props;var settings;var engine;var snapshot;var renderer;var dc;var fits;var geometry;var old;
     function initialize(index) {
-        props={"enlarged_field_count"=>index%3,"alignment"=>(index/3)%2,"theme_mode"=>(index/6)%2==1?2:1,
-            "slot_1_value"=>(index/12)%2==1?"grade":"elevation","slot_1_background_mode"=>1};
+        props={"a_big"=>index%3,"a_align"=>(index/3)%2,"a_theme"=>(index/6)%2==1?2:1,
+            "a1"=>(index/12)%2==1?"grade":"elevation","a1_bg"=>1};
         settings=new DisplaySettings();settings.apply(props);engine=new SnapshotEngine();renderer=new FieldRenderer();
     }
     function prepare() {
@@ -412,15 +412,15 @@ class CoverageScenario {
     function run() {
         prepare();old=snapshot[:values][0];fits=renderer.fitCount;geometry=renderer.geometryBuilds;
         Test.assert(renderer._packets[0].labelEffect);Test.assertEqual(1,dc.records[0][:rectangles].size()-1);
-        props["slot_1_background_mode"]=2;prepare();
+        props["a1_bg"]=2;prepare();
         Test.assertEqual(1,old[:coverage]);Test.assertEqual(2,snapshot[:values][0][:coverage]);
         Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(fits,renderer.fitCount);Test.assert(!renderer._packets[0].labelEffect);
         Test.assert(renderer._packets[0].primary[6]!=null);
         if("grade".equals(settings.slots[0])) { Test.assert(snapshot[:values][0][:angle]!=null); }
         else { Test.assertEqual(renderer.color(snapshot[:values][0][:band]),dc.records[0][:background]);Test.assertEqual(fits,renderer.fitCount); }
-        props["slot_1_background_mode"]=1;prepare();Test.assert(renderer._runs[0].labelBand>0);
+        props["a1_bg"]=1;prepare();Test.assert(renderer._runs[0].labelBand>0);
         Test.assert(snapshot[:values][0][:angle]==null);Test.assert(renderer._packets[0].labelEffect);
-        props["slot_1_background_mode"]=0;prepare();Test.assert(snapshot[:values][0][:band]==null);
+        props["a1_bg"]=0;prepare();Test.assert(snapshot[:values][0][:band]==null);
         Test.assertEqual(1,dc.records[0][:rectangles].size());Test.assertEqual(geometry,renderer.geometryBuilds);
     }
 }

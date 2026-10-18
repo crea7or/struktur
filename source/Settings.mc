@@ -17,7 +17,7 @@ class DisplaySettings {
     var usesBattery;
     var usesClock;
     var revision=0;
-    var _prefix="";
+    var _prefix="a";
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
@@ -27,50 +27,41 @@ class DisplaySettings {
         hideValueUnits=true; inverseEnlargedTheme=true; gridType="horizontal"; usesBattery=false; usesClock=true;
     }
     function load() {
-        var values=SettingsMigration.load();
+        var values=SettingsStore.load();
         apply(values);
     }
-    function get(values as Lang.Dictionary, key) { var saved=_prefix+key;return values.hasKey(saved) ? values[saved] : null; }
+    function get(values as Lang.Dictionary, key) { var saved=_prefix+key.substring(1,key.length());return values.hasKey(saved) ? values[saved] : null; }
     function applyBank(values,prefix) { _prefix=prefix;apply(values); }
     function booleanValue(values, key) {
         var value=get(values,key); return value instanceof Lang.Boolean ? value : true;
     }
     function apply(values as Lang.Dictionary) {
         revision+=1;var nextBounds=CadenceZones.configured(values);
-        // One shared value; retain the original storage key across upgrades.
-        teamText=TeamOptions.text(values.hasKey("slot_1_team_text")?values["slot_1_team_text"]:null);
-        teamFont=TeamOptions.code(values.hasKey("team_font")?values["team_font"]:null,9);
-        teamSource=TeamOptions.code(values.hasKey("team_color_source")?values["team_color_source"]:null,2);
+        // All Team slots in both sets share these three properties.
+        teamText=TeamOptions.text(values.hasKey("team")?values["team"]:null);
+        teamFont=TeamOptions.code(values.hasKey("tfont")?values["tfont"]:null,9);
+        teamSource=TeamOptions.code(values.hasKey("tsrc")?values["tsrc"]:null,2);
         if(!CadenceZones.same(cadenceBounds,nextBounds)) { cadenceBounds=nextBounds; }
-        // Retired field_count and use_units_as_labels are ignored. APP-20 derives the count
-        // from measured rows and the selected number of enlarged top fields.
-        var second="second_".equals(_prefix);
-        var big = get(values, "enlarged_field_count");
+        var second="b".equals(_prefix);
+        var big = get(values, "a_big");
         enlarged = big instanceof Lang.Number && big >= 0 && big <= 2 ? big : (second?1:0);
-        var align = SettingsCatalogue.decode("alignment",get(values, "alignment")); alignment = "center".equals(align) ? "center" : "right";
-        var mode = SettingsCatalogue.decode("theme_mode",get(values, "theme_mode")); theme = "day".equals(mode) || "night".equals(mode) ? mode : "auto";
-        hideValueUnits=booleanValue(values,"hide_value_units");
-        inverseEnlargedTheme=booleanValue(values,"inverse_enlarged_theme");
-        var grid=SettingsCatalogue.decode("grid_type",get(values,"grid_type"));
+        var align = SettingsCatalogue.decode("a_align",get(values, "a_align")); alignment = "center".equals(align) ? "center" : "right";
+        var mode = SettingsCatalogue.decode("a_theme",get(values, "a_theme")); theme = "day".equals(mode) || "night".equals(mode) ? mode : "auto";
+        hideValueUnits=booleanValue(values,"a_hideu");
+        inverseEnlargedTheme=booleanValue(values,"a_inv");
+        var grid=SettingsCatalogue.decode("a_grid",get(values,"a_grid"));
         gridType="none".equals(grid)?"none":("full".equals(grid)?"full":"horizontal");
         var defaults = second?Catalog.secondaryDefaultSlots():Catalog.defaultSlots();
         usesBattery=false;usesClock=false;
         for (var i = 0; i < 10; i += 1) {
-            var key = "slot_" + (i+1).toString() + "_value";
+            var key = "a" + (i+1).toString() ;
             var selected = SettingsCatalogue.decode(key,get(values,key));
             // A valid unknown identifier is retained and renders unavailable; malformed -> slot default.
             slots[i] = selected instanceof Lang.String && selected.length() > 0 ? selected : defaults[i];
             if("battery".equals(slots[i])) { usesBattery=true; }
             if("time_of_day".equals(slots[i])) { usesClock=true; }
-            var enabled = get(values, "slot_" + (i+1).toString() + "_background_effects");
-            var coverage=get(values,"slot_"+(i+1).toString()+"_background_mode");
-            var version=values.hasKey("settings_schema_version")?values["settings_schema_version"]:0;
-            var compatible=version==null || (version instanceof Lang.Number && version==0);
-            var fallback=second && i<4?1:0;
-            if(SettingsMigration.validMode(coverage)) { modes[i]=coverage; }
-            else if(compatible && (coverage==null || (coverage instanceof Lang.Number && coverage==-1)) && enabled instanceof Lang.Boolean) {
-                modes[i]=enabled?("grade".equals(slots[i])?2:1):0;
-            } else { modes[i]=version instanceof Lang.Number && version==1?fallback:(compatible?fallback:0); }
+            var coverage=get(values,"a"+(i+1).toString()+"_bg");
+            modes[i]=SettingsStore.validMode(coverage)?coverage:(second && i<4?1:0);
             effects[i]=modes[i]!=0;
         }
     }

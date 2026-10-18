@@ -13,6 +13,9 @@ def main():
     field="MemoryValidationField" if scenario=="matrix" else "MemorySwitchingField"
     folder='memory-source' if scenario=='matrix' else 'memory-switching-source'
     output=ROOT/'.local'/folder;output.mkdir(parents=True,exist_ok=True)
+    # Drop stale generated source files after production renames.
+    for stale in output.glob('*.mc'):
+        if not (ROOT/'source'/stale.name).is_file():stale.unlink()
     records=[]
     for source in sorted((ROOT/'source').glob('*.mc')):
         content=source.read_bytes()

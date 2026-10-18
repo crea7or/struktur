@@ -8,6 +8,7 @@ $targets=Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'config\devices.j
 if($Mode -notin @('all','package','candidate') -and $Product -notin @($targets|ForEach-Object{$_.id})){throw ('Unknown candidate product: '+$Product)}
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -SdkRoot $SdkRoot -JavaHome $JavaHome -DeviceRoot $DeviceRoot -DeveloperKey $DeveloperKey -RequireKey:($Mode -ne 'check')
 $DeveloperKey=$environment.developer_key
+& (Join-Path $PSScriptRoot 'check-properties.ps1') -SdkRoot $environment.sdk -JavaHome $environment.java_home
 if($Mode -eq 'check'){$environment;exit 0}
 if($Mode -eq 'test'){
     & (Join-Path $PSScriptRoot 'run-tests.ps1') -Product $Product -SdkRoot $SdkRoot -JavaHome $JavaHome -DeviceRoot $DeviceRoot -DeveloperKey $DeveloperKey -Python $Python

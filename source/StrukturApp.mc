@@ -13,10 +13,6 @@ class StrukturApp extends Application.AppBase {
     // Garmin calls onStart in both processes. Foreground-only classes are unavailable in background.
     function onStart(state) {}
     (:background)
-    function onAppInstall() { Application.Storage.setValue("settings_install_origin","fresh"); }
-    (:background)
-    function onAppUpdate() { Application.Storage.setValue("settings_install_origin","upgrade"); }
-    (:background)
     function getServiceDelegate() { return [new TemperatureService()]; }
     function onBackgroundData(data) {
         if(_temperature==null) { _temperature=new TemperatureCache(); }

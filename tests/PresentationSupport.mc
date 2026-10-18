@@ -147,10 +147,10 @@ class GridTypeScenario {
     var props;var settings;var snapshot;var renderer;var baseline;var dc;
     var layouts;var loads;var fits;var geometry;
     function initialize(index) {
-        props={"alignment"=>index%2,"enlarged_field_count"=>(index/2)%3,
-            "theme_mode"=>(index/6)%2==1?2:1,"inverse_enlarged_theme"=>(index/12)%2==1,
-            "slot_1_value"=>"grade","slot_1_background_effects"=>true,
-            "slot_2_value"=>"current_heart_rate","slot_2_background_effects"=>true};
+        props={"a_align"=>index%2,"a_big"=>(index/2)%3,
+            "a_theme"=>(index/6)%2==1?2:1,"a_inv"=>(index/12)%2==1,
+            "a1"=>"grade","a1_bg"=>1,
+            "a2"=>"current_heart_rate","a2_bg"=>1};
         settings=new DisplaySettings();settings.apply(props);
         snapshot=new SnapshotEngine().prepareWithPreferences({"grade"=>3.4,"current_heart_rate"=>160,
             "current_speed"=>10,"distance"=>12345,"activity_timer"=>65000,"elevation"=>123},
@@ -195,7 +195,7 @@ class GridTypeScenario {
         layouts=renderer.layoutCount;loads=renderer.fontLoads;fits=renderer.fitCount;geometry=renderer.geometryBuilds;
         var types=[1,0,2,0,1,2];
         for(var pass=0;pass<types.size();pass+=1) {
-            props["grid_type"]=types[pass];settings.apply(props);renderer.configure(settings);renderer.prepare(snapshot);drawing();
+            props["a_grid"]=types[pass];settings.apply(props);renderer.configure(settings);renderer.prepare(snapshot);drawing();
             checkSegments(types[pass]);assertGridDrawingEqual(baseline,dc.records);
             Test.assertEqual(layouts,renderer.layoutCount);Test.assertEqual(loads,renderer.fontLoads);
             Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);
@@ -207,12 +207,12 @@ class GridTypeScenario {
 function verifyPresentationDraw(mode,baseNight,inverse,big,align,requireComplete) {
     var engine=new SnapshotEngine(); var clock=new PresentationClock();
     var settings=new DisplaySettings();
-    settings.apply({"slot_1_value"=>"current_speed","slot_2_value"=>"current_speed",
-        "slot_3_value"=>"temperature","slot_4_value"=>"heading","slot_5_value"=>"activity_timer",
-        "slot_6_value"=>"time_of_day","slot_7_value"=>"current_cadence", "slot_8_value"=>"battery",
-        "use_units_as_labels"=>mode%2==1,"hide_value_units"=>mode/2==1,
-        "theme_mode"=>baseNight==1?2:1,"inverse_enlarged_theme"=>inverse==1,
-        "enlarged_field_count"=>big,"alignment"=>align});
+    settings.apply({"a1"=>"current_speed","a2"=>"current_speed",
+        "a3"=>"temperature","a4"=>"heading","a5"=>"activity_timer",
+        "a6"=>"time_of_day","a7"=>"current_cadence", "a8"=>"battery",
+        "use_units_as_labels"=>mode%2==1,"a_hideu"=>mode/2==1,
+        "a_theme"=>baseNight==1?2:1,"a_inv"=>inverse==1,
+        "a_big"=>big,"a_align"=>align});
     var snapshot=engine.prepareWithPreferences({"current_speed"=>0,"average_speed"=>0,"temperature"=>10,
         "heading"=>0,"activity_timer"=>36000000,"battery"=>0},settings,true,new PresentationDevice(false,false,baseNight==1),clock);
     var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
@@ -354,9 +354,9 @@ class ColoredFieldScenario {
         var ids=["grade","current_power","power_3s","average_power","current_heart_rate","heart_rate_3s","average_heart_rate","temperature"];
         var id=ids[field];
         settings=new DisplaySettings();
-        properties={"slot_1_value"=>id,"slot_2_value"=>id,"slot_1_background_effects"=>true,"slot_2_background_effects"=>false,
-            "enlarged_field_count"=>big,"alignment"=>align,"theme_mode"=>night==1?2:1,
-            "inverse_enlarged_theme"=>inverse==1,"hide_value_units"=>hideUnits==1};
+        properties={"a1"=>id,"a2"=>id,"a1_bg"=>"grade".equals(id)?2:1,"a2_bg"=>0,
+            "a_big"=>big,"a_align"=>align,"a_theme"=>night==1?2:1,
+            "a_inv"=>inverse==1,"a_hideu"=>hideUnits==1};
         settings.apply(properties);
         raw={};raw[id]=10;
         engine=new SnapshotEngine();device=new PresentationDevice(false,true,night==1);clock=new PresentationClock();
@@ -374,7 +374,7 @@ class ColoredFieldScenario {
         Test.assertEqual(cells.size(),renderer._runs.size());
         verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,align);
         for(var state=0;state<2;state+=1) {
-            properties["slot_1_background_effects"]=state==1;properties["slot_1_background_mode"]=state==1?1:0;settings.apply(properties);
+            properties["a1_bg"]=state==1;properties["a1_bg"]=state==1?1:0;settings.apply(properties);
             snapshot=engine.prepareWithPreferences(state==1?{}:raw,settings,true,device,clock);
             if(state==0) { Test.assert(snapshot[:values][0][:band]==null); }
             else { Test.assertEqual((night==1)!=(big>0 && inverse==1)?"dark_gray":"light_gray",snapshot[:values][0][:band]); }
@@ -395,10 +395,10 @@ function verifyWhiteTemperatureContrast() {
     var engine=new SnapshotEngine(); var clock=new PresentationClock();
     // White semantic temperature band must survive both inversion directions.
     for(var night=0;night<2;night+=1) {
-        var settings=new DisplaySettings();var props={"enlarged_field_count"=>0,"theme_mode"=>night==1?2:1};
+        var settings=new DisplaySettings();var props={"a_big"=>0,"a_theme"=>night==1?2:1};
         for(var slot=1;slot<=10;slot+=1) {
-            props["slot_"+slot.toString()+"_value"]="temperature";
-            props["slot_"+slot.toString()+"_background_effects"]=true;
+            props["a"+slot.toString()]="temperature";
+            props["a"+slot.toString()+"_bg"]=1;
         }
         settings.apply(props);
         var snapshot=engine.prepareWithPreferences({"temperature"=>5},settings,true,new PresentationDevice(false,true,night==1),clock);
@@ -439,11 +439,11 @@ function verifyNeutralLabelBands() {
         var expectedCustom=false;
         for(var k=0;k<custom.size();k+=1) { if(index==custom[k]) { expectedCustom=true; } }
         Test.assertEqual(expectedCustom,Effects.hasCustomBackground(Catalog.IDS[index]));
-        settings.apply({"slot_1_value"=>Catalog.IDS[index],"slot_1_background_effects"=>true});
+        settings.apply({"a1"=>Catalog.IDS[index],"a1_bg"=>1});
         var missing=engine.prepareWithPreferences({},settings,false,new PresentationDevice(false,true,false),null)[:values][0];
         Test.assertEqual("light_gray",missing[:band]);Test.assert(missing[:angle]==null);
     }
-    settings.apply({"slot_1_value"=>"unknown_field","slot_1_background_effects"=>true});
+    settings.apply({"a1"=>"unknown_field","a1_bg"=>1});
     Test.assert(engine.initial(settings)[:values][0][:band]==null);
 }
 
@@ -459,8 +459,8 @@ class CustomBackgroundScenario {
         color=index==1?"white":(index<5?"orange":"yellow");
         night=mode%2;big=mode/2;
         gray=(night==1)!=(big==1)?"dark_gray":"light_gray";
-        props={"slot_1_value"=>id,"slot_2_value"=>id,"slot_1_background_effects"=>true,
-            "slot_2_background_effects"=>false,"theme_mode"=>night==1?2:1,"enlarged_field_count"=>big,"inverse_enlarged_theme"=>true};
+        props={"a1"=>id,"a2"=>id,"a1_bg"=>"grade".equals(id)?2:1,
+            "a2_bg"=>0,"a_theme"=>night==1?2:1,"a_big"=>big,"a_inv"=>true};
         settings=new DisplaySettings();settings.apply(props);engine=new SnapshotEngine();
         qualify();
     }
@@ -490,8 +490,8 @@ class CustomBackgroundScenario {
             qualify();
         }
         sample();Test.assertEqual(color,snapshot[:values][0][:band]);
-        props["slot_1_background_effects"]=false;settings.apply(props);sample();Test.assert(snapshot[:values][0][:band]==null);
-        props["slot_1_background_effects"]=true;settings.apply(props);sample();Test.assertEqual(color,snapshot[:values][0][:band]);
+        props["a1_bg"]=0;settings.apply(props);sample();Test.assert(snapshot[:values][0][:band]==null);
+        props["a1_bg"]=1;settings.apply(props);sample();Test.assertEqual(color,snapshot[:values][0][:band]);
         raw={};sample();Test.assertEqual(gray,snapshot[:values][0][:band]);Test.assert(snapshot[:values][0][:angle]==null);
     }
 }
@@ -503,11 +503,11 @@ class NeutralBandScenario {
     var raw;var snapshot;var gray;var dc;var cells;var fixedBand;
     function initialize(caseIndex) {
         big=caseIndex%3;caseIndex/=3;inverse=caseIndex%2;night=caseIndex/2;
-        props={"theme_mode"=>night==1?2:1,"inverse_enlarged_theme"=>inverse==1,
-            "enlarged_field_count"=>big,"alignment"=>(big+inverse)%2,"hide_value_units"=>inverse==0,
-            "slot_1_value"=>"current_speed","slot_2_value"=>"current_speed",
-            "slot_1_background_effects"=>true,"slot_2_background_effects"=>false,
-            "slot_10_value"=>"current_speed","slot_10_background_effects"=>true};
+        props={"a_theme"=>night==1?2:1,"a_inv"=>inverse==1,
+            "a_big"=>big,"a_align"=>(big+inverse)%2,"a_hideu"=>inverse==0,
+            "a1"=>"current_speed","a2"=>"current_speed",
+            "a1_bg"=>1,"a2_bg"=>0,
+            "a10"=>"current_speed","a10_bg"=>1};
         settings=new DisplaySettings();renderer=new FieldRenderer();engine=new SnapshotEngine();
         fixedBand=renderer._labelBandHeight;
         Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,fixedBand);
@@ -515,8 +515,8 @@ class NeutralBandScenario {
     }
     function run() {
         for(var state=0;state<6;state+=1) {
-            props["slot_1_value"]=state>=3?(state==5?"lap_speed":"grade"):"current_speed";
-            props["slot_1_background_effects"]=state!=2;props["slot_1_background_mode"]=state==2?0:(state==4?2:1);
+            props["a1"]=state>=3?(state==5?"lap_speed":"grade"):"current_speed";
+            props["a1_bg"]=state!=2;props["a1_bg"]=state==2?0:(state==4?2:1);
             settings.apply(props);
             raw=state==1 || state==3?{}:{"current_speed"=>1,"grade"=>1,"lap_speed"=>1};
             snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
@@ -545,11 +545,11 @@ class NeutralBandScenario {
 (:testSupport)
 function verifyGuaranteedNormalDraw(night,big,align) {
     var settings=new DisplaySettings();
-    var props={"theme_mode"=>night==1?2:1,"enlarged_field_count"=>big,"alignment"=>align,"hide_value_units"=>true};
+    var props={"a_theme"=>night==1?2:1,"a_big"=>big,"a_align"=>align,"a_hideu"=>true};
     var ids=["current_speed","current_heart_rate","activity_timer","battery","current_power","grade"];
     for(var slot=0;slot<10;slot+=1) {
-        props["slot_"+(slot+1).toString()+"_value"]=ids[slot%ids.size()];
-        props["slot_"+(slot+1).toString()+"_background_effects"]=true;
+        props["a"+(slot+1).toString()]=ids[slot%ids.size()];
+        props["a"+(slot+1).toString()+"_bg"]=1;
     }
     settings.apply(props);
     var snapshot=new SnapshotEngine().prepareWithPreferences({"current_speed"=>1,"current_heart_rate"=>150,"activity_timer"=>65000,
@@ -587,12 +587,12 @@ class TeamDrawDc extends PresentationDrawDc {
 class TeamScenario {
     var settings;var props;var engine;var renderer;var snapshot;var dc;var device;var fits;var geometry;var measures;var old;var bank;var prefix;var automatic;var watts=null;
     function initialize(index) {
-        bank=index%2;prefix=bank==1?"second_":"";
-        props={};props[prefix+"enlarged_field_count"]=(index/2)%3;props[prefix+"alignment"]=(index/6)%2;
-        props[prefix+"slot_1_value"]="team";props["slot_1_team_text"]="Aa 12!";
-        for(var slot=2;slot<=10;slot+=1) { props[prefix+"slot_"+slot.toString()+"_value"]="elevation"; }
-        props[prefix+"slot_2_value"]="team";props[prefix+"slot_10_value"]="team";
-        props["team_color_source"]=2;props[prefix+"slot_1_background_mode"]=1;
+        bank=index%2;prefix=bank==1?"b":"a";
+        props={};props[prefix+"_big"]=(index/2)%3;props[prefix+"_align"]=(index/6)%2;
+        props[prefix+"1"]="team";props["team"]="Aa 12!";
+        for(var slot=2;slot<=10;slot+=1) { props[prefix+slot.toString()]="elevation"; }
+        props[prefix+"2"]="team";props[prefix+"10"]="team";
+        props["tsrc"]=2;props[prefix+"1_bg"]=1;
         settings=new DisplaySettings();engine=new SnapshotEngine();renderer=new FieldRenderer();device=new PresentationDevice(false,true,false);
         engine._hrZones=ZoneMetadata.heart([0,100,120,140,160,200]);
     }
@@ -602,7 +602,7 @@ class TeamScenario {
     }
     function check() {
         Test.assert(renderer._cells.size()>0);var cell=renderer._cells[0];var run=renderer._runs[0];var packet=renderer._packets[0];
-        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual(props["slot_1_team_text"],run.text);Test.assertEqual("team",snapshot[:values][0][:label]);
+        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual(props["team"],run.text);Test.assertEqual("team",snapshot[:values][0][:label]);
         Test.assert(packet.label!=null && packet.unit==null);Test.assert(packet.primary!=null);
         for(var duplicate=1;duplicate<renderer._cells.size();duplicate+=1) {
             if("team".equals(settings.slots[duplicate])) {
@@ -636,24 +636,24 @@ class TeamScenario {
         sample(110);automatic=renderer._runs[0].font;check();Test.assertEqual("green",snapshot[:values][0][:band]);old=snapshot;fits=renderer.fitCount;geometry=renderer.geometryBuilds;measures=renderer._nativeFonts.measurements;
         sample(130);check();Test.assertEqual("yellow",snapshot[:values][0][:band]);Test.assertEqual("green",old[:values][0][:band]);
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(measures,renderer._nativeFonts.measurements);
-        props[prefix+"slot_1_background_mode"]=2;sample(130);check();Test.assertEqual(renderer.color("yellow"),dc.records[0][:background]);
+        props[prefix+"1_bg"]=2;sample(130);check();Test.assertEqual(renderer.color("yellow"),dc.records[0][:background]);
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(measures,renderer._nativeFonts.measurements);
-        props[prefix+"theme_mode"]=2;sample(null);check();Test.assertEqual(fits,renderer.fitCount);
-        props[prefix+"slot_1_background_mode"]=0;sample(110);check();Test.assert(snapshot[:values][0][:band]==null);Test.assertEqual(fits,renderer.fitCount);
+        props[prefix+"_theme"]=2;sample(null);check();Test.assertEqual(fits,renderer.fitCount);
+        props[prefix+"1_bg"]=0;sample(110);check();Test.assert(snapshot[:values][0][:band]==null);Test.assertEqual(fits,renderer.fitCount);
         for(var code=1;code<=9;code+=1) {
-            props["team_font"]=code;sample(110);check();Test.assertEqual(code,settings.teamFont);
+            props["tfont"]=code;sample(110);check();Test.assertEqual(code,settings.teamFont);
         }
-        props["team_font"]=0;props["team_color_source"]=1;props[prefix+"slot_1_background_mode"]=2;
+        props["tfont"]=0;props["tsrc"]=1;props[prefix+"1_bg"]=2;
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);watts=650;sample(110);check();
         Test.assertEqual("magenta",snapshot[:values][0][:band]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);
-        props["team_color_source"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
-        old=snapshot;props["slot_1_team_text"]="BLUE TEAM";automatic=null;sample(110);check();
+        props["tsrc"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
+        old=snapshot;props["team"]="BLUE TEAM";automatic=null;sample(110);check();
         Test.assertEqual("Aa 12!",old[:values][0][:text]);Test.assertEqual("Aa 12!",old[:values][1][:text]);
-        props[prefix+"hide_value_units"]=false;measures=renderer._nativeFonts.measurements;sample(110);check();Test.assertEqual(measures,renderer._nativeFonts.measurements);
-        props["slot_1_team_text"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);Test.assertEqual("team",renderer._packets[0].label[3]);
+        props[prefix+"_hideu"]=false;measures=renderer._nativeFonts.measurements;sample(110);check();Test.assertEqual(measures,renderer._nativeFonts.measurements);
+        props["team"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);Test.assertEqual("team",renderer._packets[0].label[3]);
         Test.assertEqual("",renderer._runs[1].text);Test.assert(renderer._packets[1].primary==null);
-        props[prefix+"slot_1_value"]="current_power";sample(110);Test.assert(!renderer._runs[0].isNative);
+        props[prefix+"1"]="current_power";sample(110);Test.assert(!renderer._runs[0].isNative);
         Test.assertEqual(FontSelection.height(renderer._cells[0][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,false),Graphics.getFontHeight(renderer._runs[0].font));
     }
 }

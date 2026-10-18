@@ -39,7 +39,7 @@ These are development profiles. Emulator verification does not establish physica
 
 For development sideloading, build a PRG for the matching device and copy it into the device's `GARMIN/APPS` directory. Add Struktur to a cycling activity using a full-page, single Data Field layout.
 
-Application settings control field assignments, alignment, enlargement, grid type, themes, unit headers and per-slot backgrounds. Changing a layout retains assignments in hidden slots.
+Application settings control field assignments, alignment, enlargement, grid type, themes, unit headers and per-slot backgrounds. Changing a layout retains assignments in hidden slots. The [property reference](docs/properties.md) lists all 64 compact storage keys, defaults and limits. This schema starts fresh; previous property names are not migrated. Builds check the serialized settings against an 8,000-byte budget.
 
 The **Second field set** section follows the default-set settings. Its activation selector controls when the entire second dashboard replaces the first. Each set saves ten assignments and independently configures fields, alignment, enlargement, themes, unit headers, backgrounds and grid.
 

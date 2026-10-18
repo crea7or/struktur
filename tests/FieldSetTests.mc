@@ -33,55 +33,55 @@ class SecondSetField extends StrukturField {
 }
 
 (:test)
-function secondarySettingsAndMigration(logger) {
-    var saved={"alignment"=>0,"slot_10_value"=>"battery","slot_10_background_effects"=>true,
-        "second_alignment"=>1,"second_slot_1_value"=>"lap_power","second_slot_10_value"=>"future-field",
-        "second_slot_1_background_effects"=>true,"second_enlarged_field_count"=>2,"second_hide_value_units"=>false};
+function secondarySettingsAndDefaults(logger) {
+    var saved={"a_align"=>0,"a10"=>"battery","a10_bg"=>1,
+        "b_align"=>1,"b1"=>"lap_power","b10"=>"future-field",
+        "b1_bg"=>1,"b_big"=>2,"b_hideu"=>false};
     var s=secondSetConfiguration(saved);
-    Test.assertEqual(85,SettingsCatalogue.keys().size());
+    Test.assertEqual(64,SettingsCatalogue.keys().size());
     Test.assertEqual("center",s.primary.alignment);Test.assertEqual("right",s.secondary.alignment);
     Test.assertEqual("battery",s.primary.slots[9]);Test.assert(s.primary.effects[9]);
     Test.assertEqual("lap_power",s.secondary.slots[0]);Test.assertEqual("future-field",s.secondary.slots[9]);
     Test.assertEqual(2,s.secondary.enlarged);Test.assert(!s.secondary.hideValueUnits && s.secondary.effects[0]);
     Test.assertEqual(3,s.trigger);Test.assertEqual(250,s.powerActivate);Test.assertEqual(220,s.powerReturn);
     Test.assertEqual(160,s.heartActivate);Test.assertEqual(150,s.heartReturn);
-    var defaults=secondSetConfiguration({"alignment"=>0,"slot_1_value"=>"battery"});
+    var defaults=secondSetConfiguration({"a_align"=>0,"a1"=>"battery"});
     Test.assertEqual("right",defaults.secondary.alignment);verifySecondFactoryPreset(defaults);
     verifySecondFactoryPreset(new FieldSetsSettings());
     verifySecondPresetFallbacks();
     var factoryController=new FieldSetController(new FieldSetsSettings());
     Test.assert(!factoryController.second);factoryController.lap(true);Test.assert(factoryController.second);
     factoryController.lap(true);Test.assert(!factoryController.second);
-    factoryController.configure(secondSetConfiguration({"second_set_trigger"=>0}));
+    factoryController.configure(secondSetConfiguration({"trig"=>0}));
     factoryController.lap(true);Test.assert(!factoryController.second);Test.assertEqual(0,factoryController.configuration.trigger);
-    for(var i=0;i<32;i+=1) { Test.assertEqual(Catalog.IDS[i],SettingsCatalogue.decode("second_slot_1_value",i)); }
-    Test.assertEqual("night",SettingsCatalogue.decode("second_theme_mode",2));
-    for(var mode=0;mode<=4;mode+=1) { s=secondSetConfiguration({"second_set_trigger"=>mode});Test.assertEqual(mode,s.trigger); }
+    for(var i=0;i<32;i+=1) { Test.assertEqual(Catalog.IDS[i],SettingsCatalogue.decode("b1",i)); }
+    Test.assertEqual("night",SettingsCatalogue.decode("b_theme",2));
+    for(var mode=0;mode<=4;mode+=1) { s=secondSetConfiguration({"trig"=>mode});Test.assertEqual(mode,s.trigger); }
     var invalid=[null,-1,5,2.0,"2",true];
     for(var j=0;j<invalid.size();j+=1) {
-        s=secondSetConfiguration({"second_set_trigger"=>invalid[j],"second_power_activate_w"=>invalid[j],"second_hr_return_bpm"=>invalid[j]});
+        s=secondSetConfiguration({"trig"=>invalid[j],"p_on"=>invalid[j],"hr_off"=>invalid[j]});
         Test.assertEqual(3,s.trigger);
         if(j!=2) { Test.assertEqual(250,s.powerActivate); }
         Test.assertEqual(150,s.heartReturn);
     }
-    s=secondSetConfiguration({"second_set_trigger"=>1,"second_power_activate_w"=>200,"second_power_return_w"=>220});
+    s=secondSetConfiguration({"trig"=>1,"p_on"=>200,"p_off"=>220});
     var c=new FieldSetController(s);c.evaluate({"power_3s"=>300},true);Test.assert(!c.second);
-    s=secondSetConfiguration({"second_set_trigger"=>2,"second_power_activate_w"=>200,"second_power_return_w"=>220});
+    s=secondSetConfiguration({"trig"=>2,"p_on"=>200,"p_off"=>220});
     c.configure(s);c.evaluate({"current_heart_rate"=>170},true);Test.assert(c.second);
-    s=secondSetConfiguration({"second_power_activate_w"=>3000,"second_power_return_w"=>1,
-        "second_hr_activate_bpm"=>250,"second_hr_return_bpm"=>30});
+    s=secondSetConfiguration({"p_on"=>3000,"p_off"=>1,
+        "hr_on"=>250,"hr_off"=>30});
     Test.assertEqual(3000,s.powerActivate);Test.assertEqual(1,s.powerReturn);Test.assertEqual(250,s.heartActivate);Test.assertEqual(30,s.heartReturn);
-    s=secondSetConfiguration({"second_power_activate_w"=>3001,"second_power_return_w"=>0,
-        "second_hr_activate_bpm"=>251,"second_hr_return_bpm"=>29});
+    s=secondSetConfiguration({"p_on"=>3001,"p_off"=>0,
+        "hr_on"=>251,"hr_off"=>29});
     Test.assertEqual(250,s.powerActivate);Test.assertEqual(220,s.powerReturn);Test.assertEqual(160,s.heartActivate);Test.assertEqual(150,s.heartReturn);
     var restarted=secondSetConfiguration(saved);Test.assertEqual("lap_power",restarted.secondary.slots[0]);
-    Test.assertEqual("future-field",restarted.secondary.slots[9]);Test.assertEqual(0,saved["alignment"]);
+    Test.assertEqual("future-field",restarted.secondary.slots[9]);Test.assertEqual(0,saved["a_align"]);
     return true;
 }
 
 (:test)
 function secondaryThresholdSources(logger) {
-    var c=new FieldSetController(secondSetConfiguration({"second_set_trigger"=>1}));
+    var c=new FieldSetController(secondSetConfiguration({"trig"=>1}));
     var values=[249,250,235,220,219];var expected=[false,true,true,true,false];
     for(var i=0;i<values.size();i+=1) { c.evaluate({"power_3s"=>values[i]},true);Test.assertEqual(expected[i],c.second); }
     c.evaluate({"power_3s"=>249.6},true);Test.assert(!c.second);
@@ -94,16 +94,16 @@ function secondaryThresholdSources(logger) {
     }
     c.evaluate({"power_3s"=>300},true);c.evaluate({},false);Test.assert(c.second);
     c.evaluate({},true);Test.assert(!c.second); // first resumed warm-up result is unavailable
-    c.configure(secondSetConfiguration({"second_set_trigger"=>1,"second_power_activate_w"=>250,"second_power_return_w"=>250}));
+    c.configure(secondSetConfiguration({"trig"=>1,"p_on"=>250,"p_off"=>250}));
     c.evaluate({"power_3s"=>250},true);Test.assert(c.second);c.evaluate({"power_3s"=>249.9},true);Test.assert(!c.second);
-    c.configure(secondSetConfiguration({"second_set_trigger"=>2}));
+    c.configure(secondSetConfiguration({"trig"=>2}));
     values=[159,160,155,150,149];
     for(var h=0;h<values.size();h+=1) { c.evaluate({"current_heart_rate"=>values[h],"heart_rate_3s"=>200},true);Test.assertEqual(expected[h],c.second); }
     c.evaluate({"current_heart_rate"=>170,"power_3s"=>null},true);Test.assert(c.second);
     c.evaluate({"current_heart_rate"=>0},true);Test.assert(!c.second);
     // Real Data Field pipeline: three consecutive power seconds, no power fields in either bank.
-    var field=new SecondSetField();var props={"second_set_trigger"=>1};
-    for(var slot=1;slot<=10;slot+=1) {props["slot_"+slot+"_value"]="current_heart_rate";props["second_slot_"+slot+"_value"]="current_heart_rate";}
+    var field=new SecondSetField();var props={"trig"=>1};
+    for(var slot=1;slot<=10;slot+=1) {props["a"+slot]="current_heart_rate";props["b"+slot]="current_heart_rate";}
     field.applyFieldSets(secondSetConfiguration(props));var info=new AcquisitionInfo();info.timerState=Activity.TIMER_STATE_ON;info.currentPower=300;
     for(var second=0;second<3;second+=1) { info.elapsedTime=second*1000;info.timerTime=second*1000;field.processActivity(info);Test.assertEqual(second==2,field._fieldSets.second); }
     Test.assertEqual(3,field._engine._power._count);Test.assertEqual(3,field._acquisition.samples);
@@ -135,23 +135,23 @@ function secondaryManualLapCallbacks(logger) {
     field.onTimerStart();field.onLapNotification(true);Test.assert(field._fieldSets.second);
     for(var mode=0;mode<=4;mode+=1) {
         if(mode==3) {continue;}
-        field.applyFieldSets(secondSetConfiguration({"second_set_trigger"=>mode}));field.onLapNotification(true);Test.assert(!field._fieldSets.second);
+        field.applyFieldSets(secondSetConfiguration({"trig"=>mode}));field.onLapNotification(true);Test.assert(!field._fieldSets.second);
     }
     return true;
 }
 
 (:test)
 function secondaryWorkoutCallbacks(logger) {
-    var field=new SecondSetField();field.applyFieldSets(secondSetConfiguration({"second_set_trigger"=>4}));
+    var field=new SecondSetField();field.applyFieldSets(secondSetConfiguration({"trig"=>4}));
     Test.assert(!field._fieldSets.second);field.onWorkoutStarted();Test.assert(field._fieldSets.second);
     field.onWorkoutStarted();field.onTimerPause();field.onTimerStop();field.onTimerResume();field.onTimerStart();
     field.onLapNotification(true);field.onLapNotification(false);field.onWorkoutStepComplete();field.onHide();field.onShow();
     field.processActivity(new AcquisitionInfo());Test.assert(field._fieldSets.second);
     field.onTimerReset();Test.assert(!field._fieldSets.second);field.onLapNotification(true);Test.assert(!field._fieldSets.second);
     field.onWorkoutStarted();Test.assert(field._fieldSets.second);
-    field.applyFieldSets(secondSetConfiguration({"second_set_trigger"=>0}));field.onWorkoutStarted();Test.assert(!field._fieldSets.second);
-    field.applyFieldSets(secondSetConfiguration({"second_set_trigger"=>4}));Test.assert(!field._fieldSets.second);
-    var late=new FieldSetController(secondSetConfiguration({"second_set_trigger"=>4}));late.evaluate({},true);Test.assert(!late.second);
+    field.applyFieldSets(secondSetConfiguration({"trig"=>0}));field.onWorkoutStarted();Test.assert(!field._fieldSets.second);
+    field.applyFieldSets(secondSetConfiguration({"trig"=>4}));Test.assert(!field._fieldSets.second);
+    var late=new FieldSetController(secondSetConfiguration({"trig"=>4}));late.evaluate({},true);Test.assert(!late.second);
     late.workout();late.evaluate({"_activity_identity"=>100},true);Test.assert(late.second);
     late.evaluate({"_activity_identity"=>200},true);Test.assert(!late.second);
     return true;
@@ -159,10 +159,10 @@ function secondaryWorkoutCallbacks(logger) {
 
 (:test)
 function secondaryAtomicAcquisition(logger) {
-    var props={"second_set_trigger"=>2,"second_alignment"=>0,"second_enlarged_field_count"=>1,
-        "second_theme_mode"=>2,"second_hide_value_units"=>false,"second_grid_type"=>0,"second_slot_10_value"=>"battery"};
-    for(var slot=1;slot<=9;slot+=1) {props["slot_"+slot+"_value"]="current_power";props["second_slot_"+slot+"_value"]="current_heart_rate";}
-    props["slot_10_value"]="current_power";
+    var props={"trig"=>2,"b_align"=>0,"b_big"=>1,
+        "b_theme"=>2,"b_hideu"=>false,"b_grid"=>0,"b10"=>"battery"};
+    for(var slot=1;slot<=9;slot+=1) {props["a"+slot]="current_power";props["b"+slot]="current_heart_rate";}
+    props["a10"]="current_power";
     var field=new SecondSetField();field.applyFieldSets(secondSetConfiguration(props));
     var info=new AcquisitionInfo();info.timerState=Activity.TIMER_STATE_ON;info.currentHeartRate=140;info.currentPower=200;info.startTime=new Time.Moment(100);
     field.processActivity(info);field._renderer.layout(new PresentationDrawDc(profileDrawWidth(),profileDrawHeight()),field._settings);var first=field._snapshot;Test.assertEqual(0,field.batteryReads);
@@ -174,10 +174,10 @@ function secondaryAtomicAcquisition(logger) {
     Test.assertEqual("watts",first[:values][0][:label]);Test.assertEqual("200",first[:values][0][:text]);
     Test.assertEqual(2,field._acquisition.samples);Test.assertEqual(2,field._engine._power._count);
     var originalPower=field._engine._power;var originalLap=field._acquisition.currentLap;
-    props["alignment"]=0;props["second_power_return_w"]=999;
+    props["a_align"]=0;props["p_off"]=999;
     field.applyFieldSets(secondSetConfiguration(props));Test.assert(field._fieldSets.second);
     Test.assert(field._engine._power==originalPower && field._acquisition.currentLap==originalLap);
-    props["second_hr_return_bpm"]=140;field.applyFieldSets(secondSetConfiguration(props));Test.assert(!field._fieldSets.second);
+    props["hr_off"]=140;field.applyFieldSets(secondSetConfiguration(props));Test.assert(!field._fieldSets.second);
     info.currentHeartRate=170;info.elapsedTime=2000;info.timerTime=2000;field.processActivity(info);Test.assert(field._fieldSets.second);
     Test.assertEqual(3,field._engine._power._count);
     field.onTimerPause();Test.assert(field._fieldSets.second);field.onTimerResume();Test.assert(field._fieldSets.second);
@@ -203,12 +203,12 @@ function verifySecondFactoryPreset(configuration) {
 
 (:testSupport)
 function verifySecondPresetFallbacks() {
-    var saved={"second_enlarged_field_count"=>0,"second_slot_1_background_effects"=>false,"second_slot_1_value"=>"current_speed"};
+    var saved={"b_big"=>0,"b1_bg"=>0,"b1"=>"current_speed"};
     var s=secondSetConfiguration(saved);Test.assertEqual(0,s.secondary.enlarged);Test.assert(!s.secondary.effects[0]);
-    Test.assertEqual("current_speed",s.secondary.slots[0]);Test.assertEqual(false,saved["second_slot_1_background_effects"]);
-    s=secondSetConfiguration({"second_enlarged_field_count"=>-1,"second_slot_1_value"=>null,"second_slot_1_background_effects"=>"false"});
+    Test.assertEqual("current_speed",s.secondary.slots[0]);Test.assertEqual(0,saved["b1_bg"]);
+    s=secondSetConfiguration({"b_big"=>-1,"b1"=>null,"b1_bg"=>"false"});
     verifySecondFactoryPreset(s);
-    s=secondSetConfiguration({"second_slot_4_background_effects"=>false,"second_slot_5_background_effects"=>true});
+    s=secondSetConfiguration({"b4_bg"=>0,"b5_bg"=>1});
     Test.assert(!s.secondary.effects[3] && s.secondary.effects[4]);
 }
 
@@ -223,10 +223,10 @@ class TeamLapField extends StrukturField {
 class TeamLapCallbackScenario {
     var field;var properties;var configuration;var dc;
     function initialize() {
-        properties={"second_set_trigger"=>3};
+        properties={"trig"=>3};
         for(var slot=1;slot<=10;slot+=1) {
-            properties["slot_"+slot+"_value"]="team";properties["second_slot_"+slot+"_value"]="team";
-            properties["slot_"+slot+"_background_mode"]=1;properties["second_slot_"+slot+"_background_mode"]=2;
+            properties["a"+slot]="team";properties["b"+slot]="team";
+            properties["a"+slot+"_bg"]=1;properties["b"+slot+"_bg"]=2;
         }
     }
     function run() {
@@ -246,16 +246,16 @@ class TeamLapCallbackScenario {
 class MixedTeamLapCallbackScenario {
     var field;var props;var configuration;var dc;
     function initialize() {
-        props={"second_set_trigger"=>3,"slot_1_value"=>32,"slot_2_value"=>32,"second_slot_1_value"=>32,"slot_1_team_text"=>"TEAM RIDE"};
+        props={"trig"=>3,"a1"=>32,"a2"=>32,"b1"=>32,"team"=>"TEAM RIDE"};
         dc=new TeamDrawDc(profileDrawWidth(),profileDrawHeight());
     }
     function run() {
         field=new TeamLapField();
         for(var shape=0;shape<3;shape+=1) {
             for(var mode=0;mode<3;mode+=1) {
-                props["enlarged_field_count"]=shape;props["second_enlarged_field_count"]=2-shape;
-                props["alignment"]=shape%2;props["second_alignment"]=1-shape%2;
-                props["slot_1_background_mode"]=mode;props["second_slot_1_background_mode"]=mode;
+                props["a_big"]=shape;props["b_big"]=2-shape;
+                props["a_align"]=shape%2;props["b_align"]=1-shape%2;
+                props["a1_bg"]=mode;props["b1_bg"]=mode;
                 configuration=new FieldSetsSettings();configuration.apply(props);field.applyFieldSets(configuration);
                 field.method(:onLayout).invoke(dc);field.onTimerStart();
                 for(var event=0;event<4;event+=1) {
@@ -275,7 +275,7 @@ class MixedTeamLapCallbackScenario {
 class NativeSettingsCallbackScenario {
     var app;var oldView;var saved={};var props;var field;var dc;var loaded;
     function initialize() {
-        props={"slot_1_value"=>32,"slot_2_value"=>32,"slot_1_team_text"=>"NATIVE TEAM","team_font"=>9,"team_color_source"=>2,"alignment"=>0,"grid_type"=>2,"second_set_trigger"=>3,"second_slot_1_value"=>32};
+        props={"a1"=>32,"a2"=>32,"team"=>"NATIVE TEAM","tfont"=>9,"tsrc"=>2,"a_align"=>0,"a_grid"=>2,"trig"=>3,"b1"=>32};
     }
     function run() {
         app=Toybox.Application.getApp();oldView=app._view;
@@ -293,8 +293,8 @@ class NativeSettingsCallbackScenario {
             field.onTimerStart();
             if(field.typedLapSupported()) { field.method(:onTimerLap2).invoke({:lapTrigger=>0}); } else { field.onTimerLap(); }
             Test.assert(field._fieldSets.second);
-            Toybox.Application.Properties.setValue("slot_1_team_text","UPDATED TEAM");
-            Toybox.Application.Properties.setValue("team_font",0);Toybox.Application.Properties.setValue("team_color_source",1);app.onSettingsChanged();
+            Toybox.Application.Properties.setValue("team","UPDATED TEAM");
+            Toybox.Application.Properties.setValue("tfont",0);Toybox.Application.Properties.setValue("tsrc",1);app.onSettingsChanged();
             Test.assert(field._fieldSets.second);Test.assertEqual("UPDATED TEAM",field._snapshot[:values][0][:text]);
             loaded=new FieldSetsSettings();loaded.load();
             Test.assertEqual(0,loaded.primary.teamFont);Test.assertEqual(0,loaded.secondary.teamFont);

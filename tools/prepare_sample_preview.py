@@ -9,6 +9,9 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def main():
     output=ROOT/'.local/sample-source';output.mkdir(parents=True,exist_ok=True)
+    # Drop stale generated source files after production renames.
+    for stale in output.glob('*.mc'):
+        if not (ROOT/'source'/stale.name).is_file():stale.unlink()
     records=[]
     for source in sorted((ROOT/'source').glob('*.mc')):
         content=source.read_bytes()

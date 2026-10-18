@@ -16,10 +16,10 @@ class SamplePreviewField extends StrukturField {
     var _reported="";
     function initialize() {
         StrukturField.initialize();
-        var props={"hide_value_units"=>false,"theme_mode"=>1,"alignment"=>1,"enlarged_field_count"=>1};
+        var props={"a_hideu"=>false,"a_theme"=>1,"a_align"=>1,"a_big"=>1};
         var ids=["power_3s","current_speed","current_heart_rate","grade","temperature","distance","elevation",
             "activity_timer","time_of_day","total_ascent"];
-        for(var slot=0;slot<ids.size();slot+=1) { props["slot_"+(slot+1).toString()+"_value"]=ids[slot]; }
+        for(var slot=0;slot<ids.size();slot+=1) { props["a"+(slot+1).toString()]=ids[slot]; }
         _settings.apply(props);
         _engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
         // Synthetic thresholds for color presentation only; production qualification is unchanged.

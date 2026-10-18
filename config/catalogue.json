@@ -303,7 +303,7 @@
   ],
   "properties": [
     {
-      "key": "enlarged_field_count",
+      "key": "a_big",
       "type": "number",
       "default": 0,
       "choices": [
@@ -311,10 +311,11 @@
         1,
         2
       ],
-      "title": "Enlarged slot count"
+      "title": "Enlarged slot count",
+      "requirement": "SPEC-302"
     },
     {
-      "key": "alignment",
+      "key": "a_align",
       "type": "number",
       "default": 1,
       "choices": [
@@ -324,10 +325,12 @@
       "identifiers": [
         "center",
         "right"
-      ]
+      ],
+      "title": "Alignment",
+      "requirement": "SPEC-303"
     },
     {
-      "key": "theme_mode",
+      "key": "a_theme",
       "type": "number",
       "default": 0,
       "choices": [
@@ -339,22 +342,26 @@
         "auto",
         "day",
         "night"
-      ]
+      ],
+      "title": "Theme mode",
+      "requirement": "SPEC-304"
     },
     {
-      "key": "hide_value_units",
+      "key": "a_hideu",
       "type": "boolean",
       "default": true,
-      "title": "Hide physical units in headers"
+      "title": "Hide physical units in headers",
+      "requirement": "SPEC-305"
     },
     {
-      "key": "inverse_enlarged_theme",
+      "key": "a_inv",
       "type": "boolean",
       "default": true,
-      "title": "Inverse theme for enlarged slots"
+      "title": "Inverse theme for enlarged slots",
+      "requirement": "SPEC-306"
     },
     {
-      "key": "grid_type",
+      "key": "a_grid",
       "type": "number",
       "default": 1,
       "choices": [
@@ -372,19 +379,21 @@
         "Horizontal lines",
         "Full grid"
       ],
-      "title": "Grid type"
+      "title": "Grid type",
+      "requirement": "SPEC-307"
     },
     {
-      "key": "slot_1_team_text",
+      "key": "team",
       "type": "string",
       "default": "TEAM",
       "maxLength": 32,
       "shared": true,
       "title": "Team name",
-      "prompt": "Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case."
+      "prompt": "Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.",
+      "requirement": "SPEC-308"
     },
     {
-      "key": "team_font",
+      "key": "tfont",
       "type": "number",
       "default": 0,
       "shared": true,
@@ -395,10 +404,11 @@
         "Automatic"
       ],
       "title": "Team font",
-      "prompt": "Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic."
+      "prompt": "Shared by all Team slots in both sets. Only qualified general-text AUX fonts are offered; unsupported saved AUX selections use Automatic.",
+      "requirement": "SPEC-309"
     },
     {
-      "key": "team_color_source",
+      "key": "tsrc",
       "type": "number",
       "default": 0,
       "shared": true,
@@ -413,10 +423,11 @@
         "Heart rate"
       ],
       "title": "Team color source",
-      "prompt": "Shared by all Team slots in both sets."
+      "prompt": "Shared by all Team slots in both sets.",
+      "requirement": "SPEC-310"
     },
     {
-      "key": "slot_1_value",
+      "key": "a1",
       "type": "number",
       "default": 0,
       "choices": [
@@ -489,19 +500,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 1: value"
+      "title": "Slot 1: value",
+      "requirement": "SPEC-311"
     },
     {
-      "key": "slot_1_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_1_background_mode",
+      "key": "a1_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -512,10 +517,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 1: background coverage"
+      "title": "Slot 1: background coverage",
+      "requirement": "SPEC-312"
     },
     {
-      "key": "slot_2_value",
+      "key": "a2",
       "type": "number",
       "default": 11,
       "choices": [
@@ -588,19 +594,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 2: value"
+      "title": "Slot 2: value",
+      "requirement": "SPEC-313"
     },
     {
-      "key": "slot_2_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_2_background_mode",
+      "key": "a2_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -611,10 +611,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 2: background coverage"
+      "title": "Slot 2: background coverage",
+      "requirement": "SPEC-314"
     },
     {
-      "key": "slot_3_value",
+      "key": "a3",
       "type": "number",
       "default": 16,
       "choices": [
@@ -687,19 +688,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 3: value"
+      "title": "Slot 3: value",
+      "requirement": "SPEC-315"
     },
     {
-      "key": "slot_3_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_3_background_mode",
+      "key": "a3_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -710,10 +705,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 3: background coverage"
+      "title": "Slot 3: background coverage",
+      "requirement": "SPEC-316"
     },
     {
-      "key": "slot_4_value",
+      "key": "a4",
       "type": "number",
       "default": 18,
       "choices": [
@@ -786,19 +782,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 4: value"
+      "title": "Slot 4: value",
+      "requirement": "SPEC-317"
     },
     {
-      "key": "slot_4_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_4_background_mode",
+      "key": "a4_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -809,10 +799,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 4: background coverage"
+      "title": "Slot 4: background coverage",
+      "requirement": "SPEC-318"
     },
     {
-      "key": "slot_5_value",
+      "key": "a5",
       "type": "number",
       "default": 4,
       "choices": [
@@ -885,19 +876,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 5: value"
+      "title": "Slot 5: value",
+      "requirement": "SPEC-319"
     },
     {
-      "key": "slot_5_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_5_background_mode",
+      "key": "a5_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -908,10 +893,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 5: background coverage"
+      "title": "Slot 5: background coverage",
+      "requirement": "SPEC-320"
     },
     {
-      "key": "slot_6_value",
+      "key": "a6",
       "type": "number",
       "default": 8,
       "choices": [
@@ -984,19 +970,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 6: value"
+      "title": "Slot 6: value",
+      "requirement": "SPEC-321"
     },
     {
-      "key": "slot_6_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_6_background_mode",
+      "key": "a6_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -1007,10 +987,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 6: background coverage"
+      "title": "Slot 6: background coverage",
+      "requirement": "SPEC-322"
     },
     {
-      "key": "slot_7_value",
+      "key": "a7",
       "type": "number",
       "default": 12,
       "choices": [
@@ -1083,19 +1064,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 7: value"
+      "title": "Slot 7: value",
+      "requirement": "SPEC-323"
     },
     {
-      "key": "slot_7_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_7_background_mode",
+      "key": "a7_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -1106,10 +1081,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 7: background coverage"
+      "title": "Slot 7: background coverage",
+      "requirement": "SPEC-324"
     },
     {
-      "key": "slot_8_value",
+      "key": "a8",
       "type": "number",
       "default": 15,
       "choices": [
@@ -1182,19 +1158,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 8: value"
+      "title": "Slot 8: value",
+      "requirement": "SPEC-325"
     },
     {
-      "key": "slot_8_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_8_background_mode",
+      "key": "a8_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -1205,10 +1175,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 8: background coverage"
+      "title": "Slot 8: background coverage",
+      "requirement": "SPEC-326"
     },
     {
-      "key": "slot_9_value",
+      "key": "a9",
       "type": "number",
       "default": 13,
       "choices": [
@@ -1281,19 +1252,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 9: value"
+      "title": "Slot 9: value",
+      "requirement": "SPEC-327"
     },
     {
-      "key": "slot_9_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_9_background_mode",
+      "key": "a9_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -1304,10 +1269,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 9: background coverage"
+      "title": "Slot 9: background coverage",
+      "requirement": "SPEC-328"
     },
     {
-      "key": "slot_10_value",
+      "key": "a10",
       "type": "number",
       "default": 20,
       "choices": [
@@ -1380,19 +1346,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Slot 10: value"
+      "title": "Slot 10: value",
+      "requirement": "SPEC-329"
     },
     {
-      "key": "slot_10_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true
-    },
-    {
-      "key": "slot_10_background_mode",
+      "key": "a10_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -1403,46 +1363,51 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 10: background coverage"
+      "title": "Slot 10: background coverage",
+      "requirement": "SPEC-330"
     },
     {
-      "key": "cadence_zone_1_max_rpm",
+      "key": "cad1",
       "type": "number",
       "default": 60,
       "min": 0,
       "max": 300,
       "title": "Cadence zone 1: upper rpm",
-      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values.",
+      "requirement": "SPEC-331"
     },
     {
-      "key": "cadence_zone_2_max_rpm",
+      "key": "cad2",
       "type": "number",
       "default": 80,
       "min": 0,
       "max": 300,
       "title": "Cadence zone 2: upper rpm",
-      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values.",
+      "requirement": "SPEC-332"
     },
     {
-      "key": "cadence_zone_3_max_rpm",
+      "key": "cad3",
       "type": "number",
       "default": 100,
       "min": 0,
       "max": 300,
       "title": "Cadence zone 3: upper rpm",
-      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values.",
+      "requirement": "SPEC-333"
     },
     {
-      "key": "cadence_zone_4_max_rpm",
+      "key": "cad4",
       "type": "number",
       "default": 120,
       "min": 0,
       "max": 300,
       "title": "Cadence zone 4: upper rpm",
-      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values.",
+      "requirement": "SPEC-334"
     },
     {
-      "key": "second_set_trigger",
+      "key": "trig",
       "type": "number",
       "default": 3,
       "choices": [
@@ -1467,46 +1432,51 @@
         "Workout started"
       ],
       "title": "Second field set - activation event",
-      "prompt": "Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices."
+      "prompt": "Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.",
+      "requirement": "SPEC-335"
     },
     {
-      "key": "second_power_activate_w",
+      "key": "p_on",
       "type": "number",
       "default": 250,
       "min": 1,
       "max": 3000,
       "title": "Power: activate at (W)",
-      "prompt": "3s power mode only. Return threshold must be less than or equal to activation."
+      "prompt": "3s power mode only. Return threshold must be less than or equal to activation.",
+      "requirement": "SPEC-336"
     },
     {
-      "key": "second_power_return_w",
+      "key": "p_off",
       "type": "number",
       "default": 220,
       "min": 1,
       "max": 3000,
       "title": "Power: return below (W)",
-      "prompt": "3s power mode only. Return threshold must be less than or equal to activation."
+      "prompt": "3s power mode only. Return threshold must be less than or equal to activation.",
+      "requirement": "SPEC-337"
     },
     {
-      "key": "second_hr_activate_bpm",
+      "key": "hr_on",
       "type": "number",
       "default": 160,
       "min": 30,
       "max": 250,
       "title": "Heart rate: activate at (bpm)",
-      "prompt": "Heart rate mode only. Return threshold must be less than or equal to activation."
+      "prompt": "Heart rate mode only. Return threshold must be less than or equal to activation.",
+      "requirement": "SPEC-338"
     },
     {
-      "key": "second_hr_return_bpm",
+      "key": "hr_off",
       "type": "number",
       "default": 150,
       "min": 30,
       "max": 250,
       "title": "Heart rate: return below (bpm)",
-      "prompt": "Heart rate mode only. Return threshold must be less than or equal to activation."
+      "prompt": "Heart rate mode only. Return threshold must be less than or equal to activation.",
+      "requirement": "SPEC-339"
     },
     {
-      "key": "second_enlarged_field_count",
+      "key": "b_big",
       "type": "number",
       "default": 1,
       "choices": [
@@ -1514,10 +1484,11 @@
         1,
         2
       ],
-      "title": "Second set: Enlarged slot count"
+      "title": "Second set: Enlarged slot count",
+      "requirement": "SPEC-340"
     },
     {
-      "key": "second_alignment",
+      "key": "b_align",
       "type": "number",
       "default": 1,
       "choices": [
@@ -1528,10 +1499,11 @@
         "center",
         "right"
       ],
-      "title": "Second set: Alignment"
+      "title": "Second set: Alignment",
+      "requirement": "SPEC-341"
     },
     {
-      "key": "second_theme_mode",
+      "key": "b_theme",
       "type": "number",
       "default": 0,
       "choices": [
@@ -1544,22 +1516,25 @@
         "day",
         "night"
       ],
-      "title": "Second set: Theme mode"
+      "title": "Second set: Theme mode",
+      "requirement": "SPEC-342"
     },
     {
-      "key": "second_hide_value_units",
+      "key": "b_hideu",
       "type": "boolean",
       "default": true,
-      "title": "Second set: Hide physical units in headers"
+      "title": "Second set: Hide physical units in headers",
+      "requirement": "SPEC-343"
     },
     {
-      "key": "second_inverse_enlarged_theme",
+      "key": "b_inv",
       "type": "boolean",
       "default": true,
-      "title": "Second set: Inverse theme for enlarged slots"
+      "title": "Second set: Inverse theme for enlarged slots",
+      "requirement": "SPEC-344"
     },
     {
-      "key": "second_grid_type",
+      "key": "b_grid",
       "type": "number",
       "default": 1,
       "choices": [
@@ -1577,10 +1552,11 @@
         "Horizontal lines",
         "Full grid"
       ],
-      "title": "Second set: Grid type"
+      "title": "Second set: Grid type",
+      "requirement": "SPEC-345"
     },
     {
-      "key": "second_slot_1_value",
+      "key": "b1",
       "type": "number",
       "default": 8,
       "choices": [
@@ -1653,20 +1629,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 1: value"
+      "title": "Second set: Slot 1: value",
+      "requirement": "SPEC-346"
     },
     {
-      "key": "second_slot_1_background_effects",
-      "type": "boolean",
-      "default": true,
-      "hidden": true,
-      "title": "Second set: Slot 1 background effects"
-    },
-    {
-      "key": "second_slot_1_background_mode",
+      "key": "b1_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 1,
+      "default": 1,
       "choices": [
         0,
         1,
@@ -1677,10 +1646,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 1: background coverage"
+      "title": "Second set: Slot 1: background coverage",
+      "requirement": "SPEC-347"
     },
     {
-      "key": "second_slot_2_value",
+      "key": "b2",
       "type": "number",
       "default": 4,
       "choices": [
@@ -1753,20 +1723,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 2: value"
+      "title": "Second set: Slot 2: value",
+      "requirement": "SPEC-348"
     },
     {
-      "key": "second_slot_2_background_effects",
-      "type": "boolean",
-      "default": true,
-      "hidden": true,
-      "title": "Second set: Slot 2 background effects"
-    },
-    {
-      "key": "second_slot_2_background_mode",
+      "key": "b2_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 1,
+      "default": 1,
       "choices": [
         0,
         1,
@@ -1777,10 +1740,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 2: background coverage"
+      "title": "Second set: Slot 2: background coverage",
+      "requirement": "SPEC-349"
     },
     {
-      "key": "second_slot_3_value",
+      "key": "b3",
       "type": "number",
       "default": 2,
       "choices": [
@@ -1853,20 +1817,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 3: value"
+      "title": "Second set: Slot 3: value",
+      "requirement": "SPEC-350"
     },
     {
-      "key": "second_slot_3_background_effects",
-      "type": "boolean",
-      "default": true,
-      "hidden": true,
-      "title": "Second set: Slot 3 background effects"
-    },
-    {
-      "key": "second_slot_3_background_mode",
+      "key": "b3_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 1,
+      "default": 1,
       "choices": [
         0,
         1,
@@ -1877,10 +1834,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 3: background coverage"
+      "title": "Second set: Slot 3: background coverage",
+      "requirement": "SPEC-351"
     },
     {
-      "key": "second_slot_4_value",
+      "key": "b4",
       "type": "number",
       "default": 15,
       "choices": [
@@ -1953,20 +1911,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 4: value"
+      "title": "Second set: Slot 4: value",
+      "requirement": "SPEC-352"
     },
     {
-      "key": "second_slot_4_background_effects",
-      "type": "boolean",
-      "default": true,
-      "hidden": true,
-      "title": "Second set: Slot 4 background effects"
-    },
-    {
-      "key": "second_slot_4_background_mode",
+      "key": "b4_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 1,
+      "default": 1,
       "choices": [
         0,
         1,
@@ -1977,10 +1928,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 4: background coverage"
+      "title": "Second set: Slot 4: background coverage",
+      "requirement": "SPEC-353"
     },
     {
-      "key": "second_slot_5_value",
+      "key": "b5",
       "type": "number",
       "default": 30,
       "choices": [
@@ -2053,20 +2005,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 5: value"
+      "title": "Second set: Slot 5: value",
+      "requirement": "SPEC-354"
     },
     {
-      "key": "second_slot_5_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true,
-      "title": "Second set: Slot 5 background effects"
-    },
-    {
-      "key": "second_slot_5_background_mode",
+      "key": "b5_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -2077,10 +2022,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 5: background coverage"
+      "title": "Second set: Slot 5: background coverage",
+      "requirement": "SPEC-355"
     },
     {
-      "key": "second_slot_6_value",
+      "key": "b6",
       "type": "number",
       "default": 0,
       "choices": [
@@ -2153,20 +2099,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 6: value"
+      "title": "Second set: Slot 6: value",
+      "requirement": "SPEC-356"
     },
     {
-      "key": "second_slot_6_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true,
-      "title": "Second set: Slot 6 background effects"
-    },
-    {
-      "key": "second_slot_6_background_mode",
+      "key": "b6_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -2177,10 +2116,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 6: background coverage"
+      "title": "Second set: Slot 6: background coverage",
+      "requirement": "SPEC-357"
     },
     {
-      "key": "second_slot_7_value",
+      "key": "b7",
       "type": "number",
       "default": 26,
       "choices": [
@@ -2253,20 +2193,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 7: value"
+      "title": "Second set: Slot 7: value",
+      "requirement": "SPEC-358"
     },
     {
-      "key": "second_slot_7_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true,
-      "title": "Second set: Slot 7 background effects"
-    },
-    {
-      "key": "second_slot_7_background_mode",
+      "key": "b7_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -2277,10 +2210,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 7: background coverage"
+      "title": "Second set: Slot 7: background coverage",
+      "requirement": "SPEC-359"
     },
     {
-      "key": "second_slot_8_value",
+      "key": "b8",
       "type": "number",
       "default": 27,
       "choices": [
@@ -2353,20 +2287,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 8: value"
+      "title": "Second set: Slot 8: value",
+      "requirement": "SPEC-360"
     },
     {
-      "key": "second_slot_8_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true,
-      "title": "Second set: Slot 8 background effects"
-    },
-    {
-      "key": "second_slot_8_background_mode",
+      "key": "b8_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -2377,10 +2304,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 8: background coverage"
+      "title": "Second set: Slot 8: background coverage",
+      "requirement": "SPEC-361"
     },
     {
-      "key": "second_slot_9_value",
+      "key": "b9",
       "type": "number",
       "default": 12,
       "choices": [
@@ -2453,20 +2381,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 9: value"
+      "title": "Second set: Slot 9: value",
+      "requirement": "SPEC-362"
     },
     {
-      "key": "second_slot_9_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true,
-      "title": "Second set: Slot 9 background effects"
-    },
-    {
-      "key": "second_slot_9_background_mode",
+      "key": "b9_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -2477,10 +2398,11 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 9: background coverage"
+      "title": "Second set: Slot 9: background coverage",
+      "requirement": "SPEC-363"
     },
     {
-      "key": "second_slot_10_value",
+      "key": "b10",
       "type": "number",
       "default": 20,
       "choices": [
@@ -2553,20 +2475,13 @@
         "lap_cadence",
         "team"
       ],
-      "title": "Second set: Slot 10: value"
+      "title": "Second set: Slot 10: value",
+      "requirement": "SPEC-364"
     },
     {
-      "key": "second_slot_10_background_effects",
-      "type": "boolean",
-      "default": false,
-      "hidden": true,
-      "title": "Second set: Slot 10 background effects"
-    },
-    {
-      "key": "second_slot_10_background_mode",
+      "key": "b10_bg",
       "type": "number",
-      "default": -1,
-      "factory_default": 0,
+      "default": 0,
       "choices": [
         0,
         1,
@@ -2577,13 +2492,8 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 10: background coverage"
-    },
-    {
-      "key": "settings_schema_version",
-      "type": "number",
-      "default": 0,
-      "hidden": true
+      "title": "Second set: Slot 10: background coverage",
+      "requirement": "SPEC-365"
     }
   ]
 }
