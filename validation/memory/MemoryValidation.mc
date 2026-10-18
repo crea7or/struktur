@@ -18,6 +18,7 @@ class MemoryHistoryInfo {
 
 // Qualification only; this file is not in the production jungle source path.
 // Reuse the native Dc with bounded drawing coordinates, never a bitmap buffer.
+(:memoryMatrix)
 class MemoryAreaDc {
     var _dc;
     var _width;
@@ -66,6 +67,7 @@ module MemoryObservation {
     }
 }
 
+(:memoryMatrix)
 class MemoryValidationField extends StrukturField {
     var _started;
     var _step=0;
@@ -75,6 +77,8 @@ class MemoryValidationField extends StrukturField {
     var _fullGrids=0;
     var _maximumFonts=0;
     var _reference;
+    var _fixtureHeart=ZoneMetadata.heart([90,110,130,150,170,190]);
+    var _fixturePower=ZoneMetadata.power([0,100,200,300,400,500],true);
     var _returnFrames=0;
     var _returnMinimum=null;
     var _lastReturn=null;
@@ -109,6 +113,8 @@ class MemoryValidationField extends StrukturField {
         MemoryObservation.sample("initialized");
     }
     function compute(info) {
+        // A native producer frame replaces the measured synthetic frame.
+        if(_step>0 && _cycle<CYCLES) { _renderer.discardPresentation(); }
         StrukturField.compute(info);
         _nativeComputes+=1;
         MemoryObservation.sample("native_compute");
@@ -159,40 +165,46 @@ class MemoryValidationField extends StrukturField {
         var big=(index/18)%3;
         // Compatibility fixtures: obsolete counts must not create partial grids.
         var legacyCount=[1,4,8,10][(index/54)%4];
-        var values={"field_count"=>legacyCount,"enlarged_field_count"=>big,
-            "alignment"=>alignment,"theme_mode"=>theme,
-            "use_units_as_labels"=>index%2==0,"hide_value_units"=>(index/2)%2==0,
-            "inverse_enlarged_theme"=>(index/4)%2==0} as Lang.Dictionary;
+        var next=new DisplaySettings();next.apply({"field_count"=>legacyCount});
+        next.enlarged=big;next.alignment=alignment==0?"center":"right";
+        next.theme=theme==0?"auto":(theme==1?"day":"night");
+        next.hideValueUnits=(index/2)%2==0;next.inverseEnlargedTheme=(index/4)%2==0;
+        next.usesBattery=false;next.usesClock=false;
         for(var slot=0;slot<10;slot+=1) {
             var field=(index+slot)%Catalog.IDS.size();var selected=Catalog.IDS[field];
             // Keep unsupported complete-header placements in Placement. Every
             // field remains exercised in fitting roles, checked by coverage.
             if(index%12>=2 && slot>=big && slot<Grid.capacity(DeviceProfile.DESIGN_ROWS,big) &&
-                (values["hide_value_units"]?_plainFits[field]:_unitFits[field])==0) {
+                (next.hideValueUnits?_plainFits[field]:_unitFits[field])==0) {
                 selected="current_power";_unsupportedHeaders+=1;
             }
-            values["slot_"+(slot+1).toString()+"_value"]=selected;
-            values["slot_"+(slot+1).toString()+"_background_effects"]=slot%2==0 || index%2==0;
+            next.slots[slot]=selected;
+            next.effects[slot]=slot%2==0 || index%2==0;
         }
-        if(index%17==0) { values["slot_10_value"]="unknown-validation-value"; }
-        if(index%19==0) { values["slot_1_value"]="current_power";values["slot_2_value"]="current_power"; }
+        if(index%17==0) { next.slots[9]="unknown-validation-value"; }
+        if(index%19==0) { next.slots[0]="current_power";next.slots[1]="current_power"; }
         // Memory uses native bounds. Deliberately insufficient areas and compact
         // messages belong to the separately requested Placement suite.
         if(index%12<2) {
             var defaults=["current_speed","distance","activity_timer","time_of_day","current_heart_rate",
                 "power_3s","elevation","grade","total_ascent","temperature"];
-            for(var fixedSlot=0;fixedSlot<10;fixedSlot+=1) { values["slot_"+(fixedSlot+1).toString()+"_value"]=defaults[fixedSlot]; }
-            values["hide_value_units"]=true;
+            for(var fixedSlot=0;fixedSlot<10;fixedSlot+=1) { next.slots[fixedSlot]=defaults[fixedSlot]; }
+            next.hideValueUnits=true;
         }
-        var next=new DisplaySettings();next.apply(values);return next;
+        for(var needed=0;needed<10;needed+=1) {
+            if("battery".equals(next.slots[needed])) {next.usesBattery=true;}
+            if("time_of_day".equals(next.slots[needed])) {next.usesClock=true;}
+        }
+        return next;
     }
     function runCase(dc,index) {
-        _settings=caseSettings(index);_renderer.configure(_settings);
-        _engine.metadata();
+        _renderer.discardPresentation(); // Same release-before-replacement path as production bank changes.
+        _fieldSets.configuration.trigger=0;_fieldSets.second=false;
+        _settings=caseSettings(index);_fieldSets.configuration.primary=_settings;_renderer.configure(_settings);
+        _engine.metadata();_engine._hrZones=_fixtureHeart;_engine._powerZones=_fixturePower;
         var sample=fixture(index);sample["elapsed_time"]=(_cycle*CASES+index+1)*1000;
         _snapshot=_engine.compute(sample,_settings);
         if(index%12==0) { boundedHistory(); }
-        paintFixtureBands(index);
         MemoryObservation.sample("fixture_compute");
         var width=dc.getWidth();var height=dc.getHeight();
         var bounded=new MemoryAreaDc(dc,width,height);
@@ -214,18 +226,6 @@ class MemoryValidationField extends StrukturField {
         if(index%47==0) { StrukturField.reloadSettings(); }
         MemoryObservation.sample("lifecycle");
     }
-    function paintFixtureBands(index) {
-        // Controlled bands exercise allocation/drawing independently of metadata availability.
-        var colors=["blue","green","yellow","orange","red","dark_red","white"];
-        for(var n=0;n<_snapshot[:values].size();n+=1) {
-            if(_settings.effects[n] && index%4!=0) {
-                var original=_snapshot[:values][n];
-                _snapshot[:values][n]={:label=>original[:label],:text=>original[:text],:unit=>original[:unit],
-                    :expandedUnit=>original[:expandedUnit],:band=>colors[(n+index)%colors.size()],
-                    :angle=>original[:angle],:format=>original[:format]};
-            }
-        }
-    }
     function failedPrecondition(index,width,height) {
             var expected=Grid.plan(width,height,DeviceProfile.DESIGN_ROWS,_settings.enlarged);
             for(var field=0;field<expected.size();field+=1) {
@@ -241,7 +241,9 @@ class MemoryValidationField extends StrukturField {
         }
     }
     function reference(dc) {
-        _settings=_reference;
+        _renderer.discardPresentation();
+        _fieldSets.configuration.trigger=0;_fieldSets.second=false;
+        _settings=_reference;_fieldSets.configuration.primary=_reference;
         _engine.reset();_snapshot=_engine.initial(_settings);
         _renderer.configure(_settings);_renderer.prepare(_snapshot);
         StrukturField.onLayout(dc);StrukturField.onUpdate(dc);

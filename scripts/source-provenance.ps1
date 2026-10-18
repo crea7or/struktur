@@ -1,7 +1,7 @@
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $files=@()
-foreach($relative in @('manifest.xml','monkey.jungle','memory.jungle','tests.jungle','logic-tests.jungle','memory-tests.jungle','placement-tests.jungle','source','profiles','resources','config','tests','validation','scripts','tools','assets','requirements\supporting-approved-baseline.json','requirements\supporting-approved-snapshot.json','requirements\baseline.json','requirements\workspace-snapshot.json','requirements\traceability.json')){
+foreach($relative in @('manifest.xml','monkey.jungle','memory.jungle','memory-switching.jungle','tests.jungle','logic-tests.jungle','memory-tests.jungle','placement-tests.jungle','source','profiles','resources','config','tests','validation','scripts','tools','assets','requirements\supporting-approved-baseline.json','requirements\supporting-approved-snapshot.json','requirements\baseline.json','requirements\workspace-snapshot.json','requirements\traceability.json')){
     $path=Join-Path $projectRoot $relative
     if(Test-Path -LiteralPath $path -PathType Container){$files+=@(Get-ChildItem -LiteralPath $path -File -Recurse)}
     else{$files+=Get-Item -LiteralPath $path}

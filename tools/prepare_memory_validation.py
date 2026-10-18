@@ -1,4 +1,5 @@
 """Prepare a normal Data Field qualification build, preserving production files."""
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -8,14 +9,17 @@ ROOT=Path(__file__).resolve().parents[1]
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def main():
-    output=ROOT/'.local/memory-source';output.mkdir(parents=True,exist_ok=True)
+    parser=argparse.ArgumentParser();parser.add_argument("--scenario",choices=["matrix","switching"],default="matrix");scenario=parser.parse_args().scenario
+    field="MemoryValidationField" if scenario=="matrix" else "MemorySwitchingField"
+    folder='memory-source' if scenario=='matrix' else 'memory-switching-source'
+    output=ROOT/'.local'/folder;output.mkdir(parents=True,exist_ok=True)
     records=[]
     for source in sorted((ROOT/'source').glob('*.mc')):
         content=source.read_bytes()
         if source.name=='StrukturApp.mc':
             original=b'_view=new StrukturField();'
             assert content.count(original)==1
-            content=content.replace(original,b'_view=new MemoryValidationField();')
+            content=content.replace(original,('_view=new '+field+'();').encode())
         target=output/source.name
         target.write_bytes(content)
         records.append(dict(production_path=source.relative_to(ROOT).as_posix(),
@@ -24,19 +28,21 @@ def main():
     manifest=ROOT/'.local/memory-manifest.xml'
     manifest.write_bytes((ROOT/'manifest.xml').read_bytes())
     jungle=['project.manifest = .local/memory-manifest.xml',
-            'base.sourcePath = .local/memory-source;validation/memory',
-            'base.resourcePath = resources/strings;resources/settings;resources/drawables','base.excludeAnnotations = test']
+            'base.sourcePath = .local/'+folder+';validation/memory',
+            'base.resourcePath = resources/strings;resources/settings;resources/drawables','base.excludeAnnotations = test;'+('memorySwitch' if scenario=='matrix' else 'memoryMatrix')]
     for product in json.loads((ROOT/'config/devices.json').read_text(encoding='utf-8-sig')):
         jungle.append(f'{product["id"]}.sourcePath = $(base.sourcePath);profiles/{product["id"]}')
         jungle.append(f'{product["id"]}.resourcePath = $(base.resourcePath);profiles/{product["id"]}/fonts')
-    (ROOT/'memory.jungle').write_text('\n'.join(jungle)+'\n',encoding='utf-8')
+    jungle_path=ROOT/('memory.jungle' if scenario=='matrix' else 'memory-switching.jungle')
+    jungle_path.write_text('\n'.join(jungle)+'\n',encoding='utf-8')
     record=dict(runtime='normal datafield; no unit-test compiler/runner flags',
-                factory_change='StrukturApp.getInitialView selects MemoryValidationField, a StrukturField subclass',
+                scenario=scenario,factory_change='StrukturApp.getInitialView selects '+field+', a StrukturField subclass',
                 production_sources=records,manifest_sha256=digest(manifest),
-                jungle_sha256=digest(ROOT/'memory.jungle'),
+                jungle_path=jungle_path.name,jungle_sha256=digest(jungle_path),qualification_source_folder='.local/'+folder,
                 probe_sha256=digest(ROOT/'validation/memory/MemoryValidation.mc'),
+                switching_probe_sha256=digest(ROOT/'validation/memory/MemorySwitching.mc'),
                 instrumentation='Same normal Data Field allocation; bounded counters/scenario driver; no bitmap buffer')
-    (ROOT/'artifacts/datafield-memory-inputs.json').write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
+    (ROOT/'artifacts'/('datafield-memory-'+scenario+'-inputs.json')).write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
     print('Prepared normal Data Field qualification build; production files unchanged.')
 
 if __name__=='__main__':main()

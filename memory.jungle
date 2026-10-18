@@ -1,7 +1,7 @@
 project.manifest = .local/memory-manifest.xml
 base.sourcePath = .local/memory-source;validation/memory
 base.resourcePath = resources/strings;resources/settings;resources/drawables
-base.excludeAnnotations = test
+base.excludeAnnotations = test;memorySwitch
 edge530.sourcePath = $(base.sourcePath);profiles/edge530
 edge530.resourcePath = $(base.resourcePath);profiles/edge530/fonts
 edge540.sourcePath = $(base.sourcePath);profiles/edge540

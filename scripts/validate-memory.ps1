@@ -8,9 +8,20 @@ if(!$Python){$Python=Join-Path $projectRoot '.local\font-venv\Scripts\python.exe
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -SdkRoot $SdkRoot -JavaHome $JavaHome -DeviceRoot $DeviceRoot -DeveloperKey $DeveloperKey -RequireKey
 $env:JAVA_HOME=$environment.java_home
 $env:PATH=(Join-Path $environment.java_home 'bin')+[IO.Path]::PathSeparator+$env:PATH
+# Preserve prior raw evidence before regenerating qualification inputs or logs.
+$previousPattern=if($Product -eq 'all'){'*-memory*'}else{$Product+'-memory*'}
+$previous=@(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'artifacts') -File -Filter $previousPattern -ErrorAction SilentlyContinue)
+if($previous.Count){
+    $archive=Join-Path $projectRoot ('artifacts/history/memory/'+[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffffff')+'-'+$Product)
+    New-Item -ItemType Directory -Path $archive -Force|Out-Null
+    $previous+=@(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'artifacts') -File -Filter 'datafield-memory*.json' -ErrorAction SilentlyContinue)
+    foreach($evidence in $previous){Copy-Item -LiteralPath $evidence.FullName -Destination (Join-Path $archive $evidence.Name)}
+}
 & (Join-Path $PSScriptRoot 'check-fonts.ps1') -Python $Python
-& $Python (Join-Path $projectRoot 'tools\prepare_memory_validation.py')
-if($LASTEXITCODE -ne 0){throw 'Could not prepare memory qualification inputs.'}
+foreach($scenario in @('matrix','switching')){
+    & $Python (Join-Path $projectRoot 'tools\prepare_memory_validation.py') --scenario $scenario
+    if($LASTEXITCODE -ne 0){throw 'Could not prepare memory qualification inputs.'}
+}
 $provenance=& (Join-Path $PSScriptRoot 'source-provenance.ps1')
 $provenance|ConvertTo-Json -Depth 8|Set-Content -LiteralPath (Join-Path $projectRoot 'artifacts\datafield-memory-source.json') -Encoding UTF8
 $devices=Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'config\devices.json')|ConvertFrom-Json
@@ -26,16 +37,21 @@ Push-Location -LiteralPath $projectRoot
 try{
     foreach($target in $targets){
         $id=$target.id
-        $program=Join-Path $projectRoot ('bin\'+$id+'-memory.prg')
-        $compilerLog=Join-Path $projectRoot ('artifacts\'+$id+'-memory-compiler.log')
-        $log=Join-Path $projectRoot ('artifacts\'+$id+'-memory.log')
-        $err=Join-Path $projectRoot ('artifacts\'+$id+'-memory.stderr.log')
+        $scenarios=@()
+        foreach($scenario in @('matrix','switching')){
+        $stem=if($scenario -eq 'matrix'){'memory'}else{'memory-switching'}
+        $jungle=if($scenario -eq 'matrix'){'memory.jungle'}else{'memory-switching.jungle'}
+        $reportStem=if($scenario -eq 'matrix'){'memory-matrix'}else{$stem}
+        $program=Join-Path $projectRoot ('bin\'+$id+'-'+$stem+'.prg')
+        $compilerLog=Join-Path $projectRoot ('artifacts\'+$id+'-'+$stem+'-compiler.log')
+        $log=Join-Path $projectRoot ('artifacts\'+$id+'-'+$stem+'.log')
+        $err=Join-Path $projectRoot ('artifacts\'+$id+'-'+$stem+'.stderr.log')
         $process=$null
         try{
             $savedPreference=$ErrorActionPreference
             try{
                 $ErrorActionPreference='Continue'
-                $compilerOutput=& (Join-Path $environment.sdk 'bin\monkeyc.bat') -f memory.jungle -d $id -o $program -y $environment.developer_key 2>&1
+                $compilerOutput=& (Join-Path $environment.sdk 'bin\monkeyc.bat') -f $jungle -d $id -o $program -y $environment.developer_key 2>&1
                 $compilerExit=$LASTEXITCODE
             }finally{$ErrorActionPreference=$savedPreference}
             $compilerOutput|Set-Content -LiteralPath $compilerLog -Encoding UTF8
@@ -54,8 +70,9 @@ try{
                     $reader=[IO.StreamReader]::new($stream)
                     try{$text=$reader.ReadToEnd()}finally{$reader.Dispose()}
                 }
-                if($text -match 'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory|Stack Overflow|StackOverflow'){throw 'Runtime allocation/stack failure or crash; inspect memory logs.'}
-                if($text -match ('DF_MEMORY_DONE product='+$id+' ')){$done=$true;break}
+                if($text -match 'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory|Stack Overflow|StackOverflow|Watchdog Tripped|Code Executed Too Long'){throw 'Runtime allocation/stack failure or crash; inspect memory logs.'}
+                $completion=if($scenario -eq 'matrix'){'DF_MEMORY_DONE'}else{'DF_SWITCH_MEMORY_DONE'}
+                if($text -match ($completion+' product='+$id+' ')){$done=$true;break}
                 if($process.HasExited){throw 'Runner exited without a completed normal-runtime memory record.'}
             }
             if(!$done){throw 'Normal Data Field memory run timed out before completion.'}
@@ -64,21 +81,31 @@ try{
                 & (Join-Path $env:SystemRoot 'System32\taskkill.exe') /PID $process.Id /T /F | Out-Null
                 $process.WaitForExit()
             }
-            & $Python (Join-Path $projectRoot 'tools\report_memory_validation.py') -Product $id
+            & $Python (Join-Path $projectRoot 'tools\report_memory_validation.py') -Product $id --scenario $scenario
             if($LASTEXITCODE -ne 0){throw 'Normal Data Field evidence/limit verification failed.'}
-            $results+=Get-Content -Raw -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-memory.json'))|ConvertFrom-Json
-            Write-Output ('PASS normal Data Field memory: '+$id)
+            $scenarios+=Get-Content -Raw -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-'+$reportStem+'.json'))|ConvertFrom-Json
+            Write-Output ('PASS normal Data Field memory: '+$id+' '+$scenario)
         }catch{
-            $failure=[pscustomobject]@{product=$id;status='failed';reason=$_.Exception.Message;log=$log;source_revision=$provenance.source_revision}
-            $failure|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-memory.json')) -Encoding UTF8
-            $results+=$failure
-            Write-Output ('FAIL normal Data Field memory: '+$id+' '+$_.Exception.Message)
+            $failure=[pscustomobject]@{product=$id;scenario=$scenario;status='failed';reason=$_.Exception.Message;log=$log;source_revision=$provenance.source_revision}
+            $failure|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-'+$reportStem+'.json')) -Encoding UTF8
+            $scenarios+=$failure
+            Write-Output ('FAIL normal Data Field memory: '+$id+' '+$scenario+' '+$_.Exception.Message)
         }finally{
             if($null -ne $process -and !$process.HasExited){
                 # Stop only our runner tree after the explicit completion record.
                 & (Join-Path $env:SystemRoot 'System32\taskkill.exe') /PID $process.Id /T /F | Out-Null
             }
         }
+        }
+        $status=if(@($scenarios|Where-Object{$_.status -ne 'passed'}).Count){'failed'}else{'passed'}
+        $combined=[pscustomobject]@{product=$id;status=$status;source_revision=$provenance.source_revision;runtime='two separate normal simulator Data Field runs; matrix and second-set switching';scenarios=$scenarios;physical_device_memory='unrun'}
+        if($status -eq 'passed'){
+            $combined|Add-Member -NotePropertyName published_limit_bytes -NotePropertyValue 131072
+            $combined|Add-Member -NotePropertyName max_sampled_used_bytes -NotePropertyValue (($scenarios|Measure-Object max_sampled_used_bytes -Maximum).Maximum)
+            $combined|Add-Member -NotePropertyName min_sampled_free_bytes -NotePropertyValue (($scenarios|Measure-Object min_sampled_free_bytes -Minimum).Minimum)
+        }
+        $combined|ConvertTo-Json -Depth 10|Set-Content -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-memory.json')) -Encoding UTF8
+        $results+=$combined
     }
 }finally{
     Pop-Location
