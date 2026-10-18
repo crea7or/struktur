@@ -7,64 +7,55 @@
     <property id="hide_value_units" type="boolean">true</property>
     <property id="inverse_enlarged_theme" type="boolean">true</property>
     <property id="grid_type" type="number">1</property>
+    <property id="slot_1_team_text" type="string">TEAM</property>
     <property id="slot_1_value" type="number">0</property>
     <property id="slot_1_background_effects" type="boolean">false</property>
     <property id="slot_1_background_mode" type="number">-1</property>
-    <property id="slot_1_team_text" type="string">TEAM</property>
     <property id="slot_1_team_font" type="number">0</property>
     <property id="slot_1_team_color_source" type="number">0</property>
     <property id="slot_2_value" type="number">11</property>
     <property id="slot_2_background_effects" type="boolean">false</property>
     <property id="slot_2_background_mode" type="number">-1</property>
-    <property id="slot_2_team_text" type="string">TEAM</property>
     <property id="slot_2_team_font" type="number">0</property>
     <property id="slot_2_team_color_source" type="number">0</property>
     <property id="slot_3_value" type="number">16</property>
     <property id="slot_3_background_effects" type="boolean">false</property>
     <property id="slot_3_background_mode" type="number">-1</property>
-    <property id="slot_3_team_text" type="string">TEAM</property>
     <property id="slot_3_team_font" type="number">0</property>
     <property id="slot_3_team_color_source" type="number">0</property>
     <property id="slot_4_value" type="number">18</property>
     <property id="slot_4_background_effects" type="boolean">false</property>
     <property id="slot_4_background_mode" type="number">-1</property>
-    <property id="slot_4_team_text" type="string">TEAM</property>
     <property id="slot_4_team_font" type="number">0</property>
     <property id="slot_4_team_color_source" type="number">0</property>
     <property id="slot_5_value" type="number">4</property>
     <property id="slot_5_background_effects" type="boolean">false</property>
     <property id="slot_5_background_mode" type="number">-1</property>
-    <property id="slot_5_team_text" type="string">TEAM</property>
     <property id="slot_5_team_font" type="number">0</property>
     <property id="slot_5_team_color_source" type="number">0</property>
     <property id="slot_6_value" type="number">8</property>
     <property id="slot_6_background_effects" type="boolean">false</property>
     <property id="slot_6_background_mode" type="number">-1</property>
-    <property id="slot_6_team_text" type="string">TEAM</property>
     <property id="slot_6_team_font" type="number">0</property>
     <property id="slot_6_team_color_source" type="number">0</property>
     <property id="slot_7_value" type="number">12</property>
     <property id="slot_7_background_effects" type="boolean">false</property>
     <property id="slot_7_background_mode" type="number">-1</property>
-    <property id="slot_7_team_text" type="string">TEAM</property>
     <property id="slot_7_team_font" type="number">0</property>
     <property id="slot_7_team_color_source" type="number">0</property>
     <property id="slot_8_value" type="number">15</property>
     <property id="slot_8_background_effects" type="boolean">false</property>
     <property id="slot_8_background_mode" type="number">-1</property>
-    <property id="slot_8_team_text" type="string">TEAM</property>
     <property id="slot_8_team_font" type="number">0</property>
     <property id="slot_8_team_color_source" type="number">0</property>
     <property id="slot_9_value" type="number">13</property>
     <property id="slot_9_background_effects" type="boolean">false</property>
     <property id="slot_9_background_mode" type="number">-1</property>
-    <property id="slot_9_team_text" type="string">TEAM</property>
     <property id="slot_9_team_font" type="number">0</property>
     <property id="slot_9_team_color_source" type="number">0</property>
     <property id="slot_10_value" type="number">20</property>
     <property id="slot_10_background_effects" type="boolean">false</property>
     <property id="slot_10_background_mode" type="number">-1</property>
-    <property id="slot_10_team_text" type="string">TEAM</property>
     <property id="slot_10_team_font" type="number">0</property>
     <property id="slot_10_team_color_source" type="number">0</property>
     <property id="cadence_zone_1_max_rpm" type="number">60</property>
@@ -85,61 +76,51 @@
     <property id="second_slot_1_value" type="number">8</property>
     <property id="second_slot_1_background_effects" type="boolean">true</property>
     <property id="second_slot_1_background_mode" type="number">-1</property>
-    <property id="second_slot_1_team_text" type="string">TEAM</property>
     <property id="second_slot_1_team_font" type="number">0</property>
     <property id="second_slot_1_team_color_source" type="number">0</property>
     <property id="second_slot_2_value" type="number">4</property>
     <property id="second_slot_2_background_effects" type="boolean">true</property>
     <property id="second_slot_2_background_mode" type="number">-1</property>
-    <property id="second_slot_2_team_text" type="string">TEAM</property>
     <property id="second_slot_2_team_font" type="number">0</property>
     <property id="second_slot_2_team_color_source" type="number">0</property>
     <property id="second_slot_3_value" type="number">2</property>
     <property id="second_slot_3_background_effects" type="boolean">true</property>
     <property id="second_slot_3_background_mode" type="number">-1</property>
-    <property id="second_slot_3_team_text" type="string">TEAM</property>
     <property id="second_slot_3_team_font" type="number">0</property>
     <property id="second_slot_3_team_color_source" type="number">0</property>
     <property id="second_slot_4_value" type="number">15</property>
     <property id="second_slot_4_background_effects" type="boolean">true</property>
     <property id="second_slot_4_background_mode" type="number">-1</property>
-    <property id="second_slot_4_team_text" type="string">TEAM</property>
     <property id="second_slot_4_team_font" type="number">0</property>
     <property id="second_slot_4_team_color_source" type="number">0</property>
     <property id="second_slot_5_value" type="number">30</property>
     <property id="second_slot_5_background_effects" type="boolean">false</property>
     <property id="second_slot_5_background_mode" type="number">-1</property>
-    <property id="second_slot_5_team_text" type="string">TEAM</property>
     <property id="second_slot_5_team_font" type="number">0</property>
     <property id="second_slot_5_team_color_source" type="number">0</property>
     <property id="second_slot_6_value" type="number">0</property>
     <property id="second_slot_6_background_effects" type="boolean">false</property>
     <property id="second_slot_6_background_mode" type="number">-1</property>
-    <property id="second_slot_6_team_text" type="string">TEAM</property>
     <property id="second_slot_6_team_font" type="number">0</property>
     <property id="second_slot_6_team_color_source" type="number">0</property>
     <property id="second_slot_7_value" type="number">26</property>
     <property id="second_slot_7_background_effects" type="boolean">false</property>
     <property id="second_slot_7_background_mode" type="number">-1</property>
-    <property id="second_slot_7_team_text" type="string">TEAM</property>
     <property id="second_slot_7_team_font" type="number">0</property>
     <property id="second_slot_7_team_color_source" type="number">0</property>
     <property id="second_slot_8_value" type="number">27</property>
     <property id="second_slot_8_background_effects" type="boolean">false</property>
     <property id="second_slot_8_background_mode" type="number">-1</property>
-    <property id="second_slot_8_team_text" type="string">TEAM</property>
     <property id="second_slot_8_team_font" type="number">0</property>
     <property id="second_slot_8_team_color_source" type="number">0</property>
     <property id="second_slot_9_value" type="number">12</property>
     <property id="second_slot_9_background_effects" type="boolean">false</property>
     <property id="second_slot_9_background_mode" type="number">-1</property>
-    <property id="second_slot_9_team_text" type="string">TEAM</property>
     <property id="second_slot_9_team_font" type="number">0</property>
     <property id="second_slot_9_team_color_source" type="number">0</property>
     <property id="second_slot_10_value" type="number">20</property>
     <property id="second_slot_10_background_effects" type="boolean">false</property>
     <property id="second_slot_10_background_mode" type="number">-1</property>
-    <property id="second_slot_10_team_text" type="string">TEAM</property>
     <property id="second_slot_10_team_font" type="number">0</property>
     <property id="second_slot_10_team_color_source" type="number">0</property>
     <property id="settings_schema_version" type="number">0</property>

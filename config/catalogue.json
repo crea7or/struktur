@@ -374,6 +374,15 @@
       "title": "Grid type"
     },
     {
+      "key": "slot_1_team_text",
+      "type": "string",
+      "default": "TEAM",
+      "maxLength": 32,
+      "shared": true,
+      "title": "Team name",
+      "prompt": "Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case."
+    },
+    {
       "key": "slot_1_value",
       "type": "number",
       "default": 0,
@@ -470,14 +479,6 @@
         "Whole cell"
       ],
       "title": "Field 1: background coverage"
-    },
-    {
-      "key": "slot_1_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 1: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "slot_1_team_font",
@@ -607,14 +608,6 @@
       "title": "Field 2: background coverage"
     },
     {
-      "key": "slot_2_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 2: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "slot_2_team_font",
       "type": "number",
       "default": 0,
@@ -740,14 +733,6 @@
         "Whole cell"
       ],
       "title": "Field 3: background coverage"
-    },
-    {
-      "key": "slot_3_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 3: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "slot_3_team_font",
@@ -877,14 +862,6 @@
       "title": "Field 4: background coverage"
     },
     {
-      "key": "slot_4_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 4: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "slot_4_team_font",
       "type": "number",
       "default": 0,
@@ -1010,14 +987,6 @@
         "Whole cell"
       ],
       "title": "Field 5: background coverage"
-    },
-    {
-      "key": "slot_5_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 5: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "slot_5_team_font",
@@ -1147,14 +1116,6 @@
       "title": "Field 6: background coverage"
     },
     {
-      "key": "slot_6_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 6: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "slot_6_team_font",
       "type": "number",
       "default": 0,
@@ -1280,14 +1241,6 @@
         "Whole cell"
       ],
       "title": "Field 7: background coverage"
-    },
-    {
-      "key": "slot_7_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 7: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "slot_7_team_font",
@@ -1417,14 +1370,6 @@
       "title": "Field 8: background coverage"
     },
     {
-      "key": "slot_8_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 8: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "slot_8_team_font",
       "type": "number",
       "default": 0,
@@ -1552,14 +1497,6 @@
       "title": "Field 9: background coverage"
     },
     {
-      "key": "slot_9_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 9: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "slot_9_team_font",
       "type": "number",
       "default": 0,
@@ -1685,14 +1622,6 @@
         "Whole cell"
       ],
       "title": "Field 10: background coverage"
-    },
-    {
-      "key": "slot_10_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Field 10: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "slot_10_team_font",
@@ -1998,14 +1927,6 @@
       "title": "Second set: Field 1: background coverage"
     },
     {
-      "key": "second_slot_1_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 1: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "second_slot_1_team_font",
       "type": "number",
       "default": 0,
@@ -2133,14 +2054,6 @@
         "Whole cell"
       ],
       "title": "Second set: Field 2: background coverage"
-    },
-    {
-      "key": "second_slot_2_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 2: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "second_slot_2_team_font",
@@ -2272,14 +2185,6 @@
       "title": "Second set: Field 3: background coverage"
     },
     {
-      "key": "second_slot_3_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 3: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "second_slot_3_team_font",
       "type": "number",
       "default": 0,
@@ -2407,14 +2312,6 @@
         "Whole cell"
       ],
       "title": "Second set: Field 4: background coverage"
-    },
-    {
-      "key": "second_slot_4_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 4: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "second_slot_4_team_font",
@@ -2546,14 +2443,6 @@
       "title": "Second set: Field 5: background coverage"
     },
     {
-      "key": "second_slot_5_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 5: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "second_slot_5_team_font",
       "type": "number",
       "default": 0,
@@ -2681,14 +2570,6 @@
         "Whole cell"
       ],
       "title": "Second set: Field 6: background coverage"
-    },
-    {
-      "key": "second_slot_6_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 6: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "second_slot_6_team_font",
@@ -2820,14 +2701,6 @@
       "title": "Second set: Field 7: background coverage"
     },
     {
-      "key": "second_slot_7_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 7: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "second_slot_7_team_font",
       "type": "number",
       "default": 0,
@@ -2955,14 +2828,6 @@
         "Whole cell"
       ],
       "title": "Second set: Field 8: background coverage"
-    },
-    {
-      "key": "second_slot_8_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 8: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "second_slot_8_team_font",
@@ -3094,14 +2959,6 @@
       "title": "Second set: Field 9: background coverage"
     },
     {
-      "key": "second_slot_9_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 9: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
-    },
-    {
       "key": "second_slot_9_team_font",
       "type": "number",
       "default": 0,
@@ -3229,14 +3086,6 @@
         "Whole cell"
       ],
       "title": "Second set: Field 10: background coverage"
-    },
-    {
-      "key": "second_slot_10_team_text",
-      "type": "string",
-      "default": "TEAM",
-      "maxLength": 32,
-      "title": "Second set: Field 10: Team text",
-      "prompt": "Team field only. Up to 32 printable ASCII characters; preserve spaces and case."
     },
     {
       "key": "second_slot_10_team_font",

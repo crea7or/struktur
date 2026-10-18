@@ -9,7 +9,7 @@ class DisplaySettings {
     var slots;
     var effects;
     var modes;
-    var teamTexts;var teamFonts;var teamSources;
+    var teamText;var teamFonts;var teamSources;
     var cadenceBounds=[60,80,100,120];
     var hideValueUnits;
     var inverseEnlargedTheme;
@@ -22,7 +22,7 @@ class DisplaySettings {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
         modes=[0,0,0,0,0,0,0,0,0,0];
-        teamTexts=["TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM","TEAM"];
+        teamText="TEAM";
         teamFonts=[0,0,0,0,0,0,0,0,0,0];teamSources=[0,0,0,0,0,0,0,0,0,0];
         hideValueUnits=true; inverseEnlargedTheme=true; gridType="horizontal"; usesBattery=false; usesClock=true;
     }
@@ -37,6 +37,8 @@ class DisplaySettings {
     }
     function apply(values as Lang.Dictionary) {
         revision+=1;var nextBounds=CadenceZones.configured(values);
+        // One shared value; retain the original storage key across upgrades.
+        teamText=TeamOptions.text(values.hasKey("slot_1_team_text")?values["slot_1_team_text"]:null);
         if(!CadenceZones.same(cadenceBounds,nextBounds)) { cadenceBounds=nextBounds; }
         // Retired field_count and use_units_as_labels are ignored. APP-20 derives the count
         // from measured rows and the selected number of enlarged top fields.
@@ -69,7 +71,6 @@ class DisplaySettings {
             } else { modes[i]=version instanceof Lang.Number && version==1?fallback:(compatible?fallback:0); }
             effects[i]=modes[i]!=0;
             var slot="slot_"+(i+1).toString();
-            teamTexts[i]=TeamOptions.text(get(values,slot+"_team_text"));
             teamFonts[i]=TeamOptions.code(get(values,slot+"_team_font"),9);
             teamSources[i]=TeamOptions.code(get(values,slot+"_team_color_source"),2);
         }

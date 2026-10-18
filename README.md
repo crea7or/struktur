@@ -12,7 +12,7 @@ The screenshots use sample data. Power zones show `--` while their data source a
 
 - 33 selectable fields: speed, distance, heart rate, cadence, power, elevation, ascent/descent, slope, timers, time of day, battery, heading, calories, completed laps and more.
 - Shared five-zone colors for heart-rate, power and cadence metrics, including activity and lap averages; four configurable cadence boundaries. Qualified power zones above five use magenta.
-- A Team text field with independent per-slot text (up to 32 printable ASCII characters), a `team` header, wrapping at spaces within the value area, native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; unsupported saved AUX font choices fall back to Automatic. AUX choices are offered only after target qualification.
+- A Team text field with one shared **Team name** option before the slot controls (up to 32 printable ASCII characters), used by every Team slot in both sets, a `team` header, wrapping at spaces within the value area, native Automatic font fitting, and optional current-power or heart-rate color binding. Team uses the same None/Label/Whole cell coverage modes; unsupported saved AUX font choices fall back to Automatic. AUX choices are offered only after target qualification.
 - Six current-lap fields: distance, active time, average speed, heart rate, power and cadence.
 - Two independent sets of ten saved field assignments, including temporarily hidden slots. Repeated metrics are supported.
 - Choose a second-set trigger: **3s power**, **Heart rate**, **Manual lap** (factory default), **Workout started**, or **None** to disable switching without losing the saved set.

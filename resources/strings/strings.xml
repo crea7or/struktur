@@ -55,6 +55,8 @@
     <string id="Choice_grid_type_none" scope="settings">None</string>
     <string id="Choice_grid_type_horizontal" scope="settings">Horizontal lines</string>
     <string id="Choice_grid_type_full" scope="settings">Full grid</string>
+    <string id="Setting_slot_1_team_text" scope="settings">Team name</string>
+    <string id="Prompt_slot_1_team_text" scope="settings">Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_1_value" scope="settings">Slot 1 value</string>
     <string id="Choice_current_speed" scope="settings">speed</string>
     <string id="Choice_average_speed" scope="settings">average speed</string>
@@ -93,8 +95,6 @@
     <string id="Choice_slot_1_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_1_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_1_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_1_team_text" scope="settings">Field 1: Team text</string>
-    <string id="Prompt_slot_1_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_1_team_font" scope="settings">Field 1: Team font</string>
     <string id="Prompt_slot_1_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_1_team_font_0" scope="settings">Automatic</string>
@@ -107,8 +107,6 @@
     <string id="Choice_slot_2_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_2_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_2_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_2_team_text" scope="settings">Field 2: Team text</string>
-    <string id="Prompt_slot_2_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_2_team_font" scope="settings">Field 2: Team font</string>
     <string id="Prompt_slot_2_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_2_team_font_0" scope="settings">Automatic</string>
@@ -121,8 +119,6 @@
     <string id="Choice_slot_3_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_3_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_3_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_3_team_text" scope="settings">Field 3: Team text</string>
-    <string id="Prompt_slot_3_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_3_team_font" scope="settings">Field 3: Team font</string>
     <string id="Prompt_slot_3_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_3_team_font_0" scope="settings">Automatic</string>
@@ -135,8 +131,6 @@
     <string id="Choice_slot_4_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_4_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_4_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_4_team_text" scope="settings">Field 4: Team text</string>
-    <string id="Prompt_slot_4_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_4_team_font" scope="settings">Field 4: Team font</string>
     <string id="Prompt_slot_4_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_4_team_font_0" scope="settings">Automatic</string>
@@ -149,8 +143,6 @@
     <string id="Choice_slot_5_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_5_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_5_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_5_team_text" scope="settings">Field 5: Team text</string>
-    <string id="Prompt_slot_5_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_5_team_font" scope="settings">Field 5: Team font</string>
     <string id="Prompt_slot_5_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_5_team_font_0" scope="settings">Automatic</string>
@@ -163,8 +155,6 @@
     <string id="Choice_slot_6_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_6_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_6_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_6_team_text" scope="settings">Field 6: Team text</string>
-    <string id="Prompt_slot_6_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_6_team_font" scope="settings">Field 6: Team font</string>
     <string id="Prompt_slot_6_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_6_team_font_0" scope="settings">Automatic</string>
@@ -177,8 +167,6 @@
     <string id="Choice_slot_7_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_7_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_7_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_7_team_text" scope="settings">Field 7: Team text</string>
-    <string id="Prompt_slot_7_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_7_team_font" scope="settings">Field 7: Team font</string>
     <string id="Prompt_slot_7_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_7_team_font_0" scope="settings">Automatic</string>
@@ -191,8 +179,6 @@
     <string id="Choice_slot_8_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_8_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_8_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_8_team_text" scope="settings">Field 8: Team text</string>
-    <string id="Prompt_slot_8_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_8_team_font" scope="settings">Field 8: Team font</string>
     <string id="Prompt_slot_8_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_8_team_font_0" scope="settings">Automatic</string>
@@ -205,8 +191,6 @@
     <string id="Choice_slot_9_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_9_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_9_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_9_team_text" scope="settings">Field 9: Team text</string>
-    <string id="Prompt_slot_9_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_9_team_font" scope="settings">Field 9: Team font</string>
     <string id="Prompt_slot_9_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_9_team_font_0" scope="settings">Automatic</string>
@@ -219,8 +203,6 @@
     <string id="Choice_slot_10_background_mode_0" scope="settings">None</string>
     <string id="Choice_slot_10_background_mode_1" scope="settings">Label</string>
     <string id="Choice_slot_10_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_slot_10_team_text" scope="settings">Field 10: Team text</string>
-    <string id="Prompt_slot_10_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_slot_10_team_font" scope="settings">Field 10: Team font</string>
     <string id="Prompt_slot_10_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_slot_10_team_font_0" scope="settings">Automatic</string>
@@ -265,8 +247,6 @@
     <string id="Choice_second_slot_1_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_1_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_1_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_1_team_text" scope="settings">Second set: Field 1: Team text</string>
-    <string id="Prompt_second_slot_1_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_1_team_font" scope="settings">Second set: Field 1: Team font</string>
     <string id="Prompt_second_slot_1_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_1_team_font_0" scope="settings">Automatic</string>
@@ -279,8 +259,6 @@
     <string id="Choice_second_slot_2_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_2_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_2_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_2_team_text" scope="settings">Second set: Field 2: Team text</string>
-    <string id="Prompt_second_slot_2_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_2_team_font" scope="settings">Second set: Field 2: Team font</string>
     <string id="Prompt_second_slot_2_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_2_team_font_0" scope="settings">Automatic</string>
@@ -293,8 +271,6 @@
     <string id="Choice_second_slot_3_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_3_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_3_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_3_team_text" scope="settings">Second set: Field 3: Team text</string>
-    <string id="Prompt_second_slot_3_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_3_team_font" scope="settings">Second set: Field 3: Team font</string>
     <string id="Prompt_second_slot_3_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_3_team_font_0" scope="settings">Automatic</string>
@@ -307,8 +283,6 @@
     <string id="Choice_second_slot_4_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_4_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_4_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_4_team_text" scope="settings">Second set: Field 4: Team text</string>
-    <string id="Prompt_second_slot_4_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_4_team_font" scope="settings">Second set: Field 4: Team font</string>
     <string id="Prompt_second_slot_4_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_4_team_font_0" scope="settings">Automatic</string>
@@ -321,8 +295,6 @@
     <string id="Choice_second_slot_5_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_5_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_5_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_5_team_text" scope="settings">Second set: Field 5: Team text</string>
-    <string id="Prompt_second_slot_5_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_5_team_font" scope="settings">Second set: Field 5: Team font</string>
     <string id="Prompt_second_slot_5_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_5_team_font_0" scope="settings">Automatic</string>
@@ -335,8 +307,6 @@
     <string id="Choice_second_slot_6_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_6_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_6_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_6_team_text" scope="settings">Second set: Field 6: Team text</string>
-    <string id="Prompt_second_slot_6_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_6_team_font" scope="settings">Second set: Field 6: Team font</string>
     <string id="Prompt_second_slot_6_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_6_team_font_0" scope="settings">Automatic</string>
@@ -349,8 +319,6 @@
     <string id="Choice_second_slot_7_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_7_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_7_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_7_team_text" scope="settings">Second set: Field 7: Team text</string>
-    <string id="Prompt_second_slot_7_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_7_team_font" scope="settings">Second set: Field 7: Team font</string>
     <string id="Prompt_second_slot_7_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_7_team_font_0" scope="settings">Automatic</string>
@@ -363,8 +331,6 @@
     <string id="Choice_second_slot_8_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_8_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_8_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_8_team_text" scope="settings">Second set: Field 8: Team text</string>
-    <string id="Prompt_second_slot_8_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_8_team_font" scope="settings">Second set: Field 8: Team font</string>
     <string id="Prompt_second_slot_8_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_8_team_font_0" scope="settings">Automatic</string>
@@ -377,8 +343,6 @@
     <string id="Choice_second_slot_9_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_9_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_9_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_9_team_text" scope="settings">Second set: Field 9: Team text</string>
-    <string id="Prompt_second_slot_9_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_9_team_font" scope="settings">Second set: Field 9: Team font</string>
     <string id="Prompt_second_slot_9_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_9_team_font_0" scope="settings">Automatic</string>
@@ -391,8 +355,6 @@
     <string id="Choice_second_slot_10_background_mode_0" scope="settings">None</string>
     <string id="Choice_second_slot_10_background_mode_1" scope="settings">Label</string>
     <string id="Choice_second_slot_10_background_mode_2" scope="settings">Whole cell</string>
-    <string id="Setting_second_slot_10_team_text" scope="settings">Second set: Field 10: Team text</string>
-    <string id="Prompt_second_slot_10_team_text" scope="settings">Team field only. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_second_slot_10_team_font" scope="settings">Second set: Field 10: Team font</string>
     <string id="Prompt_second_slot_10_team_font" scope="settings">Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.</string>
     <string id="Choice_second_slot_10_team_font_0" scope="settings">Automatic</string>

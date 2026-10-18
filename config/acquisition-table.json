@@ -873,9 +873,9 @@
   {
     "identifier": "team",
     "requirement": "SPEC-253",
-    "version": 25,
-    "source": "Validated per-slot Team text settings",
-    "context": "Both saved sets; literal ASCII text independent of activity samples",
+    "version": 26,
+    "source": "One validated shared Team name setting",
+    "context": "All Team slots in both saved sets; literal ASCII text independent of activity samples",
     "raw_type": "string",
     "raw_unit": "",
     "validity": "0..32 printable ASCII characters; invalid uses TEAM without rewriting storage",

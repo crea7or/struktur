@@ -589,8 +589,9 @@ class TeamScenario {
     function initialize(index) {
         bank=index%2;prefix=bank==1?"second_":"";
         props={};props[prefix+"enlarged_field_count"]=(index/2)%3;props[prefix+"alignment"]=(index/6)%2;
-        props[prefix+"slot_1_value"]="team";props[prefix+"slot_1_team_text"]="Aa 12!";
+        props[prefix+"slot_1_value"]="team";props["slot_1_team_text"]="Aa 12!";
         for(var slot=2;slot<=10;slot+=1) { props[prefix+"slot_"+slot.toString()+"_value"]="elevation"; }
+        props[prefix+"slot_2_value"]="team";props[prefix+"slot_10_value"]="team";
         props[prefix+"slot_1_team_color_source"]=2;props[prefix+"slot_1_background_mode"]=1;
         settings=new DisplaySettings();engine=new SnapshotEngine();renderer=new FieldRenderer();device=new PresentationDevice(false,true,false);
         engine._hrZones=ZoneMetadata.heart([0,100,120,140,160,200]);
@@ -601,8 +602,15 @@ class TeamScenario {
     }
     function check() {
         Test.assert(renderer._cells.size()>0);var cell=renderer._cells[0];var run=renderer._runs[0];var packet=renderer._packets[0];
-        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual(props[prefix+"slot_1_team_text"],run.text);Test.assertEqual("team",snapshot[:values][0][:label]);
+        Test.assert(run.isNative);if(automatic!=null) { Test.assertEqual(automatic,run.font); } Test.assertEqual(props["slot_1_team_text"],run.text);Test.assertEqual("team",snapshot[:values][0][:label]);
         Test.assert(packet.label!=null && packet.unit==null);Test.assert(packet.primary!=null);
+        for(var duplicate=1;duplicate<renderer._cells.size();duplicate+=1) {
+            if("team".equals(settings.slots[duplicate])) {
+                Test.assertEqual(run.text,renderer._runs[duplicate].text);
+                Test.assertEqual("team",renderer._packets[duplicate].label[3]);
+                Test.assert(renderer._packets[duplicate].lines.size()>0);
+            }
+        }
         Test.assertEqual("team",packet.label[3]);
         Test.assertEqual("right".equals(settings.alignment)?cell[:x]+cell[:w]-4-(packet.band==null?0:1):cell[:x]+cell[:w]/2,packet.label[0]);
         for(var line=0;line<packet.lines.size();line+=1) {
@@ -638,9 +646,11 @@ class TeamScenario {
         Test.assertEqual("magenta",snapshot[:values][0][:band]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
         Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);
         props[prefix+"slot_1_team_color_source"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][:band]));
-        props[prefix+"slot_1_team_text"]="BLUE TEAM";automatic=null;sample(110);check();
+        old=snapshot;props["slot_1_team_text"]="BLUE TEAM";automatic=null;sample(110);check();
+        Test.assertEqual("Aa 12!",old[:values][0][:text]);Test.assertEqual("Aa 12!",old[:values][1][:text]);
         props[prefix+"hide_value_units"]=false;measures=renderer._nativeFonts.measurements;sample(110);check();Test.assertEqual(measures,renderer._nativeFonts.measurements);
-        props[prefix+"slot_1_team_text"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);Test.assertEqual("team",renderer._packets[0].label[3]);
+        props["slot_1_team_text"]="";sample(110);Test.assertEqual("",renderer._runs[0].text);Test.assert(renderer._packets[0].primary==null);Test.assertEqual("team",renderer._packets[0].label[3]);
+        Test.assertEqual("",renderer._runs[1].text);Test.assert(renderer._packets[1].primary==null);
         props[prefix+"slot_1_value"]="current_power";sample(110);Test.assert(!renderer._runs[0].isNative);
         Test.assertEqual(FontSelection.height(renderer._cells[0][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,false),Graphics.getFontHeight(renderer._runs[0].font));
     }

@@ -38,7 +38,7 @@ function secondarySettingsAndMigration(logger) {
         "second_alignment"=>1,"second_slot_1_value"=>"lap_power","second_slot_10_value"=>"future-field",
         "second_slot_1_background_effects"=>true,"second_enlarged_field_count"=>2,"second_hide_value_units"=>false};
     var s=secondSetConfiguration(saved);
-    Test.assertEqual(142,SettingsCatalogue.keys().size());
+    Test.assertEqual(123,SettingsCatalogue.keys().size());
     Test.assertEqual("center",s.primary.alignment);Test.assertEqual("right",s.secondary.alignment);
     Test.assertEqual("battery",s.primary.slots[9]);Test.assert(s.primary.effects[9]);
     Test.assertEqual("lap_power",s.secondary.slots[0]);Test.assertEqual("future-field",s.secondary.slots[9]);

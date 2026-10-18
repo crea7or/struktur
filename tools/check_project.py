@@ -73,7 +73,7 @@ def main():
     assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==142 and len({p['key'] for p in props})==142
+    assert len(props)==123 and len({p['key'] for p in props})==123
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
     assert 'grid_type' in by_id['APP-22']['description'] and '0 None, 1 Horizontal lines (default), 2 Full grid' in by_id['APP-22']['description']
@@ -83,7 +83,7 @@ def main():
     assert 'slot_N_background_mode' in by_id['APP-49']['description'] and '0 None, 1 Label, 2 Whole cell' in by_id['APP-49']['description']
     assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
     by_key={p['key']:p for p in props}
-    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p['key'].startswith('cadence_zone_')]:
+    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p.get('shared') and not p['key'].startswith('cadence_zone_')]:
         second=by_key['second_'+first['key']]
         for field in ['type','choices','identifiers']:
             assert first.get(field)==second.get(field),(first['key'],field)
@@ -94,7 +94,7 @@ def main():
         assert prop['identifiers'][prop['default']]==identifier
         assert by_key[f'second_slot_{i}_background_effects']['default']==(i<=4)
         assert f'| {i} | {identifier} |' in by_id['SPEC-209']['description']
-    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p['key'].startswith('cadence_zone_')]:
+    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version' and not p.get('shared') and not p['key'].startswith('cadence_zone_')]:
         if first['key'] in ['alignment','theme_mode','hide_value_units','inverse_enlarged_theme','grid_type']:
             assert by_key['second_'+first['key']]['default']==first['default']
     assert by_key['second_set_trigger']['choices']==[0,1,2,3,4] and by_key['second_set_trigger']['default']==3
@@ -108,7 +108,13 @@ def main():
     settings=ET.parse(ROOT/'resources/settings/settings.xml')
     group=settings.find('.//group[@id="second_field_set"]');assert group is not None and group.attrib['id']=='second_field_set'
     assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props if p['key'].startswith('second_') and not p.get('hidden')]
-    assert len(settings.findall('./settings/setting'))==56
+    assert len(settings.findall('./settings/setting'))==47
+    text_controls=[s for s in settings.findall('.//setting') if s.attrib['propertyKey'].endswith('_team_text')]
+    assert len(text_controls)==1 and text_controls[0].attrib['propertyKey']=='@Properties.slot_1_team_text'
+    ordered=list(settings.findall('.//setting'));team_index=ordered.index(text_controls[0])
+    assert all(team_index<i for i,s in enumerate(ordered) if re.search(r'(?:second_)?slot_\d+_(?:value|background_mode|team_font|team_color_source)$',s.attrib['propertyKey']))
+    assert by_key['slot_1_team_text']['shared'] and by_key['slot_1_team_text']['title']=='Team name'
+    assert [p['key'] for p in props if p['key'].endswith('_team_text')]==['slot_1_team_text']
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
     assert set(configured)=={p['key'] for p in props if not p.get('hidden')}
     native_fonts=read('config/native-fonts.json')
@@ -123,7 +129,7 @@ def main():
     for p in props:
         if p['key'].endswith('_team_font'):assert p['default']==0 and p['choices']==[0]
         if p['key'].endswith('_team_text'):assert p['default']=='TEAM' and p['type']=='string' and p['maxLength']==32
-    assert len(configured)==121 and len(props)-len(configured)==21
+    assert len(configured)==102 and len(props)-len(configured)==21
     assert by_key['settings_schema_version']['default']==0
     for p in props:
         if p['key'].endswith('_background_mode'):

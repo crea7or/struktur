@@ -151,7 +151,7 @@ class SnapshotEngine {
         for(var i=0;i<10;i+=1) {
             var d=configure?descriptor(i,settings.slots[i],settings.hideValueUnits,distanceStatute,elevationStatute,temperatureStatute):_descriptors[i];
             if(d.style==6 && configure) { configureTeam(d,settings,i); }
-            var value=d.style==6?settings.teamTexts[i]:rawValue(raw,d.id);
+            var value=d.style==6?settings.teamText:rawValue(raw,d.id);
             // A profile refresh can occur between delivered samples. Reuse the
             // current-source cache instead of a stale zone number in retained raw data.
             if(d.effect==5) {

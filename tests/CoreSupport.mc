@@ -220,15 +220,32 @@ function verifyTeamOptions() {
     var invalid=[null,42,true,"abcdefghijklmnopqrstuvwxyzABCDEFG","line\nline","café"];
     for(var i=0;i<invalid.size();i+=1) { Test.assertEqual("TEAM",TeamOptions.text(invalid[i])); }
     Test.assertEqual("",TeamOptions.text(""));Test.assertEqual("  Aa!  ",TeamOptions.text("  Aa!  "));
+    Test.assertEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef",TeamOptions.text("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"));
     for(var start=0;start<TeamOptions.REPERTOIRE.length();start+=1) { Test.assertEqual(TeamOptions.REPERTOIRE.substring(start,start+1),TeamOptions.text(TeamOptions.REPERTOIRE.substring(start,start+1))); }
     var props={"slot_1_team_text"=>"ONE","slot_1_team_font"=>9,"slot_1_team_color_source"=>2,
-        "second_slot_1_team_text"=>"TWO","second_slot_10_team_text"=>" HIDDEN ","second_slot_1_team_font"=>7,"second_slot_1_team_color_source"=>1};
+        "slot_2_team_text"=>"IGNORED","second_slot_1_team_text"=>"TWO","second_slot_10_team_text"=>" HIDDEN ",
+        "second_slot_1_team_font"=>7,"second_slot_1_team_color_source"=>1};
     var banks=new FieldSetsSettings();banks.apply(props);
-    Test.assertEqual("ONE",banks.primary.teamTexts[0]);Test.assertEqual("TWO",banks.secondary.teamTexts[0]);
-    Test.assertEqual(" HIDDEN ",banks.secondary.teamTexts[9]);Test.assertEqual(9,banks.primary.teamFonts[0]);
-    Test.assertEqual(7,banks.secondary.teamFonts[0]);Test.assertEqual(2,banks.primary.teamSources[0]);
-    props["slot_1_value"]="team";props["second_slot_1_value"]="team";banks.apply(props);
-    Test.assertEqual("ONE",banks.primary.teamTexts[0]);Test.assertEqual(" HIDDEN ",banks.secondary.teamTexts[9]);
+    Test.assertEqual("ONE",banks.primary.teamText);Test.assertEqual("ONE",banks.secondary.teamText);
+    Test.assertEqual(9,banks.primary.teamFonts[0]);Test.assertEqual(7,banks.secondary.teamFonts[0]);
+    Test.assertEqual(2,banks.primary.teamSources[0]);Test.assertEqual(1,banks.secondary.teamSources[0]);
+    props["slot_1_value"]="team";props["slot_2_value"]="team";props["second_slot_10_value"]="team";
+    props["slot_1_team_text"]=" SAME TEAM ";banks.apply(props);
+    Test.assertEqual(" SAME TEAM ",banks.primary.teamText);Test.assertEqual(" SAME TEAM ",banks.secondary.teamText);
+    props["slot_1_value"]="elevation";props["second_set_trigger"]=0;banks.apply(props);
+    Test.assertEqual(" SAME TEAM ",banks.primary.teamText);Test.assertEqual(" SAME TEAM ",banks.secondary.teamText);
+    Test.assertEqual("TWO",props["second_slot_1_team_text"]);Test.assertEqual(" HIDDEN ",props["second_slot_10_team_text"]);
+    props["slot_1_team_text"]="";banks.apply(props);
+    Test.assertEqual("",banks.primary.teamText);Test.assertEqual("",banks.secondary.teamText);
+    props["slot_1_team_text"]=42;banks.apply(props);
+    Test.assertEqual("TEAM",banks.primary.teamText);Test.assertEqual("TEAM",banks.secondary.teamText);
+    Test.assertEqual(42,props["slot_1_team_text"]);
+    banks.apply({"second_slot_1_team_text"=>"IGNORED"});
+    Test.assertEqual("TEAM",banks.primary.teamText);Test.assertEqual("TEAM",banks.secondary.teamText);
+    var store=new MigrationStore();store.values["slot_1_team_text"]="SAVED TEAM";store.values["second_slot_1_team_text"]="OLD";
+    banks.apply(SettingsMigration.read(store,false));
+    Test.assertEqual("SAVED TEAM",banks.primary.teamText);Test.assertEqual("SAVED TEAM",banks.secondary.teamText);
+    Test.assertEqual("OLD",store.values["second_slot_1_team_text"]);Test.assertEqual("SAVED TEAM",store.values["slot_1_team_text"]);
     var saved=[true,1.0,-1,10,"1",null];
     for(var j=0;j<saved.size();j+=1) { Test.assertEqual(0,TeamOptions.code(saved[j],9)); }
 }

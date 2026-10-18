@@ -76,14 +76,14 @@ def main():
            dict(key='hide_value_units',type='boolean',default=True,title='Hide physical units in headers'),
            dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged fields'),
            dict(key='grid_type',type='number',default=1,choices=[0,1,2],identifiers=['none','horizontal','full'],choice_labels=['None','Horizontal lines','Full grid'],title='Grid type')]
+    props.append(dict(key='slot_1_team_text',type='string',default='TEAM',maxLength=32,shared=True,title='Team name',prompt='Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.'))
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
                       dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False,hidden=True),
                       dict(key=f'slot_{i+1}_background_mode',type='number',default=-1,factory_default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Field {i+1}: background coverage'),
-                      dict(key=f'slot_{i+1}_team_text',type='string',default='TEAM',maxLength=32,title=f'Field {i+1}: Team text',prompt='Team field only. Up to 32 printable ASCII characters; preserve spaces and case.'),
                       dict(key=f'slot_{i+1}_team_font',type='number',default=0,choices=[0],choice_labels=['Automatic'],title=f'Field {i+1}: Team font',prompt='Only qualified general-text AUX fonts are offered. Unsupported saved AUX selections use Automatic.'),
                       dict(key=f'slot_{i+1}_team_color_source',type='number',default=0,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title=f'Field {i+1}: Team color source')])
-    first_props=list(props)
+    first_props=[p for p in props if not p.get("shared")]
     props += [dict(key=f'cadence_zone_{i}_max_rpm',type='number',default=value,min=0,max=300,title=f'Cadence zone {i}: upper rpm',prompt='Four increasing upper bounds define five coloring zones; both field sets share these values.') for i,value in enumerate([60,80,100,120],1)]
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
                    identifiers=['trigger_none','trigger_power_3s','trigger_heart_rate','trigger_manual_lap','trigger_workout'],

@@ -9,7 +9,7 @@ function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     verifyTeamOptions();
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(142,SettingsCatalogue.keys().size());
+    Test.assertEqual(123,SettingsCatalogue.keys().size());
     Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
