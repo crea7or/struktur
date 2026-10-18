@@ -12,7 +12,7 @@ class FittedRun {
 }
 // A prepared cell stores a fixed set of commands, without a per-cell hash table.
 class PreparedCell {
-    var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
+    var coverage;var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
     function initialize(n,b,a,bg,e,c,l,p,u) {
         night=n;band=b;angle=a;background=bg;labelEffect=e;color=c;label=l;primary=p;unit=u;
     }
@@ -86,6 +86,7 @@ class FieldRenderer {
         _polygons=[];_polygonAngles=[];_cellNights=[];_needsLayout=true;
     }
     function needsLayout() { return _needsLayout; }
+    function coverage(value) { return value.hasKey(:coverage)?value[:coverage]:(value[:angle]!=null?2:1); }
     function painted(value) { return value[:band]!=null || value[:angle]!=null; }
     function numericSizes(enlarged) {
         return enlarged?_bigSizes:_regularSizes;
@@ -119,7 +120,7 @@ class FieldRenderer {
             _headerFits[value[:label]]=labelFit;headerMeasures+=1;
         }
         var radius=painted(value)?1:0; var margin=4+radius;
-        var labelBand=value[:band]!=null && value[:angle]==null?_labelBandHeight:0;
+        var labelBand=value[:band]!=null && value[:angle]==null && coverage(value)==1?_labelBandHeight:0;
         if(labelFit[0]>cell[:w]-2*margin) { return null; }
         var size=cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE;
         if(size<=labelSize) { return null; }
@@ -239,7 +240,6 @@ class FieldRenderer {
                 if(!old[:label].equals(next[:label])) { headersChanged=true; }
                 if(!old[:label].equals(next[:label]) || !displayText(old).equals(displayText(next)) ||
                     !old[:unit].equals(next[:unit]) || painted(old)!=painted(next) ||
-                    (old[:angle]==null)!=(next[:angle]==null) ||
                     (old[:expandedUnit]==null?next[:expandedUnit]!=null:(next[:expandedUnit]==null || !old[:expandedUnit].equals(next[:expandedUnit])))) { changed=true; }
             }
             // Hidden candidate cells can permit recovery from a smaller fallback.
@@ -288,7 +288,7 @@ class FieldRenderer {
             if(i>=_cellNights.size()) { _cellNights.add(night);_polygons.add(null);_polygonAngles.add(null);_packets.add(null); }
             _cellNights[i]=night;
             if(packet==null || packet.night!=night ||
-                (packet.band==null?value[:band]!=null:(value[:band]==null || !packet.band.equals(value[:band]))) || packet.angle!=value[:angle]) {
+                (packet.band==null?value[:band]!=null:(value[:band]==null || !packet.band.equals(value[:band]))) || packet.angle!=value[:angle] || packet.coverage!=coverage(value)) {
                 if(_polygonAngles[i]!=value[:angle]) {
                     _polygons[i]=value[:angle]==null?null:Geometry.ground(_cells[i],value[:angle]);
                     _polygonAngles[i]=value[:angle];
@@ -301,18 +301,24 @@ class FieldRenderer {
     function preparePacket(i,night) {
         var c=_cells[i];var v=_preparedValues[i];var run=_runs[i];
         var background=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-        var labelEffect=v[:band]!=null && v[:angle]==null;
-        var darkText=!labelEffect?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
+        var mode=coverage(v);
+        var flat=v[:band]!=null && v[:angle]==null;
+        var whole=flat && mode==2;
+        var labelEffect=flat && mode==1;
+        run.labelBand=labelEffect?_labelBandHeight:0;
+        var darkText=!flat?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
         var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-        var valueForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
-        var radius=v[:angle]!=null?run.radius:0;
+        var valueForeground=whole?headerForeground:(night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK);
+        var radius=v[:angle]!=null || whole?run.radius:0;
+        if(whole) { background=color(v[:band]); }
         var right="right".equals(_settings.alignment);
         var x=right?c[:x]+c[:w]-run.margin-run.total:c[:x]+(c[:w]-run.total)/2;
         var label=MaskedText.prepare(right?c[:x]+c[:w]-run.margin:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run.radius);
         var primary=MaskedText.prepare(x,c[:y]+run.top-run.ink[0],run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
         var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[:y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
-        return new PreparedCell(night,v[:band],v[:angle],background,labelEffect,
+        var prepared=new PreparedCell(night,v[:band],v[:angle],background,labelEffect,
             v[:band]==null?null:color(v[:band]),label,primary,unit);
+        prepared.coverage=mode;return prepared;
     }
     function prepareSeparators() {
         if("none".equals(_settings.gridType)) { _separators=[];return; }

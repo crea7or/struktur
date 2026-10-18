@@ -12,11 +12,7 @@ class FieldSetsSettings {
         secondary.applyBank({},"second_");
     }
     function load() {
-        var values={};var keys=SettingsCatalogue.keys();
-        for(var i=0;i<keys.size();i+=1) {
-            try { values[keys[i]]=Application.Properties.getValue(keys[i]); }
-            catch(e) { values[keys[i]]=null; }
-        }
+        var values=SettingsMigration.load();
         apply(values);
     }
     function integer(values,key,low,high,fallback) {

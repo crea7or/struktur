@@ -95,8 +95,9 @@ class RendererCacheScenario {
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(polygons,renderer.polygonBuilds);
         Test.assert(renderer.packetBuilds>packets);
         raw["grade"]=null;sample();Test.assertEqual("dark_gray",snapshot[:values][1][:band]);
-        Test.assertEqual(renderer._labelBandHeight,renderer._runs[1].labelBand);Test.assert(renderer._polygons[1]==null);
-        for(var i=0;i<snapshot[:values].size();i+=1) { dc.paintEffects.add(snapshot[:values][i][:band]!=null); }
+        Test.assertEqual(0,renderer._runs[1].labelBand);Test.assert(renderer._polygons[1]==null);
+        Test.assertEqual(0x333333,renderer._packets[1].background);
+        for(var i=0;i<snapshot[:values].size();i+=1) { dc.paintEffects.add(snapshot[:values][i][:band]!=null);dc.wholeEffects.add(snapshot[:values][i][:coverage]==2); }
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
         renderer.locked=true;renderer.draw(dc,snapshot,settings);renderer.locked=false;
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(packets,renderer.packetBuilds);

@@ -8,6 +8,7 @@ class DisplaySettings {
     var theme;
     var slots;
     var effects;
+    var modes;
     var hideValueUnits;
     var inverseEnlargedTheme;
     var gridType;
@@ -18,15 +19,11 @@ class DisplaySettings {
     function initialize() {
         enlarged = 0; alignment = "right"; theme = "auto";
         slots = Catalog.defaultSlots(); effects = [false,false,false,false,false,false,false,false,false,false];
+        modes=[0,0,0,0,0,0,0,0,0,0];
         hideValueUnits=true; inverseEnlargedTheme=true; gridType="horizontal"; usesBattery=false; usesClock=true;
     }
     function load() {
-        var values = {} as Lang.Dictionary;
-        var keys = SettingsCatalogue.keys();
-        for (var i = 0; i < keys.size(); i += 1) {
-            try { values[keys[i]] = Application.Properties.getValue(keys[i]); }
-            catch (e) { values[keys[i]] = null; }
-        }
+        var values=SettingsMigration.load();
         apply(values);
     }
     function get(values as Lang.Dictionary, key) { var saved=_prefix+key;return values.hasKey(saved) ? values[saved] : null; }
@@ -57,7 +54,15 @@ class DisplaySettings {
             if("battery".equals(slots[i])) { usesBattery=true; }
             if("time_of_day".equals(slots[i])) { usesClock=true; }
             var enabled = get(values, "slot_" + (i+1).toString() + "_background_effects");
-            effects[i] = enabled instanceof Lang.Boolean ? enabled : (second && i<4);
+            var coverage=get(values,"slot_"+(i+1).toString()+"_background_mode");
+            var version=values.hasKey("settings_schema_version")?values["settings_schema_version"]:0;
+            var compatible=version==null || (version instanceof Lang.Number && version==0);
+            var fallback=second && i<4?1:0;
+            if(SettingsMigration.validMode(coverage)) { modes[i]=coverage; }
+            else if(compatible && (coverage==null || (coverage instanceof Lang.Number && coverage==-1)) && enabled instanceof Lang.Boolean) {
+                modes[i]=enabled?("grade".equals(slots[i])?2:1):0;
+            } else { modes[i]=version instanceof Lang.Number && version==1?fallback:(compatible?fallback:0); }
+            effects[i]=modes[i]!=0;
         }
     }
 }

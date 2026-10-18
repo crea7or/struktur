@@ -16,7 +16,7 @@ The screenshots use sample data. Power zones show `--` while their data source a
 - Choose a second-set trigger: **3s power**, **Heart rate**, **Manual lap** (factory default), **Workout started**, or **None** to disable switching without losing the saved set.
 - Zero, one or two enlarged fields; each layout uses its full available capacity.
 - Center or Right alignment, independently of **Grid type**: None, Horizontal lines or Full grid.
-- Day, Night and automatic themes, optional theme inversion for enlarged fields, and independent background effects per slot.
+- Day, Night and automatic themes, optional theme inversion for enlarged fields, and independent per-slot background coverage: **None**, **Label** or **Whole cell**.
 - Metric and statute units, optional `label | unit` headers, and 12/24-hour clocks.
 - Speed and distance use two decimals below 10, one below 100 and whole numbers from 100, after conversion and rounding carries. Slope always shows one decimal and averages the last three one-second estimates, using available estimates immediately.
 - Small `.SS` timer seconds below ten hours; longer durations retain all hour digits.
@@ -49,7 +49,7 @@ The **Second field set** section follows the default-set settings. Its activatio
 | **Workout started** | A workout-start event is received | The activity timer is reset |
 | **None** | Never; switching is disabled | The first set remains active and second-set settings stay saved |
 
-The second-set factory preset enlarges **3s watts**, followed by heart rate, cadence, slope, lap watts (current-lap average), speed, lap distance, lap time, elevation and temperature. Background effects default to ON for the first four slots and OFF for the rest. With one enlarged field, four-row layouts show the first five assignments and five-row layouts show the first seven; the other assignments remain saved. Factory defaults fill missing settings and preserve valid existing choices.
+The second-set factory preset enlarges **3s watts**, followed by heart rate, cadence, slope, lap watts (current-lap average), speed, lap distance, lap time, elevation and temperature. Background coverage defaults to Label for the first four slots and None for the rest. With one enlarged field, four-row layouts show the first five assignments and five-row layouts show the first seven; the other assignments remain saved. Explicit coverage selections are preserved. Upgrades migrate effective legacy switches to None or Label; enabled legacy slope keeps its Whole cell horizon. Confirmed fresh installations use the factory modes.
 
 Power and heart-rate activation/return defaults are 250/220 W and 160/150 bpm, respectively. The return threshold must not exceed activation; an inconsistent selected pair keeps the default set. Missing source data returns to default; power needs three consecutive valid seconds. Pause/stop preserves the set until fresh running data is evaluated.
 

@@ -68,7 +68,7 @@ def main():
     assert [f['id'] for f in fields[26:]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==57 and len({p['key'] for p in props})==57
+    assert len(props)==78 and len({p['key'] for p in props})==78
     assert next(p for p in props if p['key']=='alignment')['default']==1
     assert all(next(p for p in props if p['key']==key)['default'] is True for key in ['hide_value_units','inverse_enlarged_theme'])
     assert '| grid_type | number: 0 None, 1 Horizontal lines, 2 Full grid | 1 |' in by_id['SPEC-155']['description']
@@ -78,7 +78,7 @@ def main():
     assert '| slot_1_background_effects through slot_10_background_effects | Boolean | false |' in by_id['SPEC-155']['description']
     assert {'field_count','use_units_as_labels','show_grid'}.isdisjoint(p['key'] for p in props)
     by_key={p['key']:p for p in props}
-    for first in props[:26]:
+    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version']:
         second=by_key['second_'+first['key']]
         for field in ['type','choices','identifiers']:
             assert first.get(field)==second.get(field),(first['key'],field)
@@ -89,7 +89,7 @@ def main():
         assert prop['identifiers'][prop['default']]==identifier
         assert by_key[f'second_slot_{i}_background_effects']['default']==(i<=4)
         assert f'| {i} | {identifier} |' in by_id['SPEC-209']['description']
-    for first in props[:26]:
+    for first in [p for p in props if not p['key'].startswith('second_') and p['key']!='settings_schema_version']:
         if first['key'] in ['alignment','theme_mode','hide_value_units','inverse_enlarged_theme','grid_type']:
             assert by_key['second_'+first['key']]['default']==first['default']
     assert by_key['second_set_trigger']['choices']==[0,1,2,3,4] and by_key['second_set_trigger']['default']==3
@@ -102,11 +102,18 @@ def main():
         assert xml[p['key']].text==expected_default
     settings=ET.parse(ROOT/'resources/settings/settings.xml')
     group=settings.find('.//group');assert group is not None and group.attrib['id']=='second_field_set'
-    assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props[26:]]
+    assert [n.attrib['propertyKey'].split('.')[-1] for n in group.findall('setting')]==[p['key'] for p in props if p['key'].startswith('second_') and not p.get('hidden')]
     assert len(settings.findall('./settings/setting'))==26
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in settings.findall('.//setting')}
-    assert set(configured)==set(xml)
+    assert set(configured)=={p['key'] for p in props if not p.get('hidden')}
+    assert len(props)-len(configured)==21
+    assert by_key['settings_schema_version']['default']==0
     for p in props:
+        if p['key'].endswith('_background_mode'):
+            assert p['choices']==[0,1,2] and p['default']==-1 and p['factory_default'] in [0,1]
+        if p['key'].endswith('_background_effects'):assert p['hidden'] and p['type']=='boolean'
+    for p in props:
+        if p.get('hidden'):continue
         entries=[x.attrib['value'] for x in configured[p['key']].findall('.//listEntry')]
         assert entries==[str(x) for x in p.get('choices',[])]
         if 'identifiers' in p:

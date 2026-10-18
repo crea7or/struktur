@@ -117,3 +117,51 @@ class DurationDrawDc {
 }
 
 
+
+(:testSupport)
+class MigrationStore {
+    var values={};var writes=0;var failAt=-1;
+    function initialize() {
+        for(var bank=0;bank<2;bank+=1) {
+            var defaults=bank==0?Catalog.defaultSlots():Catalog.secondaryDefaultSlots();
+            for(var slot=1;slot<=10;slot+=1) {
+                var p=(bank==1?"second_":"")+"slot_"+slot.toString();
+                values[p+"_value"]=defaults[slot-1];values[p+"_background_mode"]=-1;
+                values[p+"_background_effects"]=bank==1 && slot<=4;
+            }
+        }
+        values["settings_schema_version"]=0;values["unrelated"]=42;
+    }
+    function get(key) { return values.hasKey(key)?values[key]:null; }
+    function put(key,value) { writes+=1;if(writes==failAt) { throw new Toybox.Lang.InvalidValueException("injected write failure"); } values[key]=value; }
+}
+(:testSupport)
+function verifyBackgroundMigration() {
+    var store=new MigrationStore();store.values["slot_10_value"]="grade";store.values["slot_10_background_effects"]=true;
+    store.values["second_slot_1_background_mode"]=0;
+    var data=SettingsMigration.read(store,false);
+    Test.assertEqual(2,data["slot_10_background_mode"]);Test.assertEqual(2,data["second_slot_4_background_mode"]);
+    Test.assertEqual(0,data["second_slot_1_background_mode"]);Test.assertEqual(1,data["settings_schema_version"]);
+    Test.assertEqual(true,store.values["slot_10_background_effects"]);Test.assertEqual(42,store.values["unrelated"]);
+    var writes=store.writes;SettingsMigration.read(store,false);Test.assertEqual(writes,store.writes);
+    store=new MigrationStore();data=SettingsMigration.read(store,true);
+    Test.assertEqual(1,data["second_slot_4_background_mode"]);Test.assertEqual(0,data["slot_1_background_mode"]);
+    store=new MigrationStore();store.failAt=5;data=SettingsMigration.read(store,false);
+    Test.assertEqual(0,store.values["settings_schema_version"]);Test.assertEqual(-1,store.values["slot_5_background_mode"]);
+    Test.assertEqual(0,data["slot_5_background_mode"]);store.failAt=-1;
+    data=SettingsMigration.read(store,false);Test.assertEqual(1,store.values["settings_schema_version"]);
+    var versions=[2,-1,true,"1",1.0];
+    for(var i=0;i<versions.size();i+=1) {
+        store=new MigrationStore();store.values["settings_schema_version"]=versions[i];
+        store.values["slot_1_background_mode"]=2;data=SettingsMigration.read(store,false);
+        Test.assertEqual(0,store.writes);var settings=new DisplaySettings();settings.apply(data);
+        Test.assertEqual(2,settings.modes[0]);Test.assertEqual(0,settings.modes[1]);
+    }
+    var invalid=[true,false,1.0,"1",3,-2,[],{}];
+    for(var j=0;j<invalid.size();j+=1) {
+        var props={"settings_schema_version"=>1,"second_slot_1_background_mode"=>invalid[j],"second_slot_2_background_mode"=>0};
+        var secondary=new DisplaySettings();secondary.applyBank(props,"second_");
+        Test.assertEqual(1,secondary.modes[0]);Test.assertEqual(0,secondary.modes[1]);
+        Test.assertEqual(invalid[j],props["second_slot_1_background_mode"]);
+    }
+}

@@ -66,7 +66,7 @@ class PresentationDrawDc {
     var _height;
     var _measurement;
     var _bitmap;
-    var paintEffects=[];
+    var paintEffects=[];var wholeEffects=[];
     var _drawCount=0;
     var _cellIndex=-1;
     var _clip=null;
@@ -107,8 +107,9 @@ class PresentationDrawDc {
             Test.assertEqual(Graphics.COLOR_TRANSPARENT,_background);
             var effect=_cellIndex<paintEffects.size() && paintEffects[_cellIndex];
             var grade=_record[:polygons].size()>0;
-            var count=effect && (grade || _drawCount<9)?9:1;
-            var logical=grade?_drawCount/count:(effect?(_drawCount<9?0:_drawCount-8):_drawCount);
+            var whole=(_cellIndex<wholeEffects.size() && wholeEffects[_cellIndex]) || (effect && !grade && _record[:rectangles].size()==1);
+            var count=effect && (grade || whole || _drawCount<9)?9:1;
+            var logical=grade || whole?_drawCount/count:(effect?(_drawCount<9?0:_drawCount-8):_drawCount);
             var height=Graphics.getFontHeight(font);
             var metrics=logical==1?FontMetrics.numeric(height):FontMetrics.label(height);
             var ink=FontMetrics.bounds(text,metrics);
@@ -248,8 +249,9 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         var record=dc.records[i];var value=snapshot[:values][i];
         var night=(baseNight==1)!=(cells[i][:enlarged] && inverse==1);
         var radius=value[:band]!=null || value[:angle]!=null?1:0;
-        var labelEffect=value[:band]!=null && value[:angle]==null;
-        var expectedBackground=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
+        var whole=value[:band]!=null && value[:angle]==null && renderer.coverage(value)==2;
+        var labelEffect=value[:band]!=null && value[:angle]==null && !whole;
+        var expectedBackground=whole?renderer.color(value[:band]):(night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE);
         var ordinaryForeground=night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
         Test.assertEqual(expectedBackground,record[:background]);
         Test.assertEqual(labelEffect?2:1,record[:rectangles].size()); // Cell plus optional label band; no text panels.
@@ -273,13 +275,14 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         Test.assertEqual(value[:label],texts[0][:text]);
         Test.assertEqual(record[:y]+3,texts[0][:y]);
         Test.assertEqual(renderer._runs[i].text,texts[1][:text]);
-        var headerBackground=labelEffect?renderer.color(value[:band]):expectedBackground;
+        var headerBackground=labelEffect || whole?renderer.color(value[:band]):expectedBackground;
         Test.assert(texts[0][:color]!=headerBackground);
-        var headerDark=labelEffect?("yellow".equals(value[:band]) || "cyan".equals(value[:band]) ||
+        var headerDark=labelEffect || whole?("yellow".equals(value[:band]) || "cyan".equals(value[:band]) ||
             "white".equals(value[:band]) || "green".equals(value[:band]) || "light_gray".equals(value[:band])):!night;
         Test.assertEqual(headerDark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,texts[0][:color]);
-        Test.assertEqual(ordinaryForeground,texts[1][:color]);
-        if(texts.size()==3) { Test.assertEqual(ordinaryForeground,texts[2][:color]); }
+        var expectedValue=whole?(headerDark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE):ordinaryForeground;
+        Test.assertEqual(expectedValue,texts[1][:color]);
+        if(texts.size()==3) { Test.assertEqual(expectedValue,texts[2][:color]); }
         Test.assertEqual(record[:h],texts[1][:clip][3]);
         if(labelEffect) {
             Test.assertEqual(record[:rectangles][1][3],texts[0][:clip][3]);
@@ -289,7 +292,7 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
             Test.assert(texts[1][:inkTop]>=record[:y]+record[:rectangles][1][3]);
             if(texts.size()==3) { Test.assert(texts[2][:inkTop]>=record[:y]+record[:rectangles][1][3]); }
         }
-        verifyGlyphHalo(record,radius,value[:angle]!=null);
+        verifyGlyphHalo(record,radius,value[:angle]!=null || whole);
         var inset=DeviceProfile.LABEL_SIZE==21?30:46;
         Test.assertEqual(inset,renderer._headerHeight);
         var center=record[:y]+inset+(record[:h]-inset)/2.0;
@@ -371,7 +374,7 @@ class ColoredFieldScenario {
         Test.assertEqual(cells.size(),renderer._runs.size());
         verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,align);
         for(var state=0;state<2;state+=1) {
-            properties["slot_1_background_effects"]=state==1;settings.apply(properties);
+            properties["slot_1_background_effects"]=state==1;properties["slot_1_background_mode"]=state==1?1:0;settings.apply(properties);
             snapshot=engine.prepareWithPreferences(state==1?{}:raw,settings,true,device,clock);
             if(state==0) { Test.assert(snapshot[:values][0][:band]==null); }
             else { Test.assertEqual((night==1)!=(big>0 && inverse==1)?"dark_gray":"light_gray",snapshot[:values][0][:band]); }
@@ -513,7 +516,7 @@ class NeutralBandScenario {
     function run() {
         for(var state=0;state<6;state+=1) {
             props["slot_1_value"]=state>=3?(state==5?"lap_speed":"grade"):"current_speed";
-            props["slot_1_background_effects"]=state!=2;
+            props["slot_1_background_effects"]=state!=2;props["slot_1_background_mode"]=state==2?0:(state==4?2:1);
             settings.apply(props);
             raw=state==1 || state==3?{}:{"current_speed"=>1,"grade"=>1,"lap_speed"=>1};
             snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());

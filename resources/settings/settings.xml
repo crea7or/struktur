@@ -29,9 +29,9 @@
     </setting>
     <setting propertyKey="@Properties.grid_type" title="@Strings.Setting_grid_type">
       <settingConfig type="list">
-        <listEntry value="0">@Strings.Choice_none</listEntry>
-        <listEntry value="1">@Strings.Choice_horizontal</listEntry>
-        <listEntry value="2">@Strings.Choice_full</listEntry>
+        <listEntry value="0">@Strings.Choice_grid_type_none</listEntry>
+        <listEntry value="1">@Strings.Choice_grid_type_horizontal</listEntry>
+        <listEntry value="2">@Strings.Choice_grid_type_full</listEntry>
       </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_1_value" title="@Strings.Setting_slot_1_value">
@@ -70,8 +70,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_1_background_effects" title="@Strings.Setting_slot_1_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_1_background_mode" title="@Strings.Setting_slot_1_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_1_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_1_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_1_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_2_value" title="@Strings.Setting_slot_2_value">
       <settingConfig type="list">
@@ -109,8 +113,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_2_background_effects" title="@Strings.Setting_slot_2_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_2_background_mode" title="@Strings.Setting_slot_2_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_2_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_2_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_2_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_3_value" title="@Strings.Setting_slot_3_value">
       <settingConfig type="list">
@@ -148,8 +156,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_3_background_effects" title="@Strings.Setting_slot_3_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_3_background_mode" title="@Strings.Setting_slot_3_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_3_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_3_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_3_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_4_value" title="@Strings.Setting_slot_4_value">
       <settingConfig type="list">
@@ -187,8 +199,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_4_background_effects" title="@Strings.Setting_slot_4_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_4_background_mode" title="@Strings.Setting_slot_4_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_4_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_4_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_4_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_5_value" title="@Strings.Setting_slot_5_value">
       <settingConfig type="list">
@@ -226,8 +242,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_5_background_effects" title="@Strings.Setting_slot_5_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_5_background_mode" title="@Strings.Setting_slot_5_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_5_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_5_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_5_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_6_value" title="@Strings.Setting_slot_6_value">
       <settingConfig type="list">
@@ -265,8 +285,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_6_background_effects" title="@Strings.Setting_slot_6_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_6_background_mode" title="@Strings.Setting_slot_6_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_6_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_6_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_6_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_7_value" title="@Strings.Setting_slot_7_value">
       <settingConfig type="list">
@@ -304,8 +328,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_7_background_effects" title="@Strings.Setting_slot_7_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_7_background_mode" title="@Strings.Setting_slot_7_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_7_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_7_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_7_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_8_value" title="@Strings.Setting_slot_8_value">
       <settingConfig type="list">
@@ -343,8 +371,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_8_background_effects" title="@Strings.Setting_slot_8_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_8_background_mode" title="@Strings.Setting_slot_8_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_8_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_8_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_8_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_9_value" title="@Strings.Setting_slot_9_value">
       <settingConfig type="list">
@@ -382,8 +414,12 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_9_background_effects" title="@Strings.Setting_slot_9_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_9_background_mode" title="@Strings.Setting_slot_9_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_9_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_9_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_9_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <setting propertyKey="@Properties.slot_10_value" title="@Strings.Setting_slot_10_value">
       <settingConfig type="list">
@@ -421,17 +457,21 @@
         <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
       </settingConfig>
     </setting>
-    <setting propertyKey="@Properties.slot_10_background_effects" title="@Strings.Setting_slot_10_background_effects">
-      <settingConfig type="boolean" />
+    <setting propertyKey="@Properties.slot_10_background_mode" title="@Strings.Setting_slot_10_background_mode">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_slot_10_background_mode_0</listEntry>
+        <listEntry value="1">@Strings.Choice_slot_10_background_mode_1</listEntry>
+        <listEntry value="2">@Strings.Choice_slot_10_background_mode_2</listEntry>
+      </settingConfig>
     </setting>
     <group id="second_field_set" title="@Strings.SecondSetTitle" description="@Strings.SecondSetDescription">
       <setting propertyKey="@Properties.second_set_trigger" title="@Strings.Setting_second_set_trigger" prompt="@Strings.Prompt_second_set_trigger">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_trigger_none</listEntry>
-          <listEntry value="1">@Strings.Choice_trigger_power_3s</listEntry>
-          <listEntry value="2">@Strings.Choice_trigger_heart_rate</listEntry>
-          <listEntry value="3">@Strings.Choice_trigger_manual_lap</listEntry>
-          <listEntry value="4">@Strings.Choice_trigger_workout</listEntry>
+          <listEntry value="0">@Strings.Choice_second_set_trigger_trigger_none</listEntry>
+          <listEntry value="1">@Strings.Choice_second_set_trigger_trigger_power_3s</listEntry>
+          <listEntry value="2">@Strings.Choice_second_set_trigger_trigger_heart_rate</listEntry>
+          <listEntry value="3">@Strings.Choice_second_set_trigger_trigger_manual_lap</listEntry>
+          <listEntry value="4">@Strings.Choice_second_set_trigger_trigger_workout</listEntry>
         </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_power_activate_w" title="@Strings.Setting_second_power_activate_w" prompt="@Strings.Prompt_second_power_activate_w">
@@ -474,9 +514,9 @@
       </setting>
       <setting propertyKey="@Properties.second_grid_type" title="@Strings.Setting_second_grid_type">
         <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_none</listEntry>
-          <listEntry value="1">@Strings.Choice_horizontal</listEntry>
-          <listEntry value="2">@Strings.Choice_full</listEntry>
+          <listEntry value="0">@Strings.Choice_second_grid_type_none</listEntry>
+          <listEntry value="1">@Strings.Choice_second_grid_type_horizontal</listEntry>
+          <listEntry value="2">@Strings.Choice_second_grid_type_full</listEntry>
         </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_1_value" title="@Strings.Setting_second_slot_1_value">
@@ -515,8 +555,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_1_background_effects" title="@Strings.Setting_second_slot_1_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_1_background_mode" title="@Strings.Setting_second_slot_1_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_1_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_1_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_1_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_2_value" title="@Strings.Setting_second_slot_2_value">
         <settingConfig type="list">
@@ -554,8 +598,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_2_background_effects" title="@Strings.Setting_second_slot_2_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_2_background_mode" title="@Strings.Setting_second_slot_2_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_2_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_2_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_2_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_3_value" title="@Strings.Setting_second_slot_3_value">
         <settingConfig type="list">
@@ -593,8 +641,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_3_background_effects" title="@Strings.Setting_second_slot_3_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_3_background_mode" title="@Strings.Setting_second_slot_3_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_3_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_3_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_3_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_4_value" title="@Strings.Setting_second_slot_4_value">
         <settingConfig type="list">
@@ -632,8 +684,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_4_background_effects" title="@Strings.Setting_second_slot_4_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_4_background_mode" title="@Strings.Setting_second_slot_4_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_4_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_4_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_4_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_5_value" title="@Strings.Setting_second_slot_5_value">
         <settingConfig type="list">
@@ -671,8 +727,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_5_background_effects" title="@Strings.Setting_second_slot_5_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_5_background_mode" title="@Strings.Setting_second_slot_5_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_5_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_5_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_5_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_6_value" title="@Strings.Setting_second_slot_6_value">
         <settingConfig type="list">
@@ -710,8 +770,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_6_background_effects" title="@Strings.Setting_second_slot_6_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_6_background_mode" title="@Strings.Setting_second_slot_6_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_6_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_6_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_6_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_7_value" title="@Strings.Setting_second_slot_7_value">
         <settingConfig type="list">
@@ -749,8 +813,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_7_background_effects" title="@Strings.Setting_second_slot_7_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_7_background_mode" title="@Strings.Setting_second_slot_7_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_7_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_7_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_7_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_8_value" title="@Strings.Setting_second_slot_8_value">
         <settingConfig type="list">
@@ -788,8 +856,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_8_background_effects" title="@Strings.Setting_second_slot_8_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_8_background_mode" title="@Strings.Setting_second_slot_8_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_8_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_8_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_8_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_9_value" title="@Strings.Setting_second_slot_9_value">
         <settingConfig type="list">
@@ -827,8 +899,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_9_background_effects" title="@Strings.Setting_second_slot_9_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_9_background_mode" title="@Strings.Setting_second_slot_9_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_9_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_9_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_9_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
       <setting propertyKey="@Properties.second_slot_10_value" title="@Strings.Setting_second_slot_10_value">
         <settingConfig type="list">
@@ -866,8 +942,12 @@
           <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
         </settingConfig>
       </setting>
-      <setting propertyKey="@Properties.second_slot_10_background_effects" title="@Strings.Setting_second_slot_10_background_effects">
-        <settingConfig type="boolean" />
+      <setting propertyKey="@Properties.second_slot_10_background_mode" title="@Strings.Setting_second_slot_10_background_mode">
+        <settingConfig type="list">
+          <listEntry value="0">@Strings.Choice_second_slot_10_background_mode_0</listEntry>
+          <listEntry value="1">@Strings.Choice_second_slot_10_background_mode_1</listEntry>
+          <listEntry value="2">@Strings.Choice_second_slot_10_background_mode_2</listEntry>
+        </settingConfig>
       </setting>
     </group>
   </settings>

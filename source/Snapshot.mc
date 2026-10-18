@@ -169,7 +169,7 @@ class SnapshotEngine {
             if(d.style==1) { d.hour=hour;d.minute=minute;d.clock24=clock24;d.hasSample=hasSample; }
             formatBuilds+=1;
             }
-            var band=null; var angle=null;
+            var band=null; var angle=null;var coverage=settings.modes[i];
             if(settings.effects[i] && value!=null && d.effect!=0) {
                 var bounds=d.effect==3?_hrZones:(d.effect==4?_powerZones:null);
                 if(!d.effectReady || d.effectReading!=reading || d.effectBounds!=bounds) {
@@ -179,7 +179,7 @@ class SnapshotEngine {
                     else { d.effectBand=Effects.zoneColor(zone(d.zoneChannel,reading)); }
                     d.effectReady=true;d.effectReading=reading;d.effectBounds=bounds;effectBuilds+=1;
                 }
-                band=d.effectBand;angle=d.effectAngle;
+                band=d.effectBand;angle=coverage==2?d.effectAngle:null;
             }
             // Valid semantic effects win; every enabled known field has a gray default.
             if(settings.effects[i] && d.index!=null && band==null) {
@@ -188,8 +188,8 @@ class SnapshotEngine {
             }
             var old=d.record;
             if(old==null || !sameText(old[:label],label) || !sameText(old[:text],text) || !sameText(old[:unit],unit) ||
-                !sameText(old[:expandedUnit],expandedUnit) || !sameText(old[:band],band) || old[:angle]!=angle) {
-                d.record={:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>d.format};
+                !sameText(old[:expandedUnit],expandedUnit) || !sameText(old[:band],band) || old[:angle]!=angle || old[:coverage]!=coverage) {
+                d.record={:label=>label,:text=>text,:unit=>unit,:expandedUnit=>expandedUnit,:band=>band,:angle=>angle,:format=>d.format,:coverage=>coverage};
                 recordBuilds+=1;
             }
             values.add(d.record); // Never mutate a record retained by an earlier snapshot.

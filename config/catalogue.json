@@ -439,7 +439,25 @@
     {
       "key": "slot_1_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_1_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 1: background coverage"
     },
     {
       "key": "slot_2_value",
@@ -517,7 +535,25 @@
     {
       "key": "slot_2_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_2_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 2: background coverage"
     },
     {
       "key": "slot_3_value",
@@ -595,7 +631,25 @@
     {
       "key": "slot_3_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_3_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 3: background coverage"
     },
     {
       "key": "slot_4_value",
@@ -673,7 +727,25 @@
     {
       "key": "slot_4_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_4_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 4: background coverage"
     },
     {
       "key": "slot_5_value",
@@ -751,7 +823,25 @@
     {
       "key": "slot_5_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_5_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 5: background coverage"
     },
     {
       "key": "slot_6_value",
@@ -829,7 +919,25 @@
     {
       "key": "slot_6_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_6_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 6: background coverage"
     },
     {
       "key": "slot_7_value",
@@ -907,7 +1015,25 @@
     {
       "key": "slot_7_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_7_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 7: background coverage"
     },
     {
       "key": "slot_8_value",
@@ -985,7 +1111,25 @@
     {
       "key": "slot_8_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_8_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 8: background coverage"
     },
     {
       "key": "slot_9_value",
@@ -1063,7 +1207,25 @@
     {
       "key": "slot_9_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_9_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 9: background coverage"
     },
     {
       "key": "slot_10_value",
@@ -1141,7 +1303,25 @@
     {
       "key": "slot_10_background_effects",
       "type": "boolean",
-      "default": false
+      "default": false,
+      "hidden": true
+    },
+    {
+      "key": "slot_10_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Field 10: background coverage"
     },
     {
       "key": "second_set_trigger",
@@ -1359,7 +1539,25 @@
       "key": "second_slot_1_background_effects",
       "type": "boolean",
       "default": true,
+      "hidden": true,
       "title": "Second set: Slot 1 background effects"
+    },
+    {
+      "key": "second_slot_1_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 1,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 1: background coverage"
     },
     {
       "key": "second_slot_2_value",
@@ -1439,7 +1637,25 @@
       "key": "second_slot_2_background_effects",
       "type": "boolean",
       "default": true,
+      "hidden": true,
       "title": "Second set: Slot 2 background effects"
+    },
+    {
+      "key": "second_slot_2_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 1,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 2: background coverage"
     },
     {
       "key": "second_slot_3_value",
@@ -1519,7 +1735,25 @@
       "key": "second_slot_3_background_effects",
       "type": "boolean",
       "default": true,
+      "hidden": true,
       "title": "Second set: Slot 3 background effects"
+    },
+    {
+      "key": "second_slot_3_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 1,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 3: background coverage"
     },
     {
       "key": "second_slot_4_value",
@@ -1599,7 +1833,25 @@
       "key": "second_slot_4_background_effects",
       "type": "boolean",
       "default": true,
+      "hidden": true,
       "title": "Second set: Slot 4 background effects"
+    },
+    {
+      "key": "second_slot_4_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 1,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 4: background coverage"
     },
     {
       "key": "second_slot_5_value",
@@ -1679,7 +1931,25 @@
       "key": "second_slot_5_background_effects",
       "type": "boolean",
       "default": false,
+      "hidden": true,
       "title": "Second set: Slot 5 background effects"
+    },
+    {
+      "key": "second_slot_5_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 5: background coverage"
     },
     {
       "key": "second_slot_6_value",
@@ -1759,7 +2029,25 @@
       "key": "second_slot_6_background_effects",
       "type": "boolean",
       "default": false,
+      "hidden": true,
       "title": "Second set: Slot 6 background effects"
+    },
+    {
+      "key": "second_slot_6_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 6: background coverage"
     },
     {
       "key": "second_slot_7_value",
@@ -1839,7 +2127,25 @@
       "key": "second_slot_7_background_effects",
       "type": "boolean",
       "default": false,
+      "hidden": true,
       "title": "Second set: Slot 7 background effects"
+    },
+    {
+      "key": "second_slot_7_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 7: background coverage"
     },
     {
       "key": "second_slot_8_value",
@@ -1919,7 +2225,25 @@
       "key": "second_slot_8_background_effects",
       "type": "boolean",
       "default": false,
+      "hidden": true,
       "title": "Second set: Slot 8 background effects"
+    },
+    {
+      "key": "second_slot_8_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 8: background coverage"
     },
     {
       "key": "second_slot_9_value",
@@ -1999,7 +2323,25 @@
       "key": "second_slot_9_background_effects",
       "type": "boolean",
       "default": false,
+      "hidden": true,
       "title": "Second set: Slot 9 background effects"
+    },
+    {
+      "key": "second_slot_9_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 9: background coverage"
     },
     {
       "key": "second_slot_10_value",
@@ -2079,7 +2421,31 @@
       "key": "second_slot_10_background_effects",
       "type": "boolean",
       "default": false,
+      "hidden": true,
       "title": "Second set: Slot 10 background effects"
+    },
+    {
+      "key": "second_slot_10_background_mode",
+      "type": "number",
+      "default": -1,
+      "factory_default": 0,
+      "choices": [
+        0,
+        1,
+        2
+      ],
+      "choice_labels": [
+        "None",
+        "Label",
+        "Whole cell"
+      ],
+      "title": "Second set: Field 10: background coverage"
+    },
+    {
+      "key": "settings_schema_version",
+      "type": "number",
+      "default": 0,
+      "hidden": true
     }
   ]
 }

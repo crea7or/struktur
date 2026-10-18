@@ -8,7 +8,7 @@ using Toybox.WatchUi;
 function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(57,SettingsCatalogue.keys().size());
+    Test.assertEqual(78,SettingsCatalogue.keys().size());
     Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
@@ -269,6 +269,7 @@ function approvedForegroundAndMetricWidths(logger) {
 // Fast normal native-area drawing cases; fallback belongs to PlacementTests.
 (:test)
 function normalPresentationDrawAndAlignment(logger) {
+    for(var modeCase=0;modeCase<24;modeCase+=1) { new CoverageScenario(modeCase).run(); }
     for(var bandCase=0;bandCase<24;bandCase+=1) { new EnlargedLabelScenario(bandCase).run(); }
     for(var night=0;night<2;night+=1) {
         for(var big=0;big<=2;big+=1) {
@@ -387,5 +388,36 @@ class EnlargedLabelScenario {
             Test.assertEqual(c[:y]+renderer._labelBandHeight,record[:texts][0][:clip][1]+record[:texts][0][:clip][3]);
             Test.assert(record[:texts][1][:inkTop]>=c[:y]+renderer._headerHeight);
         }
+    }
+}
+
+// Production snapshots and prepared packets: change coverage without sampling or layout changes.
+(:testSupport)
+class CoverageScenario {
+    var props;var settings;var engine;var snapshot;var renderer;var dc;var fits;var geometry;var old;
+    function initialize(index) {
+        props={"enlarged_field_count"=>index%3,"alignment"=>(index/3)%2,"theme_mode"=>(index/6)%2==1?2:1,
+            "slot_1_value"=>(index/12)%2==1?"grade":"elevation","slot_1_background_mode"=>1};
+        settings=new DisplaySettings();settings.apply(props);engine=new SnapshotEngine();renderer=new FieldRenderer();
+    }
+    function prepare() {
+        settings.apply(props);snapshot=engine.prepareWithPreferences({"elevation"=>123,"grade"=>3.4},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
+        renderer.prepare(snapshot);dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
+        for(var i=0;i<10;i+=1) { dc.paintEffects.add(snapshot[:values][i][:band]!=null);dc.wholeEffects.add(snapshot[:values][i][:coverage]==2); }
+        renderer.draw(dc,snapshot,settings);Test.assert(renderer._cells.size()>0);
+    }
+    function run() {
+        prepare();old=snapshot[:values][0];fits=renderer.fitCount;geometry=renderer.geometryBuilds;
+        Test.assert(renderer._packets[0].labelEffect);Test.assertEqual(1,dc.records[0][:rectangles].size()-1);
+        props["slot_1_background_mode"]=2;prepare();
+        Test.assertEqual(1,old[:coverage]);Test.assertEqual(2,snapshot[:values][0][:coverage]);
+        Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(fits,renderer.fitCount);Test.assert(!renderer._packets[0].labelEffect);
+        Test.assert(renderer._packets[0].primary[6]!=null);
+        if("grade".equals(settings.slots[0])) { Test.assert(snapshot[:values][0][:angle]!=null); }
+        else { Test.assertEqual(renderer.color(snapshot[:values][0][:band]),dc.records[0][:background]);Test.assertEqual(fits,renderer.fitCount); }
+        props["slot_1_background_mode"]=1;prepare();Test.assert(renderer._runs[0].labelBand>0);
+        Test.assert(snapshot[:values][0][:angle]==null);Test.assert(renderer._packets[0].labelEffect);
+        props["slot_1_background_mode"]=0;prepare();Test.assert(snapshot[:values][0][:band]==null);
+        Test.assertEqual(1,dc.records[0][:rectangles].size());Test.assertEqual(geometry,renderer.geometryBuilds);
     }
 }

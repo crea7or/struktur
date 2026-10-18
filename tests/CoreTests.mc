@@ -119,6 +119,7 @@ function typedSettingsAndHiddenSlots(logger) {
         }
     }
     verifyEffectDefaultContract();
+    verifyBackgroundMigration();
     return true;
 }
 

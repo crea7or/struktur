@@ -74,7 +74,8 @@ def main():
            dict(key='grid_type',type='number',default=1,choices=[0,1,2],identifiers=['none','horizontal','full'],choice_labels=['None','Horizontal lines','Full grid'],title='Grid type')]
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields]),
-                      dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False)])
+                      dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False,hidden=True),
+                      dict(key=f'slot_{i+1}_background_mode',type='number',default=-1,factory_default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Field {i+1}: background coverage')])
     first_props=list(props)
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
                    identifiers=['trigger_none','trigger_power_3s','trigger_heart_rate','trigger_manual_lap','trigger_workout'],
@@ -88,10 +89,13 @@ def main():
         second=dict(p,key='second_'+p['key'],title='Second set: '+p.get('title',p['key'].replace('_',' ').capitalize()))
         slot=re.fullmatch(r'slot_(\d+)_value',p['key'])
         effect=re.fullmatch(r'slot_(\d+)_background_effects',p['key'])
+        coverage=re.fullmatch(r'slot_(\d+)_background_mode',p['key'])
         if p['key']=='enlarged_field_count':second['default']=1
         elif slot:second['default']=[f['id'] for f in fields].index(SECOND_DEFAULTS[int(slot[1])-1])
         elif effect:second['default']=int(effect[1])<=4
+        elif coverage:second['factory_default']=1 if int(coverage[1])<=4 else 0
         props.append(second)
+    props.append(dict(key='settings_schema_version',type='number',default=0,hidden=True))
     (ROOT/'config/catalogue.json').write_text(json.dumps(dict(language='eng',status='full-capacity APP-20 layouts; APP-31 defines all ten defaults; SDK numeric mappings remain recorded implementation choices',fields=fields,properties=props),indent=2)+'\n',encoding='utf-8')
     resources=ET.Element('resources'); strings=ET.SubElement(resources,'strings')
     ET.SubElement(strings,'string',id='AppName').text='Struktur'
@@ -105,6 +109,7 @@ def main():
         if p['key']=='second_set_trigger':
             second_group=ET.SubElement(settings,'group',id='second_field_set',title='@Strings.SecondSetTitle',description='@Strings.SecondSetDescription')
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])
+        if p.get('hidden'):continue
         sid='Setting_'+p['key']; ET.SubElement(strings,'string',id=sid).text=p.get('title',p['key'].replace('_',' ').capitalize())
         setting=ET.SubElement(second_group if second_group is not None else settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
         if p.get('prompt'):
@@ -114,7 +119,7 @@ def main():
         if 'min' in p:config.set('min',str(p['min']));config.set('max',str(p['max']))
         for index,value in enumerate(p.get('choices',[])):
             identifier=p.get('identifiers',p.get('choices',[]))[index]
-            label='Choice_'+str(identifier)
+            label='Choice_'+(p['key']+'_' if p.get('choice_labels') else '')+str(identifier)
             field=next((f for f in fields if f['id']==identifier),None)
             if not any(s.attrib.get('id')==label for s in strings):ET.SubElement(strings,'string',id=label).text=p.get('choice_labels',[])[index] if p.get('choice_labels') else (field['label'] if field else str(identifier).replace('_',' ').capitalize())
             ET.SubElement(config,'listEntry',value=str(value)).text='@Strings.'+label
