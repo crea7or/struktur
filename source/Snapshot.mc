@@ -40,7 +40,13 @@ class SnapshotDescriptor {
             else if("current_power".equals(id)) { zoneChannel=3; }
             else if("average_power".equals(id)) { zoneChannel=4; }
             else if("power_3s".equals(id)) { zoneChannel=5; }
-            if(zoneChannel>=0) { effect=zoneChannel<3?3:4; }
+            else if("lap_heart_rate".equals(id)) { zoneChannel=6; }
+            else if("lap_power".equals(id)) { zoneChannel=7; }
+            else if("current_cadence".equals(id)) { zoneChannel=8; }
+            else if("average_cadence".equals(id)) { zoneChannel=9; }
+            else if("lap_cadence".equals(id)) { zoneChannel=10; }
+            if(zoneChannel>=0) { effect=3; }
+            else if("heart_rate_zone".equals(id) || "power_zone".equals(id)) { effect=5; }
         }
     }
 }
@@ -59,12 +65,14 @@ class SnapshotEngine {
     var headerBuilds=0;
     var formatBuilds=0;
     var recordBuilds=0;var effectBuilds=0;var zoneBuilds=0;
-    // Six fixed channels share results across duplicate slots and numeric zone fields.
-    var _zoneReadings=new [6];var _zoneBounds=new [6];var _zoneResults=new [6];var _zoneReady=[false,false,false,false,false,false];
+    // Eleven fixed channels share results across duplicate slots and numeric zone fields.
+    var _zoneReadings=new [11];var _zoneBounds=new [11];var _zoneResults=new [11];var _zoneReady=[false,false,false,false,false,false,false,false,false,false,false];
+    var _cadenceZones=null;
+    function boundsFor(channel) { return channel>=8?_cadenceZones:(channel<3 || channel==6?_hrZones:_powerZones); }
     function zone(channel,value) {
-        var bounds=channel<3?_hrZones:_powerZones;
+        var bounds=boundsFor(channel);
         if(!_zoneReady[channel] || _zoneReadings[channel]!=value || _zoneBounds[channel]!=bounds) {
-            _zoneResults[channel]=ZoneMetadata.classifyValidated(value,bounds);
+            _zoneResults[channel]=channel>=8?CadenceZones.classify(value,bounds):ZoneMetadata.classifyValidated(value,bounds);
             _zoneReadings[channel]=value;_zoneBounds[channel]=bounds;_zoneReady[channel]=true;zoneBuilds+=1;
         }
         return _zoneResults[channel];
@@ -132,6 +140,7 @@ class SnapshotEngine {
         var minute=clock!=null && clock has :min?clock.min:null;
         var configure=_configuration!=settings || _configurationRevision!=settings.revision ||
             _distanceStatute!=distanceStatute || _elevationStatute!=elevationStatute || _temperatureStatute!=temperatureStatute;
+        _cadenceZones=settings.cadenceBounds;
         var values=[] as Lang.Array;
         for(var i=0;i<10;i+=1) {
             var d=configure?descriptor(i,settings.slots[i],settings.hideValueUnits,distanceStatute,elevationStatute,temperatureStatute):_descriptors[i];
@@ -171,11 +180,12 @@ class SnapshotEngine {
             }
             var band=null; var angle=null;var coverage=settings.modes[i];
             if(settings.effects[i] && value!=null && d.effect!=0) {
-                var bounds=d.effect==3?_hrZones:(d.effect==4?_powerZones:null);
+                var bounds=d.zoneChannel>=0?boundsFor(d.zoneChannel):(d.effect==5?("heart_rate_zone".equals(d.id)?_hrZones:_powerZones):null);
                 if(!d.effectReady || d.effectReading!=reading || d.effectBounds!=bounds) {
                     d.effectBand=null;d.effectAngle=null;
                     if(d.effect==1) { d.effectBand=Effects.gradeBand(reading);d.effectAngle=Effects.horizonAngle(reading); }
                     else if(d.effect==2) { d.effectBand=Effects.temperatureBand(reading); }
+                    else if(d.effect==5) { d.effectBand=bounds!=null && reading instanceof Lang.Number && reading<bounds.size()?Effects.zoneColor(reading):null; }
                     else { d.effectBand=Effects.zoneColor(zone(d.zoneChannel,reading)); }
                     d.effectReady=true;d.effectReading=reading;d.effectBounds=bounds;effectBuilds+=1;
                 }

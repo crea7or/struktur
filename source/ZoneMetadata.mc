@@ -29,3 +29,27 @@ module ZoneMetadata {
         return Numeric.finite(value) && value>=0?Effects.zone(Numeric.whole(value),bounds,true):null;
     }
 }
+
+// Four saved upper bounds, validated only when configuration is applied.
+module CadenceZones {
+    function same(a,b) {
+        if(a==b) { return true; } if(a==null || b==null) { return false; }
+        for(var i=0;i<4;i+=1) { if(a[i]!=b[i]) { return false; } } return true;
+    }
+    function configured(values) {
+        var defaults=[60,80,100,120];var result=[];
+        for(var i=0;i<4;i+=1) {
+            var key="cadence_zone_"+(i+1).toString()+"_max_rpm";
+            var value=values.hasKey(key)?values[key]:defaults[i];
+            if(!(value instanceof Lang.Number) || value<0 || value>300 || (i>0 && value<=result[i-1])) { return null; }
+            result.add(value);
+        }
+        return result;
+    }
+    function classify(value,bounds) {
+        if(!Numeric.finite(value) || value<0 || bounds==null) { return null; }
+        var whole=Numeric.whole(value);
+        for(var i=0;i<4;i+=1) { if(whole<=bounds[i]) { return i+1; } }
+        return 5;
+    }
+}

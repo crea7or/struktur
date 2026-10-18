@@ -306,7 +306,7 @@ class FieldRenderer {
         var whole=flat && mode==2;
         var labelEffect=flat && mode==1;
         run.labelBand=labelEffect?_labelBandHeight:0;
-        var darkText=!flat?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]));
+        var darkText=!flat?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]) || "magenta".equals(v[:band]));
         var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
         var valueForeground=whole?headerForeground:(night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK);
         var radius=v[:angle]!=null || whole?run.radius:0;
@@ -365,6 +365,7 @@ class FieldRenderer {
         }
     }
     function color(name) {
+        if("magenta".equals(name)) { return 0xFF00FF; }
         if("light_gray".equals(name)) { return 0xCCCCCC; } if("dark_gray".equals(name)) { return 0x333333; }
         if("blue".equals(name)) { return Graphics.COLOR_BLUE; } if("green".equals(name)) { return Graphics.COLOR_GREEN; }
         if("yellow".equals(name)) { return Graphics.COLOR_YELLOW; } if("orange".equals(name)) { return Graphics.COLOR_ORANGE; }

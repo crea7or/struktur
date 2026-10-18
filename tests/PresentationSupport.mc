@@ -278,7 +278,7 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
         var headerBackground=labelEffect || whole?renderer.color(value[:band]):expectedBackground;
         Test.assert(texts[0][:color]!=headerBackground);
         var headerDark=labelEffect || whole?("yellow".equals(value[:band]) || "cyan".equals(value[:band]) ||
-            "white".equals(value[:band]) || "green".equals(value[:band]) || "light_gray".equals(value[:band])):!night;
+            "white".equals(value[:band]) || "green".equals(value[:band]) || "light_gray".equals(value[:band]) || "magenta".equals(value[:band])):!night;
         Test.assertEqual(headerDark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,texts[0][:color]);
         var expectedValue=whole?(headerDark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE):ordinaryForeground;
         Test.assertEqual(expectedValue,texts[1][:color]);
@@ -433,7 +433,7 @@ function normalDisplayRaw(index,displayed,statute) {
 // APP-49/DVS-6: classify all fields, then exercise neutral repaint transitions.
 (:testSupport)
 function verifyNeutralLabelBands() {
-    var custom=[4,5,7,8,9,15,20,25];
+    var custom=[2,3,4,5,6,7,8,9,10,15,20,25,29,30,31];
     var engine=new SnapshotEngine();var settings=new DisplaySettings();
     for(var index=0;index<Catalog.IDS.size();index+=1) {
         var expectedCustom=false;

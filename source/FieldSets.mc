@@ -21,6 +21,7 @@ class FieldSetsSettings {
     }
     function apply(values) {
         primary.applyBank(values,"");secondary.applyBank(values,"second_");
+        secondary.cadenceBounds=primary.cadenceBounds;
         trigger=integer(values,"second_set_trigger",0,4,3);
         powerActivate=integer(values,"second_power_activate_w",1,3000,250);
         powerReturn=integer(values,"second_power_return_w",1,3000,220);

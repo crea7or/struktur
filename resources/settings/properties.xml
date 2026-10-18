@@ -37,6 +37,10 @@
     <property id="slot_10_value" type="number">20</property>
     <property id="slot_10_background_effects" type="boolean">false</property>
     <property id="slot_10_background_mode" type="number">-1</property>
+    <property id="cadence_zone_1_max_rpm" type="number">60</property>
+    <property id="cadence_zone_2_max_rpm" type="number">80</property>
+    <property id="cadence_zone_3_max_rpm" type="number">100</property>
+    <property id="cadence_zone_4_max_rpm" type="number">120</property>
     <property id="second_set_trigger" type="number">3</property>
     <property id="second_power_activate_w" type="number">250</property>
     <property id="second_power_return_w" type="number">220</property>

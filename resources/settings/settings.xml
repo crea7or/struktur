@@ -464,6 +464,20 @@
         <listEntry value="2">@Strings.Choice_slot_10_background_mode_2</listEntry>
       </settingConfig>
     </setting>
+    <group id="cadence_zones" title="@Strings.CadenceZonesTitle">
+      <setting propertyKey="@Properties.cadence_zone_1_max_rpm" title="@Strings.Setting_cadence_zone_1_max_rpm" prompt="@Strings.Prompt_cadence_zone_1_max_rpm">
+        <settingConfig type="numeric" min="0" max="300" />
+      </setting>
+      <setting propertyKey="@Properties.cadence_zone_2_max_rpm" title="@Strings.Setting_cadence_zone_2_max_rpm" prompt="@Strings.Prompt_cadence_zone_2_max_rpm">
+        <settingConfig type="numeric" min="0" max="300" />
+      </setting>
+      <setting propertyKey="@Properties.cadence_zone_3_max_rpm" title="@Strings.Setting_cadence_zone_3_max_rpm" prompt="@Strings.Prompt_cadence_zone_3_max_rpm">
+        <settingConfig type="numeric" min="0" max="300" />
+      </setting>
+      <setting propertyKey="@Properties.cadence_zone_4_max_rpm" title="@Strings.Setting_cadence_zone_4_max_rpm" prompt="@Strings.Prompt_cadence_zone_4_max_rpm">
+        <settingConfig type="numeric" min="0" max="300" />
+      </setting>
+    </group>
     <group id="second_field_set" title="@Strings.SecondSetTitle" description="@Strings.SecondSetDescription">
       <setting propertyKey="@Properties.second_set_trigger" title="@Strings.Setting_second_set_trigger" prompt="@Strings.Prompt_second_set_trigger">
         <settingConfig type="list">

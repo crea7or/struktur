@@ -1324,6 +1324,42 @@
       "title": "Field 10: background coverage"
     },
     {
+      "key": "cadence_zone_1_max_rpm",
+      "type": "number",
+      "default": 60,
+      "min": 0,
+      "max": 300,
+      "title": "Cadence zone 1: upper rpm",
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+    },
+    {
+      "key": "cadence_zone_2_max_rpm",
+      "type": "number",
+      "default": 80,
+      "min": 0,
+      "max": 300,
+      "title": "Cadence zone 2: upper rpm",
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+    },
+    {
+      "key": "cadence_zone_3_max_rpm",
+      "type": "number",
+      "default": 100,
+      "min": 0,
+      "max": 300,
+      "title": "Cadence zone 3: upper rpm",
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+    },
+    {
+      "key": "cadence_zone_4_max_rpm",
+      "type": "number",
+      "default": 120,
+      "min": 0,
+      "max": 300,
+      "title": "Cadence zone 4: upper rpm",
+      "prompt": "Four increasing upper bounds define five coloring zones; both field sets share these values."
+    },
+    {
       "key": "second_set_trigger",
       "type": "number",
       "default": 3,

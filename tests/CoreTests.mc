@@ -73,10 +73,11 @@ function exactEffectBands(logger) {
     var temperatures=[-10.01,-10,-9.5,0,0.1,10,10.1,20,20.1,30,30.1];
     var tempBands=["blue","blue","cyan","cyan","white","white","green","green","yellow","yellow","red"];
     for(var j=0;j<temperatures.size();j+=1) { Test.assertEqual(tempBands[j],Effects.temperatureBand(temperatures[j])); }
+    verifyColoringZones();
     Test.assert(Effects.temperatureBand(null)==null);Test.assert(Effects.gradeBand(null)==null);
     Test.assertEqual(45.0,Effects.horizonAngle(99));Test.assertEqual(-45.0,Effects.horizonAngle(-99));
     Test.assertEqual(10.0,Effects.horizonAngle(5));
-    Test.assertEqual("black",Effects.zoneColor(7));Test.assert(Effects.zoneColor(null)==null);
+    Test.assertEqual("magenta",Effects.zoneColor(7));Test.assert(Effects.zoneColor(null)==null);
     return true;
 }
 

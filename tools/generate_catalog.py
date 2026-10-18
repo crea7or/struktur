@@ -77,6 +77,7 @@ def main():
                       dict(key=f'slot_{i+1}_background_effects',type='boolean',default=False,hidden=True),
                       dict(key=f'slot_{i+1}_background_mode',type='number',default=-1,factory_default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Field {i+1}: background coverage')])
     first_props=list(props)
+    props += [dict(key=f'cadence_zone_{i}_max_rpm',type='number',default=value,min=0,max=300,title=f'Cadence zone {i}: upper rpm',prompt='Four increasing upper bounds define five coloring zones; both field sets share these values.') for i,value in enumerate([60,80,100,120],1)]
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
                    identifiers=['trigger_none','trigger_power_3s','trigger_heart_rate','trigger_manual_lap','trigger_workout'],
                    choice_labels=['None','3s power','Heart rate','Manual lap','Workout started'],title='Second field set - activation event',
@@ -104,8 +105,11 @@ def main():
     settings_root=ET.Element('resources'); settings=ET.SubElement(settings_root,'settings')
     ET.SubElement(strings,'string',id='SecondSetTitle').text='Second field set'
     ET.SubElement(strings,'string',id='SecondSetDescription').text='Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.'
+    ET.SubElement(strings,'string',id='CadenceZonesTitle').text='Cadence coloring zones'
     second_group=None
     for p in props:
+        if p['key']=='cadence_zone_1_max_rpm':
+            second_group=ET.SubElement(settings,'group',id='cadence_zones',title='@Strings.CadenceZonesTitle')
         if p['key']=='second_set_trigger':
             second_group=ET.SubElement(settings,'group',id='second_field_set',title='@Strings.SecondSetTitle',description='@Strings.SecondSetDescription')
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])

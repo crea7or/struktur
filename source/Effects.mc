@@ -2,11 +2,13 @@ using Toybox.Math;
 using Toybox.Lang;
 // DVS-43/44 use the canonical rounded grade; DVS-49 uses raw Celsius.
 module Effects {
-    const ZONE_COLORS=["blue","green","yellow","orange","red","dark_red"];
+    const ZONE_COLORS=["blue","green","yellow","orange","red"];
     function hasCustomBackground(id) {
         return "grade".equals(id) || "temperature".equals(id) ||
             "current_heart_rate".equals(id) || "average_heart_rate".equals(id) || "heart_rate_3s".equals(id) ||
-            "current_power".equals(id) || "average_power".equals(id) || "power_3s".equals(id);
+            "current_power".equals(id) || "average_power".equals(id) || "power_3s".equals(id) ||
+            "lap_heart_rate".equals(id) || "lap_power".equals(id) || "current_cadence".equals(id) ||
+            "average_cadence".equals(id) || "lap_cadence".equals(id) || "heart_rate_zone".equals(id) || "power_zone".equals(id);
     }
     function gradeBand(g) {
         if (!Numeric.finite(g)) { return null; }
@@ -23,8 +25,8 @@ module Effects {
     }
     function horizonAngle(g) { return Numeric.finite(g) ? Numeric.clamp(2.0 * g, -45.0, 45.0) : null; }
     function zoneColor(zone) {
-        if (zone == null || zone < 1) { return null; }
-        return zone > 6 ? "black" : ZONE_COLORS[zone - 1];
+        if (!(zone instanceof Lang.Number) || zone < 1) { return null; }
+        return zone > 5 ? "magenta" : ZONE_COLORS[zone - 1];
     }
     // Zone equality requires a reviewed policy; no inferred FTP thresholds.
     function zone(value, thresholds, upperInclusive) {

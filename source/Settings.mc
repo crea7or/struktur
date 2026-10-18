@@ -9,6 +9,7 @@ class DisplaySettings {
     var slots;
     var effects;
     var modes;
+    var cadenceBounds=[60,80,100,120];
     var hideValueUnits;
     var inverseEnlargedTheme;
     var gridType;
@@ -32,7 +33,8 @@ class DisplaySettings {
         var value=get(values,key); return value instanceof Lang.Boolean ? value : true;
     }
     function apply(values as Lang.Dictionary) {
-        revision+=1;
+        revision+=1;var nextBounds=CadenceZones.configured(values);
+        if(!CadenceZones.same(cadenceBounds,nextBounds)) { cadenceBounds=nextBounds; }
         // Retired field_count and use_units_as_labels are ignored. APP-20 derives the count
         // from measured rows and the selected number of enlarged top fields.
         var second="second_".equals(_prefix);

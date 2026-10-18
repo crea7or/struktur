@@ -165,3 +165,44 @@ function verifyBackgroundMigration() {
         Test.assertEqual(invalid[j],props["second_slot_1_background_mode"]);
     }
 }
+
+(:testSupport)
+function verifyColoringZones() {
+    var bounds=CadenceZones.configured({});var cases=[[0,1],[60.49,1],[60.5,2],[80,2],[81,3],[100,3],[101,4],[120,4],[121,5]];
+    for(var i=0;i<cases.size();i+=1) { Test.assertEqual(cases[i][1],CadenceZones.classify(cases[i][0],bounds)); }
+    Test.assert(CadenceZones.classify(-1,bounds)==null);Test.assert(CadenceZones.classify(null,bounds)==null);
+    Test.assert(CadenceZones.classify(Math.acos(2.0),bounds)==null);
+    var invalid=[-1,301,80,true,"60",60.0,null];
+    for(var j=0;j<invalid.size();j+=1) { Test.assert(CadenceZones.configured({"cadence_zone_1_max_rpm"=>invalid[j]})==null); }
+    var colors=["blue","green","yellow","orange","red","magenta"];
+    var rgb=[0x00AAFF,0x00FF00,0xFFAA00,0xFF5500,0xFF0000,0xFF00FF];var renderer=new FieldRenderer();
+    for(var z=1;z<=6;z+=1) { Test.assertEqual(colors[z-1],Effects.zoneColor(z));Test.assertEqual(rgb[z-1],renderer.color(colors[z-1])); }
+    Test.assertEqual("magenta",Effects.zoneColor(10));Test.assert(Effects.zoneColor(1.0)==null);
+    new ZoneFamilyScenario().run();
+}
+(:testSupport)
+class ZoneFamilyScenario {
+    var engine;var settings;var props={};var raw;var snapshot;var old;var builds;
+    function initialize() {
+        engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([0,100,120,140,160,200]);
+        engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);
+        settings=new DisplaySettings();
+    }
+    function sample() { settings.apply(props);snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,false),null); }
+    function run() {
+        var ids=["current_heart_rate","heart_rate_3s","average_heart_rate","lap_heart_rate","current_power","power_3s","average_power","lap_power","current_cadence","average_cadence","lap_cadence","heart_rate_zone","power_zone"];
+        var readings=[90,110,130,150,50,150,250,650,60,81,121,2,7];
+        var colors=["blue","green","yellow","orange","blue","green","yellow","magenta","blue","yellow","red","green","magenta"];
+        for(var i=0;i<ids.size();i+=1) {
+            props={"slot_1_value"=>ids[i],"slot_2_value"=>ids[i],"slot_1_background_mode"=>1,"slot_2_background_mode"=>2};raw={};raw[ids[i]]=readings[i];sample();
+            Test.assertEqual(colors[i],snapshot[:values][0][:band]);Test.assertEqual(colors[i],snapshot[:values][1][:band]);
+            old=snapshot;builds=engine.zoneBuilds;sample();Test.assertEqual(builds,engine.zoneBuilds);
+            Test.assert(old[:values][0]==snapshot[:values][0]);
+        }
+        engine._powerZones=null;sample();Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("7",snapshot[:values][0][:text]);
+        props={"slot_1_value"=>"current_cadence","slot_1_background_mode"=>1,"cadence_zone_1_max_rpm"=>200};raw={"current_cadence"=>70};sample();
+        Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("70",snapshot[:values][0][:text]);
+        props["cadence_zone_1_max_rpm"]=60;sample();Test.assertEqual("green",snapshot[:values][0][:band]);
+        var banks=new FieldSetsSettings();banks.apply({});Test.assert(banks.primary.cadenceBounds==banks.secondary.cadenceBounds);
+    }
+}
