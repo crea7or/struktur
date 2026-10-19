@@ -1,6 +1,6 @@
 using Toybox.Lang;
 using Toybox.Math;
-// DVS-29: one bounded five-sample regression in producer metres/milliseconds.
+// DVS-29: one bounded five-distinct-distance regression in producer metres/milliseconds.
 class GradeEstimator {
     const CAPACITY=5;
     var _points as Lang.Array;
@@ -11,10 +11,27 @@ class GradeEstimator {
     var _progressTime as Lang.Numeric or Null;
     var _identity as Lang.Numeric or Null;
     var _value as Lang.Numeric or Null;
+    var _averages=[0.0d,0.0d,0.0d,0.0d,0.0d];
+    var _averageNext=0;
     function initialize() { _points=new [CAPACITY]; reset(); }
     function clearWindow() {
         for(var i=0;i<CAPACITY;i+=1) { _points[i]=null; }
-        _head=0; _count=0; _value=null;
+        _head=0; _count=0; _value=null; clearAverage();
+    }
+    function clearAverage() {
+        for(var i=0;i<CAPACITY;i+=1) { _averages[i]=0.0d; }
+        _averageNext=0;
+    }
+    // Missing startup estimates contribute zero; the divisor remains five.
+    function average(value) {
+        if(!Numeric.finite(value) || !Numeric.finite(value*100.0d)) { clearAverage();return null; }
+        _averages[_averageNext]=Numeric.whole(value*100.0d);_averageNext=(_averageNext+1)%CAPACITY;
+        var sum=0.0d;
+        for(var i=0;i<CAPACITY;i+=1) { sum+=_averages[i]; }
+        if(!Numeric.finite(sum)) { clearAverage();return null; }
+        var rounded=Numeric.whole(sum/CAPACITY)/100.0d;
+        if(!Numeric.finite(rounded)) { clearAverage();return null; }
+        return rounded==0?0.0:rounded;
     }
     function reset() { clearWindow(); _lastTime=null; _lastDistance=null; _progressTime=null; _identity=null; }
     function point(index) { return _points[(_head+index)%CAPACITY]; }
@@ -54,10 +71,16 @@ class GradeEstimator {
         _lastTime=elapsedMs;_lastDistance=distance;
         // Keep progress metadata while stalled; stationary updates cannot re-seed zero.
         if(elapsedMs-_progressTime>=3000) { clearWindow();return null; }
+        // One point per distinct distance; stationary altitude updates do not advance either window.
+        // Keep the admission time: replacement must not consume this second's moving sample.
+        if(_count>0 && distance==point(_count-1)[0]) {
+            point(_count-1)[1]=altitude;
+            return _value;
+        }
         if(_count>0 && Math.floor(point(_count-1)[2]/1000.0)==Math.floor(elapsedMs/1000.0)) { return _value; }
         if(_count==CAPACITY) { discardOldest(); }
         _points[(_head+_count)%CAPACITY]=[distance,altitude,elapsedMs]; _count+=1;
-        _value=estimate();
+        _value=average(estimate());
         return _value;
     }
 }

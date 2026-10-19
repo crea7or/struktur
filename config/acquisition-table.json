@@ -397,16 +397,16 @@
   {
     "identifier": "grade",
     "requirement": "DVS-29",
-    "version": 161,
-    "source": "DVS-29: five-sample least-squares altitude/distance regression; publish each canonical two-decimal grade immediately.",
+    "version": 165,
+    "source": "DVS-29: least-squares regression over up to five distinct distances, using the latest altitude at each, followed by a zero-initialized five-estimate mean.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
     "raw_unit": "percent",
-    "validity": "Valid running updates warm up at zero until three samples; invalid/discontinuous updates reset, no progress for 3s becomes unavailable until progress.",
+    "validity": "Three distinct altitude/distance pairs enable regression. At unchanged distance, replace only the newest altitude; preserve admission time, point count, average cursor and last published value. Distance progress alone advances the regression/mean. Startup average slots contribute zero with fixed divisor five; invalid/stationary states remain unavailable.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Activity.Info.elapsedTime milliseconds; optional startTime.value() identity.",
-    "normalization": "Normalize once in displayed units; precision and ranges follow this field contract. Effects use the two-decimal canonical regression grade before display rounding.",
-    "reset": "DVS-29 clears regression history/value on invalid or discontinuous input and lifecycle resets. Settings and visibility changes preserve regression history.",
+    "normalization": "Round each regression estimate to two decimals; average the latest five estimates including initial zero slots and round to two decimals. Effects use this canonical value before fixed one-decimal display rounding.",
+    "reset": "DVS-29 clears regression history/value and resets all five average slots to zero on invalid/discontinuous input and lifecycle resets. Settings and visibility changes preserve both histories.",
     "code": [
       "source/ActivityAcquisition.mc",
       "source/ActivityReader.mc",
@@ -417,7 +417,9 @@
       "gradeRegression",
       "gradeResetAndBounds",
       "acquisitionToSnapshot",
-      "acquisitionInvalidInputs"
+      "acquisitionInvalidInputs",
+      "gradeDistinctDistance",
+      "gradeRepeatedDistanceStartup"
     ],
     "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",
     "presentation_precision": 1,

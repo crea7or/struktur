@@ -34,7 +34,7 @@ def main():
     # requires every current requirement to be Approved for release/package.
     contracts=read('config/acquisition-contracts.json')
     assert contracts['requirement_revisions']=={k:by_id[k]['head_change_seq'] for k in ['DVS-29','DVS-34','DVS-39']}
-    assert contracts['grade']==dict(maximum_samples=5,minimum_regression_samples=3,warmup_grade=0,canonical_decimal_places=2,stationary_reset_s=3,maximum_sample_gap_ms=2000,display_decimal_places=1)
+    assert contracts['grade']==dict(maximum_samples=5,minimum_regression_samples=3,warmup_grade=0,canonical_decimal_places=2,stationary_reset_s=3,maximum_sample_gap_ms=2000,display_decimal_places=1,temporal_average_samples=5,temporal_average_initial_value=0,temporal_average_divisor=5,sample_basis='distinct_distance',same_distance='replace_latest_altitude_without_advancing_windows',replacement_preserves_admission_time=True)
     assert contracts['temperature']==dict(background_interval_s=300,maximum_read_cache_age_s=360,onboard_only=True,unverified_source='unavailable')
     supporting=read('requirements/supporting-approved-snapshot.json')
     support_baseline=read('requirements/supporting-approved-baseline.json')

@@ -1,6 +1,6 @@
 {
   "requirement_revisions": {
-    "DVS-29": 161,
+    "DVS-29": 165,
     "DVS-34": 162,
     "DVS-39": 121
   },
@@ -11,7 +11,13 @@
     "canonical_decimal_places": 2,
     "stationary_reset_s": 3,
     "maximum_sample_gap_ms": 2000,
-    "display_decimal_places": 1
+    "display_decimal_places": 1,
+    "temporal_average_samples": 5,
+    "temporal_average_initial_value": 0,
+    "temporal_average_divisor": 5,
+    "sample_basis": "distinct_distance",
+    "same_distance": "replace_latest_altitude_without_advancing_windows",
+    "replacement_preserves_admission_time": true
   },
   "temperature": {
     "background_interval_s": 300,

@@ -10,25 +10,33 @@ function gradeRegression(logger) {
     var g=new GradeEstimator();
     Test.assertEqual(0.0,g.push(100,0,0,true,100));
     Test.assertEqual(0.0,g.push(101,10,1000,true,100));
-    Test.assertEqual(10.0d,g.push(102,20,2000,true,100));
-    Test.assertEqual(10.0d,g.push(999,20,2000,true,100));
-    g.push(103,30,3000,true,100);g.push(104,40,4000,true,100);
-    Test.assertEqual(14.0d,g.push(107,50,5000,true,100)); // Latest regression is published immediately, without temporal averaging.
-    Test.assertEqual(14.0d,g.estimate());
+    Test.assertEqual(2.0d,g.push(102,20,2000,true,100)); // First 10% estimate plus four zero slots.
+    Test.assertEqual(2.0d,g.push(999,20,2000,true,100)); // Duplicate must not advance the average.
+    Test.assertEqual(4.0d,g.push(103,30,3000,true,100));
+    Test.assertEqual(6.0d,g.push(104,40,4000,true,100));
+    Test.assertEqual(8.8d,g.push(107,50,5000,true,100));
+    Test.assertEqual(14.0d,g.estimate()); // Unaveraged regression; canonical mean is (0+10+10+10+14)/5.
     Test.assertEqual(5,g.sampleCount());Test.assertEqual(10,g.point(0)[0]);
-    g.reset();g.push(-10,0,0,true,100);g.push(-11,10,1000,true,100);
-    Test.assertEqual(-10.0d,g.push(-12,20,2000,true,100));
-    g.reset();g.push(0,0,0,true,100);g.push(20,10,1000,true,100);
-    Test.assertEqual(200.0d,g.push(40,20,2000,true,100));
+    Test.assertEqual(-10.0d,gradeLinearFixture(g,-10,-1,0,10));
+    Test.assertEqual(200.0d,gradeLinearFixture(g,0,20,0,10));
     Test.assertEqual("black",Effects.gradeBand(200));Test.assertEqual(45.0,Effects.horizonAngle(200));
-    g.reset();g.push(0,0,0,true,100);g.push(1,0,1000,true,100);
-    Test.assertEqual(0.0,g.push(2,0,2000,true,100)); // zero denominator
-    g.reset();g.push(0,0,0,true,100);g.push(1.0625d,50,1000,true,100);
-    Test.assertEqual(2.13d,g.push(2.125d,100,2000,true,100));
-    g.reset();g.push(0,0,0,true,100);g.push(-1.0625d,50,1000,true,100);
-    Test.assertEqual(-2.13d,g.push(-2.125d,100,2000,true,100));
-    g.reset();g.push(1000000.0d,1000000000.0d,0,true,100);g.push(1000001.0d,1000000010.0d,1000,true,100);
-    Test.assertEqual(10.0d,g.push(1000002.0d,1000000020.0d,2000,true,100));
+    for(var flat=0;flat<g.sampleCount();flat+=1) { g.point(flat)[0]=0; }
+    Test.assertEqual(0.0,g.estimate());
+    Test.assertEqual(2.13d,gradeLinearFixture(g,0,1.0625d,0,50));
+    Test.assertEqual(-2.13d,gradeLinearFixture(g,0,-1.0625d,0,50));
+    Test.assertEqual(10.0d,gradeLinearFixture(g,1000000.0d,1,1000000000.0d,10));
+    g.reset();
+    for(var estimate=1;estimate<=5;estimate+=1) { Test.assertEqual(estimate*2.0d,g.average(10)); }
+    Test.assertEqual(12.0d,g.average(20)); // Evict one real estimate once the mean is full.
+    g.reset();Test.assertEqual(-2.0d,g.average(-10));
+    Test.assertEqual(0.0,g.average(10));
+    Test.assert(g.average(null)==null);Test.assertEqual(1.0d,g.average(5));
+    g.reset();Test.assertEqual(0.0,g.average(-0.004d));
+    // Late attachment follows the same immediate ramp; no five-second clock gate.
+    g.reset();
+    for(var late=0;late<=6;late+=1) {
+        Test.assertEqual(late<2?0.0:(late-1)*2.0d,g.push(100+late,late*10,60000+late*1000,true,100));
+    }
     Test.assertEqual("10.0",Formatting.floating(10));
     Test.assertEqual("-2.1",Formatting.fixed(-2.06,1));
     Test.assertEqual("10000",Formatting.floating(9999.99));
@@ -39,24 +47,92 @@ function gradeRegression(logger) {
     return true;
 }
 
+// DVS-29: latest altitude at an unchanged distance replaces, rather than weights, that position.
+(:test)
+function gradeDistinctDistance(logger) {
+    var g=new GradeEstimator();g.push(99,0,0,true,100);var next=g._averageNext;
+    Test.assertEqual(0.0,g.push(100,0,1000,true,100));
+    Test.assertEqual(1,g.sampleCount());Test.assertEqual(100,g.point(0)[1]);
+    Test.assertEqual(0,g.point(0)[2]);Test.assertEqual(next,g._averageNext);
+    // Replacement did not consume the next second's admission bucket.
+    Test.assertEqual(0.0,g.push(101,10,1500,true,100));Test.assertEqual(2,g.sampleCount());
+    Test.assertEqual(2.0d,g.push(102,20,2000,true,100));
+    next=g._averageNext;
+    Test.assertEqual(2.0d,g.push(102.5,20,2100,true,100));
+    Test.assertEqual(3,g.sampleCount());Test.assertEqual(next,g._averageNext);
+    Test.assertEqual(102.5,g.point(2)[1]);Test.assertEqual(2000,g.point(2)[2]);
+    Test.assertEqual(2.0d,g.push(999,20,2100,true,100)); // Duplicate time cannot overwrite altitude.
+    Test.assertEqual(102.5,g.point(2)[1]);
+    Test.assertEqual(2.0d,g.push(103,30,2500,true,100));Test.assertEqual(3,g.sampleCount());
+    Test.assertEqual(4.1d,g.push(103,30,3000,true,100));Test.assertEqual(4,g.sampleCount());
+    Test.assertEqual(10.5d,g.estimate());
+    // At full capacity, replacement neither evicts nor allocates an extra point.
+    gradeLinearFixture(g,100,1,0,10);var head=g._head;next=g._averageNext;
+    Test.assertEqual(10.0d,g.push(107,60,7000,true,100));
+    Test.assertEqual(5,g.sampleCount());Test.assertEqual(head,g._head);Test.assertEqual(next,g._averageNext);
+    Test.assertEqual(107,g.point(4)[1]);
+    Test.assertEqual(10.0d,g.push(108,60,8000,true,100));
+    Test.assert(g.push(109,60,9000,true,100)==null);Test.assertEqual(0,g.sampleCount());
+    Test.assert(g.push(110,60,10000,true,100)==null);
+    Test.assertEqual(0.0,g.push(111,70,11000,true,100));Test.assertEqual(1,g.sampleCount());
+    return true;
+}
+
+// Sanitized startup geometry: altitude changes at zero distance, followed by a small real descent.
+(:test)
+function gradeRepeatedDistanceStartup(logger) {
+    var rows=[[0,0,-105.4],[1000,0,0],[4000,0,0],[5000,1.68,-0.2],
+        [8000,4.56,-0.2],[9000,14.64,-0.2],[10000,15.21,-0.2],
+        [11000,18.22,-0.2],[12000,21.44,-0.2],[13000,24.84,-0.2],
+        [14000,28.4,-0.2],[15000,32.17,-0.2]];
+    var dense=[0.0,0.0,0.0,0.0,-0.78d,-0.94d,-1.08d,-1.08d,-1.08d,-0.30d,-0.14d,0.0];
+    for(var mode=0;mode<2;mode+=1) {
+        var g=new GradeEstimator();
+        for(var i=0;i<rows.size();i+=1) {
+            var value=g.push(rows[i][2],rows[i][1],mode==0?rows[i][0]:i*1000,true,100);
+            if(mode==0 && i==2) { Test.assert(value==null); }
+            else { Test.assertEqual(mode==0?0.0:dense[i],value); }
+            if(i<2 || (mode==1 && i==2)) { Test.assertEqual(1,g.sampleCount()); }
+        }
+    }
+    return true;
+}
+
+(:testSupport)
+function gradeLinearFixture(g,originAltitude,rise,originDistance,step) {
+    g.reset();var value=null;
+    for(var i=0;i<=6;i+=1) { value=g.push(originAltitude+i*rise,originDistance+i*step,i*1000,true,100); }
+    return value;
+}
+
 (:test)
 function gradeResetAndBounds(logger) {
-    var g=new GradeEstimator();g.push(0,0,0,true,100);g.push(1,10,1000,true,100);
-    Test.assertEqual(10.0d,g.push(2,20,2000,true,100));
-    Test.assertEqual(10.0d,g.push(999,20,2000,true,100));Test.assertEqual(3,g.sampleCount());
-    Test.assert(g.push(2,20,3000,true,100)!=null); // repeated distance is a valid sample
-    Test.assert(g.push(2,20,4000,true,100)!=null);
-    Test.assert(g.push(2,20,5000,true,100)==null);Test.assertEqual(0,g.sampleCount());
-    Test.assert(g.push(2,20,6000,true,100)==null); // remain stalled
-    Test.assertEqual(0.0,g.push(3,30,7000,true,100));Test.assertEqual(1,g.sampleCount());
+    var g=new GradeEstimator();Test.assertEqual(10.0d,gradeLinearFixture(g,0,1,0,10));
+    Test.assertEqual(10.0d,g.push(999,60,6000,true,100));Test.assertEqual(5,g.sampleCount());
+    Test.assert(g.push(6,60,7000,true,100)!=null);
+    Test.assert(g.push(6,60,8000,true,100)!=null);
+    Test.assert(g.push(6,60,9000,true,100)==null);Test.assertEqual(0,g.sampleCount());
+    Test.assert(g.push(6,60,10000,true,100)==null);
+    Test.assertEqual(0.0,g.push(7,70,11000,true,100));
+    for(var recovery=1;recovery<=6;recovery+=1) {
+        Test.assertEqual(recovery<2?0.0:(recovery-1)*2.0d,g.push(7+recovery,70+recovery*10,11000+recovery*1000,true,100));
+    }
+    Test.assertEqual(0.0,g.push(14,140,20000,true,100)); // Gap clears regression and average back to zeros.
+    Test.assertEqual(0.0,g.push(15,150,21000,true,100));
+    Test.assertEqual(2.0d,g.push(16,160,22000,true,100));
+    g.reset();
+    Test.assertEqual(0.0,g.push(0,0,60000,true,100));
+    Test.assertEqual(0.0,g.push(1,0,61000,true,100));
+    Test.assertEqual(0.0,g.push(2,0,62000,true,100));
+    Test.assert(g.push(3,0,63000,true,100)==null);
     g.reset();g.push(0,0,0,true,100);
-    Test.assertEqual(0.0,g.push(1,10,2000,true,100)); // exactly 2s accepted, warm-up
+    Test.assertEqual(0.0,g.push(1,10,2000,true,100));
     Test.assertEqual(0.0,g.push(2,20,4001,true,100));Test.assertEqual(1,g.sampleCount());
-    Test.assertEqual(0.0,g.push(3,30,3000,true,100)); // time regression resets
-    Test.assertEqual(0.0,g.push(3,29,4000,true,100)); // distance regression resets
-    Test.assertEqual(0.0,g.push(4,39,5000,true,200)); // identity resets
+    Test.assertEqual(0.0,g.push(3,30,3000,true,100));
+    Test.assertEqual(0.0,g.push(3,29,4000,true,100));
+    Test.assertEqual(0.0,g.push(4,39,5000,true,200));
     Test.assert(g.push(5,49,6000,false,200)==null);Test.assertEqual(0,g.sampleCount());
-    for(var i=0;i<150;i+=1) {g.push(0,i/10.0,i*1000,true,200);Test.assert(g.sampleCount()<=5);}
+    for(var i=0;i<150;i+=1) {g.push(0,i/10.0,i*1000,true,200);Test.assert(g.sampleCount()<=5);Test.assertEqual(5,g._averages.size());}
     Test.assertEqual(5,g.sampleCount());Test.assertEqual(145000,g.point(0)[2]);
     g.reset();g.push(0,0,0,true,200);g.push(1,1,500,true,200);Test.assertEqual(1,g.sampleCount());
     Test.assert(g.push(null,2,1000,true,200)==null);Test.assertEqual(0,g.sampleCount());
@@ -334,8 +410,10 @@ function acquisitionToSnapshot(logger) {
     acquisition.read(info,{});
     info.altitude=3; info.elapsedDistance=30; info.elapsedTime=1000; info.timerTime=1000;
     acquisition.read(info,{});
-    info.altitude=6;info.elapsedDistance=60;info.elapsedTime=2000;info.timerTime=2000;
-    raw=acquisition.read(info,{}); Test.assertEqual(10.0d,raw["grade"]);
+    for(var second=2;second<=6;second+=1) {
+        info.altitude=second*3;info.elapsedDistance=second*30;info.elapsedTime=second*1000;info.timerTime=second*1000;
+        raw=acquisition.read(info,{});Test.assertEqual((second-1)*2.0d,raw["grade"]);
+    }
     acquisition.laps.onLap(); raw=acquisition.read(info,{}); Test.assertEqual(1,raw["completed_laps"]);
     var s=new DisplaySettings();
     s.apply({"a1"=>15,"a2"=>15,"a3"=>24,"a4"=>24,"a5"=>20,"a6"=>20,

@@ -113,13 +113,19 @@
       "rounding": "exact halves away from zero",
       "stationary_reset_s": 3,
       "maximum_sample_gap_ms": 2000,
-      "display_decimal_places": 1
+      "display_decimal_places": 1,
+      "temporal_average_samples": 5,
+      "temporal_average_initial_value": 0,
+      "temporal_average_divisor": 5,
+      "sample_basis": "distinct_distance",
+      "same_distance": "replace_latest_altitude_without_advancing_windows",
+      "replacement_preserves_admission_time": true
     },
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 161
+      "DVS-29": 165
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {

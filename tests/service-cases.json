@@ -38,13 +38,13 @@
       "requirements": [
         "APP-20"
       ],
-      "procedure": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "procedure": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n\n\nCompare exact slope sky/ground vertices against full rectangle clipping at signed shallow, zero and steep angles, with translated regular/enlarged bounds. Skipping redundant clipping must preserve rounded vertices and cell containment.",
       "requirement_revisions": {
         "APP-20": 89
       },
-      "definition": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n\n\nCompare exact slope sky/ground vertices against full rectangle clipping at signed shallow, zero and steep angles, with translated regular/enlarged bounds. Skipping redundant clipping must preserve rounded vertices and cell containment.",
       "stable_id": "TFNC-2",
-      "revision": 18,
+      "revision": 19,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
@@ -87,7 +87,7 @@
       ],
       "procedure": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-34": 162
       },
       "definition": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
@@ -308,7 +308,7 @@
       "requirement_revisions": {
         "APP-21": 97,
         "APP-24": 77,
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-32": 79,
         "APP-34": 97,
         "APP-36": 80,
@@ -327,7 +327,7 @@
         "DVS-26": 49,
         "DVS-27": 39,
         "DVS-28": 39,
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-30": 52,
         "DVS-31": 52,
         "DVS-32": 58,
@@ -367,7 +367,7 @@
     },
     {
       "key": "gradeRegression",
-      "title": "Grade regression and three-second smoothing",
+      "title": "Grade regression, distinct distances and startup averaging",
       "category": "functional",
       "runner": "logic",
       "function": "gradeRegression",
@@ -377,18 +377,22 @@
         "DVS-29",
         "DVS-36"
       ],
-      "procedure": "Purpose: Five-sample grade regression without temporal averaging.\n\nSuite: Core. Requirement references: [[DVS-29]].\n\nVerify zero warm-up, FIFO regression eviction, signed/zero/large slopes, repeated distance, degenerate denominators, numerical failure and exact-half two-decimal rounding. Three points x=0,10,20 and y=100,101,102 publish 10.00 immediately. After stable 10.00 estimates, a new 14.00 regression estimate publishes 14.00 immediately, displayed as 14.0. Check duplicate timestamp and same-second idempotence. Drawing, duplicate slots and settings changes must not advance regression history. Effects use the canonical two-decimal grade before one-decimal display rounding.\n\nExecutable source: tests/AcquisitionTests.mc, named tests gradeRegression and gradeResetAndBounds. Evidence follows [[SPEC-162]]; this is a definition, not execution evidence.\n",
+      "procedure": "Purpose: Verify [[DVS-29]] regression and startup averaging. Suite: Core.\n\nRequire linear +/-10% ramps 0,0,+/-2,+/-4,+/-6,+/-8,+/-10; retain signed, large-value, rounding and degenerate-denominator checks. At unchanged distance keep only the latest altitude, without changing point count, FIFO, admission time, published grade or average cursor. A replacement must not block movement in that second. Duplicate timestamps remain ignored.\n\nWith relative altitudes -105.4,0,0,-0.2,-0.2 at distances 0,0,0,1.68,4.56 and one-second delivery, require 0,0,0,0,-0.78%; continued fixed altitude gives -0.94,-1.08,-1.08,-1.08,-0.30,-0.14,0. Original timestamp gaps follow the reset contract. Do not clamp or invent sensor data.\n\nExecutable: tests/AcquisitionTests.mc, gradeRegression, gradeDistinctDistance and gradeRepeatedDistanceStartup. Definitions are separate from execution evidence.",
       "requirement_revisions": {
         "DVS-2": 62,
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-36": 84
       },
-      "definition": "Purpose: Five-sample grade regression without temporal averaging.\n\nSuite: Core. Requirement references: [[DVS-29]].\n\nVerify zero warm-up, FIFO regression eviction, signed/zero/large slopes, repeated distance, degenerate denominators, numerical failure and exact-half two-decimal rounding. Three points x=0,10,20 and y=100,101,102 publish 10.00 immediately. After stable 10.00 estimates, a new 14.00 regression estimate publishes 14.00 immediately, displayed as 14.0. Check duplicate timestamp and same-second idempotence. Drawing, duplicate slots and settings changes must not advance regression history. Effects use the canonical two-decimal grade before one-decimal display rounding.\n\nExecutable source: tests/AcquisitionTests.mc, named tests gradeRegression and gradeResetAndBounds. Evidence follows [[SPEC-162]]; this is a definition, not execution evidence.\n",
+      "definition": "Purpose: Verify [[DVS-29]] regression and startup averaging. Suite: Core.\n\nRequire linear +/-10% ramps 0,0,+/-2,+/-4,+/-6,+/-8,+/-10; retain signed, large-value, rounding and degenerate-denominator checks. At unchanged distance keep only the latest altitude, without changing point count, FIFO, admission time, published grade or average cursor. A replacement must not block movement in that second. Duplicate timestamps remain ignored.\n\nWith relative altitudes -105.4,0,0,-0.2,-0.2 at distances 0,0,0,1.68,4.56 and one-second delivery, require 0,0,0,0,-0.78%; continued fixed altitude gives -0.94,-1.08,-1.08,-1.08,-0.30,-0.14,0. Original timestamp gaps follow the reset contract. Do not clamp or invent sensor data.\n\nExecutable: tests/AcquisitionTests.mc, gradeRegression, gradeDistinctDistance and gradeRepeatedDistanceStartup. Definitions are separate from execution evidence.",
       "stable_id": "TFNC-10",
-      "revision": 29,
+      "revision": 33,
       "status": "draft",
       "suite": "Core",
-      "suite_stable_id": "TRGR-1"
+      "suite_stable_id": "TRGR-1",
+      "additional_functions": [
+        "gradeDistinctDistance",
+        "gradeRepeatedDistanceStartup"
+      ]
     },
     {
       "key": "gradeResetAndBounds",
@@ -400,13 +404,13 @@
       "requirements": [
         "DVS-29"
       ],
-      "procedure": "Purpose: Grade discontinuity and bounded history.\n\nRequirement references: [[DVS-29]].\n\nProcedure and expected results: Check ignored duplicate timestamps, three-second no-progress invalidation and recovery on progress. Exactly 2000ms gaps are permitted; 2001ms, counter regression, identity change and non-running/invalid input reset as specified. Across 150 inputs retain at most five regression samples, independently of duplicate slots/settings/drawing. This is not a heap measurement.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`, `gradeResetAndBounds`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n\nVerify regression history/value resets on every [[DVS-29]] invalidation; valid running reset samples seed the existing zero warm-up.\n",
+      "procedure": "Purpose: Verify [[DVS-29]] continuity and bounded history. Suite: Core.\n\nDuplicate time does not refresh inactivity. Repeated distance updates altitude but not distance-progress time; at 3000 ms without progress, grade stays unavailable until movement resumes. Replacement does not evict a point from a full five-distinct-distance FIFO. Permit a 2000 ms gap; reset for 2001 ms, counter/identity regression, invalid input and non-running state. Reset regression and zero-initialized average together. Recovery with three new linear 10% points publishes 0,0,2%. Pause/reset and duplicate slots/settings/draws must not reuse stale history or advance windows.\n\nExecutable: tests/AcquisitionTests.mc, gradeResetAndBounds and gradeDistinctDistance. This is a definition, not a memory measurement or execution.",
       "requirement_revisions": {
-        "DVS-29": 161
+        "DVS-29": 165
       },
-      "definition": "Purpose: Grade discontinuity and bounded history.\n\nRequirement references: [[DVS-29]].\n\nProcedure and expected results: Check ignored duplicate timestamps, three-second no-progress invalidation and recovery on progress. Exactly 2000ms gaps are permitted; 2001ms, counter regression, identity change and non-running/invalid input reset as specified. Across 150 inputs retain at most five regression samples, independently of duplicate slots/settings/drawing. This is not a heap measurement.\n\nExecutable source to update/verify: `tests/AcquisitionTests.mc`, `gradeResetAndBounds`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n\nVerify regression history/value resets on every [[DVS-29]] invalidation; valid running reset samples seed the existing zero warm-up.\n",
+      "definition": "Purpose: Verify [[DVS-29]] continuity and bounded history. Suite: Core.\n\nDuplicate time does not refresh inactivity. Repeated distance updates altitude but not distance-progress time; at 3000 ms without progress, grade stays unavailable until movement resumes. Replacement does not evict a point from a full five-distinct-distance FIFO. Permit a 2000 ms gap; reset for 2001 ms, counter/identity regression, invalid input and non-running state. Reset regression and zero-initialized average together. Recovery with three new linear 10% points publishes 0,0,2%. Pause/reset and duplicate slots/settings/draws must not reuse stale history or advance windows.\n\nExecutable: tests/AcquisitionTests.mc, gradeResetAndBounds and gradeDistinctDistance. This is a definition, not a memory measurement or execution.",
       "stable_id": "TFNC-11",
-      "revision": 25,
+      "revision": 28,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
@@ -536,17 +540,17 @@
         "DVS-39",
         "FUNC-9"
       ],
-      "procedure": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]], [[FUNC-9]].\n\nProcedure and expected results: Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "procedure": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]], [[FUNC-9]].\n\nProcedure and expected results: Replay fresh-session activity -> zero-initialized average ramp (0,0,2,4,6,8,10%) -> confirmed 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-34": 162,
         "DVS-36": 84,
         "DVS-39": 121,
         "FUNC-9": 36
       },
-      "definition": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]], [[FUNC-9]].\n\nProcedure and expected results: Replay fresh-session activity -> 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]], [[FUNC-9]].\n\nProcedure and expected results: Replay fresh-session activity -> zero-initialized average ramp (0,0,2,4,6,8,10%) -> confirmed 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-17",
-      "revision": 26,
+      "revision": 28,
       "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
@@ -591,7 +595,7 @@
       "procedure": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "APP-33": 40,
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-34": 162
       },
       "definition": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
@@ -711,7 +715,7 @@
       "status": "draft",
       "requirement_revisions": {
         "DVS-26": 49,
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-8": 56,
         "DVS-9": 46,
         "FUNC-5": 45
@@ -865,9 +869,9 @@
       "revision": 11,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-36": 80,
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-6": 101
       },
       "suite_stable_id": "TRGR-1"
@@ -895,7 +899,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-22": 66,
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-32": 79,
         "HFER-7": 23,
         "HFER-8": 23,
@@ -1118,7 +1122,7 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "DVS-32": 58,
         "DVS-4": 50,
         "DVS-50": 63
@@ -1137,17 +1141,17 @@
         "APP-32",
         "DVS-29"
       ],
-      "procedure": "Purpose: Changed-cell fitting and prepared-only rendering.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[APP-12]], [[APP-32]], [[DVS-29]].\n\nProcedure and expected results: Unchanged frames perform zero refits/geometry/packet rebuilds. One changed normal value refits exactly one cell; equal-angle polygons are reused. Theme/effect-kind/configuration changes invalidate correctly; hidden slots beyond capacity do no refitting. Lock metric/color/preparation methods during draw and require actual production drawing to succeed.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `rendererCacheAndDrawPurity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nAssert that equal horizontal spans share their prepared segment-coordinate/color table across rows, bounded to the two regular columns, rather than retaining a duplicate line-coordinate/color sequence for each cell. Preserve exact line endpoints and Day/Night colors under the grid drawing oracle. Ordinary drawing performs only cached lookups and graphics calls; no decoding, geometry or color arithmetic is introduced.\n\n\nDuring a bank replacement, assert outgoing fitted runs/drawing packets/header cache are released before the new presentation is prepared, while retained snapshots and shared acquisition remain valid. Verify ordinary fitting/drawing output after replacement and draw purity.\n",
-      "definition": "Purpose: Changed-cell fitting and prepared-only rendering.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[APP-12]], [[APP-32]], [[DVS-29]].\n\nProcedure and expected results: Unchanged frames perform zero refits/geometry/packet rebuilds. One changed normal value refits exactly one cell; equal-angle polygons are reused. Theme/effect-kind/configuration changes invalidate correctly; hidden slots beyond capacity do no refitting. Lock metric/color/preparation methods during draw and require actual production drawing to succeed.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `rendererCacheAndDrawPurity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nAssert that equal horizontal spans share their prepared segment-coordinate/color table across rows, bounded to the two regular columns, rather than retaining a duplicate line-coordinate/color sequence for each cell. Preserve exact line endpoints and Day/Night colors under the grid drawing oracle. Ordinary drawing performs only cached lookups and graphics calls; no decoding, geometry or color arithmetic is introduced.\n\n\nDuring a bank replacement, assert outgoing fitted runs/drawing packets/header cache are released before the new presentation is prepared, while retained snapshots and shared acquisition remain valid. Verify ordinary fitting/drawing output after replacement and draw purity.\n",
+      "procedure": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.",
+      "definition": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.",
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-5",
-      "revision": 19,
+      "revision": 20,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-32": 79,
-        "DVS-29": 161
+        "DVS-29": 165
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1170,7 +1174,7 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-37": 35,
         "DVS-35": 48
       },
@@ -1246,7 +1250,7 @@
       "requirement_revisions": {
         "APP-24": 77,
         "APP-25": 39,
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-34": 97
       },
       "suite_stable_id": "TRGR-2"
@@ -1417,7 +1421,7 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "SPEC-217": 8,
         "SPEC-218": 9
       }
@@ -1467,7 +1471,7 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "SPEC-208": 22,
         "SPEC-220": 12,
         "SPEC-221": 13,
@@ -1491,7 +1495,7 @@
       "revision": 13,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 88
+        "APP-26": 89
       }
     },
     {
@@ -1626,7 +1630,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 88
+        "APP-26": 89
       },
       "stable_id": "SPEC-275"
     },
@@ -1734,7 +1738,7 @@
         "SPEC-235"
       ],
       "requirement_revisions": {
-        "DVS-29": 161,
+        "DVS-29": 165,
         "DVS-34": 162,
         "SPEC-235": 34
       },
@@ -1801,7 +1805,7 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "APP-32": 79
       },
       "stable_id": "SPEC-271"
@@ -1882,7 +1886,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 88
+        "APP-26": 89
       },
       "stable_id": "SPEC-299"
     },
@@ -2174,7 +2178,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 88
+        "APP-26": 89
       },
       "stable_id": "SPEC-283"
     },
@@ -2360,7 +2364,7 @@
       "revision": 7,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 88,
+        "APP-26": 89,
         "SPEC-217": 8,
         "SPEC-218": 9,
         "SPEC-253": 37

@@ -52,7 +52,10 @@ def validate_suites():
         for name, names in result.items():
             selected = [case for case in cases if case['suite'] == name]
             executable = [case for case in selected if case['source'] in config['suites'][name]['files']]
-            assert {case['function'] for case in executable} == set(names), ('Service case inventory drift', name)
+            functions = [(case, fn) for case in executable
+                         for fn in [case['function'], *case.get('additional_functions', [])]]
+            assert {fn for case, fn in functions} == set(names), ('Service case inventory drift', name)
+            assert all(discovered[fn] == case['source'] for case, fn in functions), ('Service case source drift', name)
             suite = native[name]
             assert {case['stable_id'] for case in selected} == {member['stable_id'] for member in suite['members']}
             assert all(case['suite_stable_id'] == suite['stable_id'] for case in selected)

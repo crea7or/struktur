@@ -58,7 +58,7 @@ class PresentationClock {
 class PresentationDrawDc {
     var records=[];
     var lines=[];
-    var clearBackground;
+    var clearBackground;var rectangleCalls=0;
     var _color;
     var _background;
     var _record;
@@ -90,15 +90,17 @@ class PresentationDrawDc {
     function setClip(x,y,w,h) {
         if(_record==null) {
             _cellIndex+=1; _drawCount=0;
-            _record={Cell.X=>x,Cell.Y=>y,Cell.W=>w,Cell.H=>h,:background=>null,:texts=>[],:halos=>[],:rectangles=>[],:fills=>[],:polygons=>[]};records.add(_record);
+            _record={Cell.X=>x,Cell.Y=>y,Cell.W=>w,Cell.H=>h,:background=>clearBackground,:texts=>[],:halos=>[],:rectangles=>[[x,y,w,h]],:fills=>[clearBackground],:polygons=>[]};records.add(_record);
         }
         _clip=[x,y,w,h];
     }
     function clearClip() { _record=null;_clip=null; }
     function fillRectangle(x,y,w,h) {
-        if(_record[:background]==null) { _record[:background]=_color; }
-        _record[:rectangles].add([x,y,w,h]);
-        _record[:fills].add(_color);
+        rectangleCalls+=1;
+        // Record the logical base supplied by clear(), whether or not it needs a fill.
+        if(x==_record[Cell.X] && y==_record[Cell.Y] && w==_record[Cell.W] && h==_record[Cell.H]) {
+            _record[:background]=_color;_record[:fills][0]=_color;
+        } else { _record[:rectangles].add([x,y,w,h]);_record[:fills].add(_color); }
     }
     function fillPolygon(points) { _record[:polygons].add({:color=>_color,:points=>points}); }
     function drawLine(x1,y1,x2,y2) { lines.add(_color); }

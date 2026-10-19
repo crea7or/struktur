@@ -38,6 +38,7 @@ function logicalGridCases(logger) {
     }
     Test.assertEqual(2,Grid.plan(246,322,4,2).size());
     Test.assertEqual(0,Grid.plan(50,50,0,0).size());
+    verifyHorizonClipping();
     for(var angle=-45;angle<=45;angle+=15) {
         var polygon=Geometry.sky({Cell.X=>0,Cell.Y=>0,Cell.W=>480,Cell.H=>100},angle);
         Test.assert(polygon.size()>=3 && polygon.size()<=8);
@@ -225,4 +226,31 @@ function requestedFieldPrecision(logger) {
     }
 
     return true;
+}
+
+// Compare exact rounded vertices to the complete clipping contract, including steep edges.
+(:testSupport)
+function verifyHorizonClipping() {
+    var cells=[[7,11,141,94,false],[0,0,282,188,true],[3,5,480,100,false]];
+    var angles=[-80,-45,-15,0,15,45,80];
+    for(var c=0;c<cells.size();c+=1) {
+        var cell=cells[c];var left=cell[Cell.X];var right=left+cell[Cell.W]-1;
+        var top=cell[Cell.Y];var bottom=top+cell[Cell.H]-1;
+        for(var a=0;a<angles.size();a+=1) {
+            var center=(top+bottom)/2.0;
+            var delta=Math.tan(angles[a]*Math.PI/180.0)*(right-left)/2.0;
+            for(var side=0;side<2;side+=1) {
+                var expected=side==0?[[left,top],[right,top],[right,center-delta],[left,center+delta]]:
+                    [[left,center+delta],[right,center-delta],[right,bottom],[left,bottom]];
+                expected=Geometry.clip(expected,0,left,false);expected=Geometry.clip(expected,0,right,true);
+                expected=Geometry.clip(expected,1,top,false);expected=Geometry.clip(expected,1,bottom,true);
+                var actual=Geometry.horizonRegion(cell,angles[a],side==0);
+                Test.assertEqual(expected.size(),actual.size());
+                for(var point=0;point<expected.size();point+=1) {
+                    Test.assertEqual(expected[point][0].toNumber(),actual[point][0]);
+                    Test.assertEqual(expected[point][1].toNumber(),actual[point][1]);
+                }
+            }
+        }
+    }
 }

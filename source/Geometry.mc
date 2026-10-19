@@ -26,8 +26,10 @@ module Geometry {
         var center=(top+bottom)/2.0;var delta=Math.tan(angle*Math.PI/180.0)*(right-left)/2.0;
         var points=above?[[left,top],[right,top],[right,center-delta],[left,center+delta]]:
             [[left,center+delta],[right,center-delta],[right,bottom],[left,bottom]];
-        points=clip(points,0,left,false);points=clip(points,0,right,true);
-        points=clip(points,1,top,false);points=clip(points,1,bottom,true);
+        // Both x coordinates are cell edges. Only steep horizons can cross y bounds.
+        if(delta.abs()>(bottom-top)/2.0) {
+            points=clip(points,1,top,false);points=clip(points,1,bottom,true);
+        }
         for(var i=0;i<points.size();i+=1) { points[i][0]=points[i][0].toNumber();points[i][1]=points[i][1].toNumber(); }
         return points;
     }

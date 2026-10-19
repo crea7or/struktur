@@ -12,7 +12,7 @@ class FittedRun {
 }
 // A prepared cell stores a fixed set of commands, without a per-cell hash table.
 class PreparedCell {
-    var lines;var team=false;var inner;var coverage;var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
+    var lines;var team=false;var fillBase=false;var inner;var coverage;var night;var band;var angle;var background;var labelEffect;var color;var label;var primary;var unit;
     function initialize(n,b,a,bg,e,c,l,p,u) {
         night=n;band=b;angle=a;background=bg;labelEffect=e;color=c;label=l;primary=p;unit=u;
     }
@@ -53,6 +53,7 @@ class FieldRenderer {
     var geometryBuilds=0;
     var polygonBuilds=0;
     var packetBuilds=0;
+    var recordChecks=0;var geometryPasses=0;
     var _gridPlans={};
     var _separatorPlans={};
     var _geometryDirty=true;
@@ -236,19 +237,23 @@ class FieldRenderer {
         _needsLayout=false;
     }
     function prepare(snapshot) {
-        _dirtyCount=0;var headersChanged=false;
+        _dirtyCount=0;var headersChanged=false;var visibleChanged=false;
         for(var i=0;i<snapshot[:values].size();i+=1) {
             var next=snapshot[:values][i];
             var changed=i>=_preparedValues.size();
             if(changed) { _needsLayout=true;headersChanged=true; }
             else {
+                // Published records are immutable: identical records need no field/string comparisons.
                 var old=_preparedValues[i];
+                if(old==next) { continue; }
+                recordChecks+=1;
                 if(!old[ValueRecord.LABEL].equals(next[ValueRecord.LABEL])) { headersChanged=true; }
                 if(!old[ValueRecord.LABEL].equals(next[ValueRecord.LABEL]) || !displayText(old).equals(displayText(next)) ||
                     !old[ValueRecord.UNIT].equals(next[ValueRecord.UNIT]) || isTeam(old)!=isTeam(next) ||
                     (!isTeam(next) && painted(old)!=painted(next)) ||
                     (old[ValueRecord.EXPANDEDUNIT]==null?next[ValueRecord.EXPANDEDUNIT]!=null:(next[ValueRecord.EXPANDEDUNIT]==null || !old[ValueRecord.EXPANDEDUNIT].equals(next[ValueRecord.EXPANDEDUNIT])))) { changed=true; }
             }
+            if(i<_nativeCapacity) { visibleChanged=true; }
             // Hidden candidate cells can permit recovery from a smaller fallback.
             // Slots beyond the preferred capacity never affect the current layout.
             if(changed && i<_nativeCapacity) {
@@ -266,6 +271,7 @@ class FieldRenderer {
         }
         _preparedValues=snapshot[:values];_baseNight=snapshot[:night];_inverse=snapshot[:inverse];
         if(_settings==null || _width<=0 || _height<=0) { return; }
+        if(!visibleChanged && !_needsLayout && _paletteNight==_baseNight && _paletteInverse==_inverse) { return; }
         if(!_needsLayout && _dirtyCount>0) {
             // Reconsider the preferred capacity after a fallback; never pin a smaller grid.
             if(_cells.size()!=_nativeCapacity) { _needsLayout=true; }
@@ -296,6 +302,7 @@ class FieldRenderer {
         }
     }
     function prepareGeometry() {
+        geometryPasses+=1;
         var paletteChanged=_paletteNight!=_baseNight || _paletteInverse!=_inverse;
         if(paletteChanged) {
             _clearForeground=_baseNight?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
@@ -338,7 +345,7 @@ class FieldRenderer {
         var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[Cell.Y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
         var prepared=new PreparedCell(night,v[ValueRecord.BAND],v[ValueRecord.ANGLE],background,labelEffect,
             v[ValueRecord.BAND]==null?null:color(v[ValueRecord.BAND]),label,primary,unit);
-        prepared.coverage=mode;return prepared;
+        prepared.fillBase=background!=_clearBackground;prepared.coverage=mode;return prepared;
     }
     function prepareTeam(i,night) {
         var cell=_cells[i];var value=_preparedValues[i];var run=_runs[i];var band=value[ValueRecord.BAND];
@@ -350,7 +357,7 @@ class FieldRenderer {
         run.labelBand=band!=null && mode==1?_labelBandHeight:0;
         var label=MaskedText.prepare(right?cell[Cell.X]+cell[Cell.W]-4-(band==null?0:1):cell[Cell.X]+cell[Cell.W]/2,cell[Cell.Y]+_labelTop,_labels,value[ValueRecord.LABEL],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,band==null?0:1);
         var packet=new PreparedCell(night,band,null,band!=null && mode==2?color(band):ordinary,band!=null && mode==1,band==null?null:color(band),label,null,null);
-        packet.coverage=mode;packet.team=true;packet.lines=[];
+        packet.fillBase=packet.background!=_clearBackground;packet.coverage=mode;packet.team=true;packet.lines=[];
         for(var line=0;line<run.lines[0].size();line+=1) {
             packet.lines.add(MaskedText.prepare(right?cell[Cell.X]+cell[Cell.W]-run.margin-run.lines[1][line]:cell[Cell.X]+(cell[Cell.W]-run.lines[1][line])/2,cell[Cell.Y]+run.top+line*run.size,run.font,run.lines[0][line],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,band!=null && mode==2?1:0));
         }
@@ -429,7 +436,9 @@ class FieldRenderer {
         for(var i=0;i<_cells.size();i+=1) {
             var c=_cells[i];var p=_packets[i];var run=_runs[i];
             var bandHeight=run.labelBand;
-            dc.setClip(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]);dc.setColor(p.background,Graphics.COLOR_BLACK);dc.fillRectangle(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]);
+            dc.setClip(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]);
+            // The screen clear already supplies ordinary cells; paint only differing bases.
+            if(p.fillBase) { dc.setColor(p.background,Graphics.COLOR_BLACK);dc.fillRectangle(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]); }
             if(p.labelEffect) {
                 dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);
                 dc.fillRectangle(c[Cell.X],c[Cell.Y],c[Cell.W],bandHeight);

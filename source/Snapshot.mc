@@ -193,8 +193,8 @@ class SnapshotEngine {
             formatBuilds+=1;
             }
             var band=null; var angle=null;
-            d[SnapshotDescriptor.EFFECTINPUT]=d[SnapshotDescriptor.STYLE]==6?rawValue(raw,d[SnapshotDescriptor.ZONECHANNEL]==3?"current_power":"current_heart_rate"):reading;
             if(settings.effects[i] && value!=null && d[SnapshotDescriptor.EFFECT]!=0) {
+                d[SnapshotDescriptor.EFFECTINPUT]=d[SnapshotDescriptor.STYLE]==6?rawValue(raw,d[SnapshotDescriptor.ZONECHANNEL]==3?"current_power":"current_heart_rate"):reading;
                 var bounds=d[SnapshotDescriptor.ZONECHANNEL]>=0?boundsFor(d[SnapshotDescriptor.ZONECHANNEL]):(d[SnapshotDescriptor.EFFECT]==5?("heart_rate_zone".equals(d[SnapshotDescriptor.ID])?_hrZones:_powerZones):null);
                 if(!d[SnapshotDescriptor.EFFECTREADY] || d[SnapshotDescriptor.EFFECTREADING]!=d[SnapshotDescriptor.EFFECTINPUT] || d[SnapshotDescriptor.EFFECTBOUNDS]!=bounds) {
                     d[SnapshotDescriptor.EFFECTBAND]=null;d[SnapshotDescriptor.EFFECTANGLE]=null;
