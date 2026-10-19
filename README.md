@@ -2,7 +2,7 @@
 
 Struktur is a configurable Garmin Connect IQ **Data Field for cycling**. Keep your chosen ride metrics together in two independently configurable, two-column dashboards, with clear values, compact secondary units and up to two enlarged fields per set.
 
-The project was made with the [AI Architect requirement service](https://ai-architect.link). Requirements guide the implementation and its validation; a portable documentation release is included in the [architecture archive](architecture/Struktur-0.1.1.zip).
+The project was made with the [AI Architect requirement service](https://ai-architect.link). Requirements guide the implementation and its validation; the public requirements are included in the [architecture specification](architecture/specification.md).
 
 ![Struktur sample configurations showing ride metrics, lap fields, enlarged values, themes and backgrounds](samples.png)
 
@@ -125,9 +125,8 @@ Core does not launch Memory or Placement. Simulator results and sample screensho
 
 ## Architecture and status
 
-[Current requirements snapshot](architecture/current/specification.md) contains the latest definitions, typed field attributes and relations, with captured review states. [Machine-readable snapshot](architecture/current/specification.json) and checksums are included. Internal service metadata and execution history are omitted.
+[Current requirements specification](architecture/specification.md) contains the exported definitions, typed field attributes and relations, with captured review states. Referenced diagrams and font assets are stored in `architecture/attachments/`. Internal service metadata and execution history are omitted.
 
-[Struktur 0.1.1 documentation release](architecture/Struktur-0.1.1.zip) is a single portable archive containing the captured specifications, design records, test definitions, relations and referenced diagrams/font assets. Extract it and open `specification.md`. Stable requirement references are retained; service identifiers, author identities, private links and historical execution records are excluded from this public copy.
 
 The documentation release is **For QA**. Physical qualification is pending. Temperature displays one decimal place in °C and °F and uses the Edge native sensor API in a background worker, with updates at most every five minutes and a six-minute read-cache limit. Paired external temperature sensors or unknown sensor metadata make it unavailable; disconnect and remove a paired Tempe to use the onboard path. Physical-device source validation remains pending. Power zones remain unavailable until the device metadata interpretation is qualified. Heart-rate zones use validated personal bounds. Missing values display `--`, values exceeding supported drawing bounds display `!`, and an insufficient assigned area uses the compact message.
 
@@ -138,7 +137,7 @@ The documentation release is **For QA**. Physical qualification is pending. Temp
 | `resources/` | Settings, strings, icon and generated fonts |
 | `assets/fonts/` | Font sources, provenance and license |
 | `config/` | Field/settings catalogues and capability policies |
-| `architecture/` | Portable public documentation release |
+| `architecture/` | Public requirements specification and referenced attachments |
 | `tests/`, `validation/` | Regression fixtures and separate qualification drivers |
 | `scripts/`, `tools/` | Development and resource-generation utilities; some require local authoring data |
 
