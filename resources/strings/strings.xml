@@ -96,52 +96,52 @@
     <string id="Choice_lap_power" scope="settings">lap watts</string>
     <string id="Choice_lap_cadence" scope="settings">lap cadence</string>
     <string id="Choice_team" scope="settings">team</string>
-    <string id="Setting_a1_bg" scope="settings">Slot 1: background coverage</string>
+    <string id="Setting_a1_bg" scope="settings">Slot 1: background</string>
     <string id="Choice_a1_bg_0" scope="settings">None</string>
     <string id="Choice_a1_bg_1" scope="settings">Label</string>
     <string id="Choice_a1_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a2" scope="settings">Slot 2: value</string>
-    <string id="Setting_a2_bg" scope="settings">Slot 2: background coverage</string>
+    <string id="Setting_a2_bg" scope="settings">Slot 2: background</string>
     <string id="Choice_a2_bg_0" scope="settings">None</string>
     <string id="Choice_a2_bg_1" scope="settings">Label</string>
     <string id="Choice_a2_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a3" scope="settings">Slot 3: value</string>
-    <string id="Setting_a3_bg" scope="settings">Slot 3: background coverage</string>
+    <string id="Setting_a3_bg" scope="settings">Slot 3: background</string>
     <string id="Choice_a3_bg_0" scope="settings">None</string>
     <string id="Choice_a3_bg_1" scope="settings">Label</string>
     <string id="Choice_a3_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a4" scope="settings">Slot 4: value</string>
-    <string id="Setting_a4_bg" scope="settings">Slot 4: background coverage</string>
+    <string id="Setting_a4_bg" scope="settings">Slot 4: background</string>
     <string id="Choice_a4_bg_0" scope="settings">None</string>
     <string id="Choice_a4_bg_1" scope="settings">Label</string>
     <string id="Choice_a4_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a5" scope="settings">Slot 5: value</string>
-    <string id="Setting_a5_bg" scope="settings">Slot 5: background coverage</string>
+    <string id="Setting_a5_bg" scope="settings">Slot 5: background</string>
     <string id="Choice_a5_bg_0" scope="settings">None</string>
     <string id="Choice_a5_bg_1" scope="settings">Label</string>
     <string id="Choice_a5_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a6" scope="settings">Slot 6: value</string>
-    <string id="Setting_a6_bg" scope="settings">Slot 6: background coverage</string>
+    <string id="Setting_a6_bg" scope="settings">Slot 6: background</string>
     <string id="Choice_a6_bg_0" scope="settings">None</string>
     <string id="Choice_a6_bg_1" scope="settings">Label</string>
     <string id="Choice_a6_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a7" scope="settings">Slot 7: value</string>
-    <string id="Setting_a7_bg" scope="settings">Slot 7: background coverage</string>
+    <string id="Setting_a7_bg" scope="settings">Slot 7: background</string>
     <string id="Choice_a7_bg_0" scope="settings">None</string>
     <string id="Choice_a7_bg_1" scope="settings">Label</string>
     <string id="Choice_a7_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a8" scope="settings">Slot 8: value</string>
-    <string id="Setting_a8_bg" scope="settings">Slot 8: background coverage</string>
+    <string id="Setting_a8_bg" scope="settings">Slot 8: background</string>
     <string id="Choice_a8_bg_0" scope="settings">None</string>
     <string id="Choice_a8_bg_1" scope="settings">Label</string>
     <string id="Choice_a8_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a9" scope="settings">Slot 9: value</string>
-    <string id="Setting_a9_bg" scope="settings">Slot 9: background coverage</string>
+    <string id="Setting_a9_bg" scope="settings">Slot 9: background</string>
     <string id="Choice_a9_bg_0" scope="settings">None</string>
     <string id="Choice_a9_bg_1" scope="settings">Label</string>
     <string id="Choice_a9_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_a10" scope="settings">Slot 10: value</string>
-    <string id="Setting_a10_bg" scope="settings">Slot 10: background coverage</string>
+    <string id="Setting_a10_bg" scope="settings">Slot 10: background</string>
     <string id="Choice_a10_bg_0" scope="settings">None</string>
     <string id="Choice_a10_bg_1" scope="settings">Label</string>
     <string id="Choice_a10_bg_2" scope="settings">Whole cell</string>
@@ -178,52 +178,52 @@
     <string id="Choice_b_grid_horizontal" scope="settings">Horizontal lines</string>
     <string id="Choice_b_grid_full" scope="settings">Full grid</string>
     <string id="Setting_b1" scope="settings">Second set: Slot 1: value</string>
-    <string id="Setting_b1_bg" scope="settings">Second set: Slot 1: background coverage</string>
+    <string id="Setting_b1_bg" scope="settings">Second set: Slot 1: background</string>
     <string id="Choice_b1_bg_0" scope="settings">None</string>
     <string id="Choice_b1_bg_1" scope="settings">Label</string>
     <string id="Choice_b1_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b2" scope="settings">Second set: Slot 2: value</string>
-    <string id="Setting_b2_bg" scope="settings">Second set: Slot 2: background coverage</string>
+    <string id="Setting_b2_bg" scope="settings">Second set: Slot 2: background</string>
     <string id="Choice_b2_bg_0" scope="settings">None</string>
     <string id="Choice_b2_bg_1" scope="settings">Label</string>
     <string id="Choice_b2_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b3" scope="settings">Second set: Slot 3: value</string>
-    <string id="Setting_b3_bg" scope="settings">Second set: Slot 3: background coverage</string>
+    <string id="Setting_b3_bg" scope="settings">Second set: Slot 3: background</string>
     <string id="Choice_b3_bg_0" scope="settings">None</string>
     <string id="Choice_b3_bg_1" scope="settings">Label</string>
     <string id="Choice_b3_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b4" scope="settings">Second set: Slot 4: value</string>
-    <string id="Setting_b4_bg" scope="settings">Second set: Slot 4: background coverage</string>
+    <string id="Setting_b4_bg" scope="settings">Second set: Slot 4: background</string>
     <string id="Choice_b4_bg_0" scope="settings">None</string>
     <string id="Choice_b4_bg_1" scope="settings">Label</string>
     <string id="Choice_b4_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b5" scope="settings">Second set: Slot 5: value</string>
-    <string id="Setting_b5_bg" scope="settings">Second set: Slot 5: background coverage</string>
+    <string id="Setting_b5_bg" scope="settings">Second set: Slot 5: background</string>
     <string id="Choice_b5_bg_0" scope="settings">None</string>
     <string id="Choice_b5_bg_1" scope="settings">Label</string>
     <string id="Choice_b5_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b6" scope="settings">Second set: Slot 6: value</string>
-    <string id="Setting_b6_bg" scope="settings">Second set: Slot 6: background coverage</string>
+    <string id="Setting_b6_bg" scope="settings">Second set: Slot 6: background</string>
     <string id="Choice_b6_bg_0" scope="settings">None</string>
     <string id="Choice_b6_bg_1" scope="settings">Label</string>
     <string id="Choice_b6_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b7" scope="settings">Second set: Slot 7: value</string>
-    <string id="Setting_b7_bg" scope="settings">Second set: Slot 7: background coverage</string>
+    <string id="Setting_b7_bg" scope="settings">Second set: Slot 7: background</string>
     <string id="Choice_b7_bg_0" scope="settings">None</string>
     <string id="Choice_b7_bg_1" scope="settings">Label</string>
     <string id="Choice_b7_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b8" scope="settings">Second set: Slot 8: value</string>
-    <string id="Setting_b8_bg" scope="settings">Second set: Slot 8: background coverage</string>
+    <string id="Setting_b8_bg" scope="settings">Second set: Slot 8: background</string>
     <string id="Choice_b8_bg_0" scope="settings">None</string>
     <string id="Choice_b8_bg_1" scope="settings">Label</string>
     <string id="Choice_b8_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b9" scope="settings">Second set: Slot 9: value</string>
-    <string id="Setting_b9_bg" scope="settings">Second set: Slot 9: background coverage</string>
+    <string id="Setting_b9_bg" scope="settings">Second set: Slot 9: background</string>
     <string id="Choice_b9_bg_0" scope="settings">None</string>
     <string id="Choice_b9_bg_1" scope="settings">Label</string>
     <string id="Choice_b9_bg_2" scope="settings">Whole cell</string>
     <string id="Setting_b10" scope="settings">Second set: Slot 10: value</string>
-    <string id="Setting_b10_bg" scope="settings">Second set: Slot 10: background coverage</string>
+    <string id="Setting_b10_bg" scope="settings">Second set: Slot 10: background</string>
     <string id="Choice_b10_bg_0" scope="settings">None</string>
     <string id="Choice_b10_bg_1" scope="settings">Label</string>
     <string id="Choice_b10_bg_2" scope="settings">Whole cell</string>

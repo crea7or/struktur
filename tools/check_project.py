@@ -101,7 +101,7 @@ def main():
         assert xml[key].text==(str(p['default']).lower() if p['type']=='boolean' else str(p['default']))
         assert [x.attrib['value'] for x in control.findall('.//listEntry')]==[str(x) for x in p.get('choices',[])]
         match=re.fullmatch(r'([ab])(\d+)(_bg)?',key)
-        if match:assert strings[control.attrib['title'].split('.')[-1]]==('Second set: ' if match[1]=='b' else '')+'Slot '+match[2]+(': background coverage' if match[3] else ': value')
+        if match:assert strings[control.attrib['title'].split('.')[-1]]==('Second set: ' if match[1]=='b' else '')+'Slot '+match[2]+(': background' if match[3] else ': value')
         if key.endswith('_bg'):assert p['choices']==[0,1,2] and p['default']==(1 if key in ['b1_bg','b2_bg','b3_bg','b4_bg'] else 0)
     assert [by_key['a'+str(i)]['identifiers'][by_key['a'+str(i)]['default']] for i in range(1,11)]==['current_speed','distance','activity_timer','time_of_day','current_heart_rate','power_3s','elevation','grade','total_ascent','temperature']
     assert [by_key['b'+str(i)]['identifiers'][by_key['b'+str(i)]['default']] for i in range(1,11)]==['power_3s','current_heart_rate','current_cadence','grade','lap_power','current_speed','lap_distance','lap_time','elevation','temperature']

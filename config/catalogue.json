@@ -502,7 +502,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 1: background coverage",
+      "title": "Slot 1: background",
       "requirement": "SPEC-312"
     },
     {
@@ -596,7 +596,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 2: background coverage",
+      "title": "Slot 2: background",
       "requirement": "SPEC-314"
     },
     {
@@ -690,7 +690,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 3: background coverage",
+      "title": "Slot 3: background",
       "requirement": "SPEC-316"
     },
     {
@@ -784,7 +784,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 4: background coverage",
+      "title": "Slot 4: background",
       "requirement": "SPEC-318"
     },
     {
@@ -878,7 +878,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 5: background coverage",
+      "title": "Slot 5: background",
       "requirement": "SPEC-320"
     },
     {
@@ -972,7 +972,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 6: background coverage",
+      "title": "Slot 6: background",
       "requirement": "SPEC-322"
     },
     {
@@ -1066,7 +1066,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 7: background coverage",
+      "title": "Slot 7: background",
       "requirement": "SPEC-324"
     },
     {
@@ -1160,7 +1160,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 8: background coverage",
+      "title": "Slot 8: background",
       "requirement": "SPEC-326"
     },
     {
@@ -1254,7 +1254,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 9: background coverage",
+      "title": "Slot 9: background",
       "requirement": "SPEC-328"
     },
     {
@@ -1348,7 +1348,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Slot 10: background coverage",
+      "title": "Slot 10: background",
       "requirement": "SPEC-330"
     },
     {
@@ -1631,7 +1631,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 1: background coverage",
+      "title": "Second set: Slot 1: background",
       "requirement": "SPEC-347"
     },
     {
@@ -1725,7 +1725,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 2: background coverage",
+      "title": "Second set: Slot 2: background",
       "requirement": "SPEC-349"
     },
     {
@@ -1819,7 +1819,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 3: background coverage",
+      "title": "Second set: Slot 3: background",
       "requirement": "SPEC-351"
     },
     {
@@ -1913,7 +1913,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 4: background coverage",
+      "title": "Second set: Slot 4: background",
       "requirement": "SPEC-353"
     },
     {
@@ -2007,7 +2007,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 5: background coverage",
+      "title": "Second set: Slot 5: background",
       "requirement": "SPEC-355"
     },
     {
@@ -2101,7 +2101,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 6: background coverage",
+      "title": "Second set: Slot 6: background",
       "requirement": "SPEC-357"
     },
     {
@@ -2195,7 +2195,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 7: background coverage",
+      "title": "Second set: Slot 7: background",
       "requirement": "SPEC-359"
     },
     {
@@ -2289,7 +2289,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 8: background coverage",
+      "title": "Second set: Slot 8: background",
       "requirement": "SPEC-361"
     },
     {
@@ -2383,7 +2383,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 9: background coverage",
+      "title": "Second set: Slot 9: background",
       "requirement": "SPEC-363"
     },
     {
@@ -2477,7 +2477,7 @@
         "Label",
         "Whole cell"
       ],
-      "title": "Second set: Slot 10: background coverage",
+      "title": "Second set: Slot 10: background",
       "requirement": "SPEC-365"
     }
   ]

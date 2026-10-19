@@ -80,7 +80,7 @@ def main():
     props.extend([dict(key='team_color_source',type='number',default=0,shared=True,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title='Team color source',prompt='Shared by all Team slots in both sets.')])
     for i in range(10):
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields],title=f'Slot {i+1}: value'),
-                      dict(key=f'slot_{i+1}_background_mode',type='number',default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Slot {i+1}: background coverage')])
+                      dict(key=f'slot_{i+1}_background_mode',type='number',default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Slot {i+1}: background')])
     first_props=[p for p in props if not p.get("shared")]
     props += [dict(key=f'cadence_zone_{i}_max_rpm',type='number',default=value,min=0,max=300,title=f'Cadence zone {i}: upper rpm',prompt='Four increasing upper bounds define five coloring zones; both field sets share these values.') for i,value in enumerate([60,80,100,120],1)]
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
