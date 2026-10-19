@@ -330,7 +330,7 @@ Type: requirement | State: draft | Revision: 56
 | CODE | 1 |
 | IDENTIFIER | average_speed |
 | LABEL | avg speed |
-| LABEL_AND_UNIT | avg &#124; {unit} |
+| LABEL_AND_UNIT | `avg \| {unit}` |
 | PRECISION_RULE | magnitude-based |
 | UNIT | `km/h` (metric) or `mph` (imperial) |
 
@@ -426,7 +426,7 @@ Type: requirement | State: draft | Revision: 42
 | CODE | 31 |
 | IDENTIFIER | lap_cadence |
 | LABEL | lap cadence |
-| LABEL_AND_UNIT | lap cad &#124; rpm |
+| LABEL_AND_UNIT | `lap cad \| rpm` |
 | PRECISION | 0 |
 | UNIT | rpm |
 
@@ -450,7 +450,7 @@ Type: requirement | State: draft | Revision: 45
 | CODE | 30 |
 | IDENTIFIER | lap_power |
 | LABEL | lap watts |
-| LABEL_AND_UNIT | lap watts |
+| LABEL_AND_UNIT | `lap watts` |
 | PRECISION | 0 |
 | UNIT | w |
 
@@ -474,7 +474,7 @@ Type: requirement | State: draft | Revision: 46
 | CODE | 29 |
 | IDENTIFIER | lap_heart_rate |
 | LABEL | lap heart rate |
-| LABEL_AND_UNIT | lap hr &#124; bpm |
+| LABEL_AND_UNIT | `lap hr \| bpm` |
 | PRECISION | 0 |
 | UNIT | bpm |
 
@@ -498,7 +498,7 @@ Type: requirement | State: draft | Revision: 48
 | CODE | 28 |
 | IDENTIFIER | lap_speed |
 | LABEL | lap speed |
-| LABEL_AND_UNIT | lap &#124; {unit} |
+| LABEL_AND_UNIT | `lap \| {unit}` |
 | PRECISION_RULE | magnitude-based |
 | UNIT | km/h (metric), mph (statute) |
 
@@ -546,7 +546,7 @@ Type: requirement | State: draft | Revision: 47
 | CODE | 26 |
 | IDENTIFIER | lap_distance |
 | LABEL | lap distance |
-| LABEL_AND_UNIT | lap dist &#124; {unit} |
+| LABEL_AND_UNIT | `lap dist \| {unit}` |
 | PRECISION_RULE | magnitude-based |
 | UNIT | km (metric), mi (statute) |
 
@@ -570,7 +570,7 @@ Type: requirement | State: draft | Revision: 83
 | CODE | 25 |
 | IDENTIFIER | heart_rate_3s |
 | LABEL | 3s heart rate |
-| LABEL_AND_UNIT | 3s hr &#124; {unit} |
+| LABEL_AND_UNIT | `3s hr \| {unit}` |
 | PRECISION | 0 |
 | UNIT | bpm |
 
@@ -622,7 +622,7 @@ Type: requirement | State: draft | Revision: 47
 | CODE | 23 |
 | IDENTIFIER | distance_next_waypoint |
 | LABEL | next waypoint |
-| LABEL_AND_UNIT | next &#124; {unit} |
+| LABEL_AND_UNIT | `next \| {unit}` |
 | PRECISION_RULE | magnitude-based |
 | UNIT | km (metric) or mi (imperial) |
 
@@ -646,7 +646,7 @@ Type: requirement | State: draft | Revision: 87
 | CODE | 22 |
 | IDENTIFIER | heading |
 | LABEL | heading |
-| LABEL_AND_UNIT | heading &#124; {unit} |
+| LABEL_AND_UNIT | `heading \| {unit}` |
 | PRECISION | 0 |
 | UNIT | ° |
 
@@ -671,7 +671,7 @@ Type: requirement | State: draft | Revision: 51
 | CODE | 21 |
 | IDENTIFIER | battery |
 | LABEL | battery |
-| LABEL_AND_UNIT | battery &#124; {unit} |
+| LABEL_AND_UNIT | `battery \| {unit}` |
 | PRECISION | 0 |
 | UNIT | % |
 
@@ -696,7 +696,7 @@ Type: requirement | State: draft | Revision: 165
 | CODE | 20 |
 | IDENTIFIER | temperature |
 | LABEL | temperature |
-| LABEL_AND_UNIT | temp &#124; {unit} |
+| LABEL_AND_UNIT | `temp \| {unit}` |
 | PRECISION | 1 |
 | UNIT | °c (Celsius) or °f (Fahrenheit) |
 
@@ -722,7 +722,7 @@ Type: requirement | State: draft | Revision: 46
 | CODE | 19 |
 | IDENTIFIER | calories |
 | LABEL | calories |
-| LABEL_AND_UNIT | kcal |
+| LABEL_AND_UNIT | `kcal` |
 | PRECISION | 0 |
 | UNIT | kcal |
 
@@ -820,7 +820,7 @@ Type: requirement | State: draft | Revision: 168
 | CODE | 15 |
 | IDENTIFIER | grade |
 | LABEL | slope |
-| LABEL_AND_UNIT | slope &#124; % |
+| LABEL_AND_UNIT | `slope \| %` |
 | PRECISION | 1 |
 | UNIT | % |
 
@@ -853,7 +853,7 @@ Type: requirement | State: draft | Revision: 42
 | CODE | 14 |
 | IDENTIFIER | total_descent |
 | LABEL | descent |
-| LABEL_AND_UNIT | descent &#124; {unit} |
+| LABEL_AND_UNIT | `descent \| {unit}` |
 | PRECISION | 0 |
 | UNIT | m (metric) or ft (imperial) |
 
@@ -877,7 +877,7 @@ Type: requirement | State: draft | Revision: 42
 | CODE | 13 |
 | IDENTIFIER | total_ascent |
 | LABEL | ascent |
-| LABEL_AND_UNIT | ascent &#124; {unit} |
+| LABEL_AND_UNIT | `ascent \| {unit}` |
 | PRECISION | 0 |
 | UNIT | m (metric) or ft (imperial) |
 
@@ -901,7 +901,7 @@ Type: requirement | State: draft | Revision: 52
 | CODE | 12 |
 | IDENTIFIER | elevation |
 | LABEL | elevation |
-| LABEL_AND_UNIT | elevation &#124; {unit} |
+| LABEL_AND_UNIT | `elevation \| {unit}` |
 | PRECISION | 0 |
 | UNIT | m (metric) or ft (imperial) |
 
@@ -925,7 +925,7 @@ Type: requirement | State: draft | Revision: 48
 | CODE | 11 |
 | IDENTIFIER | distance |
 | LABEL | distance |
-| LABEL_AND_UNIT | distance &#124; {unit} |
+| LABEL_AND_UNIT | `distance \| {unit}` |
 | PRECISION_RULE | magnitude-based |
 | UNIT | km (metric) or mi (imperial) |
 
@@ -974,7 +974,7 @@ Type: requirement | State: draft | Revision: 58
 | CODE | 9 |
 | IDENTIFIER | average_power |
 | LABEL | avg watts |
-| LABEL_AND_UNIT | avg watts |
+| LABEL_AND_UNIT | `avg watts` |
 | PRECISION | 0 |
 | UNIT | w |
 
@@ -998,7 +998,7 @@ Type: requirement | State: draft | Revision: 70
 | CODE | 8 |
 | IDENTIFIER | power_3s |
 | LABEL | 3s watts |
-| LABEL_AND_UNIT | 3s watts |
+| LABEL_AND_UNIT | `3s watts` |
 | PRECISION | 0 |
 | UNIT | w |
 
@@ -1024,7 +1024,7 @@ Type: requirement | State: draft | Revision: 59
 | CODE | 7 |
 | IDENTIFIER | current_power |
 | LABEL | watts |
-| LABEL_AND_UNIT | watts |
+| LABEL_AND_UNIT | `watts` |
 | PRECISION | 0 |
 | UNIT | w |
 
@@ -1073,7 +1073,7 @@ Type: requirement | State: draft | Revision: 60
 | CODE | 5 |
 | IDENTIFIER | average_heart_rate |
 | LABEL | average hr |
-| LABEL_AND_UNIT | avg hr &#124; bpm |
+| LABEL_AND_UNIT | `avg hr \| bpm` |
 | PRECISION | 0 |
 | UNIT | bpm |
 
@@ -1097,7 +1097,7 @@ Type: requirement | State: draft | Revision: 63
 | CODE | 4 |
 | IDENTIFIER | current_heart_rate |
 | LABEL | heart rate |
-| LABEL_AND_UNIT | hr &#124; {unit} |
+| LABEL_AND_UNIT | `hr \| {unit}` |
 | PRECISION | 0 |
 | UNIT | bpm |
 
@@ -1121,7 +1121,7 @@ Type: requirement | State: draft | Revision: 49
 | CODE | 3 |
 | IDENTIFIER | average_cadence |
 | LABEL | avg cadence |
-| LABEL_AND_UNIT | avg cad &#124; rpm |
+| LABEL_AND_UNIT | `avg cad \| rpm` |
 | PRECISION | 0 |
 | UNIT | rpm |
 
@@ -1145,7 +1145,7 @@ Type: requirement | State: draft | Revision: 49
 | CODE | 2 |
 | IDENTIFIER | current_cadence |
 | LABEL | cadence |
-| LABEL_AND_UNIT | cad &#124; rpm |
+| LABEL_AND_UNIT | `cad \| rpm` |
 | PRECISION | 0 |
 | UNIT | rpm |
 
@@ -1169,7 +1169,7 @@ Type: requirement | State: draft | Revision: 59
 | CODE | 0 |
 | IDENTIFIER | current_speed |
 | LABEL | speed |
-| LABEL_AND_UNIT | speed &#124; {unit} |
+| LABEL_AND_UNIT | `speed \| {unit}` |
 | PRECISION_RULE | magnitude-based |
 | UNIT | km/h (metric) or mph (imperial) |
 
