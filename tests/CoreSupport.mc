@@ -77,7 +77,7 @@ class DurationDrawDc {
     function getWidth() { return profileDrawWidth(); }
     function getHeight() { return profileDrawHeight(); }
     function getTextWidthInPixels(text,font) { return _measure.getTextWidthInPixels(text,font); }
-    function setClip(x,y,w,h) { _clip={:x=>x,:y=>y,:w=>w,:h=>h}; }
+    function setClip(x,y,w,h) { _clip={Cell.X=>x,Cell.Y=>y,Cell.W=>w,Cell.H=>h}; }
     function clearClip() {}
     function setColor(a,b) {}
     function clear() {}
@@ -88,7 +88,7 @@ class DurationDrawDc {
         if(PresentationPolicy.OVERFLOW.equals(text)) {
             overflowCount+=1;
             var width=getTextWidthInPixels(text,font);
-            Test.assert(x>=_clip[:x]+4 && x+width<=_clip[:x]+_clip[:w]-4);
+            Test.assert(x>=_clip[Cell.X]+4 && x+width<=_clip[Cell.X]+_clip[Cell.W]-4);
             return;
         }
         if(_mainText.equals(text)) {
@@ -96,19 +96,19 @@ class DurationDrawDc {
             var ink=FontMetrics.bounds(text,FontMetrics.numeric(_mainHeight));
             _mainVisibleTop=y+ink[0];
             var inset=DeviceProfile.LABEL_SIZE==21?30:46;
-            var center=_clip[:y]+inset+(_clip[:h]-inset)/2.0;
+            var center=_clip[Cell.Y]+inset+(_clip[Cell.H]-inset)/2.0;
             Test.assert((_mainVisibleTop+(ink[1]-ink[0])/2.0-center).abs()<=1);
-            Test.assert(x>=_clip[:x]+4 && x+_mainWidth<=_clip[:x]+_clip[:w]-4);
-            Test.assert(_mainVisibleTop>=_clip[:y]+inset && y+ink[1]<=_clip[:y]+_clip[:h]);
+            Test.assert(x>=_clip[Cell.X]+4 && x+_mainWidth<=_clip[Cell.X]+_clip[Cell.W]-4);
+            Test.assert(_mainVisibleTop>=_clip[Cell.Y]+inset && y+ink[1]<=_clip[Cell.Y]+_clip[Cell.H]);
             mainCount+=1;
         } else if(_secondaryText.equals(text)) {
             var secondaryWidth=getTextWidthInPixels(text,font);
             Test.assert(Graphics.getFontHeight(font)<_mainHeight);
             Test.assertEqual(_mainX+_mainWidth+2,x);
             Test.assertEqual(_mainVisibleTop,y+FontMetrics.bounds(text,FontMetrics.label(Graphics.getFontHeight(font)))[0]);
-            Test.assert(x+secondaryWidth<=_clip[:x]+_clip[:w]-4);
+            Test.assert(x+secondaryWidth<=_clip[Cell.X]+_clip[Cell.W]-4);
             var total=_mainWidth+secondaryWidth+2;
-            Test.assertEqual(_right?_clip[:x]+_clip[:w]-4-total:_clip[:x]+(_clip[:w]-total)/2,_mainX);
+            Test.assertEqual(_right?_clip[Cell.X]+_clip[Cell.W]-4-total:_clip[Cell.X]+(_clip[Cell.W]-total)/2,_mainX);
             secondaryCount+=1;
         } else {
             _labelHeight=Graphics.getFontHeight(font);
@@ -170,21 +170,21 @@ class ZoneFamilyScenario {
         var colors=["blue","green","yellow","orange","blue","green","yellow","magenta","blue","yellow","red","green","magenta"];
         for(var i=0;i<ids.size();i+=1) {
             props={"a1"=>ids[i],"a2"=>ids[i],"a1_bg"=>1,"a2_bg"=>2};raw={};raw[ids[i]]=readings[i];sample();
-            Test.assertEqual(colors[i],snapshot[:values][0][:band]);Test.assertEqual(colors[i],snapshot[:values][1][:band]);
+            Test.assertEqual(colors[i],snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual(colors[i],snapshot[:values][1][ValueRecord.BAND]);
             old=snapshot;builds=engine.zoneBuilds;sample();Test.assertEqual(builds,engine.zoneBuilds);
             Test.assert(old[:values][0]==snapshot[:values][0]);
         }
-        engine._powerZones=null;sample();Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("7",snapshot[:values][0][:text]);
+        engine._powerZones=null;sample();Test.assertEqual("light_gray",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual("7",snapshot[:values][0][ValueRecord.TEXT]);
         props={"a1"=>"current_cadence","a1_bg"=>1,"cad1"=>200};raw={"current_cadence"=>70};sample();
-        Test.assertEqual("light_gray",snapshot[:values][0][:band]);Test.assertEqual("70",snapshot[:values][0][:text]);
-        props["cad1"]=60;sample();Test.assertEqual("green",snapshot[:values][0][:band]);
+        Test.assertEqual("light_gray",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual("70",snapshot[:values][0][ValueRecord.TEXT]);
+        props["cad1"]=60;sample();Test.assertEqual("green",snapshot[:values][0][ValueRecord.BAND]);
         props={"a1"=>"heart_rate_zone","a2"=>"power_zone","a1_bg"=>1,"a2_bg"=>2};
         raw={"current_heart_rate"=>130,"heart_rate_zone"=>5,"current_power"=>650,"power_zone"=>10};
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);sample();
-        Test.assertEqual("3",snapshot[:values][0][:text]);Test.assertEqual("yellow",snapshot[:values][0][:band]);
-        Test.assertEqual("7",snapshot[:values][1][:text]);Test.assertEqual("magenta",snapshot[:values][1][:band]);old=snapshot;
+        Test.assertEqual("3",snapshot[:values][0][ValueRecord.TEXT]);Test.assertEqual("yellow",snapshot[:values][0][ValueRecord.BAND]);
+        Test.assertEqual("7",snapshot[:values][1][ValueRecord.TEXT]);Test.assertEqual("magenta",snapshot[:values][1][ValueRecord.BAND]);old=snapshot;
         engine._hrZones=ZoneMetadata.heart([0,140,150,160,180,200]);sample();
-        Test.assertEqual("1",snapshot[:values][0][:text]);Test.assertEqual("blue",snapshot[:values][0][:band]);Test.assertEqual("3",old[:values][0][:text]);
+        Test.assertEqual("1",snapshot[:values][0][ValueRecord.TEXT]);Test.assertEqual("blue",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual("3",old[:values][0][ValueRecord.TEXT]);
         var banks=new FieldSetsSettings();banks.apply({});Test.assert(banks.primary.cadenceBounds==banks.secondary.cadenceBounds);
     }
 }

@@ -4,6 +4,8 @@ param([string]$Product='edge530',[string]$SdkRoot=$env:CONNECTIQ_SDK,
       [string]$Python=$(if($env:STRUKTUR_PYTHON){$env:STRUKTUR_PYTHON}else{$env:MSGDF_PYTHON}),
       [ValidateSet('Core','Memory','Placement')][string]$Suite='Core',[switch]$LogicOnly)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'sdk-runner.ps1')
+$process=$null
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -SdkRoot $SdkRoot -JavaHome $JavaHome -DeviceRoot $DeviceRoot -DeveloperKey $DeveloperKey -RequireKey
 $DeveloperKey=$environment.developer_key
@@ -22,6 +24,7 @@ if(!$Python){
     $Python=if(Test-Path -LiteralPath $localPython){$localPython}else{'python'}
 }
 if($Suite -eq 'Core'){
+    & (Join-Path $PSScriptRoot 'test-sdk-runner.ps1')
     & $Python (Join-Path $projectRoot 'tools\test_property_budget.py') --sdk $environment.sdk --java $environment.java_home
     if($LASTEXITCODE -ne 0){throw 'Property budget guard regression failed.'}
 }
@@ -44,7 +47,7 @@ $resultPath=Join-Path $projectRoot ('artifacts\'+$artifactName+'.json')
 [pscustomobject]@{suite=$Suite;product=$Product;source_revision=$provenance.source_revision;status='running'}|ConvertTo-Json|Set-Content -LiteralPath $resultPath -Encoding UTF8
 Push-Location -LiteralPath $projectRoot
 try{
-    & (Join-Path $environment.sdk 'bin\monkeyc.bat') -f $jungle -d $Product -o $program -y $DeveloperKey --unit-test
+    & (Join-Path $environment.sdk 'bin\monkeyc.bat') -O 3z -f $jungle -d $Product -o $program -y $DeveloperKey --unit-test
     if($LASTEXITCODE -ne 0){throw 'Test-enabled compilation failed.'}
     # A display-capable simulator must already be running for the selected SDK.
     # A PowerShell child handles the SDK .bat file with separate arguments.
@@ -55,15 +58,13 @@ try{
     $arguments=@('-NoProfile','-ExecutionPolicy','Bypass','-File',('"'+$helper+'"'),'-RunnerPath',('"'+$runner+'"'),'-Program',('"'+$program+'"'),'-Product',$Product)
     $runnerStartedUtc=[DateTime]::UtcNow
     $runnerTimer=[Diagnostics.Stopwatch]::StartNew()
-    $process=Start-Process -FilePath (Join-Path $PSHOME 'powershell.exe') -ArgumentList $arguments -PassThru -WindowStyle Hidden -RedirectStandardOutput $log -RedirectStandardError $err
-    # Keep a process handle before it exits so Windows PowerShell retains ExitCode.
-    $runnerHandle=$process.Handle
+    $process=Start-StrukturSdkRun -Arguments $arguments -Log $log -ErrorLog $err
     if(!$process.WaitForExit($TimeoutSeconds*1000)){
         # Terminate only this launched runner tree; no unrelated simulator process.
-        & (Join-Path $env:SystemRoot 'System32\taskkill.exe') /PID $process.Id /T /F | Out-Null
+        $process.Stop()
         throw 'Simulator test runner timed out.'
     }
-    $process.WaitForExit()
+    $process.Stop() # Also close descendants left after a successful parent exit.
     $runnerTimer.Stop()
     $runnerFinishedUtc=[DateTime]::UtcNow
     $text=[string](Get-Content -Raw -LiteralPath $log)
@@ -88,7 +89,7 @@ try{
     }
     [pscustomobject]@{suite=$Suite;product=$Product;source_revision=$provenance.source_revision;compiler=$environment.compiler_version;status='failed';error=$failure;cases=$failedCases;test_count=$failedCases.Count;executed_at=$(if($runnerStartedUtc){$runnerStartedUtc.ToString('o')}else{$null});suite_duration_ms=$(if($runnerTimer){[long]$runnerTimer.Elapsed.TotalMilliseconds}else{$null});binary_sha256=$(if(Test-Path -LiteralPath $program){(Get-FileHash -LiteralPath $program -Algorithm SHA256).Hash.ToLowerInvariant()}else{$null});log_sha256=$(if($log -and (Test-Path -LiteralPath $log)){(Get-FileHash -LiteralPath $log -Algorithm SHA256).Hash.ToLowerInvariant()}else{$null});log=$log;scope=$definition.scope;finished_at=[DateTime]::UtcNow.ToString('o')}|ConvertTo-Json -Depth 6|Set-Content -LiteralPath $resultPath -Encoding UTF8
     throw
-}finally{Pop-Location}
+}finally{if($null -ne $process){$process.Dispose()};Pop-Location}
 if($Suite -eq 'Memory'){
     $report=Get-Content -Raw -LiteralPath $resultPath|ConvertFrom-Json
     $report.status='font_probes_passed_runtime_pending'

@@ -79,15 +79,15 @@ class StorePreviewField extends StrukturField {
         for(var slot=0;slot<count;slot+=1) {
             var value=_snapshot[:values][slot];var run=_renderer._runs[slot];
             var expected=StoreConfig.PRIMARY[slot];
-            if((expected==null?value[:text]!=null:!expected.equals(value[:text])) ||
-                !StoreConfig.HEADERS[slot].equals(value[:label]) || !StoreConfig.SECONDARY[slot].equals(value[:unit]) ||
+            if((expected==null?value[ValueRecord.TEXT]!=null:!expected.equals(value[ValueRecord.TEXT])) ||
+                !StoreConfig.HEADERS[slot].equals(value[ValueRecord.LABEL]) || !StoreConfig.SECONDARY[slot].equals(value[ValueRecord.UNIT]) ||
                 !(expected==null?PresentationPolicy.UNAVAILABLE:expected).equals(run.text) ||
                 Graphics.getFontHeight(run.font)!=FontSelection.height(run.size,false) ||
                 dc.getTextWidthInPixels(run.text,run.font)!=run.width ||
-                dc.getTextWidthInPixels(value[:label],_renderer._labels)!=FontMetrics.width(value[:label],_renderer._labelMetrics)) {
+                dc.getTextWidthInPixels(value[ValueRecord.LABEL],_renderer._labels)!=FontMetrics.width(value[ValueRecord.LABEL],_renderer._labelMetrics)) {
                 throw new Lang.InvalidValueException("Publishing field or font mismatch at "+slot);
             }
-            if(!_settings.effects[slot] && (value[:band]!=null || value[:angle]!=null)) {
+            if(!_settings.effects[slot] && (value[ValueRecord.BAND]!=null || value[ValueRecord.ANGLE]!=null)) {
                 throw new Lang.InvalidValueException("Publishing disabled effect painted");
             }
         }

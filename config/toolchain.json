@@ -16,8 +16,9 @@
   },
   "font_generator": "Python/Pillow; see font-manifest.json",
   "target_build_results": "artifacts/build-results.json",
-  "simulator_results": "artifacts/<product>-core-tests.json: 33 Core functions per profile, including exact unit headers and the sample ride. Sample images are separate normal Data Field fixtures. Memory/Placement and physical qualification remain separate.",
+  "simulator_results": "artifacts/<product>-core-tests.json; current named test inventory is tests/suites.json. Memory/Placement and physical qualification remain separate.",
   "hardware_results": "not run",
   "compiler_jar_sha256": "6cf13788631f4e25611cbfc9477f7f3b2093f4d35872d9859e18658cb1b0dca2",
-  "device_dimension_gate": "All nine project dimensions must equal installed simulator.json display.location dimensions before build/tests. Edge 850 corrected to 420x600."
+  "device_dimension_gate": "All nine project dimensions must equal installed simulator.json display.location dimensions before build/tests. Edge 850 corrected to 420x600.",
+  "compiler_optimization": "3z (code size), shared by app/package/preview and all validation builds"
 }

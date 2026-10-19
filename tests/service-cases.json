@@ -306,7 +306,7 @@
       "requirement_revisions": {
         "APP-21": 97,
         "APP-24": 77,
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-32": 79,
         "APP-34": 97,
         "APP-36": 80,
@@ -612,7 +612,7 @@
       "procedure": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "SPEC-152": 33,
-        "SPEC-153": 36
+        "SPEC-153": 39
       },
       "definition": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TINT-1",
@@ -676,7 +676,7 @@
       "source": "tools/check_publication.py",
       "procedure": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-153": 36,
+        "SPEC-153": 39,
         "SPEC-155": 107,
         "SPEC-162": 22
       },
@@ -863,7 +863,7 @@
       "revision": 11,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-36": 80,
         "DVS-29": 157,
         "DVS-6": 101
@@ -893,7 +893,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-22": 66,
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-32": 79,
         "HFER-7": 23,
         "HFER-8": 23,
@@ -1114,7 +1114,7 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "DVS-32": 58,
         "DVS-4": 50,
         "DVS-50": 63
@@ -1141,7 +1141,7 @@
       "revision": 19,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-32": 79,
         "DVS-29": 157
       },
@@ -1166,7 +1166,7 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-37": 35,
         "DVS-35": 48
       },
@@ -1242,7 +1242,7 @@
       "requirement_revisions": {
         "APP-24": 77,
         "APP-25": 39,
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-34": 97
       },
       "suite_stable_id": "TRGR-2"
@@ -1315,12 +1315,12 @@
         "APP-47",
         "APP-48"
       ],
-      "procedure": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.",
-      "definition": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.",
+      "procedure": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.\nAfter publishing a synthetic frame, release the driver-local raw reference before lifecycle/reset checks; the active snapshot retains its raw data. Reset must exercise production release-before-replacement. This avoids pinning an obsolete fixture map through reset while retaining all cases and sampled instrumentation overhead.",
+      "definition": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.\nAfter publishing a synthetic frame, release the driver-local raw reference before lifecycle/reset checks; the active snapshot retains its raw data. Reset must exercise production release-before-replacement. This avoids pinning an obsolete fixture map through reset while retaining all cases and sampled instrumentation overhead.",
       "category": "performance",
       "runner": "runtime",
       "stable_id": "TPRF-9",
-      "revision": 22,
+      "revision": 23,
       "status": "draft",
       "requirement_revisions": {
         "APP-37": 35,
@@ -1411,7 +1411,7 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "SPEC-217": 8,
         "SPEC-218": 9
       }
@@ -1461,7 +1461,7 @@
       "revision": 8,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "SPEC-208": 22,
         "SPEC-220": 12,
         "SPEC-221": 13,
@@ -1480,12 +1480,12 @@
         "APP-26"
       ],
       "title": "Memory: verify bounded allocation while switching both field sets",
-      "definition": "Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [[APP-48]] limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.\n\nExecute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.\n",
-      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [[APP-48]] limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.\n\nExecute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.\n",
-      "revision": 12,
+      "definition": "Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [[APP-48]] limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.\n\nExecute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.\n\nDispatch bounded batches of transitions/settings changes across native drawing callbacks so harness batching does not trigger the watchdog. Preserve all 1000 transitions, 200 changes and repeated-state checkpoints; require completion within the declared runner timeout.",
+      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [[APP-48]] limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.\n\nExecute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.\n\nDispatch bounded batches of transitions/settings changes across native drawing callbacks so harness batching does not trigger the watchdog. Preserve all 1000 transitions, 200 changes and repeated-state checkpoints; require completion within the declared runner timeout.",
+      "revision": 13,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 87
+        "APP-26": 88
       }
     },
     {
@@ -1620,7 +1620,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 87
+        "APP-26": 88
       },
       "stable_id": "SPEC-275"
     },
@@ -1795,7 +1795,7 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "APP-32": 79
       },
       "stable_id": "SPEC-271"
@@ -1876,7 +1876,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 87
+        "APP-26": 88
       },
       "stable_id": "SPEC-299"
     },
@@ -2168,7 +2168,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 87
+        "APP-26": 88
       },
       "stable_id": "SPEC-283"
     },
@@ -2349,12 +2349,12 @@
         "SPEC-253"
       ],
       "title": "Mixed Team and metric layouts through typed lap callbacks",
-      "definition": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
-      "procedure": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Assert active bank, shared Team text, native text draw commands and numeric draw commands. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
-      "revision": 6,
+      "definition": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Keep slot 1 Team and slot 2 numeric in both banks, including the two-visible-slot layout. Assert active bank, shared Team text, native text draw commands and numeric draw commands. When slot 3 is visible, make it a duplicate Team and assert the same shared text. Never index a hidden slot. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
+      "procedure": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Keep slot 1 Team and slot 2 numeric in both banks, including the two-visible-slot layout. Assert active bank, shared Team text, native text draw commands and numeric draw commands. When slot 3 is visible, make it a duplicate Team and assert the same shared text. Never index a hidden slot. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
+      "revision": 7,
       "status": "draft",
       "requirement_revisions": {
-        "APP-26": 87,
+        "APP-26": 88,
         "SPEC-217": 8,
         "SPEC-218": 9,
         "SPEC-253": 37
@@ -2528,6 +2528,27 @@
         "SPEC-363": 35,
         "SPEC-364": 35,
         "SPEC-365": 35
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-5",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "source": "scripts/test-sdk-runner.ps1",
+      "function": "SDK runner cleanup",
+      "runner": "host",
+      "requirements": [
+        "SPEC-153",
+        "SPEC-160"
+      ],
+      "title": "SDK runner process ownership and cleanup",
+      "definition": "Suite: Core (host prerequisite). Run scripts/test-sdk-runner.ps1. Exercise successful exit, nonzero exit, timeout and controller disposal with an active child; include a child surviving its immediate parent. Require bounded cleanup of every owned descendant, unchanged completed exit codes, readable preserved stdout/stderr with released file handles, and survival of an unrelated sentinel process. No simulator or physical qualification is claimed.",
+      "procedure": "Suite: Core (host prerequisite). Run scripts/test-sdk-runner.ps1. Exercise successful exit, nonzero exit, timeout and controller disposal with an active child; include a child surviving its immediate parent. Require bounded cleanup of every owned descendant, unchanged completed exit codes, readable preserved stdout/stderr with released file handles, and survival of an unrelated sentinel process. No simulator or physical qualification is claimed.",
+      "revision": 3,
+      "status": "draft",
+      "requirement_revisions": {
+        "SPEC-153": 39,
+        "SPEC-160": 11
       }
     }
   ],

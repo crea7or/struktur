@@ -29,6 +29,8 @@ def glyph_contract(root=ROOT):
     if catalogue['language'] != 'eng':
         raise ValueError('Language scope changed; define and review the new role inventory.')
     snapshot=(root/'source/Snapshot.mc').read_text(encoding='utf-8')
+    # Normalize named packed offsets for the same literal-output checks.
+    snapshot=re.sub(r'd\[SnapshotDescriptor\.(INDEX|AM|PM|LABEL)\]', lambda m: 'd.'+m.group(1).lower(), snapshot)
     renderer=(root/'source/FieldRenderer.mc').read_text(encoding='utf-8')
     policy=(root/'source/Policy.mc').read_text(encoding='utf-8')
     formatting=(root/'source/Formatting.mc').read_text(encoding='utf-8')

@@ -207,7 +207,7 @@ class MemoryValidationField extends StrukturField {
         _settings=caseSettings(index);_fieldSets.configuration.primary=_settings;_renderer.configure(_settings);
         _engine.metadata();_engine._hrZones=_fixtureHeart;_engine._powerZones=_fixturePower;
         var sample=fixture(index);sample["elapsed_time"]=(_cycle*CASES+index+1)*1000;
-        _snapshot=_engine.compute(sample,_settings);
+        _snapshot=_engine.compute(sample,_settings);sample=null; // Snapshot owns the current raw fixture; do not pin it across reset.
         if(index%12==0) { boundedHistory(); }
         MemoryObservation.sample("fixture_compute");
         var width=dc.getWidth();var height=dc.getHeight();
@@ -234,7 +234,7 @@ class MemoryValidationField extends StrukturField {
             var expected=Grid.plan(width,height,DeviceProfile.DESIGN_ROWS,_settings.enlarged);
             for(var field=0;field<expected.size();field+=1) {
                 var v=_snapshot[:values][field];var cell=expected[field];
-                System.println("DF_MEMORY_PREFLIGHT case="+index.toString()+" slot="+field.toString()+" id="+_settings.slots[field]+" header="+v[:label]+" text="+_renderer.displayText(v)+" unit="+v[:unit]+" cell="+cell[:w].toString()+"x"+cell[:h].toString());
+                System.println("DF_MEMORY_PREFLIGHT case="+index.toString()+" slot="+field.toString()+" id="+_settings.slots[field]+" header="+v[ValueRecord.LABEL]+" text="+_renderer.displayText(v)+" unit="+v[ValueRecord.UNIT]+" cell="+cell[Cell.W].toString()+"x"+cell[Cell.H].toString());
             }
             throw new Lang.InvalidValueException("Memory precondition: native grid must fit; compact-area checks belong to Placement");
     }

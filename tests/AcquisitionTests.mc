@@ -145,12 +145,12 @@ function temperatureProtocolAndAge(logger) {
         for(var statute=0;statute<2;statute+=1) {
             var snapshot=engine.prepareWithPreferences({"temperature"=>samples[i][0]},settings,true,
                 new PresentationDevice(statute==1,true,false),new PresentationClock());
-            Test.assertEqual(samples[i][statute==1?2:1],snapshot[:values][0][:text]);
-            Test.assertEqual(samples[i][3],snapshot[:values][0][:band]);
+            Test.assertEqual(samples[i][statute==1?2:1],snapshot[:values][0][ValueRecord.TEXT]);
+            Test.assertEqual(samples[i][3],snapshot[:values][0][ValueRecord.BAND]);
         }
     }
     var missing=engine.prepareWithPreferences({"temperature"=>null},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
-    Test.assert(missing[:values][0][:text]==null);
+    Test.assert(missing[:values][0][ValueRecord.TEXT]==null);
     return true;
 }
 
@@ -264,9 +264,9 @@ function approvedZoneSnapshot(logger) {
     var s=new DisplaySettings();s.apply({"a1"=>4,"a2"=>6,"a3"=>7,"a4"=>10,
         "a1_bg"=>1,"a3_bg"=>1});
     var snapshot=e.compute({"current_heart_rate"=>110.4,"current_power"=>110.4},s);
-    Test.assertEqual("110",snapshot[:values][0][:text]);Test.assertEqual("1",snapshot[:values][1][:text]);
-    Test.assertEqual("blue",snapshot[:values][0][:band]);Test.assertEqual("blue",snapshot[:values][2][:band]);
-    Test.assertEqual("1",snapshot[:values][3][:text]);
+    Test.assertEqual("110",snapshot[:values][0][ValueRecord.TEXT]);Test.assertEqual("1",snapshot[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual("blue",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual("blue",snapshot[:values][2][ValueRecord.BAND]);
+    Test.assertEqual("1",snapshot[:values][3][ValueRecord.TEXT]);
     return true;
 }
 
@@ -343,27 +343,27 @@ function acquisitionToSnapshot(logger) {
     var cache=new TemperatureCache(); cache.receive([2,0,1000,"edge-native-v2"],1000,0,true);
     raw["temperature"]=cache.value(1000,0);
     var e=new SnapshotEngine(); var snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(false,true,false),new PresentationClock());
-    Test.assertEqual(snap[:values][0][:text],snap[:values][1][:text]);
-    Test.assertEqual("red",snap[:values][0][:band]);
-    Test.assertEqual("1",snap[:values][2][:text]); Test.assertEqual("1",snap[:values][3][:text]);
-    Test.assertEqual("cyan",snap[:values][4][:band]); Test.assertEqual("cyan",snap[:values][5][:band]);
-    Test.assertEqual("0.0",snap[:values][4][:text]);
+    Test.assertEqual(snap[:values][0][ValueRecord.TEXT],snap[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual("red",snap[:values][0][ValueRecord.BAND]);
+    Test.assertEqual("1",snap[:values][2][ValueRecord.TEXT]); Test.assertEqual("1",snap[:values][3][ValueRecord.TEXT]);
+    Test.assertEqual("cyan",snap[:values][4][ValueRecord.BAND]); Test.assertEqual("cyan",snap[:values][5][ValueRecord.BAND]);
+    Test.assertEqual("0.0",snap[:values][4][ValueRecord.TEXT]);
     snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(true,true,false),new PresentationClock());
-    Test.assertEqual("32.0",snap[:values][4][:text]); Test.assertEqual("cyan",snap[:values][4][:band]);
+    Test.assertEqual("32.0",snap[:values][4][ValueRecord.TEXT]); Test.assertEqual("cyan",snap[:values][4][ValueRecord.BAND]);
     raw["temperature"]=cache.value(1361,361000);
     snap=e.prepareWithPreferences(raw,s,true,new PresentationDevice(true,true,false),new PresentationClock());
-    Test.assert(snap[:values][4][:text]==null);
-    Test.assertEqual("light_gray",snap[:values][4][:band]);
+    Test.assert(snap[:values][4][ValueRecord.TEXT]==null);
+    Test.assertEqual("light_gray",snap[:values][4][ValueRecord.BAND]);
     info.timerState=Activity.TIMER_STATE_PAUSED;
     raw=acquisition.read(info,{}); Test.assert(raw["grade"]==null);
     Test.assertEqual(1,raw["completed_laps"]);
     var headingSettings=new DisplaySettings(); headingSettings.apply({"a1"=>22});
     var heading=e.prepareWithPreferences({"heading"=>Math.PI/4.0},headingSettings,true,new PresentationDevice(false,true,false),new PresentationClock());
-    Test.assertEqual("NE",heading[:values][0][:expandedUnit]);
+    Test.assertEqual("NE",heading[:values][0][ValueRecord.EXPANDEDUNIT]);
     var dc=new PresentationDrawDc(246,470); var renderer=new FieldRenderer();
     renderer.prepare(heading); renderer.layout(dc,headingSettings); renderer.prepare(heading);
-    Test.assertEqual("NE",renderer.visibleUnit(dc,{:w=>1000},heading[:values][0],10));
-    Test.assertEqual("",renderer.visibleUnit(dc,{:w=>10},heading[:values][0],10));
+    Test.assertEqual("NE",renderer.visibleUnit(dc,{Cell.W=>1000},heading[:values][0],10));
+    Test.assertEqual("",renderer.visibleUnit(dc,{Cell.W=>10},heading[:values][0],10));
     return true;
 }
 
@@ -426,9 +426,9 @@ function fixedSlopePrecision(logger) {
             var settings=bank==0?banks.primary:banks.secondary;
             for(var i=0;i<cases.size();i+=1) {
                 var frame=engine.prepareWithPreferences({"grade"=>cases[i][0]},settings,true,device,clock);
-                Test.assertEqual(cases[i][1],frame[:values][0][:text]);
-                Test.assertEqual(cases[i][1],frame[:values][1][:text]);
-                Test.assertEqual(Effects.gradeBand(cases[i][0]),frame[:values][0][:band]);
+                Test.assertEqual(cases[i][1],frame[:values][0][ValueRecord.TEXT]);
+                Test.assertEqual(cases[i][1],frame[:values][1][ValueRecord.TEXT]);
+                Test.assertEqual(Effects.gradeBand(cases[i][0]),frame[:values][0][ValueRecord.BAND]);
             }
         }
     }

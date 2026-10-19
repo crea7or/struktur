@@ -1,8 +1,9 @@
 param([string]$Product='all',[string]$Python=$(if($env:STRUKTUR_PYTHON){$env:STRUKTUR_PYTHON}else{$env:MSGDF_PYTHON}),
       [string]$SdkRoot=$env:CONNECTIQ_SDK,[string]$JavaHome=$env:JAVA_HOME,
       [string]$DeviceRoot=$env:CONNECTIQ_DEVICES,[string]$DeveloperKey=$(if($env:STRUKTUR_DEVELOPER_KEY){$env:STRUKTUR_DEVELOPER_KEY}else{$env:MSGDF_DEVELOPER_KEY}),
-      [int]$TimeoutSeconds=240)
+      [int]$TimeoutSeconds=600)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'sdk-runner.ps1')
 $projectRoot=Split-Path $PSScriptRoot -Parent
 if(!$Python){$Python=Join-Path $projectRoot '.local\font-venv\Scripts\python.exe'}
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -SdkRoot $SdkRoot -JavaHome $JavaHome -DeviceRoot $DeviceRoot -DeveloperKey $DeveloperKey -RequireKey
@@ -51,7 +52,7 @@ try{
             $savedPreference=$ErrorActionPreference
             try{
                 $ErrorActionPreference='Continue'
-                $compilerOutput=& (Join-Path $environment.sdk 'bin\monkeyc.bat') -f $jungle -d $id -o $program -y $environment.developer_key 2>&1
+                $compilerOutput=& (Join-Path $environment.sdk 'bin\monkeyc.bat') -O 3z -f $jungle -d $id -o $program -y $environment.developer_key 2>&1
                 $compilerExit=$LASTEXITCODE
             }finally{$ErrorActionPreference=$savedPreference}
             $compilerOutput|Set-Content -LiteralPath $compilerLog -Encoding UTF8
@@ -59,7 +60,7 @@ try{
             $helper=Join-Path $PSScriptRoot 'execute-memory-runner.ps1'
             $runner=Join-Path $environment.sdk 'bin\monkeydo.bat'
             $arguments=@('-NoProfile','-ExecutionPolicy','Bypass','-File',('"'+$helper+'"'),'-RunnerPath',('"'+$runner+'"'),'-Program',('"'+$program+'"'),'-Product',$id)
-            $process=Start-Process -FilePath (Join-Path $PSHOME 'powershell.exe') -ArgumentList $arguments -PassThru -WindowStyle Hidden -RedirectStandardOutput $log -RedirectStandardError $err
+            $process=Start-StrukturSdkRun -Arguments $arguments -Log $log -ErrorLog $err
             $watch=[Diagnostics.Stopwatch]::StartNew()
             $done=$false
             while($watch.Elapsed.TotalSeconds -lt $TimeoutSeconds){
@@ -77,10 +78,7 @@ try{
             }
             if(!$done){throw 'Normal Data Field memory run timed out before completion.'}
             # Freeze the completed console evidence before hashing/parsing it.
-            if(!$process.HasExited){
-                & (Join-Path $env:SystemRoot 'System32\taskkill.exe') /PID $process.Id /T /F | Out-Null
-                $process.WaitForExit()
-            }
+            $process.Stop()
             & $Python (Join-Path $projectRoot 'tools\report_memory_validation.py') -Product $id --scenario $scenario
             if($LASTEXITCODE -ne 0){throw 'Normal Data Field evidence/limit verification failed.'}
             $scenarios+=Get-Content -Raw -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-'+$reportStem+'.json'))|ConvertFrom-Json
@@ -91,10 +89,7 @@ try{
             $scenarios+=$failure
             Write-Output ('FAIL normal Data Field memory: '+$id+' '+$scenario+' '+$_.Exception.Message)
         }finally{
-            if($null -ne $process -and !$process.HasExited){
-                # Stop only our runner tree after the explicit completion record.
-                & (Join-Path $env:SystemRoot 'System32\taskkill.exe') /PID $process.Id /T /F | Out-Null
-            }
+            if($null -ne $process){$process.Dispose()}
         }
         }
         $status=if(@($scenarios|Where-Object{$_.status -ne 'passed'}).Count){'failed'}else{'passed'}

@@ -24,6 +24,9 @@ class StrukturField extends LapAwareDataField {
     // Shared by SDK callbacks and fixtures: acquire once, decide, then format only the active set.
     function processActivity(info) {
         var started=RuntimeMetrics.enabled?System.getTimer():0;
+        // The incoming producer frame replaces raw acquisition state; keep immutable
+        // presentation records, but release the outgoing raw map before allocating it.
+        _snapshot=null;
         var raw=ActivityReader.readWithBattery(info,false);
         _acquisition.read(info,raw);
         raw["temperature"]=temperatureReading();
@@ -69,6 +72,7 @@ class StrukturField extends LapAwareDataField {
     function onTimerResume() { _samplingEnabled=true;_fieldSets.start();_acquisition.currentLap.resume();resetSamples(); }
     function onTimerReset() {
         _samplingEnabled=false;_fieldSets.reset();selectSettings();_engine.reset();_acquisition.onReset();
+        _renderer.discardPresentation();_snapshot=null;
         _snapshot=_engine.initial(_settings);refreshPresentation();WatchUi.requestUpdate();
     }
     function onWorkoutStarted() { _fieldSets.workout();refreshPresentation();WatchUi.requestUpdate(); }

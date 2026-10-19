@@ -25,15 +25,15 @@ function presentationSettingsAndUnits(logger) {
                     var physical=statute==1?imperial[index]:metric[index];
                     var label=expectedUnitHeader(index,physical,hide==1);
                     if("clock".equals(Catalog.FORMATS[index])) {label+=" | pm";}
-                    Test.assertEqual(label,value[:label]);
+                    Test.assertEqual(label,value[ValueRecord.LABEL]);
                     if("duration".equals(Catalog.FORMATS[index])) {
-                        Test.assertEqual("00",value[:text]);Test.assertEqual(".00",value[:unit]);
+                        Test.assertEqual("00",value[ValueRecord.TEXT]);Test.assertEqual(".00",value[ValueRecord.UNIT]);
                     } else if("clock".equals(Catalog.FORMATS[index])) {
-                        Test.assertEqual("1:05",value[:text]);Test.assertEqual("",value[:unit]);
-                    } else {Test.assertEqual("",value[:unit]);Test.assert(value[:text]!=null);}
+                        Test.assertEqual("1:05",value[ValueRecord.TEXT]);Test.assertEqual("",value[ValueRecord.UNIT]);
+                    } else {Test.assertEqual("",value[ValueRecord.UNIT]);Test.assert(value[ValueRecord.TEXT]!=null);}
                     var unavailable=engine.prepareWithPreferences({},settings,false,device,null)[:values][0];
-                    Test.assertEqual(expectedUnitHeader(index,physical,hide==1),unavailable[:label]);
-                    Test.assert(unavailable[:text]==null);Test.assertEqual("",unavailable[:unit]);
+                    Test.assertEqual(expectedUnitHeader(index,physical,hide==1),unavailable[ValueRecord.LABEL]);
+                    Test.assert(unavailable[ValueRecord.TEXT]==null);Test.assertEqual("",unavailable[ValueRecord.UNIT]);
                 }
             }
         }
@@ -42,18 +42,18 @@ function presentationSettingsAndUnits(logger) {
     var device12=new PresentationDevice(false,false,false);
     clock.hour=0;clock.min=0;
     var midnight=engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0];
-    Test.assertEqual("12:00",midnight[:text]);Test.assertEqual("time | am",midnight[:label]);
+    Test.assertEqual("12:00",midnight[ValueRecord.TEXT]);Test.assertEqual("time | am",midnight[ValueRecord.LABEL]);
     clock.hour=12;
     var noon=engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0];
-    Test.assertEqual("time | pm",noon[:label]);
+    Test.assertEqual("time | pm",noon[ValueRecord.LABEL]);
     device12.is24Hour=null;
-    Test.assertEqual("time",engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0][:label]);
+    Test.assertEqual("time",engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0][ValueRecord.LABEL]);
     clock.hour=24;
     var invalid=engine.prepareWithPreferences({},settings,true,device12,clock)[:values][0];
-    Test.assert(invalid[:text]==null);Test.assertEqual("time",invalid[:label]);
+    Test.assert(invalid[ValueRecord.TEXT]==null);Test.assertEqual("time",invalid[ValueRecord.LABEL]);
     settings.apply({"a1"=>"future-metric","a_hideu"=>false});
     var unknown=engine.initial(settings)[:values][0];
-    Test.assertEqual("field",unknown[:label]);Test.assertEqual("",unknown[:unit]);Test.assert(unknown[:text]==null);
+    Test.assertEqual("field",unknown[ValueRecord.LABEL]);Test.assertEqual("",unknown[ValueRecord.UNIT]);Test.assert(unknown[ValueRecord.TEXT]==null);
     return true;
 }
 
@@ -74,10 +74,10 @@ function composedHeaderWidthAudit(logger) {
         var device=new PresentationDevice(statute==1,true,false);
         for(var index=0;index<Catalog.IDS.size()-1;index+=1) {
             settings.apply({"a1"=>Catalog.IDS[index],"a_hideu"=>true});
-            var plain=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][:label];
+            var plain=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][ValueRecord.LABEL];
             Test.assertEqual(Catalog.LABELS[index],plain);
             settings.apply({"a1"=>Catalog.IDS[index],"a_hideu"=>false});
-            var header=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][:label];
+            var header=engine.prepareWithPreferences({},settings,false,device,clock)[:values][0][ValueRecord.LABEL];
             var unit=statute==1?imperial[index]:metric[index];
             Test.assertEqual(expectedUnitHeader(index,unit,false),header);
             var plainWidth=dc.getTextWidthInPixels(plain,font);
@@ -135,9 +135,9 @@ function presentationThemeAndActivity(logger) {
     // Reformatting existing readings after settings changes must preserve averages.
     engine.prepare({"power_3s"=>200,"activity_timer"=>65000},settings,true);
     var next=engine.compute({"current_power"=>400,"activity_timer"=>65000,"elapsed_time"=>4000,"_sampling_enabled"=>true},settings);
-    Test.assertEqual("300",next[:values][0][:text]);
-    Test.assertEqual("3s watts",next[:values][0][:label]);Test.assertEqual("",next[:values][0][:unit]);
-    Test.assertEqual("01",next[:values][1][:text]); Test.assertEqual(".05",next[:values][1][:unit]);
+    Test.assertEqual("300",next[:values][0][ValueRecord.TEXT]);
+    Test.assertEqual("3s watts",next[:values][0][ValueRecord.LABEL]);Test.assertEqual("",next[:values][0][ValueRecord.UNIT]);
+    Test.assertEqual("01",next[:values][1][ValueRecord.TEXT]); Test.assertEqual(".05",next[:values][1][ValueRecord.UNIT]);
     return true;
 }
 
@@ -157,7 +157,7 @@ function literalAndTemplateHeaderSelection(logger) {
     var device=new PresentationDevice(true,true,false);device.elevationUnits=System.UNIT_METRIC;
     var result=new SnapshotEngine().prepareWithPreferences({},settings,false,device,null)[:values];
     var expected=["speed | mph","elevation | m","temp | °f","kcal","watts"];
-    for(var i=0;i<expected.size();i+=1) { Test.assertEqual(expected[i],result[i][:label]);Test.assertEqual("",result[i][:unit]); }
+    for(var i=0;i<expected.size();i+=1) { Test.assertEqual(expected[i],result[i][ValueRecord.LABEL]);Test.assertEqual("",result[i][ValueRecord.UNIT]); }
     return true;
 }
 
@@ -173,16 +173,16 @@ function sampleDefaultUnitHeaderGrid(logger) {
                     "power_3s"=>245,"elevation"=>1456,"grade"=>6.8,"total_ascent"=>456,"temperature"=>24.5};
                 var snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,night==1),new PresentationClock());
                 for(var fresh=0;fresh<snapshot[:values].size();fresh+=1) {
-                    Test.assert(snapshot[:values][fresh][:band]==null && snapshot[:values][fresh][:angle]==null);
+                    Test.assert(snapshot[:values][fresh][ValueRecord.BAND]==null && snapshot[:values][fresh][ValueRecord.ANGLE]==null);
                 }
                 var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
-                for(var p=0;p<snapshot[:values].size();p+=1) { dc.paintEffects.add(snapshot[:values][p][:band]!=null || snapshot[:values][p][:angle]!=null); }
+                for(var p=0;p<snapshot[:values].size();p+=1) { dc.paintEffects.add(snapshot[:values][p][ValueRecord.BAND]!=null || snapshot[:values][p][ValueRecord.ANGLE]!=null); }
                 var renderer=new FieldRenderer();renderer.prepare(snapshot);renderer.layout(dc,settings);renderer.draw(dc,snapshot,settings);
                 var cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,0);
                 Test.assertEqual(cells.size(),renderer._runs.size());
                 Test.assertEqual(0,renderer._compactLines.size());
                 for(var field=0;field<cells.size();field+=1) {
-                    Test.assertEqual(snapshot[:values][field][:text],renderer._runs[field].text);
+                    Test.assertEqual(snapshot[:values][field][ValueRecord.TEXT],renderer._runs[field].text);
                     Test.assert(!PresentationPolicy.OVERFLOW.equals(renderer._runs[field].text));
                 }
                 verifyDrawRecords(dc,renderer,snapshot,cells,night,1,align);
@@ -209,7 +209,7 @@ function reviewedFormattingAndCatalogue(logger) {
     Test.assertEqual("N",Formatting.cardinal(359.6));Test.assertEqual("NE",Formatting.cardinal(22.5));
     var settings=new DisplaySettings();settings.apply({"a1"=>22});
     var value=new SnapshotEngine().prepareWithPreferences({"heading"=>Math.PI/4.0},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
-    Test.assertEqual("45",value[:values][0][:text]);Test.assertEqual("NE",value[:values][0][:expandedUnit]);
+    Test.assertEqual("45",value[:values][0][ValueRecord.TEXT]);Test.assertEqual("NE",value[:values][0][ValueRecord.EXPANDEDUNIT]);
     return true;
 }
 
@@ -226,7 +226,7 @@ function fixedThreeRoleFonts(logger) {
             renderer.prepare(snapshot);renderer.layout(dc,settings);
             Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,big),renderer._runs.size());
             for(var i=0;i<renderer._runs.size();i+=1) {
-                Test.assertEqual(renderer._cells[i][:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,renderer._runs[i].size);
+                Test.assertEqual(renderer._cells[i][Cell.ENLARGED]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,renderer._runs[i].size);
             }
             Test.assertEqual(FontSelection.height(DeviceProfile.LABEL_SIZE,true),renderer._labelHeight);
             Test.assert(renderer._fonts.size()<=3 && renderer._metrics.size()<=3);
@@ -242,7 +242,7 @@ function approvedForegroundAndMetricWidths(logger) {
         var s=new DisplaySettings();s.apply({"a1"=>15,"a1_bg"=>2,"a_theme"=>night==1?2:1});
         var snapshot=e.prepareWithPreferences({"grade"=>1},s,true,new PresentationDevice(false,true,night==1),clock);
         var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
-        for(var f=0;f<snapshot[:values].size();f+=1) { dc.paintEffects.add(snapshot[:values][f][:band]!=null || snapshot[:values][f][:angle]!=null); }
+        for(var f=0;f<snapshot[:values].size();f+=1) { dc.paintEffects.add(snapshot[:values][f][ValueRecord.BAND]!=null || snapshot[:values][f][ValueRecord.ANGLE]!=null); }
         var r=new FieldRenderer();r.prepare(snapshot);r.layout(dc,s);r.draw(dc,snapshot,s);
         Test.assertEqual(night==1?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,dc.records[0][:texts][0][:color]);
     }
@@ -250,7 +250,7 @@ function approvedForegroundAndMetricWidths(logger) {
     var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
     var orange=engine.compute({"current_heart_rate"=>160},settings);
     var out=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
-    for(var g=0;g<orange[:values].size();g+=1) { out.paintEffects.add(orange[:values][g][:band]!=null || orange[:values][g][:angle]!=null); }
+    for(var g=0;g<orange[:values].size();g+=1) { out.paintEffects.add(orange[:values][g][ValueRecord.BAND]!=null || orange[:values][g][ValueRecord.ANGLE]!=null); }
     var renderer=new FieldRenderer();
     renderer.prepare(orange);renderer.layout(out,settings);renderer.draw(out,orange,settings);
     Test.assertEqual(Graphics.COLOR_ORANGE,out.records[0][:fills][1]);
@@ -364,13 +364,13 @@ class EnlargedLabelScenario {
         engine._powerZones=ZoneMetadata.power([0,200,300,400,500,600],true);
         after=engine.prepareWithPreferences({"current_power"=>150},settings,true,device,null);
         render(after);assertFrame(after,"blue");
-        Test.assertEqual("green",before[:values][0][:band]);Test.assertEqual("150",before[:values][0][:text]);
+        Test.assertEqual("green",before[:values][0][ValueRecord.BAND]);Test.assertEqual("150",before[:values][0][ValueRecord.TEXT]);
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);
         Test.assert(renderer.packetBuilds>packets);
         engine._powerZones=null;
         fallback=engine.prepareWithPreferences({"current_power"=>150},settings,true,device,null);
         render(fallback);assertFrame(fallback,null);
-        Test.assertEqual("150",fallback[:values][0][:text]);
+        Test.assertEqual("150",fallback[:values][0][ValueRecord.TEXT]);
     }
     function render(snapshot) {
         dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
@@ -381,15 +381,15 @@ class EnlargedLabelScenario {
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,settings.enlarged),dc.records.size());
         for(var i=0;i<dc.records.size();i+=1) {
             var c=renderer._cells[i];var record=dc.records[i];var fill=record[:rectangles][1];
-            var effective=FieldPresentation.effectiveNight(snapshot[:night],c[:enlarged],settings.inverseEnlargedTheme);
+            var effective=FieldPresentation.effectiveNight(snapshot[:night],c[Cell.ENLARGED],settings.inverseEnlargedTheme);
             var expected=semantic==null?(effective?0x333333:0xCCCCCC):renderer.color(semantic);
-            Test.assertEqual(c[:x],fill[0]);Test.assertEqual(c[:y],fill[1]);
-            Test.assertEqual(c[:w],fill[2]);Test.assertEqual(renderer._labelBandHeight,fill[3]);
+            Test.assertEqual(c[Cell.X],fill[0]);Test.assertEqual(c[Cell.Y],fill[1]);
+            Test.assertEqual(c[Cell.W],fill[2]);Test.assertEqual(renderer._labelBandHeight,fill[3]);
             Test.assertEqual(expected,record[:fills][1]);Test.assertEqual(2,record[:rectangles].size());
             Test.assertEqual(effective?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE,record[:background]);
             Test.assertEqual("150",renderer._runs[i].text);Test.assertEqual(2,record[:texts].size());
-            Test.assertEqual(c[:y]+renderer._labelBandHeight,record[:texts][0][:clip][1]+record[:texts][0][:clip][3]);
-            Test.assert(record[:texts][1][:inkTop]>=c[:y]+renderer._headerHeight);
+            Test.assertEqual(c[Cell.Y]+renderer._labelBandHeight,record[:texts][0][:clip][1]+record[:texts][0][:clip][3]);
+            Test.assert(record[:texts][1][:inkTop]>=c[Cell.Y]+renderer._headerHeight);
         }
     }
 }
@@ -406,21 +406,21 @@ class CoverageScenario {
     function prepare() {
         settings.apply(props);snapshot=engine.prepareWithPreferences({"elevation"=>123,"grade"=>3.4},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
         renderer.prepare(snapshot);dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
-        for(var i=0;i<10;i+=1) { dc.paintEffects.add(snapshot[:values][i][:band]!=null);dc.wholeEffects.add(snapshot[:values][i][:coverage]==2); }
+        for(var i=0;i<10;i+=1) { dc.paintEffects.add(snapshot[:values][i][ValueRecord.BAND]!=null);dc.wholeEffects.add(snapshot[:values][i][ValueRecord.COVERAGE]==2); }
         renderer.draw(dc,snapshot,settings);Test.assert(renderer._cells.size()>0);
     }
     function run() {
         prepare();old=snapshot[:values][0];fits=renderer.fitCount;geometry=renderer.geometryBuilds;
         Test.assert(renderer._packets[0].labelEffect);Test.assertEqual(1,dc.records[0][:rectangles].size()-1);
         props["a1_bg"]=2;prepare();
-        Test.assertEqual(1,old[:coverage]);Test.assertEqual(2,snapshot[:values][0][:coverage]);
+        Test.assertEqual(1,old[ValueRecord.COVERAGE]);Test.assertEqual(2,snapshot[:values][0][ValueRecord.COVERAGE]);
         Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(fits,renderer.fitCount);Test.assert(!renderer._packets[0].labelEffect);
         Test.assert(renderer._packets[0].primary[6]!=null);
-        if("grade".equals(settings.slots[0])) { Test.assert(snapshot[:values][0][:angle]!=null); }
-        else { Test.assertEqual(renderer.color(snapshot[:values][0][:band]),dc.records[0][:background]);Test.assertEqual(fits,renderer.fitCount); }
+        if("grade".equals(settings.slots[0])) { Test.assert(snapshot[:values][0][ValueRecord.ANGLE]!=null); }
+        else { Test.assertEqual(renderer.color(snapshot[:values][0][ValueRecord.BAND]),dc.records[0][:background]);Test.assertEqual(fits,renderer.fitCount); }
         props["a1_bg"]=1;prepare();Test.assert(renderer._runs[0].labelBand>0);
-        Test.assert(snapshot[:values][0][:angle]==null);Test.assert(renderer._packets[0].labelEffect);
-        props["a1_bg"]=0;prepare();Test.assert(snapshot[:values][0][:band]==null);
+        Test.assert(snapshot[:values][0][ValueRecord.ANGLE]==null);Test.assert(renderer._packets[0].labelEffect);
+        props["a1_bg"]=0;prepare();Test.assert(snapshot[:values][0][ValueRecord.BAND]==null);
         Test.assertEqual(1,dc.records[0][:rectangles].size());Test.assertEqual(geometry,renderer.geometryBuilds);
     }
 }

@@ -21,8 +21,8 @@ module Geometry {
     function sky(cell,angle) { return horizonRegion(cell,angle,true); }
     function ground(cell,angle) { return horizonRegion(cell,angle,false); }
     function horizonRegion(cell,angle,above) {
-        var left=cell[:x];var right=left+cell[:w]-1;
-        var top=cell[:y];var bottom=top+cell[:h]-1;
+        var left=cell[Cell.X];var right=left+cell[Cell.W]-1;
+        var top=cell[Cell.Y];var bottom=top+cell[Cell.H]-1;
         var center=(top+bottom)/2.0;var delta=Math.tan(angle*Math.PI/180.0)*(right-left)/2.0;
         var points=above?[[left,top],[right,top],[right,center-delta],[left,center+delta]]:
             [[left,center+delta],[right,center-delta],[right,bottom],[left,bottom]];

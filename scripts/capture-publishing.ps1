@@ -1,5 +1,6 @@
 param([int]$TimeoutSeconds=60)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'sdk-runner.ps1')
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -RequireKey
 $env:JAVA_HOME=$environment.java_home
@@ -78,7 +79,7 @@ public static class StoreCaptureWindows {
         $savedPreference=$ErrorActionPreference
         try {
             $ErrorActionPreference='Continue'
-            $compilerOutput=& (Join-Path $environment.sdk 'bin/monkeyc.bat') -f ('.local/publishing-preview/'+$id+'/preview.jungle') -d $product -o $program -y $environment.developer_key 2>&1
+            $compilerOutput=& (Join-Path $environment.sdk 'bin/monkeyc.bat') -O 3z -f ('.local/publishing-preview/'+$id+'/preview.jungle') -d $product -o $program -y $environment.developer_key 2>&1
             $compilerExit=$LASTEXITCODE
         }finally{$ErrorActionPreference=$savedPreference}
         $compilerOutput|Set-Content -LiteralPath $compilerLog -Encoding UTF8
@@ -89,7 +90,7 @@ public static class StoreCaptureWindows {
         $jar=Join-Path $environment.sdk 'bin/monkeybrains.jar'
         $sdkShell=Join-Path $environment.sdk 'bin/shell.exe'
         $arguments=@('-classpath',('"'+$jar+'"'),'com.garmin.monkeybrains.monkeydodeux.MonkeyDoDeux','-f',('"'+$program+'"'),'-d',$product,'-s',('"'+$sdkShell+'"'))
-        $runner=Start-Process -FilePath $java -ArgumentList $arguments -PassThru -WindowStyle Hidden -RedirectStandardOutput $log -RedirectStandardError $err
+        $runner=[StrukturSdkRun]::Start($java,($arguments -join ' '),$projectRoot,$log,$err)
         $watch=[Diagnostics.Stopwatch]::StartNew();$selected=$false;$ready=$false;$simulator=$null;$window=[IntPtr]::Zero
         try {
             while($watch.Elapsed.TotalSeconds -lt $TimeoutSeconds){
@@ -124,10 +125,7 @@ public static class StoreCaptureWindows {
             $images+=[pscustomobject]@{id=$id;product=$product;image=$image;image_sha256=(Get-FileHash -LiteralPath $image -Algorithm SHA256).Hash.ToLowerInvariant();source_capture=$full;source_sha256=(Get-FileHash -LiteralPath $full -Algorithm SHA256).Hash.ToLowerInvariant();crop_box=@($x,$y,($x+$location.width),($y+$location.height));width=$location.width;height=$location.height;visible_fields=$configuration.fields.Count;sample_binary=$program;sample_binary_sha256=(Get-FileHash -LiteralPath $program -Algorithm SHA256).Hash.ToLowerInvariant();log=$log;fields=$configuration.fields;settings=$configuration.settings}
             Write-Output ('Captured '+$id+': '+$configuration.fields.Count+' fields, '+$location.width+'x'+$location.height)
         }finally{
-            if(!$runner.HasExited){
-                $cleanupPreference=$ErrorActionPreference
-                try{$ErrorActionPreference='Continue';& (Join-Path $env:SystemRoot 'System32/taskkill.exe') /PID $runner.Id /T /F 2>&1|Out-Null}finally{$ErrorActionPreference=$cleanupPreference}
-            }
+            $runner.Dispose()
         }
     }
     $current=& (Join-Path $PSScriptRoot 'source-provenance.ps1')

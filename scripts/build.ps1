@@ -56,13 +56,13 @@ try{
     foreach($target in $products){
         $jungle='monkey.jungle'
         $out=Join-Path $outputDir ($target+'-'+$effectiveMode+'.prg')
-        $compilerArgs=@('-f',$jungle,'-d',$target,'-o',$out,'-y',$DeveloperKey)
+        $compilerArgs=@('-O','3z','-f',$jungle,'-d',$target,'-o',$out,'-y',$DeveloperKey)
         if($Mode -eq 'release'){$compilerArgs+='-r'}
         if($packageMode){
             # Candidates use the store binary format without asserting release qualification.
             $packageName=if($Mode -eq 'candidate'){'Struktur-candidate.iq'}else{'Struktur.iq'}
             $out=Join-Path $outputDir $packageName
-            $compilerArgs=@('-f','monkey.jungle','-o',$out,'-y',$DeveloperKey,'-e','-r')
+            $compilerArgs=@('-O','3z','-f','monkey.jungle','-o',$out,'-y',$DeveloperKey,'-e','-r')
         }
         $savedPreference=$ErrorActionPreference
         try{

@@ -1,5 +1,6 @@
 param([string]$Product='all',[int]$TimeoutSeconds=60)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'sdk-runner.ps1')
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $environment=& (Join-Path $PSScriptRoot 'check-environment.ps1') -RequireKey
 $env:JAVA_HOME=$environment.java_home
@@ -49,7 +50,7 @@ public static class SampleCaptureWindows {
         $program=Join-Path $projectRoot ('bin/'+$id+'-sample-preview.prg')
         $compileLog=Join-Path $projectRoot ('artifacts/'+$id+'-sample-compiler.log')
         $saved=$ErrorActionPreference
-        try{$ErrorActionPreference='Continue';$compilerOutput=& (Join-Path $environment.sdk 'bin/monkeyc.bat') -f ('.local/sample-preview-'+$id+'.jungle') -d $id -o $program -y $environment.developer_key 2>&1;$compilerExit=$LASTEXITCODE}finally{$ErrorActionPreference=$saved}
+        try{$ErrorActionPreference='Continue';$compilerOutput=& (Join-Path $environment.sdk 'bin/monkeyc.bat') -O 3z -f ('.local/sample-preview-'+$id+'.jungle') -d $id -o $program -y $environment.developer_key 2>&1;$compilerExit=$LASTEXITCODE}finally{$ErrorActionPreference=$saved}
         $compilerOutput|Set-Content -LiteralPath $compileLog -Encoding UTF8
         if($compilerExit -ne 0){throw ('Sample compilation failed: '+$id)}
         $log=Join-Path $projectRoot ('artifacts/'+$id+'-sample-preview.log')
@@ -57,7 +58,7 @@ public static class SampleCaptureWindows {
         $java=Join-Path $environment.java_home 'bin/java.exe'
         $jar=Join-Path $environment.sdk 'bin/monkeybrains.jar';$shell=Join-Path $environment.sdk 'bin/shell.exe'
         $arguments=@('-classpath',('"'+$jar+'"'),'com.garmin.monkeybrains.monkeydodeux.MonkeyDoDeux','-f',('"'+$program+'"'),'-d',$id,'-s',('"'+$shell+'"'))
-        $runner=Start-Process -FilePath $java -ArgumentList $arguments -PassThru -WindowStyle Hidden -RedirectStandardOutput $log -RedirectStandardError $err
+        $runner=[StrukturSdkRun]::Start($java,($arguments -join ' '),$projectRoot,$log,$err)
         $watch=[Diagnostics.Stopwatch]::StartNew();$selected=$false;$frame=$null;$simulator=$null
         try {
             while($watch.Elapsed.TotalSeconds -lt $TimeoutSeconds){
@@ -88,10 +89,7 @@ public static class SampleCaptureWindows {
             $images+=[pscustomobject]@{product=$id;image=$imagePath;image_sha256=(Get-FileHash -LiteralPath $imagePath -Algorithm SHA256).Hash.ToLowerInvariant();sample_binary_sha256=(Get-FileHash -LiteralPath $program -Algorithm SHA256).Hash.ToLowerInvariant();width=[int]$frame.Groups[1].Value;height=[int]$frame.Groups[2].Value;visible_fields=[int]$frame.Groups[3].Value;enlarged_fields=1;enlarged_metric='power_3s';units_shown=$true;alignment='right';theme='day';data='synthetic sample ride; production formatting and renderer';log=$log}
             Write-Output ('Captured '+$id+': '+$frame.Groups[3].Value+' fields, '+$frame.Groups[1].Value+'x'+$frame.Groups[2].Value)
         } finally {
-            if(!$runner.HasExited){
-                $cleanupPreference=$ErrorActionPreference
-                try{$ErrorActionPreference='Continue';& (Join-Path $env:SystemRoot 'System32/taskkill.exe') /PID $runner.Id /T /F 2>&1|Out-Null}finally{$ErrorActionPreference=$cleanupPreference}
-            }
+            $runner.Dispose()
         }
     }
     $current=& (Join-Path $PSScriptRoot 'source-provenance.ps1')

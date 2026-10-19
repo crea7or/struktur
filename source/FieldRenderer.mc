@@ -72,7 +72,7 @@ class FieldRenderer {
     var _labelSizes=[DeviceProfile.LABEL_SIZE];
     var _clearForeground=Graphics.COLOR_BLACK;
     var _clearBackground=Graphics.COLOR_WHITE;
-    var _lineColorIndex=3;
+    var _lineColorIndex=5;
     function initialize() {
         _nativeFonts=new NativeTextCache();
         _labelBandHeight=FieldPresentation.headerBandHeight(metric(DeviceProfile.LABEL_SIZE,true),_labelTop);
@@ -90,9 +90,9 @@ class FieldRenderer {
         _polygons=[];_polygonAngles=[];_cellNights=[];_needsLayout=true;
     }
     function needsLayout() { return _needsLayout; }
-    function coverage(value) { return value.hasKey(:coverage)?value[:coverage]:(value[:angle]!=null?2:1); }
-    function isTeam(value) { return "text".equals(value[:format]); }
-    function painted(value) { return value[:band]!=null || value[:angle]!=null; }
+    function coverage(value) { return value.size()>ValueRecord.COVERAGE?value[ValueRecord.COVERAGE]:(value[ValueRecord.ANGLE]!=null?2:1); }
+    function isTeam(value) { return "text".equals(value[ValueRecord.FORMAT]); }
+    function painted(value) { return value[ValueRecord.BAND]!=null || value[ValueRecord.ANGLE]!=null; }
     function numericSizes(enlarged) {
         return enlarged?_bigSizes:_regularSizes;
     }
@@ -113,34 +113,34 @@ class FieldRenderer {
         return nextFonts[key];
     }
     function displayText(value) {
-        var text=value[:text];
+        var text=value[ValueRecord.TEXT];
         return text==null?PresentationPolicy.UNAVAILABLE:("overflow".equals(text)?PresentationPolicy.OVERFLOW:text);
     }
     function fitRun(cell,value,labelSize,text,unit) {
         fitCount+=1;
-        var labelFit=_headerFits.hasKey(value[:label])?_headerFits[value[:label]]:null;
+        var labelFit=_headerFits.hasKey(value[ValueRecord.LABEL])?_headerFits[value[ValueRecord.LABEL]]:null;
         if(labelFit==null) {
-            labelFit=[FontMetrics.width(value[:label],_labelMetrics),FontMetrics.bounds(value[:label],_labelMetrics)[1]];
-            _headerFits[value[:label]]=labelFit;headerMeasures+=1;
+            labelFit=[FontMetrics.width(value[ValueRecord.LABEL],_labelMetrics),FontMetrics.bounds(value[ValueRecord.LABEL],_labelMetrics)[1]];
+            _headerFits[value[ValueRecord.LABEL]]=labelFit;headerMeasures+=1;
         }
         // Keep fitting state in the result object: this path also runs inside
         // settings and typed-lap callbacks with a small VM operand stack.
-        var run=new FittedRun(cell[:enlarged]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,text,unit,0,0,0,0,null,null);
+        var run=new FittedRun(cell[Cell.ENLARGED]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,text,unit,0,0,0,0,null,null);
         run.radius=painted(value)?1:0;run.margin=4+run.radius;
-        run.labelBand=value[:band]!=null && value[:angle]==null && coverage(value)==1?_labelBandHeight:0;
-        if(labelFit[0]>cell[:w]-2*run.margin || run.size<=labelSize) { return null; }
-        var metrics=cell[:enlarged]?_bigMetrics:_regularMetrics;
+        run.labelBand=value[ValueRecord.BAND]!=null && value[ValueRecord.ANGLE]==null && coverage(value)==1?_labelBandHeight:0;
+        if(labelFit[0]>cell[Cell.W]-2*run.margin || run.size<=labelSize) { return null; }
+        var metrics=cell[Cell.ENLARGED]?_bigMetrics:_regularMetrics;
         run.ink=FontMetrics.bounds(text,metrics);run.width=FontMetrics.width(text,metrics);
         run.unitWidth=FontMetrics.width(run.unit,_labelMetrics);
-        var expanded=value.hasKey(:expandedUnit)?value[:expandedUnit]:null;
-        if(!PresentationPolicy.OVERFLOW.equals(text) && expanded!=null && run.width+FontMetrics.width(expanded,_labelMetrics)+2<=cell[:w]-2*run.margin) {
+        var expanded=value.size()>ValueRecord.EXPANDEDUNIT?value[ValueRecord.EXPANDEDUNIT]:null;
+        if(!PresentationPolicy.OVERFLOW.equals(text) && expanded!=null && run.width+FontMetrics.width(expanded,_labelMetrics)+2<=cell[Cell.W]-2*run.margin) {
             run.unit=expanded;run.unitWidth=FontMetrics.width(expanded,_labelMetrics);
         }
         run.total=run.width+(run.unitWidth>0?run.unitWidth+2:0);
-        run.top=Numeric.rounded(_headerHeight+(cell[:h]-_headerHeight-(run.ink[1]-run.ink[0]))/2.0);
+        run.top=Numeric.rounded(_headerHeight+(cell[Cell.H]-_headerHeight-(run.ink[1]-run.ink[0]))/2.0);
         run.unitInk=FontMetrics.bounds(run.unit,_labelMetrics);
-        if(run.total<=cell[:w]-2*run.margin && run.top>=run.labelBand && run.top-run.radius>=_headerHeight && run.top-run.radius>=4+labelFit[1]+run.radius+2 &&
-            run.top+run.ink[1]-run.ink[0]+run.radius<=cell[:h] && run.top+run.unitInk[1]-run.unitInk[0]+run.radius<=cell[:h]) { return run; }
+        if(run.total<=cell[Cell.W]-2*run.margin && run.top>=run.labelBand && run.top-run.radius>=_headerHeight && run.top-run.radius>=4+labelFit[1]+run.radius+2 &&
+            run.top+run.ink[1]-run.ink[0]+run.radius<=cell[Cell.H] && run.top+run.unitInk[1]-run.unitInk[0]+run.radius<=cell[Cell.H]) { return run; }
         return null;
     }
     function plan(rows) {
@@ -153,7 +153,7 @@ class FieldRenderer {
                 var value=_preparedValues[i];var text=displayText(value);
                 var run=null;
                 if(isTeam(value)) { fitCount+=1;run=_nativeFonts.fit(cells[i],value); }
-                else { run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]); }
+                else { run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[ValueRecord.UNIT]); }
                 if(run==null && overflow==1) { run=fitRun(cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
                 if(run==null) { break; }
                 runs.add(run);
@@ -243,11 +243,11 @@ class FieldRenderer {
             if(changed) { _needsLayout=true;headersChanged=true; }
             else {
                 var old=_preparedValues[i];
-                if(!old[:label].equals(next[:label])) { headersChanged=true; }
-                if(!old[:label].equals(next[:label]) || !displayText(old).equals(displayText(next)) ||
-                    !old[:unit].equals(next[:unit]) || isTeam(old)!=isTeam(next) ||
+                if(!old[ValueRecord.LABEL].equals(next[ValueRecord.LABEL])) { headersChanged=true; }
+                if(!old[ValueRecord.LABEL].equals(next[ValueRecord.LABEL]) || !displayText(old).equals(displayText(next)) ||
+                    !old[ValueRecord.UNIT].equals(next[ValueRecord.UNIT]) || isTeam(old)!=isTeam(next) ||
                     (!isTeam(next) && painted(old)!=painted(next)) ||
-                    (old[:expandedUnit]==null?next[:expandedUnit]!=null:(next[:expandedUnit]==null || !old[:expandedUnit].equals(next[:expandedUnit])))) { changed=true; }
+                    (old[ValueRecord.EXPANDEDUNIT]==null?next[ValueRecord.EXPANDEDUNIT]!=null:(next[ValueRecord.EXPANDEDUNIT]==null || !old[ValueRecord.EXPANDEDUNIT].equals(next[ValueRecord.EXPANDEDUNIT])))) { changed=true; }
             }
             // Hidden candidate cells can permit recovery from a smaller fallback.
             // Slots beyond the preferred capacity never affect the current layout.
@@ -259,7 +259,7 @@ class FieldRenderer {
         if(headersChanged) {
             var retained={};
             for(var slot=0;slot<snapshot[:values].size();slot+=1) {
-                var label=snapshot[:values][slot][:label];
+                var label=snapshot[:values][slot][ValueRecord.LABEL];
                 if(_headerFits.hasKey(label)) { retained[label]=_headerFits[label]; }
             }
             _headerFits=retained;
@@ -289,7 +289,7 @@ class FieldRenderer {
             var i=_dirtyFields[n];var value=_preparedValues[i];var text=displayText(value);
             var run=null;
             if(isTeam(value)) { fitCount+=1;run=_nativeFonts.fit(_cells[i],value); }
-            else { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[:unit]); }
+            else { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[ValueRecord.UNIT]); }
             if(run==null) { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
             if(run==null) { _needsLayout=true;return; }
             if(!run.isNative) { run.font=_runs[i].isNative?selectFont(run.size,false,_fonts):_runs[i].font; } _runs[i]=run;_packets[i]=null;
@@ -300,19 +300,19 @@ class FieldRenderer {
         if(paletteChanged) {
             _clearForeground=_baseNight?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK;
             _clearBackground=_baseNight?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
-            _lineColorIndex=_baseNight?2:3;_paletteNight=_baseNight;_paletteInverse=_inverse;
+            _lineColorIndex=_baseNight?4:5;_paletteNight=_baseNight;_paletteInverse=_inverse;
         }
         for(var i=0;i<_cells.size();i+=1) {
-            var night=paletteChanged || i>=_cellNights.size()?FieldPresentation.effectiveNight(_baseNight,_cells[i][:enlarged],_inverse):_cellNights[i];
+            var night=paletteChanged || i>=_cellNights.size()?FieldPresentation.effectiveNight(_baseNight,_cells[i][Cell.ENLARGED],_inverse):_cellNights[i];
             var value=_preparedValues[i];var packet=i<_packets.size()?_packets[i]:null;
             if(i>=_cellNights.size()) { _cellNights.add(night);_polygons.add(null);_polygonAngles.add(null);_packets.add(null); }
             _cellNights[i]=night;
             if(packet==null || packet.night!=night ||
-                (packet.band==null?value[:band]!=null:(value[:band]==null || !packet.band.equals(value[:band]))) || packet.angle!=value[:angle] || packet.coverage!=coverage(value)) {
-                if(_polygonAngles[i]!=value[:angle]) {
-                    _polygons[i]=value[:angle]==null?null:Geometry.ground(_cells[i],value[:angle]);
-                    _polygonAngles[i]=value[:angle];
-                    if(value[:angle]!=null) { polygonBuilds+=1; }
+                (packet.band==null?value[ValueRecord.BAND]!=null:(value[ValueRecord.BAND]==null || !packet.band.equals(value[ValueRecord.BAND]))) || packet.angle!=value[ValueRecord.ANGLE] || packet.coverage!=coverage(value)) {
+                if(_polygonAngles[i]!=value[ValueRecord.ANGLE]) {
+                    _polygons[i]=value[ValueRecord.ANGLE]==null?null:Geometry.ground(_cells[i],value[ValueRecord.ANGLE]);
+                    _polygonAngles[i]=value[ValueRecord.ANGLE];
+                    if(value[ValueRecord.ANGLE]!=null) { polygonBuilds+=1; }
                 }
                 _packets[i]=_runs[i].isNative?prepareTeam(i,night):preparePacket(i,night);packetBuilds+=1;
             }
@@ -322,40 +322,40 @@ class FieldRenderer {
         var c=_cells[i];var v=_preparedValues[i];var run=_runs[i];
         var background=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
         var mode=coverage(v);
-        var flat=v[:band]!=null && v[:angle]==null;
+        var flat=v[ValueRecord.BAND]!=null && v[ValueRecord.ANGLE]==null;
         var whole=flat && mode==2;
         var labelEffect=flat && mode==1;
         run.labelBand=labelEffect?_labelBandHeight:0;
-        var darkText=!flat?!night:("white".equals(v[:band]) || "yellow".equals(v[:band]) || "cyan".equals(v[:band]) || "green".equals(v[:band]) || "light_gray".equals(v[:band]) || "magenta".equals(v[:band]));
+        var darkText=!flat?!night:("white".equals(v[ValueRecord.BAND]) || "yellow".equals(v[ValueRecord.BAND]) || "cyan".equals(v[ValueRecord.BAND]) || "green".equals(v[ValueRecord.BAND]) || "light_gray".equals(v[ValueRecord.BAND]) || "magenta".equals(v[ValueRecord.BAND]));
         var headerForeground=darkText?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
         var valueForeground=whole?headerForeground:(night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK);
-        var radius=v[:angle]!=null || whole?run.radius:0;
-        if(whole) { background=color(v[:band]); }
+        var radius=v[ValueRecord.ANGLE]!=null || whole?run.radius:0;
+        if(whole) { background=color(v[ValueRecord.BAND]); }
         var right="right".equals(_settings.alignment);
-        var x=right?c[:x]+c[:w]-run.margin-run.total:c[:x]+(c[:w]-run.total)/2;
-        var label=MaskedText.prepare(right?c[:x]+c[:w]-run.margin:c[:x]+c[:w]/2,c[:y]+_labelTop,_labels,v[:label],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run.radius);
-        var primary=MaskedText.prepare(x,c[:y]+run.top-run.ink[0],run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
-        var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[:y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
-        var prepared=new PreparedCell(night,v[:band],v[:angle],background,labelEffect,
-            v[:band]==null?null:color(v[:band]),label,primary,unit);
+        var x=right?c[Cell.X]+c[Cell.W]-run.margin-run.total:c[Cell.X]+(c[Cell.W]-run.total)/2;
+        var label=MaskedText.prepare(right?c[Cell.X]+c[Cell.W]-run.margin:c[Cell.X]+c[Cell.W]/2,c[Cell.Y]+_labelTop,_labels,v[ValueRecord.LABEL],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run.radius);
+        var primary=MaskedText.prepare(x,c[Cell.Y]+run.top-run.ink[0],run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
+        var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[Cell.Y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
+        var prepared=new PreparedCell(night,v[ValueRecord.BAND],v[ValueRecord.ANGLE],background,labelEffect,
+            v[ValueRecord.BAND]==null?null:color(v[ValueRecord.BAND]),label,primary,unit);
         prepared.coverage=mode;return prepared;
     }
     function prepareTeam(i,night) {
-        var cell=_cells[i];var value=_preparedValues[i];var run=_runs[i];var band=value[:band];
+        var cell=_cells[i];var value=_preparedValues[i];var run=_runs[i];var band=value[ValueRecord.BAND];
         var dark=band==null?!night:("white".equals(band) || "yellow".equals(band) || "cyan".equals(band) || "green".equals(band) || "light_gray".equals(band) || "magenta".equals(band));
         var ordinary=night?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;var mode=coverage(value);
         var headerForeground=dark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
         var valueForeground=band!=null && mode==2?headerForeground:(night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK);
         var right="right".equals(_settings.alignment);
         run.labelBand=band!=null && mode==1?_labelBandHeight:0;
-        var label=MaskedText.prepare(right?cell[:x]+cell[:w]-4-(band==null?0:1):cell[:x]+cell[:w]/2,cell[:y]+_labelTop,_labels,value[:label],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,band==null?0:1);
+        var label=MaskedText.prepare(right?cell[Cell.X]+cell[Cell.W]-4-(band==null?0:1):cell[Cell.X]+cell[Cell.W]/2,cell[Cell.Y]+_labelTop,_labels,value[ValueRecord.LABEL],right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,band==null?0:1);
         var packet=new PreparedCell(night,band,null,band!=null && mode==2?color(band):ordinary,band!=null && mode==1,band==null?null:color(band),label,null,null);
         packet.coverage=mode;packet.team=true;packet.lines=[];
         for(var line=0;line<run.lines[0].size();line+=1) {
-            packet.lines.add(MaskedText.prepare(right?cell[:x]+cell[:w]-run.margin-run.lines[1][line]:cell[:x]+(cell[:w]-run.lines[1][line])/2,cell[:y]+run.top+line*run.size,run.font,run.lines[0][line],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,band!=null && mode==2?1:0));
+            packet.lines.add(MaskedText.prepare(right?cell[Cell.X]+cell[Cell.W]-run.margin-run.lines[1][line]:cell[Cell.X]+(cell[Cell.W]-run.lines[1][line])/2,cell[Cell.Y]+run.top+line*run.size,run.font,run.lines[0][line],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,band!=null && mode==2?1:0));
         }
         if(packet.lines.size()>0) { packet.primary=packet.lines[0]; }
-        packet.inner=[cell[:x]+run.inner[0],cell[:y]+run.inner[1],run.inner[2],run.inner[3]];
+        packet.inner=[cell[Cell.X]+run.inner[0],cell[Cell.Y]+run.inner[1],run.inner[2],run.inner[3]];
         return packet;
     }
     function prepareSeparators() {
@@ -366,39 +366,40 @@ class FieldRenderer {
         } else { _separators=_separatorPlans[key]; }
     }
     // Cached groups share their 16 coordinate/color segments across equal spans.
-    // Drawing dispatches these values directly; no unpacking or geometry arithmetic.
+    // Six bytes per segment: prepared uint16 coordinates and two gray intensities.
+    // Drawing only decodes these commands; it does not recompute geometry or gradients.
     function cacheSeparators(width,height,gridType) {
         _separators=[];var horizontal="horizontal".equals(gridType);
         var columns={};var rows={};
         for(var i=0;i<_cells.size();i+=1) {
-            var c=_cells[i];if(c[:enlarged]) { continue; }
-            if(horizontal || c[:y]+c[:h]<height) {
-                var segments=columns.hasKey(c[:x])?columns[c[:x]]:null;
+            var c=_cells[i];if(c[Cell.ENLARGED]) { continue; }
+            if(horizontal || c[Cell.Y]+c[Cell.H]<height) {
+                var segments=columns.hasKey(c[Cell.X])?columns[c[Cell.X]]:null;
                 if(segments==null) {
-                    segments=[];
+                    segments=[]b;
                     for(var step=0;step<16;step+=1) {
-                        var start=c[:x]+step*c[:w]/16;var end=c[:x]+(step+1)*c[:w]/16-1;
+                        var start=c[Cell.X]+step*c[Cell.W]/16;var end=c[Cell.X]+(step+1)*c[Cell.W]/16-1;
                         var brightness=horizontal?(step+1)/16.0:1.0-((start+end)/2.0-width/2.0).abs()/(width/2.0);
-                        var shade=Numeric.clamp((96*brightness).toNumber(),0,96);var rgb=shade*0x010101;
-                        segments.addAll([start,end,rgb,0xFFFFFF-rgb]);
+                        var shade=Numeric.clamp((96*brightness).toNumber(),0,96);
+                        segments.addAll([start&255,(start>>8)&255,end&255,(end>>8)&255,shade,255-shade]b);
                     }
-                    columns[c[:x]]=segments;
+                    columns[c[Cell.X]]=segments;
                 }
-                _separators.add([segments,c[:y]+c[:h]-1,false]);
+                _separators.add([segments,c[Cell.Y]+c[Cell.H]-1,false]);
             }
-            if(!horizontal && c[:x]>0) {
-                var vertical=rows.hasKey(c[:y])?rows[c[:y]]:null;
+            if(!horizontal && c[Cell.X]>0) {
+                var vertical=rows.hasKey(c[Cell.Y])?rows[c[Cell.Y]]:null;
                 if(vertical==null) {
-                    vertical=[];
+                    vertical=[]b;
                     for(var line=0;line<16;line+=1) {
-                        var y1=c[:y]+line*c[:h]/16;var y2=c[:y]+(line+1)*c[:h]/16-1;
+                        var y1=c[Cell.Y]+line*c[Cell.H]/16;var y2=c[Cell.Y]+(line+1)*c[Cell.H]/16-1;
                         var brightnessY=1.0-((y1+y2)/2.0-height/2.0).abs()/(height/2.0);
-                        var shadeY=Numeric.clamp((96*brightnessY).toNumber(),0,96);var colorY=shadeY*0x010101;
-                        vertical.addAll([y1,y2,colorY,0xFFFFFF-colorY]);
+                        var shadeY=Numeric.clamp((96*brightnessY).toNumber(),0,96);
+                        vertical.addAll([y1&255,(y1>>8)&255,y2&255,(y2>>8)&255,shadeY,255-shadeY]b);
                     }
-                    rows[c[:y]]=vertical;
+                    rows[c[Cell.Y]]=vertical;
                 }
-                _separators.add([vertical,c[:x],true]);
+                _separators.add([vertical,c[Cell.X],true]);
             }
         }
     }
@@ -412,10 +413,10 @@ class FieldRenderer {
         return Graphics.COLOR_BLACK;
     }
     function visibleUnit(dc,cell,value,valueWidth) {
-        var expanded=value.hasKey(:expandedUnit)?value[:expandedUnit]:null;
+        var expanded=value.size()>ValueRecord.EXPANDEDUNIT?value[ValueRecord.EXPANDEDUNIT]:null;
         var margin=4+(painted(value)?1:0);
-        if(expanded!=null && valueWidth+FontMetrics.width(expanded,_labelMetrics)+2<=cell[:w]-2*margin) { return expanded; }
-        return value[:unit];
+        if(expanded!=null && valueWidth+FontMetrics.width(expanded,_labelMetrics)+2<=cell[Cell.W]-2*margin) { return expanded; }
+        return value[ValueRecord.UNIT];
     }
     function draw(dc,snapshot,settings) {
         dc.setColor(_clearForeground,_clearBackground);dc.clear();
@@ -428,17 +429,17 @@ class FieldRenderer {
         for(var i=0;i<_cells.size();i+=1) {
             var c=_cells[i];var p=_packets[i];var run=_runs[i];
             var bandHeight=run.labelBand;
-            dc.setClip(c[:x],c[:y],c[:w],c[:h]);dc.setColor(p.background,Graphics.COLOR_BLACK);dc.fillRectangle(c[:x],c[:y],c[:w],c[:h]);
+            dc.setClip(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]);dc.setColor(p.background,Graphics.COLOR_BLACK);dc.fillRectangle(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]);
             if(p.labelEffect) {
                 dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);
-                dc.fillRectangle(c[:x],c[:y],c[:w],bandHeight);
+                dc.fillRectangle(c[Cell.X],c[Cell.Y],c[Cell.W],bandHeight);
             }
             if(_polygons[i]!=null) {
                 dc.setColor(p.color,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(_polygons[i]);
             }
-            if(p.labelEffect) { dc.setClip(c[:x],c[:y],c[:w],bandHeight); }
+            if(p.labelEffect) { dc.setClip(c[Cell.X],c[Cell.Y],c[Cell.W],bandHeight); }
             if(p.label!=null) { MaskedText.drawPrepared(dc,p.label); }
-            if(p.labelEffect) { dc.setClip(c[:x],c[:y],c[:w],c[:h]); }
+            if(p.labelEffect) { dc.setClip(c[Cell.X],c[Cell.Y],c[Cell.W],c[Cell.H]); }
             if(p.team) { for(var line=0;line<p.lines.size();line+=1) { MaskedText.drawPrepared(dc,p.lines[line]); } }
             else if(p.primary!=null) { MaskedText.drawPrepared(dc,p.primary); }
             if(p.unit!=null) { MaskedText.drawPrepared(dc,p.unit); }
@@ -447,10 +448,10 @@ class FieldRenderer {
         // APP-22: grid type was prepared before drawing, independently of alignment.
         for(var group=0;group<_separators.size();group+=1) {
             var command=_separators[group];var segments=command[0];var coordinate=command[1];
-            for(var j=0;j<segments.size();j+=4) {
-                dc.setColor(segments[j+_lineColorIndex],Graphics.COLOR_TRANSPARENT);
-                if(command[2]) { dc.drawLine(coordinate,segments[j],coordinate,segments[j+1]); }
-                else { dc.drawLine(segments[j],coordinate,segments[j+1],coordinate); }
+            for(var j=0;j<segments.size();j+=6) {
+                dc.setColor(segments[j+_lineColorIndex]*0x010101,Graphics.COLOR_TRANSPARENT);
+                if(command[2]) { dc.drawLine(coordinate,segments[j]+(segments[j+1]<<8),coordinate,segments[j+2]+(segments[j+3]<<8)); }
+                else { dc.drawLine(segments[j]+(segments[j+1]<<8),coordinate,segments[j+2]+(segments[j+3]<<8),coordinate); }
             }
         }
     }

@@ -170,8 +170,8 @@ function secondaryAtomicAcquisition(logger) {
     Test.assert(field._fieldSets.second);Test.assert(field._settings==field._fieldSets.configuration.secondary);
     Test.assertEqual("center",field._settings.alignment);Test.assertEqual("none",field._settings.gridType);
     Test.assertEqual(1,field._settings.enlarged);Test.assert(field._snapshot[:night]);Test.assertEqual(1,field.batteryReads);
-    Test.assert(field.releasedPresentations>0);Test.assertEqual("64",field._snapshot[:values][9][:text]);Test.assertEqual("hr | bpm",field._snapshot[:values][0][:label]);
-    Test.assertEqual("watts",first[:values][0][:label]);Test.assertEqual("200",first[:values][0][:text]);
+    Test.assert(field.releasedPresentations>0);Test.assertEqual("64",field._snapshot[:values][9][ValueRecord.TEXT]);Test.assertEqual("hr | bpm",field._snapshot[:values][0][ValueRecord.LABEL]);
+    Test.assertEqual("watts",first[:values][0][ValueRecord.LABEL]);Test.assertEqual("200",first[:values][0][ValueRecord.TEXT]);
     Test.assertEqual(2,field._acquisition.samples);Test.assertEqual(2,field._engine._power._count);
     var originalPower=field._engine._power;var originalLap=field._acquisition.currentLap;
     props["a_align"]=0;props["p_off"]=999;
@@ -255,7 +255,7 @@ class ScopedTeamDrawDc extends TeamDrawDc {
 class MixedTeamLapCallbackScenario {
     var field;var props;var configuration;var dc;
     function initialize() {
-        props={"trig"=>3,"a1"=>32,"a2"=>32,"b1"=>32,"team"=>"TEAM RIDE"};
+        props={"trig"=>3,"a1"=>32,"a2"=>0,"a3"=>32,"b1"=>32,"b2"=>0,"b3"=>32,"team"=>"TEAM RIDE"};
         dc=new ScopedTeamDrawDc(profileDrawWidth(),profileDrawHeight());
     }
     function run() {
@@ -272,8 +272,9 @@ class MixedTeamLapCallbackScenario {
                     Test.assertEqual(event%2==0,field._fieldSets.second);
                     dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
                     Test.assert(field._renderer._runs[0].isNative);Test.assertEqual("TEAM RIDE",field._renderer._runs[0].text);
-                    Test.assert(!field._renderer._runs[2].isNative);Test.assert(field._renderer._packets[0].lines.size()>0);
-                    Test.assert(field._renderer._packets[2].primary!=null);
+                    Test.assert(!field._renderer._runs[1].isNative);Test.assert(field._renderer._packets[0].lines.size()>0);
+                    Test.assert(field._renderer._packets[1].primary!=null);
+                    if(field._renderer._runs.size()>2) { Test.assert(field._renderer._runs[2].isNative);Test.assertEqual(field._renderer._runs[0].text,field._renderer._runs[2].text); }
                 }
             }
         }
@@ -302,7 +303,7 @@ class NativeSettingsCallbackScenario {
             Test.assert(field._renderer._nativeFonts._dc==null);Test.assert(dc.widthReads>reads);
             Test.assertEqual("team",field._settings.slots[0]);Test.assertEqual("team",field._settings.slots[1]);
 Test.assertEqual(2,field._settings.teamSource);
-            Test.assertEqual("NATIVE TEAM",field._snapshot[:values][1][:text]);Test.assert(field._renderer._runs[0].isNative);
+            Test.assertEqual("NATIVE TEAM",field._snapshot[:values][1][ValueRecord.TEXT]);Test.assert(field._renderer._runs[0].isNative);
             Test.assertEqual("center",field._settings.alignment);Test.assertEqual("full",field._settings.gridType);
             reads=dc.widthReads;field.refreshPresentation();Test.assertEqual(reads,dc.widthReads);
             Test.assert(!field._renderer.needsLayout());
@@ -314,7 +315,7 @@ Test.assertEqual(2,field._settings.teamSource);
             reads=dc.widthReads;app.onSettingsChanged();Test.assertEqual(reads,dc.widthReads);
             dc.active=true;field.method(:onUpdate).invoke(dc);dc.active=false;Test.assert(field._renderer._nativeFonts._dc==null);
             Test.assertEqual("UPDATED TEAM",field._renderer._runs[0].text);
-            Test.assert(field._fieldSets.second);Test.assertEqual("UPDATED TEAM",field._snapshot[:values][0][:text]);
+            Test.assert(field._fieldSets.second);Test.assertEqual("UPDATED TEAM",field._snapshot[:values][0][ValueRecord.TEXT]);
             loaded=new FieldSetsSettings();loaded.load();
 
             Test.assertEqual(1,loaded.primary.teamSource);Test.assertEqual(1,loaded.secondary.teamSource);

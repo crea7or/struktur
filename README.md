@@ -75,7 +75,7 @@ $env:PATH = (Join-Path $env:JAVA_HOME 'bin') + [IO.Path]::PathSeparator + $env:P
 New-Item -ItemType Directory -Force bin | Out-Null
 
 & (Join-Path $env:CONNECTIQ_SDK 'bin/monkeyc.bat') `
-    -f monkey.jungle -d edge1040 -o bin/Struktur-edge1040.prg `
+    -O 3z -f monkey.jungle -d edge1040 -o bin/Struktur-edge1040.prg `
     -y $env:STRUKTUR_DEVELOPER_KEY
 ```
 
@@ -83,11 +83,11 @@ Replace `edge1040` with another product identifier from [config/devices.json](co
 
 ```powershell
 & (Join-Path $env:CONNECTIQ_SDK 'bin/monkeyc.bat') `
-    -f monkey.jungle -e -r -o bin/Struktur-candidate.iq `
+    -O 3z -f monkey.jungle -e -r -o dist/Struktur-candidate.iq `
     -y $env:STRUKTUR_DEVELOPER_KEY
 ```
 
-A successful build creates an installation candidate; Garmin submission and device qualification are separate steps.
+Create `bin/` for internal builds and `dist/` for publishing packages or sideloading PRGs. A successful build creates an installation candidate; Garmin submission and device qualification are separate steps.
 
 Generated font text uses LF line endings, and input hashes treat LF/CRLF source checkouts identically. Font images, metrics and resource checksums remain exact. After a real change to display text, font sizes or generation inputs, regenerate and validate with the pinned Python/Pillow environment:
 
@@ -108,19 +108,17 @@ The [suite definitions](tests/suites.json) keep three workflows separate:
 | Memory | Font loading and memory use in the actual Data Field runtime | Explicitly requested validation |
 | Placement | Overflow, insufficient drawing areas and compact fallback | Explicitly requested validation |
 
-Core contains 44 named Monkey C tests. To compile and run Core with the SDK simulator already open:
+Core contains 44 named Monkey C tests, plus host checks for settings size and SDK runner cleanup. With the SDK simulator open:
 
 ```powershell
-& (Join-Path $env:CONNECTIQ_SDK 'bin/monkeyc.bat') `
-    -f tests.jungle -d edge1040 -o bin/Struktur-core-tests.prg `
-    -y $env:STRUKTUR_DEVELOPER_KEY --unit-test
-& (Join-Path $env:CONNECTIQ_SDK 'bin/monkeydo.bat') `
-    bin/Struktur-core-tests.prg edge1040 /t
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/run-tests.ps1 -Product edge1040
 ```
+
+The runner owns its SDK process tree from startup and closes it on completion, failure or timeout, including orphaned descendants. Logs use files rather than output pipes; unrelated simulator sessions and processes are left running. The host cleanup regression covers success, nonzero exit, timeout and controller disposal.
 
 Core uses a separate application identity so native settings regressions cannot alter production preferences.
 
-Memory runs the 648-case layout/resource stress matrix and the 1000-transition/200-settings-change second-set scenario in separate normal Data Field programs. Both must pass within the device allocation; font probes alone do not establish memory qualification. Each report retains its source and binary hashes, used/free/total measurements and raw log.
+Memory runs the 648-case layout/resource stress matrix and the 1000-transition/200-settings-change second-set scenario in separate normal Data Field programs. Both must pass within the device allocation; font probes alone do not establish memory qualification. Each report retains its source and binary hashes, used/free/total measurements and raw log. Switching is split into bounded callback batches; counts and checkpoints remain unchanged. Each normal-runtime scenario has a 600-second timeout.
 
 Core does not launch Memory or Placement. Simulator results and sample screenshots do not qualify sensors, firmware behavior or physical lap-event delivery.
 
@@ -145,4 +143,4 @@ The documentation release is **For QA**. Physical qualification is pending. Temp
 
 Project code uses the [MIT license](LICENSE). Roboto Condensed fonts and their generated resources retain the [SIL Open Font License 1.1](assets/fonts/OFL.txt).
 
-Runtime preparation follows APP-26: field modes and font metrics are resolved at initialization; header measurements and geometry are retained until their inputs change. Validated zone metadata and classifications are shared, unchanged presentation records are reused without mutation, and repeated identical layout callbacks reuse prepared commands. Live acquisition, unit/preferences checks, clock and temperature freshness remain active. Ordinary redraws only issue prepared graphics commands; missing assigned bounds permit one layout preparation. These caches reduce repeated work; battery savings are not yet measured on hardware.
+Runtime preparation follows APP-26: field modes and font metrics are resolved at initialization; header measurements and geometry are retained until their inputs change. Validated zone metadata and classifications are shared, unchanged presentation records are reused without mutation, and repeated identical layout callbacks reuse prepared commands. Live acquisition, unit/preferences checks, clock and temperature freshness remain active. Ordinary redraws only issue prepared graphics commands; missing assigned bounds permit one layout preparation. Slot descriptors, presentation records and grid cells use bounded packed arrays; replaced raw frames and reset presentations are released before their successors. Separator coordinates and grayscale intensities are prepared once in compact byte commands; drawing only decodes them. App, package, preview and validation builds use the same `-O 3z` code-size optimization. These caches reduce repeated work; battery savings are not yet measured on hardware.

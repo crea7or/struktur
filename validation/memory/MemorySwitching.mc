@@ -49,7 +49,7 @@ class MemorySwitchingField extends StrukturField {
         if(_switches<1000) {
             // Every batch starts on default; native callbacks may have run between frames.
             _fieldSets.second=false;
-            for(var batch=0;batch<50 && _switches<1000;batch+=1) {
+            for(var batch=0;batch<10 && _switches<1000;batch+=1) {
                 _switchInfo.currentHeartRate=_switches%2==0?180:100;
                 _switchInfo.elapsedTime=(_switches+1)*1000;_switchInfo.timerTime=_switchInfo.elapsedTime;
                 _switchInfo.elapsedDistance=_switches*10;_switchInfo.currentPower=250;
@@ -66,7 +66,7 @@ class MemorySwitchingField extends StrukturField {
             }
             return;
         }
-        for(var change=0;change<10 && _switchSettings<200;change+=1) {
+        for(var change=0;change<2 && _switchSettings<200;change+=1) {
             var mode=1+(_switchSettings%4);applyFieldSets(switchingSettings(mode,_switchSettings));
             if(mode==3) { onLapNotification(true); }
             else if(mode==4) { onWorkoutStarted(); }

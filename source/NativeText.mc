@@ -64,11 +64,11 @@ class NativeTextCache {
         return chosen;
     }
     function fit(cell,value) {
-        if(headerWidth>0 && (cell[:w]<headerWidth+10 || cell[:h]<headerHeight)) { return null; }
-        _paddingX=Math.ceil(cell[:w]*0.05).toNumber();_paddingY=Math.ceil(cell[:h]*0.05).toNumber();
-        _availableW=cell[:w]-2*_paddingX;_availableH=cell[:h]-headerHeight-2*_paddingY;
+        if(headerWidth>0 && (cell[Cell.W]<headerWidth+10 || cell[Cell.H]<headerHeight)) { return null; }
+        _paddingX=Math.ceil(cell[Cell.W]*0.05).toNumber();_paddingY=Math.ceil(cell[Cell.H]*0.05).toNumber();
+        _availableW=cell[Cell.W]-2*_paddingX;_availableH=cell[Cell.H]-headerHeight-2*_paddingY;
         if(_availableW<0) { _availableW=0; } if(_availableH<0) { _availableH=0; }
-        _text=value[:text];_selected=select();
+        _text=value[ValueRecord.TEXT];_selected=select();
         if(_selected==null && _text.length()>0) { _text=PresentationPolicy.OVERFLOW;_selected=select(); }
         if(_selected==null) { _text="";_selected=[Graphics.FONT_XTINY,0,[],[],0]; }
         _size=_text.length()==0?0:_selected[1];_measured=_selected[4];

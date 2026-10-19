@@ -21,7 +21,7 @@ try {
         $saved=$ErrorActionPreference
         try {
             $ErrorActionPreference='Continue'
-            $output=& (Join-Path $environment.sdk 'bin/monkeyc.bat') -f $jungle -d $target -o $out -y $environment.developer_key --unit-test 2>&1
+            $output=& (Join-Path $environment.sdk 'bin/monkeyc.bat') -O 3z -f $jungle -d $target -o $out -y $environment.developer_key --unit-test 2>&1
             $code=$LASTEXITCODE
         } finally {$ErrorActionPreference=$saved}
         $output|Set-Content -LiteralPath (Join-Path $root ('artifacts/'+$target+'-test-compile.log')) -Encoding UTF8

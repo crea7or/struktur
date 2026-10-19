@@ -27,12 +27,12 @@ function normalRangeFormatting(logger) {
                 var raw={};raw[Catalog.IDS[i]]=normalDisplayRaw(i,displayed,statute==1);
                 if("clock".equals(Catalog.FORMATS[i])) { clock.hour=displayed/60;clock.min=displayed%60; }
                 var value=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(statute==1,true,false),clock)[:values][0];
-                Test.assertEqual(expected,value[:text]);
+                Test.assertEqual(expected,value[ValueRecord.TEXT]);
                 if("clock".equals(Catalog.FORMATS[i])) {
                     var twelve=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(statute==1,false,false),clock)[:values][0];
-                    Test.assertEqual(sample==0?"12:00":(sample==1?"8:05":"11:59"),twelve[:text]);
+                    Test.assertEqual(sample==0?"12:00":(sample==1?"8:05":"11:59"),twelve[ValueRecord.TEXT]);
                 }
-                if("duration".equals(Catalog.FORMATS[i])) { Test.assertEqual(sample==0?".00":(sample==1?".59":""),value[:unit]); }
+                if("duration".equals(Catalog.FORMATS[i])) { Test.assertEqual(sample==0?".00":(sample==1?".59":""),value[ValueRecord.UNIT]); }
             }
         }
     }
@@ -48,8 +48,8 @@ function smallestNormalCell(enlarged) {
         var cells=Grid.plan(profileDrawWidth(),profileDrawHeight(),DeviceProfile.DESIGN_ROWS,big);
         for(var i=0;i<cells.size();i+=1) {
             var cell=cells[i];
-            if(cell[:enlarged]!=enlarged) { continue; }
-            if(selected==null || cell[:h]<selected[:h] || cell[:w]<selected[:w]) { selected=cell; }
+            if(cell[Cell.ENLARGED]!=enlarged) { continue; }
+            if(selected==null || cell[Cell.H]<selected[Cell.H] || cell[Cell.W]<selected[Cell.W]) { selected=cell; }
         }
     }
     return selected;
@@ -64,7 +64,7 @@ function normalFixtureValue(row,point,engine,settings) {
     if("clock".equals(Catalog.FORMATS[index])) { var minutes=displayed.toNumber();clock.hour=minutes/60;clock.min=minutes%60; }
     var value=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(row[1],row[3],false),clock)[:values][0];
     // Synthetic qualified-color fixtures test halo bounds, not sensor provenance.
-    if(index==4 || index==5 || index==7 || index==8 || index==9 || index==25) { value[:band]="green"; }
+    if(index==4 || index==5 || index==7 || index==8 || index==9 || index==25) { value[ValueRecord.BAND]="green"; }
     return value;
 }
 
@@ -85,24 +85,24 @@ function normalRangeCellBounds(logger) {
         fieldsSeen[row[0]]=true;
         for(var s=0;s<row[5].size();s+=1) {
             var point=row[5][s];var value=normalFixtureValue(row,point,engine,settings);
-            Test.assertEqual(point[1],value[:text]);Test.assertEqual(point[2],value[:unit]);
-            var run=renderer.fitRun(cell,value,DeviceProfile.LABEL_SIZE,value[:text],value[:unit]);
+            Test.assertEqual(point[1],value[ValueRecord.TEXT]);Test.assertEqual(point[2],value[ValueRecord.UNIT]);
+            var run=renderer.fitRun(cell,value,DeviceProfile.LABEL_SIZE,value[ValueRecord.TEXT],value[ValueRecord.UNIT]);
             if(run==null) { logger.debug("NORMAL_GUARANTEE_FAIL field="+Catalog.IDS[row[0]]+" case="+c+" point="+s); }
             Test.assert(run!=null);Test.assertEqual(point[1],run.text);
-            if(value[:band]!=null && value[:angle]==null) {
+            if(value[ValueRecord.BAND]!=null && value[ValueRecord.ANGLE]==null) {
                 Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,run.labelBand);
             }
             Test.assert(!PresentationPolicy.OVERFLOW.equals(run.text));
             Test.assertEqual(dc.getTextWidthInPixels(run.text,numericFonts[role]),run.width);
             Test.assertEqual(dc.getTextWidthInPixels(run.unit,labelFont),run.unitWidth);
-            Test.assert(dc.getTextWidthInPixels(value[:label],labelFont)+2*run.margin<=cell[:w]);
+            Test.assert(dc.getTextWidthInPixels(value[ValueRecord.LABEL],labelFont)+2*run.margin<=cell[Cell.W]);
             for(var align=0;align<2;align+=1) {
-                var x=align==1?cell[:w]-run.margin-run.total:(cell[:w]-run.total)/2;
-                Test.assert(x-run.radius>=4 && x+run.total+run.radius<=cell[:w]-4);
+                var x=align==1?cell[Cell.W]-run.margin-run.total:(cell[Cell.W]-run.total)/2;
+                Test.assert(x-run.radius>=4 && x+run.total+run.radius<=cell[Cell.W]-4);
             }
             Test.assertEqual(DeviceProfile.LABEL_SIZE==21?30:46,renderer._headerHeight);
             Test.assert(run.top-run.radius>=renderer._headerHeight);
-            Test.assert(run.top+run.ink[1]-run.ink[0]+run.radius<=cell[:h]);
+            Test.assert(run.top+run.ink[1]-run.ink[0]+run.radius<=cell[Cell.H]);
             checked+=1;
         }
     }

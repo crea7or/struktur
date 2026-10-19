@@ -33,7 +33,7 @@ function proportionalCaptionFit(logger) {
                 var dc=new DurationDrawDc(mainTexts[durationCase],secondaryTexts[durationCase],align==1);
                 var durationRenderer=new FieldRenderer();durationRenderer.prepare(snapshot);durationRenderer.layout(dc,durationSettings);durationRenderer.prepare(snapshot);
                 durationRenderer.draw(dc,snapshot,durationSettings);
-                Test.assertEqual(mainTexts[durationCase],snapshot[:values][0][:text]);
+                Test.assertEqual(mainTexts[durationCase],snapshot[:values][0][ValueRecord.TEXT]);
                 Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,big),dc.mainCount+dc.overflowCount);
                 Test.assertEqual(durationCase==0?dc.mainCount:0,dc.secondaryCount);
             }
@@ -93,11 +93,11 @@ function documentedUnsupportedCombinations(logger) {
         var clock=new PresentationClock();
         if("clock".equals(Catalog.FORMATS[index])) { var minutes=point[0].toNumber();clock.hour=minutes/60;clock.min=minutes%60; }
         var value=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(row[1],row[3],false),clock)[:values][0];
-        if(index==4 || index==5 || index==7 || index==8 || index==9 || index==25) { value[:band]="green"; }
+        if(index==4 || index==5 || index==7 || index==8 || index==9 || index==25) { value[ValueRecord.BAND]="green"; }
         // Native role bounds; no assertion that an unavailable combination works.
         var cells=Grid.plan(profileDrawWidth(),profileDrawHeight(),DeviceProfile.DESIGN_ROWS,row[4]?1:0);
         var cell=row[4]?cells[0]:cells[cells.size()-1];
-        Test.assert(renderer.fitRun(cell,value,DeviceProfile.LABEL_SIZE,value[:text],value[:unit])==null);
+        Test.assert(renderer.fitRun(cell,value,DeviceProfile.LABEL_SIZE,value[ValueRecord.TEXT],value[ValueRecord.UNIT])==null);
     }
     return true;
 }
@@ -137,10 +137,10 @@ function secondaryFieldSetPlacement(logger) {
 (:testSupport)
 function verifyTeamInsufficientArea() {
     var fonts=new NativeTextCache();fonts.setContext(new PresentationDrawDc(profileDrawWidth(),profileDrawHeight()));
-    var value={:text=>"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"};
-    var run=fonts.fit({:w=>20,:h=>200},value);Test.assertEqual(PresentationPolicy.OVERFLOW,run.text);
-    run=fonts.fit({:w=>1,:h=>1},value);Test.assertEqual("",run.text);
-    value[:text]="";run=fonts.fit({:w=>20,:h=>20},value);Test.assertEqual("",run.text);
-    fonts.headerHeight=30;fonts.headerWidth=40;Test.assert(fonts.fit({:w=>49,:h=>100},value)==null);
-    Test.assert(fonts.fit({:w=>100,:h=>29},value)==null);
+    var value={ValueRecord.TEXT=>"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"};
+    var run=fonts.fit({Cell.W=>20,Cell.H=>200},value);Test.assertEqual(PresentationPolicy.OVERFLOW,run.text);
+    run=fonts.fit({Cell.W=>1,Cell.H=>1},value);Test.assertEqual("",run.text);
+    value[ValueRecord.TEXT]="";run=fonts.fit({Cell.W=>20,Cell.H=>20},value);Test.assertEqual("",run.text);
+    fonts.headerHeight=30;fonts.headerWidth=40;Test.assert(fonts.fit({Cell.W=>49,Cell.H=>100},value)==null);
+    Test.assert(fonts.fit({Cell.W=>100,Cell.H=>29},value)==null);
 }

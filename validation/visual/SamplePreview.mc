@@ -46,8 +46,8 @@ class SamplePreviewField extends StrukturField {
                 dc.getTextWidthInPixels("245",first.font)!=FontMetrics.width("245",FontMetrics.numeric(numericInfo[1]))) {
                 throw new Lang.InvalidValueException("Sample font resource mismatch");
             }
-            if(_settings.enlarged!=1 || !_renderer._cells[0][:enlarged] || first.size!=DeviceProfile.BIG_SIZE ||
-                !"245".equals(first.text) || !"3s watts".equals(_snapshot[:values][0][:label]) ||
+            if(_settings.enlarged!=1 || !_renderer._cells[0][Cell.ENLARGED] || first.size!=DeviceProfile.BIG_SIZE ||
+                !"245".equals(first.text) || !"3s watts".equals(_snapshot[:values][0][ValueRecord.LABEL]) ||
                 _renderer._runs.size()!=Grid.capacity(DeviceProfile.DESIGN_ROWS,1)) {
                 throw new Lang.InvalidValueException("Sample enlarged power layout mismatch");
             }
@@ -55,8 +55,8 @@ class SamplePreviewField extends StrukturField {
         var signature=dc.getWidth()+"x"+dc.getHeight()+":"+_renderer._runs.size();
         if(!signature.equals(_reported)) {
             System.println("SAMPLE_FRAME product="+DeviceProfile.ID+" width="+dc.getWidth()+" height="+dc.getHeight()+" fields="+_renderer._runs.size());
-            System.println("SAMPLE_DATA clock="+_snapshot[:values][8][:text]+" temperature="+_snapshot[:values][4][:text]+
-                " enlarged=1 field=power_3s power="+_snapshot[:values][0][:text]);
+            System.println("SAMPLE_DATA clock="+_snapshot[:values][8][ValueRecord.TEXT]+" temperature="+_snapshot[:values][4][ValueRecord.TEXT]+
+                " enlarged=1 field=power_3s power="+_snapshot[:values][0][ValueRecord.TEXT]);
             _reported=signature;
         }
     }

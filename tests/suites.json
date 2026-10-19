@@ -16,7 +16,11 @@
         "tests/CoreSupport.mc",
         "tests/PresentationSupport.mc"
       ],
-      "scope": "Fast production calculations, formatting, settings and normal-value UI correctness. No memory probes or deliberate insufficient-area cases."
+      "scope": "Fast production calculations, formatting, settings and normal-value UI correctness. No memory probes or deliberate insufficient-area cases.",
+      "host_checks": [
+        "scripts/test-sdk-runner.ps1",
+        "tools/test_property_budget.py"
+      ]
     },
     "Memory": {
       "jungle": "memory-tests.jungle",

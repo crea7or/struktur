@@ -1,5 +1,6 @@
 using Toybox.Math;
 // APP-20: pure logical geometry. Row eligibility is supplied by font-fit measurements.
+module Cell { const X=0;const Y=1;const W=2;const H=3;const ENLARGED=4; }
 module Grid {
     function capacity(rows, big) { return rows * 2 - big * 3; }
     function plan(width, height, rows, requestedBig) {
@@ -14,7 +15,7 @@ module Grid {
             else { var regular = i - big; row = big * 2 + regular / 2; col = regular % 2; rowSpan = 1; colSpan = 1; }
             var left = (col * width / 2).toNumber(); var top = (row * height / rows).toNumber();
             var right = ((col + colSpan) * width / 2).toNumber(); var bottom = ((row + rowSpan) * height / rows).toNumber();
-            cells.add({:x=>left,:y=>top,:w=>right-left,:h=>bottom-top,:enlarged=>i<big});
+            cells.add([left,top,right-left,bottom-top,i<big]);
         }
         return cells;
     }

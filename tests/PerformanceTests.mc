@@ -10,22 +10,22 @@ function snapshotCacheInvalidation(logger) {
     e.prepareWithPreferences(raw,s,true,d,clock);
     Test.assertEqual(10,e.descriptorBuilds);Test.assertEqual(10,e.headerBuilds);Test.assertEqual(10,e.formatBuilds);
     raw["current_speed"]=11;var changed=e.prepareWithPreferences(raw,s,true,d,clock);
-    Test.assertEqual("36.0",first[:values][0][:text]);Test.assertEqual("39.6",changed[:values][0][:text]);
+    Test.assertEqual("36.0",first[:values][0][ValueRecord.TEXT]);Test.assertEqual("39.6",changed[:values][0][ValueRecord.TEXT]);
     Test.assertEqual(11,e.formatBuilds);Test.assertEqual(10,e.headerBuilds);
     d.distanceUnits=System.UNIT_STATUTE;e.prepareWithPreferences(raw,s,true,d,clock);
     Test.assertEqual(12,e.headerBuilds);Test.assertEqual(13,e.formatBuilds);
     Test.assertEqual(10,e.descriptorBuilds);
     d.is24Hour=false;clock.hour=0;changed=e.prepareWithPreferences(raw,s,true,d,clock);
-    Test.assertEqual("time | am",changed[:values][3][:label]);Test.assertEqual("12:05",changed[:values][3][:text]);
+    Test.assertEqual("time | am",changed[:values][3][ValueRecord.LABEL]);Test.assertEqual("12:05",changed[:values][3][ValueRecord.TEXT]);
     clock.hour=13;changed=e.prepareWithPreferences(raw,s,true,d,clock);
-    Test.assertEqual("time | pm",changed[:values][3][:label]);
+    Test.assertEqual("time | pm",changed[:values][3][ValueRecord.LABEL]);
     s.apply({"a_hideu"=>false,"a1"=>"distance"});
     changed=e.prepareWithPreferences(raw,s,true,d,clock);
-    Test.assertEqual("distance | mi",changed[:values][0][:label]);Test.assertEqual(11,e.descriptorBuilds);
+    Test.assertEqual("distance | mi",changed[:values][0][ValueRecord.LABEL]);Test.assertEqual(11,e.descriptorBuilds);
     // Unknown identifiers and unavailable initial clock state must invalidate safely.
     s.apply({"a1"=>"future-metric"});changed=e.prepareWithPreferences({},s,false,d,null);
-    Test.assertEqual("field",changed[:values][0][:label]);Test.assert(changed[:values][0][:text]==null);
-    Test.assertEqual("time",changed[:values][3][:label]);Test.assert(changed[:values][3][:text]==null);
+    Test.assertEqual("field",changed[:values][0][ValueRecord.LABEL]);Test.assert(changed[:values][0][ValueRecord.TEXT]==null);
+    Test.assertEqual("time",changed[:values][3][ValueRecord.LABEL]);Test.assert(changed[:values][3][ValueRecord.TEXT]==null);
     verifySnapshotSlotIsolation();
     verifyPresentationRecordReuse();
     return true;
@@ -41,17 +41,17 @@ function verifySnapshotSlotIsolation() {
     raw["current_speed"]=11;
     s.apply({"a1"=>"distance","a2"=>"current_speed"});
     var next=e.prepareWithPreferences(raw,s,true,d,null);
-    Test.assertEqual("20.0",next[:values][0][:text]);Test.assertEqual("39.6",next[:values][1][:text]);
+    Test.assertEqual("20.0",next[:values][0][ValueRecord.TEXT]);Test.assertEqual("39.6",next[:values][1][ValueRecord.TEXT]);
     d.distanceUnits=System.UNIT_STATUTE;
     next=e.prepareWithPreferences(raw,s,true,d,null);
-    Test.assertEqual("12.4",next[:values][0][:text]);Test.assertEqual("24.6",next[:values][1][:text]);
+    Test.assertEqual("12.4",next[:values][0][ValueRecord.TEXT]);Test.assertEqual("24.6",next[:values][1][ValueRecord.TEXT]);
     for(var i=0;i<64;i+=1) {
         s.apply({"a1"=>Catalog.IDS[i%Catalog.IDS.size()],"a2"=>"current_speed"});
         e.prepareWithPreferences(raw,s,true,d,null);
         Test.assertEqual(10,e._descriptors.size());
     }
-    Test.assertEqual("speed",first[:values][0][:label]);Test.assertEqual("speed",first[:values][1][:label]);
-    Test.assertEqual("36.0",first[:values][0][:text]);Test.assertEqual("36.0",first[:values][1][:text]);
+    Test.assertEqual("speed",first[:values][0][ValueRecord.LABEL]);Test.assertEqual("speed",first[:values][1][ValueRecord.LABEL]);
+    Test.assertEqual("36.0",first[:values][0][ValueRecord.TEXT]);Test.assertEqual("36.0",first[:values][1][ValueRecord.TEXT]);
 }
 
 (:testSupport)
@@ -78,7 +78,7 @@ class RendererCacheScenario {
         Test.assertEqual(2*DeviceProfile.DESIGN_ROWS,renderer._separators.size());
         Test.assert(renderer._separators[0][0]==renderer._separators[2][0]);
         Test.assert(renderer._separators[1][0]==renderer._separators[3][0]);
-        Test.assertEqual(64,renderer._separators[0][0].size());
+        Test.assertEqual(96,renderer._separators[0][0].size());
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;polygons=renderer.polygonBuilds;packets=renderer.packetBuilds;
     }
     function sample() { snapshot=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,false),new PresentationClock());renderer.prepare(snapshot); }
@@ -94,17 +94,17 @@ class RendererCacheScenario {
         props["a_theme"]=2;settings.apply(props);sample();
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(polygons,renderer.polygonBuilds);
         Test.assert(renderer.packetBuilds>packets);
-        raw["grade"]=null;sample();Test.assertEqual("dark_gray",snapshot[:values][1][:band]);
+        raw["grade"]=null;sample();Test.assertEqual("dark_gray",snapshot[:values][1][ValueRecord.BAND]);
         Test.assertEqual(0,renderer._runs[1].labelBand);Test.assert(renderer._polygons[1]==null);
         Test.assertEqual(0x333333,renderer._packets[1].background);
-        for(var i=0;i<snapshot[:values].size();i+=1) { dc.paintEffects.add(snapshot[:values][i][:band]!=null);dc.wholeEffects.add(snapshot[:values][i][:coverage]==2); }
+        for(var i=0;i<snapshot[:values].size();i+=1) { dc.paintEffects.add(snapshot[:values][i][ValueRecord.BAND]!=null);dc.wholeEffects.add(snapshot[:values][i][ValueRecord.COVERAGE]==2); }
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
         renderer.locked=true;renderer.draw(dc,snapshot,settings);renderer.locked=false;
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(packets,renderer.packetBuilds);
         Test.assertEqual(renderer._cells.size(),dc.records.size());
         props["a_big"]=1;props["a_align"]=0;settings.apply(props);renderer.configure(settings);sample();
         Test.assertEqual(Grid.capacity(DeviceProfile.DESIGN_ROWS,1),renderer._cells.size());
-        Test.assert(renderer.geometryBuilds>geometry);Test.assert(renderer._cells[0][:enlarged]);
+        Test.assert(renderer.geometryBuilds>geometry);Test.assert(renderer._cells[0][Cell.ENLARGED]);
         fits=renderer.fitCount;geometry=renderer.geometryBuilds;packets=renderer.packetBuilds;
         raw["temperature"]=20;sample(); // Slot 10 is hidden in every one-enlarged native layout.
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(packets,renderer.packetBuilds);
@@ -132,6 +132,10 @@ function optionalRuntimeQueries(logger) {
     var maximum=RuntimeMetrics.maxUsedBytes;var deadline=RuntimeMetrics.deadlineMisses;
     var field=new StrukturField();field.processActivity(new AcquisitionInfo());
     Test.assertEqual(maximum,RuntimeMetrics.maxUsedBytes);Test.assertEqual(deadline,RuntimeMetrics.deadlineMisses);
+    var retained=field._snapshot;var raw=retained[:raw];
+    field.processActivity(new AcquisitionInfo());
+    Test.assert(retained[:raw]==raw && raw!=null);Test.assert(field._snapshot[:raw]!=raw);
+    field.onTimerReset();Test.assert(retained[:raw]==raw);Test.assertEqual(10,retained[:values].size());
     return true;
 }
 
@@ -142,24 +146,24 @@ function verifyPresentationRecordReuse() {
     var engine=new SnapshotEngine();engine._hrZones=ZoneMetadata.heart([90,110,130,150,170,190]);
     var first=engine.compute({"current_heart_rate"=>130},settings);
     Test.assertEqual(2,engine.zoneBuilds); // One heart classification + one unavailable power classification.
-    Test.assertEqual("2",first[:values][2][:text]);Test.assertEqual("green",first[:values][0][:band]);
+    Test.assertEqual("2",first[:values][2][ValueRecord.TEXT]);Test.assertEqual("green",first[:values][0][ValueRecord.BAND]);
     var builds=engine.recordBuilds;var effects=engine.effectBuilds;
     var next=engine.compute({"current_heart_rate"=>130},settings);
     Test.assertEqual(builds,engine.recordBuilds);Test.assertEqual(effects,engine.effectBuilds);Test.assertEqual(2,engine.zoneBuilds);
     Test.assert(first[:values][0]==next[:values][0]);
     next=engine.compute({"current_heart_rate"=>131},settings);
-    Test.assertEqual(3,engine.zoneBuilds);Test.assertEqual("yellow",next[:values][1][:band]);
-    Test.assertEqual("130",first[:values][0][:text]);Test.assertEqual("green",first[:values][1][:band]);
+    Test.assertEqual(3,engine.zoneBuilds);Test.assertEqual("yellow",next[:values][1][ValueRecord.BAND]);
+    Test.assertEqual("130",first[:values][0][ValueRecord.TEXT]);Test.assertEqual("green",first[:values][1][ValueRecord.BAND]);
     engine._hrZones=ZoneMetadata.heart([90,140,150,160,170,190]);
     next=engine.compute({"current_heart_rate"=>131},settings);
-    Test.assertEqual("blue",next[:values][0][:band]);Test.assertEqual(4,engine.zoneBuilds);
+    Test.assertEqual("blue",next[:values][0][ValueRecord.BAND]);Test.assertEqual(4,engine.zoneBuilds);
     next=engine.compute({"current_heart_rate"=>null},settings);
-    Test.assert(next[:values][0][:text]==null);
+    Test.assert(next[:values][0][ValueRecord.TEXT]==null);
     settings.apply({});
     first=engine.prepareWithPreferences({"current_speed"=>10},settings,true,new PresentationDevice(false,true,false),null);
     builds=engine.recordBuilds;
     next=engine.prepareWithPreferences({"current_speed"=>10.001},settings,true,new PresentationDevice(false,true,false),null);
-    Test.assertEqual("36.0",next[:values][0][:text]);Test.assertEqual(builds,engine.recordBuilds);
+    Test.assertEqual("36.0",next[:values][0][ValueRecord.TEXT]);Test.assertEqual(builds,engine.recordBuilds);
     Test.assert(first[:values][0]==next[:values][0]);
     Test.assert(ZoneMetadata.heart([90,90,130,150,170,190])==null);
     Test.assert(ZoneMetadata.classifyValidated(130,null)==null);

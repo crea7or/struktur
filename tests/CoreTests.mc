@@ -29,9 +29,9 @@ function logicalGridCases(logger) {
             var cells=Grid.plan(246,322,rows,big);
             Test.assertEqual(Grid.capacity(rows,big),cells.size());
             for(var i=0;i<cells.size();i+=1) {
-                var c=cells[i];Test.assert(c[:x]>=0 && c[:y]>=0 && c[:x]+c[:w]<=246 && c[:y]+c[:h]<=322);
+                var c=cells[i];Test.assert(c[Cell.X]>=0 && c[Cell.Y]>=0 && c[Cell.X]+c[Cell.W]<=246 && c[Cell.Y]+c[Cell.H]<=322);
                 for(var j=i+1;j<cells.size();j+=1) {
-                    var d=cells[j];Test.assert(c[:x]+c[:w]<=d[:x] || d[:x]+d[:w]<=c[:x] || c[:y]+c[:h]<=d[:y] || d[:y]+d[:h]<=c[:y]);
+                    var d=cells[j];Test.assert(c[Cell.X]+c[Cell.W]<=d[Cell.X] || d[Cell.X]+d[Cell.W]<=c[Cell.X] || c[Cell.Y]+c[Cell.H]<=d[Cell.Y] || d[Cell.Y]+d[Cell.H]<=c[Cell.Y]);
                 }
             }
         }
@@ -39,10 +39,10 @@ function logicalGridCases(logger) {
     Test.assertEqual(2,Grid.plan(246,322,4,2).size());
     Test.assertEqual(0,Grid.plan(50,50,0,0).size());
     for(var angle=-45;angle<=45;angle+=15) {
-        var polygon=Geometry.sky({:x=>0,:y=>0,:w=>480,:h=>100},angle);
+        var polygon=Geometry.sky({Cell.X=>0,Cell.Y=>0,Cell.W=>480,Cell.H=>100},angle);
         Test.assert(polygon.size()>=3 && polygon.size()<=8);
         for(var p=0;p<polygon.size();p+=1) { Test.assert(polygon[p][0]>=0 && polygon[p][0]<=479 && polygon[p][1]>=0 && polygon[p][1]<=99); }
-        var ground=Geometry.ground({:x=>0,:y=>0,:w=>480,:h=>100},angle);
+        var ground=Geometry.ground({Cell.X=>0,Cell.Y=>0,Cell.W=>480,Cell.H=>100},angle);
         Test.assert(ground.size()>=3 && ground.size()<=8);
         for(var q=0;q<ground.size();q+=1) {
             Test.assert(ground[q][0]>=0 && ground[q][0]<=479 && ground[q][1]>=0 && ground[q][1]<=99);
@@ -102,7 +102,7 @@ function typedSettingsAndHiddenSlots(logger) {
     Test.assertEqual(0,s.enlarged);Test.assertEqual("future_metric",s.slots[0]);
     Test.assert(Catalog.index(s.slots[1])==null);Test.assertEqual(false,s.effects[0]);Test.assertEqual(false,s.effects[1]);
     var unknown=new SnapshotEngine().initial(s)[:values][1];
-    Test.assertEqual("field",unknown[:label]);Test.assert(unknown[:text]==null);
+    Test.assertEqual("field",unknown[ValueRecord.LABEL]);Test.assert(unknown[ValueRecord.TEXT]==null);
     Test.assertEqual("current_power",s.slots[9]); // validation does not delete hidden assignments
     s.apply({"a_align"=>1,"a_theme"=>2,"a1"=>7,"a2"=>11,"a3"=>16,"a4"=>18});
     Test.assertEqual(0,Catalog.index("current_"+"speed"));
@@ -147,21 +147,21 @@ function unitsAndExplicitFormatPolicy(logger) {
         var shortSeconds=durationInputs[durationIndex]<36000000;
         var expectedPrimary=shortSeconds?expectedDuration.substring(0,expectedDuration.length()-3):expectedDuration;
         var expectedSecondary=shortSeconds?expectedDuration.substring(expectedDuration.length()-3,expectedDuration.length()):"";
-        Test.assertEqual(expectedPrimary,durationSnapshot[:values][0][:text]);
-        Test.assertEqual(expectedSecondary,durationSnapshot[:values][0][:unit]);
-        Test.assertEqual(expectedPrimary,durationSnapshot[:values][1][:text]);
-        Test.assertEqual(expectedSecondary,durationSnapshot[:values][1][:unit]);
+        Test.assertEqual(expectedPrimary,durationSnapshot[:values][0][ValueRecord.TEXT]);
+        Test.assertEqual(expectedSecondary,durationSnapshot[:values][0][ValueRecord.UNIT]);
+        Test.assertEqual(expectedPrimary,durationSnapshot[:values][1][ValueRecord.TEXT]);
+        Test.assertEqual(expectedSecondary,durationSnapshot[:values][1][ValueRecord.UNIT]);
     }
     var pausedDuration=durationEngine.prepare({"activity_timer"=>65000,"elapsed_time"=>73000},durationSettings,true);
-    Test.assertEqual("01",pausedDuration[:values][0][:text]);
-    Test.assertEqual(".05",pausedDuration[:values][0][:unit]);
-    Test.assertEqual("01",pausedDuration[:values][1][:text]);
-    Test.assertEqual(".13",pausedDuration[:values][1][:unit]);
+    Test.assertEqual("01",pausedDuration[:values][0][ValueRecord.TEXT]);
+    Test.assertEqual(".05",pausedDuration[:values][0][ValueRecord.UNIT]);
+    Test.assertEqual("01",pausedDuration[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual(".13",pausedDuration[:values][1][ValueRecord.UNIT]);
     var unavailableDuration=durationEngine.prepare({"activity_timer"=>null,"elapsed_time"=>-1},durationSettings,true);
-    Test.assert(unavailableDuration[:values][0][:text]==null);
-    Test.assert(unavailableDuration[:values][1][:text]==null);
-    Test.assertEqual("",unavailableDuration[:values][0][:unit]);
-    Test.assertEqual("",unavailableDuration[:values][1][:unit]);
+    Test.assert(unavailableDuration[:values][0][ValueRecord.TEXT]==null);
+    Test.assert(unavailableDuration[:values][1][ValueRecord.TEXT]==null);
+    Test.assertEqual("",unavailableDuration[:values][0][ValueRecord.UNIT]);
+    Test.assertEqual("",unavailableDuration[:values][1][ValueRecord.UNIT]);
     Test.assertEqual("12:00",Formatting.clock(0,0,false));Test.assertEqual("12:00",Formatting.clock(12,0,false));
     Test.assertEqual("23:59",Formatting.clock(23,59,true));
     Test.assert(Effects.zone(120,[90,110,130,150,170,190],null)==null);
@@ -185,19 +185,19 @@ function requestedFieldPrecision(logger) {
         var raw={};raw[ids[i]]=10;
         var metric=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(false,true,false),new PresentationClock());
         var statute=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(true,true,false),new PresentationClock());
-        Test.assertEqual("36.0",metric[:values][0][:text]);
-        Test.assertEqual("22.4",statute[:values][0][:text]);
+        Test.assertEqual("36.0",metric[:values][0][ValueRecord.TEXT]);
+        Test.assertEqual("22.4",statute[:values][0][ValueRecord.TEXT]);
     }
     settings.apply({"a1"=>"grade","a1_bg"=>2,"a2"=>"elevation","a3"=>"total_ascent","a4"=>"total_descent"});
     var value=engine.prepareWithPreferences({"grade"=>2.01,"elevation"=>1785.6,"total_ascent"=>100.6,"total_descent"=>42.4},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
-    Test.assertEqual("2.0",value[:values][0][:text]);
-    Test.assertEqual("yellow",value[:values][0][:band]); // canonical effect input remains 2.01
-    Test.assertEqual("1786",value[:values][1][:text]);
-    Test.assertEqual("101",value[:values][2][:text]);Test.assertEqual("42",value[:values][3][:text]);
+    Test.assertEqual("2.0",value[:values][0][ValueRecord.TEXT]);
+    Test.assertEqual("yellow",value[:values][0][ValueRecord.BAND]); // canonical effect input remains 2.01
+    Test.assertEqual("1786",value[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual("101",value[:values][2][ValueRecord.TEXT]);Test.assertEqual("42",value[:values][3][ValueRecord.TEXT]);
     var imperial=engine.prepareWithPreferences({"elevation"=>1000},settings,true,new PresentationDevice(true,true,false),new PresentationClock());
-    Test.assertEqual("3281",imperial[:values][1][:text]);
+    Test.assertEqual("3281",imperial[:values][1][ValueRecord.TEXT]);
     var negative=engine.prepareWithPreferences({"elevation"=>-12.5,"grade"=>-0.04},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
-    Test.assertEqual("-13",negative[:values][1][:text]);Test.assertEqual("0.0",negative[:values][0][:text]);
+    Test.assertEqual("-13",negative[:values][1][ValueRecord.TEXT]);Test.assertEqual("0.0",negative[:values][0][ValueRecord.TEXT]);
     // Conversion precedes magnitude selection; all speed assignments share the cached style.
     var speedCases=[[0,"0.00"],[9.994,"9.99"],[9.996,"10.0"],[10,"10.0"],
         [99.94,"99.9"],[99.96,"100"],[100,"100"],[200,"200"]];
@@ -207,7 +207,7 @@ function requestedFieldPrecision(logger) {
             for(var point=0;point<speedCases.size();point+=1) {
                 var raw={};raw[ids[id]]=speedCases[point][0]/(mode==1?2.2369362921:3.6);
                 var result=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(mode==1,true,false),new PresentationClock());
-                Test.assertEqual(speedCases[point][1],result[:values][0][:text]);
+                Test.assertEqual(speedCases[point][1],result[:values][0][ValueRecord.TEXT]);
             }
         }
     }
