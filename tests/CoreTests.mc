@@ -54,7 +54,7 @@ function logicalGridCases(logger) {
 
 (:test)
 function threeConsecutiveSamples(logger) {
-    var w=new RollingWindow();
+    var w=new RollingWindow(3);
     Test.assert(w.push(100,1)==null);Test.assert(w.push(200,2)==null);Test.assertEqual(200.0,w.push(300,3));
     Test.assertEqual(200.0,w.push(999,3)); // same timestamp does not count twice
     Test.assertEqual(300.0,w.push(400,4));
@@ -62,6 +62,18 @@ function threeConsecutiveSamples(logger) {
     Test.assert(w.push(null,7)==null);
     Test.assert(w.push(0,8)==null);Test.assert(w.push(0,9)==null);Test.assertEqual(0.0,w.push(0,10));
     w.reset();Test.assert(w.average()==null);
+    // Power publishes the available 1/2/3-sample mean; heart rate above still waits for three.
+    w=new RollingWindow(1);Test.assert(w.average()==null);
+    Test.assertEqual(100.0,w.push(100,1));Test.assertEqual(100.0,w.push(999,1));
+    Test.assertEqual(150.0,w.push(200,2));Test.assertEqual(200.0,w.push(300,3));
+    Test.assertEqual(300.0,w.push(400,4));
+    Test.assertEqual(600.0,w.push(600,6)); // Gap discards previous samples.
+    Test.assertEqual(450.0,w.push(300,7));
+    Test.assertEqual(900.0,w.push(900,5)); // Regressing time reseeds immediately.
+    Test.assert(w.push(null,6)==null);Test.assert(w.average()==null);
+    Test.assertEqual(0.0,w.push(0,7));Test.assertEqual(30.0,w.push(60,8));Test.assertEqual(60.0,w.push(120,9));
+    w.reset();Test.assert(w.average()==null);Test.assertEqual(90.0,w.push(90,10));
+    Test.assert(w.push(100,null)==null);Test.assertEqual(30.0,w.push(30,11));
     return true;
 }
 

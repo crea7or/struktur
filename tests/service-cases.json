@@ -1,5 +1,5 @@
 {
-  "status": "Scoped slope revert; DVS-22 remains pinned to development revision 62 while its unrelated live revision 63 is pending. Current compact-property working specification. New and changed definitions remain Draft. Properties own keys, types, defaults and applicability; fields retain their existing canonical document. Current execution evidence is separate from definitions and historical releases.",
+  "status": "Current compact-property working specification. New and changed definitions remain Draft. Properties own keys, types, defaults and applicability; fields retain their existing canonical document. Current execution evidence is separate from definitions and historical releases.",
   "cases": [
     {
       "key": "floatingBoundaries",
@@ -57,18 +57,20 @@
       "function": "threeConsecutiveSamples",
       "source": "tests/CoreTests.mc",
       "requirements": [
+        "DVS-22",
         "DVS-41",
         "DVS-47"
       ],
-      "procedure": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]].\n\nProcedure and expected results: Deliver three consecutive sample seconds with known values and require their arithmetic mean. Check duplicates, missing input, sequence gaps, valid zeros and explicit reset discard stale averages.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "procedure": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]].\n\nProcedure and expected results: For power samples 100,200,300,400 at consecutive seconds require 100,150,200,300. Heart rate remains unavailable for its first two valid samples and publishes the three-sample mean next. Check duplicate seconds, missing/invalid input, gaps, regressing time, measured zero and explicit reset. After each reset exclude stale buffer entries and restart power from its first valid sample; no sample means unavailable.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-41": 49,
+        "DVS-22": 67,
+        "DVS-41": 50,
         "DVS-47": 80
       },
-      "definition": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]].\n\nProcedure and expected results: Deliver three consecutive sample seconds with known values and require their arithmetic mean. Check duplicates, missing input, sequence gaps, valid zeros and explicit reset discard stale averages.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
+      "definition": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]].\n\nProcedure and expected results: For power samples 100,200,300,400 at consecutive seconds require 100,150,200,300. Heart rate remains unavailable for its first two valid samples and publishes the three-sample mean next. Check duplicate seconds, missing/invalid input, gaps, regressing time, measured zero and explicit reset. After each reset exclude stale buffer entries and restart power from its first valid sample; no sample means unavailable.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-3",
-      "revision": 10,
-      "status": "approved",
+      "revision": 13,
+      "status": "draft",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -318,7 +320,7 @@
         "DVS-19": 57,
         "DVS-20": 47,
         "DVS-21": 56,
-        "DVS-22": 62,
+        "DVS-22": 67,
         "DVS-23": 55,
         "DVS-24": 47,
         "DVS-25": 45,
@@ -936,19 +938,21 @@
       "source": "tests/AcquisitionTests.mc",
       "requirements": [
         "APP-35",
+        "DVS-22",
         "DVS-41",
         "DVS-47"
       ],
-      "procedure": "Purpose: Rolling samples use activity time and valid values.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[APP-35]].\n\nProcedure and expected results: Exercise elapsed-activity second identity, sampling state, duplicates, gaps, measured zero and invalid/negative values. Reject stale bridges without confusing wall time or resetting unrelated channels.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `rollingActivityClockAndValidity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
-      "definition": "Purpose: Rolling samples use activity time and valid values.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[APP-35]].\n\nProcedure and expected results: Exercise elapsed-activity second identity, sampling state, duplicates, gaps, measured zero and invalid/negative values. Reject stale bridges without confusing wall time or resetting unrelated channels.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `rollingActivityClockAndValidity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
+      "procedure": "Purpose: Rolling samples use activity time and valid values.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]], [[APP-35]].\n\nProcedure and expected results: Exercise elapsed-activity second identity, sampling state, duplicates, gaps, measured zero and invalid/negative values. Reject stale bridges without confusing wall time or resetting unrelated channels. Require power means 100,150,200 for consecutive 100,200,300 W readings while heart rate waits for three samples. Power immediately reseeds from the first valid reading after identity changes, gaps, invalid input or resume; measured zero is valid.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `rollingActivityClockAndValidity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
+      "definition": "Purpose: Rolling samples use activity time and valid values.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]], [[APP-35]].\n\nProcedure and expected results: Exercise elapsed-activity second identity, sampling state, duplicates, gaps, measured zero and invalid/negative values. Reject stale bridges without confusing wall time or resetting unrelated channels. Require power means 100,150,200 for consecutive 100,200,300 W readings while heart rate waits for three samples. Power immediately reseeds from the first valid reading after identity changes, gaps, invalid input or resume; measured zero is valid.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `rollingActivityClockAndValidity`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-23",
-      "revision": 6,
-      "status": "approved",
+      "revision": 9,
+      "status": "draft",
       "requirement_revisions": {
         "APP-35": 45,
-        "DVS-41": 49,
+        "DVS-22": 67,
+        "DVS-41": 50,
         "DVS-47": 80
       },
       "suite_stable_id": "TRGR-1"
@@ -1371,6 +1375,7 @@
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
+        "DVS-22",
         "SPEC-211",
         "SPEC-212",
         "SPEC-213",
@@ -1379,15 +1384,16 @@
         "SPEC-216"
       ],
       "title": "Core: verify threshold hysteresis and source validity",
-      "definition": "Verification definition; implementation and execution evidence are recorded separately. Use production transition logic with deterministic acquisition fixtures. With power A=250,R=220, fresh outputs 249,250,235,220,219 shall select default,second,second,second,default. Raw 249.6 must not activate despite displayed whole-watt 250; 219.6 returns despite displayed 220. Repeat for HR A=160,R=150 using 159,160,155,150,149. Equal A=R activates at equality and returns only below it. Test startup within hysteresis band, exact boundaries, finite zero power, null/negative/NaN/Infinity, HR zero, incomplete power window, missing/gapped samples, dropout and recovery inside the band: unavailable returns default, and recovery below activation stays default. Prove current HR and shared 3s power are used with neither selected in either bank, with duplicate slots, and while instantaneous power or HR3s disagrees. Unrelated-channel loss changes nothing. Verify no extra dwell delay beyond the producer and one decision per delivered sample. This is Core and uses no runtime Memory or deliberate overflow cases.",
-      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Use production transition logic with deterministic acquisition fixtures. With power A=250,R=220, fresh outputs 249,250,235,220,219 shall select default,second,second,second,default. Raw 249.6 must not activate despite displayed whole-watt 250; 219.6 returns despite displayed 220. Repeat for HR A=160,R=150 using 159,160,155,150,149. Equal A=R activates at equality and returns only below it. Test startup within hysteresis band, exact boundaries, finite zero power, null/negative/NaN/Infinity, HR zero, incomplete power window, missing/gapped samples, dropout and recovery inside the band: unavailable returns default, and recovery below activation stays default. Prove current HR and shared 3s power are used with neither selected in either bank, with duplicate slots, and while instantaneous power or HR3s disagrees. Unrelated-channel loss changes nothing. Verify no extra dwell delay beyond the producer and one decision per delivered sample. This is Core and uses no runtime Memory or deliberate overflow cases.",
-      "revision": 4,
-      "status": "approved",
+      "definition": "Verification definition; implementation and execution evidence are recorded separately. Use production transition logic with deterministic acquisition fixtures. With power A=250,R=220, fresh outputs 249,250,235,220,219 shall select default,second,second,second,default. Raw 249.6 must not activate despite displayed whole-watt 250; 219.6 returns despite displayed 220. Repeat for HR A=160,R=150 using 159,160,155,150,149. Equal A=R activates at equality and returns only below it. Test startup within hysteresis band, exact boundaries, finite zero power, null/negative/NaN/Infinity, HR zero, power before its first valid sample, partial power windows, missing/gapped samples, dropout and recovery inside the band: unavailable returns default, and recovery below activation stays default. Prove current HR and shared 3s power are used with neither selected in either bank, with duplicate slots, and while instantaneous power or HR3s disagrees. Unrelated-channel loss changes nothing. Verify no extra dwell delay beyond the producer and one decision per delivered sample. This is Core and uses no runtime Memory or deliberate overflow cases.\nPower startup and recovery follow [[DVS-22]]: a first 300 W sample activates immediately at A=250; subsequent decisions use two- and three-sample means. Verify this through the real Data Field pipeline with no visible power fields; the trigger must reuse the shared producer.",
+      "procedure": "Verification definition; implementation and execution evidence are recorded separately. Use production transition logic with deterministic acquisition fixtures. With power A=250,R=220, fresh outputs 249,250,235,220,219 shall select default,second,second,second,default. Raw 249.6 must not activate despite displayed whole-watt 250; 219.6 returns despite displayed 220. Repeat for HR A=160,R=150 using 159,160,155,150,149. Equal A=R activates at equality and returns only below it. Test startup within hysteresis band, exact boundaries, finite zero power, null/negative/NaN/Infinity, HR zero, power before its first valid sample, partial power windows, missing/gapped samples, dropout and recovery inside the band: unavailable returns default, and recovery below activation stays default. Prove current HR and shared 3s power are used with neither selected in either bank, with duplicate slots, and while instantaneous power or HR3s disagrees. Unrelated-channel loss changes nothing. Verify no extra dwell delay beyond the producer and one decision per delivered sample. This is Core and uses no runtime Memory or deliberate overflow cases.\nPower startup and recovery follow [[DVS-22]]: a first 300 W sample activates immediately at A=250; subsequent decisions use two- and three-sample means. Verify this through the real Data Field pipeline with no visible power fields; the trigger must reuse the shared producer.",
+      "revision": 7,
+      "status": "draft",
       "requirement_revisions": {
+        "DVS-22": 67,
         "SPEC-211": 19,
         "SPEC-212": 12,
         "SPEC-213": 14,
-        "SPEC-214": 11,
+        "SPEC-214": 12,
         "SPEC-215": 11,
         "SPEC-216": 9
       }
@@ -2237,7 +2243,7 @@
         "DVS-19": 57,
         "DVS-20": 47,
         "DVS-21": 56,
-        "DVS-22": 62,
+        "DVS-22": 67,
         "DVS-23": 55,
         "DVS-24": 47,
         "DVS-25": 45,

@@ -1,10 +1,11 @@
-// DVS-41/DVS-47: fixed three-value buffer; no retained unbounded history.
+// DVS-41/DVS-22/DVS-47: fixed three-value buffer; no retained unbounded history.
 class RollingWindow {
     var _samples;
     var _count;
     var _next;
     var _lastSecond;
-    function initialize() { _samples = [0.0, 0.0, 0.0]; reset(); }
+    var _minimumSamples;
+    function initialize(minimumSamples) { _minimumSamples = minimumSamples; _samples = [0.0, 0.0, 0.0]; reset(); }
     function reset() { _count = 0; _next = 0; _lastSecond = null; }
     function push(value, second) {
         if (!Numeric.finite(value) || !Numeric.finite(second)) { reset(); return null; }
@@ -16,5 +17,11 @@ class RollingWindow {
         _lastSecond = second;
         return average();
     }
-    function average() { return _count == 3 ? (_samples[0] + _samples[1] + _samples[2]) / 3.0 : null; }
+    function average() {
+        if (_count < _minimumSamples) { return null; }
+        var sum = 0.0;
+        // Partial windows occupy [0,count); stale buffer entries after reset are excluded.
+        for (var i = 0; i < _count; i += 1) { sum += _samples[i]; }
+        return sum / _count;
+    }
 }

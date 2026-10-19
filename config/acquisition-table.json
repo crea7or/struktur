@@ -211,16 +211,16 @@
   {
     "identifier": "power_3s",
     "requirement": "DVS-22",
-    "version": 62,
-    "source": "Latest three consecutive delivered one-second Activity.Info.currentPower readings; arithmetic mean.",
+    "version": 67,
+    "source": "Arithmetic mean of up to the latest three consecutive delivered one-second Activity.Info.currentPower readings.",
     "context": "Foreground delivered DataField.compute(info); optional member guarded on all nine candidates.",
     "raw_type": "nullable numeric",
     "raw_unit": "watts",
     "validity": "Finite watts >=0, including measured zero.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "floor(Activity.Info.elapsedTime / 1000); one sample per consecutive activity second.",
-    "normalization": "Normalize once in displayed units; precision and ranges follow this field contract.",
-    "reset": "Missing/invalid input, skipped/decreasing seconds, pause/stop/resume/reset or changed activity identity clears the window.",
+    "normalization": "Publish the first valid reading, then the mean of two readings, then the rolling three-reading mean; preserve the unrounded value for triggers and colors.",
+    "reset": "Missing/invalid input, skipped/decreasing seconds, pause/stop/resume/reset or changed activity identity clears the window. The first subsequent valid reading immediately seeds a new mean.",
     "code": [
       "source/ActivityReader.mc",
       "source/RollingWindow.mc",
@@ -228,6 +228,8 @@
     ],
     "production_fixtures": [
       "threeConsecutiveSamples",
+      "rollingActivityClockAndValidity",
+      "secondaryThresholdSources",
       "datafieldCallbackIsolation"
     ],
     "physical_qualification": "Unrun; compiler and fixtures do not qualify actual sensor/callback delivery.",

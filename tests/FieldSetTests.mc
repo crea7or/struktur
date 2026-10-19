@@ -93,7 +93,7 @@ function secondaryThresholdSources(logger) {
         c.evaluate({"power_3s"=>235},true);Test.assert(!c.second);
     }
     c.evaluate({"power_3s"=>300},true);c.evaluate({},false);Test.assert(c.second);
-    c.evaluate({},true);Test.assert(!c.second); // first resumed warm-up result is unavailable
+    c.evaluate({},true);Test.assert(!c.second); // Missing producer input is unavailable.
     c.configure(secondSetConfiguration({"trig"=>1,"p_on"=>250,"p_off"=>250}));
     c.evaluate({"power_3s"=>250},true);Test.assert(c.second);c.evaluate({"power_3s"=>249.9},true);Test.assert(!c.second);
     c.configure(secondSetConfiguration({"trig"=>2}));
@@ -101,16 +101,23 @@ function secondaryThresholdSources(logger) {
     for(var h=0;h<values.size();h+=1) { c.evaluate({"current_heart_rate"=>values[h],"heart_rate_3s"=>200},true);Test.assertEqual(expected[h],c.second); }
     c.evaluate({"current_heart_rate"=>170,"power_3s"=>null},true);Test.assert(c.second);
     c.evaluate({"current_heart_rate"=>0},true);Test.assert(!c.second);
-    // Real Data Field pipeline: three consecutive power seconds, no power fields in either bank.
+    // Real Data Field pipeline: power activates on its first valid sample, even without visible power fields.
     var field=new SecondSetField();var props={"trig"=>1};
     for(var slot=1;slot<=10;slot+=1) {props["a"+slot]="current_heart_rate";props["b"+slot]="current_heart_rate";}
     field.applyFieldSets(secondSetConfiguration(props));var info=new AcquisitionInfo();info.timerState=Activity.TIMER_STATE_ON;info.currentPower=300;
-    for(var second=0;second<3;second+=1) { info.elapsedTime=second*1000;info.timerTime=second*1000;field.processActivity(info);Test.assertEqual(second==2,field._fieldSets.second); }
+    for(var second=0;second<3;second+=1) { info.elapsedTime=second*1000;info.timerTime=second*1000;field.processActivity(info);Test.assert(field._fieldSets.second);Test.assertEqual(300.0,field._snapshot[:raw]["power_3s"]); }
     Test.assertEqual(3,field._engine._power._count);Test.assertEqual(3,field._acquisition.samples);
     info.currentPower=null;info.elapsedTime=3000;info.timerTime=3000;field.processActivity(info);Test.assert(!field._fieldSets.second);
     info.currentPower=0;
     for(var zero=4;zero<=6;zero+=1) {info.elapsedTime=zero*1000;info.timerTime=zero*1000;field.processActivity(info);}
     Test.assertEqual(0.0,field._snapshot[:raw]["power_3s"]);Test.assert(!field._fieldSets.second);
+    field.onTimerResume();
+    var startupPower=[300,0,600];var startupMean=[300.0,150.0,300.0];var startupSecond=[true,false,true];
+    for(var sample=0;sample<3;sample+=1) {
+        info.currentPower=startupPower[sample];info.elapsedTime=(sample+7)*1000;info.timerTime=(sample+7)*1000;
+        field.processActivity(info);Test.assertEqual(startupMean[sample],field._snapshot[:raw]["power_3s"]);
+        Test.assertEqual(startupSecond[sample],field._fieldSets.second);
+    }
     return true;
 }
 

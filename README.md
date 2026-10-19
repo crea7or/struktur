@@ -20,7 +20,8 @@ The screenshots use sample data. Power zones show `--` while their data source a
 - Center or Right alignment, independently of **Grid type**: None, Horizontal lines or Full grid.
 - Day, Night and automatic themes, optional theme inversion for enlarged fields, and independent per-slot background coverage: **None**, **Label** or **Whole cell**.
 - Metric and statute units, optional `label | unit` headers, and 12/24-hour clocks.
-- Speed and distance use two decimals below 10, one below 100 and whole numbers from 100, after conversion and rounding carries. Slope always shows one decimal and averages the last three one-second estimates, using available estimates immediately.
+- Speed and distance use two decimals below 10, one below 100 and whole numbers from 100, after conversion and rounding carries. Slope always shows one decimal.
+- 3s power starts with the first reading, averages the first two on the second second, then uses the rolling three-reading average. Missing readings reset the window.
 - Small `.SS` timer seconds below ten hours; longer durations retain all hour digits.
 - Exactly three bundled bitmap font sizes per device, containing only the metric glyphs used by the app; Team uses Garmin system text fonts.
 

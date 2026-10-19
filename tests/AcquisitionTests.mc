@@ -219,20 +219,31 @@ class AcquisitionInfo {
 function rollingActivityClockAndValidity(logger) {
     var engine=new SnapshotEngine();var settings=new DisplaySettings();
     var raw={"_sampling_enabled"=>true,"_activity_identity"=>100,"current_power"=>100,"current_heart_rate"=>100};
-    for(var i=1;i<=3;i+=1) { raw["elapsed_time"]=i*1000;engine.compute(raw,settings); }
-    Test.assertEqual(100.0,raw["power_3s"]);Test.assertEqual(100.0,raw["heart_rate_3s"]);
+    for(var i=1;i<=3;i+=1) {
+        raw["elapsed_time"]=i*1000;raw["current_power"]=i*100;engine.compute(raw,settings);
+        Test.assertEqual((i+1)*50.0,raw["power_3s"]);
+        if(i<3) { Test.assert(raw["heart_rate_3s"]==null); }
+    }
+    Test.assertEqual(200.0,raw["power_3s"]);Test.assertEqual(100.0,raw["heart_rate_3s"]);
     raw["current_power"]=999;raw["elapsed_time"]=3999;engine.compute(raw,settings);
-    Test.assertEqual(100.0,raw["power_3s"]); // duplicate activity second, independent of wall time
+    Test.assertEqual(200.0,raw["power_3s"]); // duplicate activity second, independent of wall time
     raw["elapsed_time"]=4000;raw["current_heart_rate"]=0;raw["current_power"]=-1;engine.compute(raw,settings);
     Test.assert(raw["heart_rate_3s"]==null && raw["power_3s"]==null);
     raw["current_power"]=0;raw["current_heart_rate"]=120;
     for(var j=5;j<=7;j+=1) { raw["elapsed_time"]=j*1000;engine.compute(raw,settings); }
     Test.assertEqual(0.0,raw["power_3s"]);Test.assertEqual(120.0,raw["heart_rate_3s"]);
     raw["_activity_identity"]=200;raw["elapsed_time"]=8000;engine.compute(raw,settings);
-    Test.assert(raw["power_3s"]==null && raw["heart_rate_3s"]==null);
+    Test.assertEqual(0.0,raw["power_3s"]);Test.assert(raw["heart_rate_3s"]==null);
+    raw["elapsed_time"]=9000;raw["current_power"]=300;engine.compute(raw,settings);Test.assertEqual(150.0,raw["power_3s"]);
+    raw["elapsed_time"]=12000;raw["current_power"]=90;engine.compute(raw,settings);Test.assertEqual(90.0,raw["power_3s"]);
+    Test.assert(raw["heart_rate_3s"]==null); // Both channels reset on a gap; power resumes immediately.
     raw["elapsed_time"]=null;engine.compute(raw,settings);Test.assert(engine._power._count==0);
     raw["elapsed_time"]=10000;raw["_sampling_enabled"]=false;engine.compute(raw,settings);
     Test.assert(engine._heart._count==0 && engine._power._count==0);
+    raw["elapsed_time"]=11000;raw["_sampling_enabled"]=true;raw["current_power"]=60;engine.compute(raw,settings);
+    Test.assertEqual(60.0,raw["power_3s"]);Test.assert(raw["heart_rate_3s"]==null);
+    raw["elapsed_time"]=12000;raw["current_power"]=-1;engine.compute(raw,settings);Test.assert(raw["power_3s"]==null);
+    raw["elapsed_time"]=13000;raw["current_power"]=0;engine.compute(raw,settings);Test.assertEqual(0.0,raw["power_3s"]);
     return true;
 }
 

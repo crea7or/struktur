@@ -78,7 +78,7 @@ class SnapshotEngine {
         }
         return _zoneResults[channel];
     }
-    function initialize() { _power=new RollingWindow(); _heart=new RollingWindow(); _hrZones=null; _powerZones=null; }
+    function initialize() { _power=new RollingWindow(1); _heart=new RollingWindow(3); _hrZones=null; _powerZones=null; }
     // Ten bounded assignment caches, separate from the published snapshot and live readings.
     function descriptor(slot,id,hideUnits,distanceStatute,elevationStatute,temperatureStatute) {
         var d=slot<_descriptors.size()?_descriptors[slot]:null;
