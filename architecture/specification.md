@@ -2188,9 +2188,9 @@ Bundle exactly three metric roles at fixed profile sizes, without per-value size
 
 | Role | Source face |
 | --- | --- |
-| Enlarged primary | [Roboto Condensed Black](../attachments/Roboto_Condensed_Black.ttf) |
-| Regular primary | [Roboto Condensed Black](../attachments/Roboto_Condensed_Black.ttf)  |
-| Header/numeric secondary | [Roboto Condensed SemiBold](../attachments/Roboto_Condensed_SemiBold.ttf) |
+| Enlarged primary | [Roboto Condensed Black](attachments/Roboto_Condensed_Black.ttf) |
+| Regular primary | [Roboto Condensed Black](attachments/Roboto_Condensed_Black.ttf)  |
+| Header/numeric secondary | [Roboto Condensed SemiBold](attachments/Roboto_Condensed_SemiBold.ttf) |
 Native-text fields use their own system-font policy without adding atlases.
 
 **Relations**
@@ -3295,7 +3295,7 @@ Apply this pattern only when Grid type is Horizontal lines under [APP-22](#app-2
 
 Draw no vertical separator. Draw a one-pixel horizontal line at the bottom pixel of each regular cell, including the last row, with no line across enlarged cells. Split each cell width into 16 equal integer-bounded segments from left to right; omit empty segments.
 
-For segment index i=0..15, q = floor(96*(i+1)/16). Night uses RGB(q,q,q); Day uses RGB(255-q,255-q,255-q), giving increasing contrast toward the right. Use the base palette, preserve cell boundaries and clip under [APP-34](#app-34). Reference: [horizontal line pattern](../attachments/right-delimiters.png).
+For segment index i=0..15, q = floor(96*(i+1)/16). Night uses RGB(q,q,q); Day uses RGB(255-q,255-q,255-q), giving increasing contrast toward the right. Use the base palette, preserve cell boundaries and clip under [APP-34](#app-34). Reference: [horizontal line pattern](attachments/right-delimiters.png).
 
 **Relations**
 
@@ -3312,7 +3312,7 @@ Draw one-pixel horizontal separators between regular rows and a vertical separat
 
 For horizontal segments, use their global horizontal midpoint p and display width W: intensity q = floor(96 * clamp(1 - abs(p-W/2)/(W/2), 0, 1)). For vertical segments, use the global vertical midpoint and display height in the same formula. Night uses RGB(q,q,q); Day uses RGB(255-q,255-q,255-q). Use the base palette even beside enlarged inverted cells.
 
-Place horizontal lines at each regular row's bottom pixel except the last display row, and the vertical line at the right column's left pixel. Fit and clip to assigned bounds under [APP-34](#app-34). Reference: [full grid pattern](../attachments/center-delimiters.png).
+Place horizontal lines at each regular row's bottom pixel except the last display row, and the vertical line at the right column's left pixel. Fit and clip to assigned bounds under [APP-34](#app-34). Reference: [full grid pattern](attachments/center-delimiters.png).
 
 **Relations**
 
