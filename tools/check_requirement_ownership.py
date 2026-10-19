@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from generate_display_limits import requirement_limits_match
+from field_metadata import field_attributes
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -39,13 +40,18 @@ def validate_ownership(root=ROOT):
     uses = {(source, target) for source, target, code in edges if code == 'uses'}
     verified = {target for source, target, code in edges
                 if code == 'verifies' and by_id[source]['work_item_type_code'] == 'test'}
+    descriptions = {}
     for row in rows:
         key = row['stable_id']
         if row['status'] == 'obsolete':
             continue
         references = set(re.findall(r'\[\[([A-Z]+-\d+)\]\]', row['description']))
         assert not references & obsolete, ('Active definition references retired owner', key, references & obsolete)
+        assert references <= by_id.keys(), ('Dangling definition reference', key, references - by_id.keys())
         if row['work_item_type_code'] == 'requirement':
+            normalized = re.sub(r'\s+', ' ', row['description']).strip().casefold()
+            assert normalized not in descriptions, ('Duplicate requirement text', descriptions.get(normalized), key)
+            descriptions[normalized] = key
             assert key in verified, ('Unverified requirement', key)
         if row['work_item_type_code'] == 'test':
             for line in re.findall(r'^Requirement references: (.+)$', row['description'], re.M):
@@ -53,17 +59,26 @@ def validate_ownership(root=ROOT):
                 assert len(refs) == len(set(refs)), ('Duplicate Test reference', key)
     for source, target, code in edges:
         if code in {'uses', 'depends_on', 'refines', 'clarifies', 'verifies'}:
+            assert source in by_id and target in by_id, ('Dangling relation endpoint', source, target, code)
             assert source not in obsolete and target not in obsolete, ('Retired ordinary endpoint', source, target, code)
 
     limits = read('config/display-limits.json')
     limit_by_field = {row['field']: row for row in limits['fields']}
     for number, field in enumerate(fields):
         key = field['requirement']; description = by_id[key]['description']
-        identity = re.findall(r'^Field code: (\d+); identifier: `([^`]+)`\.', description, re.M)
-        assert identity == [(str(number), field['id'])], ('Field identity drift', key)
-        for property_name in ['Label text', 'Unit text', 'Precision']:
-            assert len(re.findall(r'^' + property_name + r':', description, re.M)) == 1, (key, property_name)
-        required = {'DVS-12', 'APP-21', 'APP-34', 'SPEC-235'}
+        attrs = field_attributes(by_id[key])
+        assert (attrs['CODE'], attrs['IDENTIFIER']) == (number, field['id']), ('Field identity drift', key)
+        assert attrs['LABEL'] == field['label'], ('Field label drift', key)
+        if field['format']=='integer':
+            assert attrs.get('PRECISION') == 0, ('Integral precision drift', key)
+        elif field['id'] in {'grade','temperature'}:
+            assert attrs.get('PRECISION') == 1, ('Fixed precision drift', key)
+        else:
+            precision_rule={'float':'magnitude-based','duration':'1 second below 10 h; 1 minute from 10 h','clock':'1 minute','text':'not applicable (text)'}[field['format']]
+            assert attrs.get('PRECISION_RULE') == precision_rule, ('Precision rule drift', key)
+        assert (attrs['LABEL_AND_UNIT'] or None) == field.get('header_with_units'), ('Field header drift', key)
+        assert not re.search(r'^(Field code|Label text|Unit text|Header text with units|Precision):', description, re.M), ('Metadata duplicated in description', key)
+        required = {'DVS-12', 'APP-21', 'APP-34', 'APP-49'}
         formatter = {'float': 'DVS-2', 'integer': 'DVS-7', 'duration': 'DVS-13'}.get(field['format'])
         if formatter:
             required.add(formatter)

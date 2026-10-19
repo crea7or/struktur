@@ -1,0 +1,128 @@
+{
+  "project": "Struktur",
+  "capture_date": "2026-10-19",
+  "scope": "Current working requirements and supporting definitions; distinct from the historical 0.1.1 release.",
+  "source_service": "https://ai-architect.link",
+  "record_counts": {
+    "requirement": 170,
+    "document": 7,
+    "test": 108,
+    "interface": 1,
+    "test_suite": 3,
+    "data_item": 21,
+    "component": 3
+  },
+  "states": "Captured current states retained. Draft is not approval; test definitions are not executions or qualification.",
+  "privacy": "Internal service identifiers, personal data, audit identities and historical test executions omitted.",
+  "attribute_definitions": [
+    {
+      "code": "CODE",
+      "value_type": "uint64",
+      "description": "Data field code"
+    },
+    {
+      "code": "IDENTIFIER",
+      "value_type": "string_utf8",
+      "description": "Data field identifier"
+    },
+    {
+      "code": "LABEL",
+      "value_type": "string_utf8",
+      "description": "Label text for data field"
+    },
+    {
+      "code": "LABEL_AND_UNIT",
+      "value_type": "string_utf8",
+      "description": "Formatting rule to display Labels with units"
+    },
+    {
+      "code": "PRECISION",
+      "value_type": "uint64",
+      "description": "Value precision for data field value"
+    },
+    {
+      "code": "PRECISION_RULE",
+      "value_type": "string_utf8",
+      "description": "Conditional precision rule or non-decimal precision. Use only when numeric PRECISION does not apply."
+    },
+    {
+      "code": "UNIT",
+      "value_type": "string_utf8",
+      "description": "Unit name for data field"
+    }
+  ],
+  "attachments": {
+    "center-ui-5.png": {
+      "path": "../attachments/center-ui-5.png",
+      "sha256": "fbb603fe00bd97f6de412eac5ba34ab91167228978902216fa376c8763dec904"
+    },
+    "center-ui-7.png": {
+      "path": "../attachments/center-ui-7.png",
+      "sha256": "07463c70a7377cba93c1c0ae7d217da3528653785d80109d1b775cc0b4bb4123"
+    },
+    "center-ui-10.png": {
+      "path": "../attachments/center-ui-10.png",
+      "sha256": "f579f556dc9ff90d488aa3c1acbaac0894287f81e561ed9302a600337936a2b0"
+    },
+    "center-ui-8.png": {
+      "path": "../attachments/center-ui-8.png",
+      "sha256": "3237e03cf82dcc506a72954b29c8bb6a6f743d7addb8a1fe396c96705b867886"
+    },
+    "right-ui-5.png": {
+      "path": "../attachments/right-ui-5.png",
+      "sha256": "9045eeaccfb72fe1c54f3101296f8cd443bd66badb5cb458c2d4de184d3a0166"
+    },
+    "right-ui-7.png": {
+      "path": "../attachments/right-ui-7.png",
+      "sha256": "e95be19883693f22737efc6d5cea7e0a9096e1dc9e64a80da025540095612b8a"
+    },
+    "right-ui-8.png": {
+      "path": "../attachments/right-ui-8.png",
+      "sha256": "c883fd4b63d5789c8eb946e410ea18df9fde9d672bd240cb541c649bb63c507a"
+    },
+    "right-ui-10.png": {
+      "path": "../attachments/right-ui-10.png",
+      "sha256": "9ba0be483c642b0517a8c056d9fb66ab0e60963f3e1bba3277df0f7df7b05dbf"
+    },
+    "center-delimiters.png": {
+      "path": "../attachments/center-delimiters.png",
+      "sha256": "db88975bcdcd0b43797f5b47eed3672c5585c7bba65028c38bbaa31ad46aee1e"
+    },
+    "right-delimiters.png": {
+      "path": "../attachments/right-delimiters.png",
+      "sha256": "a255ee87f8bf5e05ec06602943062c177ca0a2f259198d3043cedf0e639249ec"
+    },
+    "center-ui-8-2.png": {
+      "path": "../attachments/center-ui-8-2.png",
+      "sha256": "3237e03cf82dcc506a72954b29c8bb6a6f743d7addb8a1fe396c96705b867886"
+    },
+    "right-ui-8-2.png": {
+      "path": "../attachments/right-ui-8-2.png",
+      "sha256": "c883fd4b63d5789c8eb946e410ea18df9fde9d672bd240cb541c649bb63c507a"
+    },
+    "center-ui-2.png": {
+      "path": "../attachments/center-ui-2.png",
+      "sha256": "0d4addf4d5463bd000a33ca0fae9318e2a579dc2e6f1f0b4715ed711d3e62131"
+    },
+    "center-ui-4.png": {
+      "path": "../attachments/center-ui-4.png",
+      "sha256": "adcb2afdb80b0145f5a2050fba4fbbf17c182215de9aee0b7290d3fa6abc155e"
+    },
+    "right-ui-2.png": {
+      "path": "../attachments/right-ui-2.png",
+      "sha256": "16e2baf9b145a66b9520f0418788dc5c3c365d0d43fdcef44d7bdfe1f52f6e70"
+    },
+    "right-ui-4.png": {
+      "path": "../attachments/right-ui-4.png",
+      "sha256": "d9c6e7a0dbf759bb70f37a5da543f6a79c8894198a6549f19ed45b6e609f5c8b"
+    },
+    "Roboto_Condensed_Black.ttf": {
+      "path": "../attachments/Roboto_Condensed_Black.ttf",
+      "sha256": "a365617457f4e9800347655478132461565b28c563076f38a6294f6403b1fba9"
+    },
+    "Roboto_Condensed_SemiBold.ttf": {
+      "path": "../attachments/Roboto_Condensed_SemiBold.ttf",
+      "sha256": "dd9178d15b5e84f849ed158d336ae7184289488b114b891fb3a83fe11728d6d3"
+    }
+  }
+}

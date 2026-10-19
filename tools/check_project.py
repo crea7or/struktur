@@ -1,4 +1,5 @@
 """Check real project inputs; this is not Monkey C execution or device qualification."""
+from field_metadata import field_attributes
 import hashlib
 import json
 import re
@@ -58,17 +59,16 @@ def main():
     for field in fields:
         if field['format']=='text':
             assert field['id']=='team' and field['label']=='team' and field['rendered_label']=='team' and field['unit']=='';continue
-        description=by_id[field['requirement']]['description']
-        assert field['label']==re.search(r'Label text:\s*`([^`]*)`',description)[1],field['requirement']
-        header=re.search(r'Header text with units:\s*`([^`]*)`',description)
-        expected=header[1] if header else None
+        attrs=field_attributes(by_id[field['requirement']])
+        assert field['label']==attrs['LABEL'],field['requirement']
+        expected=attrs['LABEL_AND_UNIT'] or None
         if expected=='""':expected=''
         assert field.get('header_with_units')==expected,field['requirement']
     catalogue_source=(ROOT/'source/Catalog.mc').read_text(encoding='utf-8')
     assert json.loads(re.search(r'const HEADERS_WITH_UNITS = (.*);',catalogue_source)[1])==[f.get('header_with_units') for f in fields]
     for field in fields:
         if field['format']=='text':continue
-        assert field['label']==re.search(r'Label text:\s*`([^`]*)`',by_id[field['requirement']]['description']).group(1)
+        assert field['label']==field_attributes(by_id[field['requirement']])['LABEL']
         assert 'unit_label' not in field
     expected={f'DVS-{i}' for i in [8,9,10,11,*range(18,38),39,47]} | {f'FUNC-{i}' for i in range(3,9)} | {'SPEC-253'}
     assert len(fields)==len({f['id'] for f in fields})==len(expected)==33

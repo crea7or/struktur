@@ -109,7 +109,7 @@ The [suite definitions](tests/suites.json) keep three workflows separate:
 | Memory | Font loading and memory use in the actual Data Field runtime | Explicitly requested validation |
 | Placement | Overflow, insufficient drawing areas and compact fallback | Explicitly requested validation |
 
-Core contains 44 named Monkey C tests, plus host checks for settings size and SDK runner cleanup. With the SDK simulator open:
+Core contains 46 named Monkey C tests, plus host checks for settings size and SDK runner cleanup. With the SDK simulator open:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/run-tests.ps1 -Product edge1040
@@ -124,6 +124,8 @@ Memory runs the 648-case layout/resource stress matrix and the 1000-transition/2
 Core does not launch Memory or Placement. Simulator results and sample screenshots do not qualify sensors, firmware behavior or physical lap-event delivery.
 
 ## Architecture and status
+
+[Current requirements snapshot](architecture/current/specification.md) contains the latest definitions, typed field attributes and relations, with captured review states. [Machine-readable snapshot](architecture/current/specification.json) and checksums are included. Internal service metadata and execution history are omitted.
 
 [Struktur 0.1.1 documentation release](architecture/Struktur-0.1.1.zip) is a single portable archive containing the captured specifications, design records, test definitions, relations and referenced diagrams/font assets. Extract it and open `specification.md`. Stable requirement references are retained; service identifiers, author identities, private links and historical execution records are excluded from this public copy.
 
@@ -145,3 +147,5 @@ The documentation release is **For QA**. Physical qualification is pending. Temp
 Project code uses the [MIT license](LICENSE). Roboto Condensed fonts and their generated resources retain the [SIL Open Font License 1.1](assets/fonts/OFL.txt).
 
 Runtime preparation follows APP-26: field modes and font metrics are resolved at initialization; header measurements and geometry are retained until their inputs change. Validated zone metadata and classifications are shared, unchanged presentation records are reused without mutation or field comparisons, and repeated identical layout callbacks reuse prepared commands. Live acquisition, unit/preferences checks, clock and temperature freshness remain active. Unchanged visible frames skip cell preparation. Slope polygons clip only when they cross vertical bounds. Ordinary redraws only issue prepared graphics commands and reuse the frame clear for matching cell backgrounds; missing assigned bounds permit one layout preparation. Slot descriptors, presentation records and grid cells use bounded packed arrays; replaced raw frames and reset presentations are released before their successors. Separator coordinates and grayscale intensities are prepared once in compact byte commands; drawing only decodes them. App, package, preview and validation builds use the same `-O 3z` code-size optimization. These caches reduce repeated work; battery savings are not yet measured on hardware.
+
+Selectable-field identity, labels, units, header templates and precision are maintained as typed requirement attributes. Local generators read their exported values; the export includes a field-attributes supplement alongside the native specification package.

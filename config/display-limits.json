@@ -536,8 +536,12 @@
           "headers_shown": false,
           "clock24": true,
           "unit": "km/h",
-          "intervals": [],
-          "reason": "header exceeds cell width"
+          "intervals": [
+            {
+              "min": 0,
+              "max": 200
+            }
+          ]
         },
         {
           "group": "small",
@@ -560,8 +564,12 @@
           "headers_shown": false,
           "clock24": true,
           "unit": "mph",
-          "intervals": [],
-          "reason": "header exceeds cell width"
+          "intervals": [
+            {
+              "min": 0,
+              "max": 200
+            }
+          ]
         },
         {
           "group": "small",
@@ -640,8 +648,12 @@
           "headers_shown": false,
           "clock24": true,
           "unit": "km/h",
-          "intervals": [],
-          "reason": "header exceeds cell width"
+          "intervals": [
+            {
+              "min": 0,
+              "max": 200
+            }
+          ]
         },
         {
           "group": "550",
@@ -664,8 +676,12 @@
           "headers_shown": false,
           "clock24": true,
           "unit": "mph",
-          "intervals": [],
-          "reason": "header exceeds cell width"
+          "intervals": [
+            {
+              "min": 0,
+              "max": 200
+            }
+          ]
         },
         {
           "group": "550",

@@ -13,7 +13,7 @@
     },
     {
       "id": "average_speed",
-      "label": "average speed",
+      "label": "avg speed",
       "requirement": "DVS-9",
       "member": "averageSpeed",
       "format": "float",

@@ -2,6 +2,7 @@
 import json
 import re
 import xml.etree.ElementTree as ET
+from field_metadata import field_attributes, primary_unit
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,19 +57,18 @@ def main():
     reviewed=json.loads((ROOT/'requirements/workspace-snapshot.json').read_text(encoding='utf-8-sig'))
     reviewed={r['stable_id']:r for r in reviewed}
     for code, field in enumerate(fields):
-        description=reviewed[field['requirement']]['description']
-        assert f"Field code: {code}; identifier: `{field['id']}`." in description, field['requirement']
+        attrs=field_attributes(reviewed[field['requirement']])
+        assert (attrs['CODE'],attrs['IDENTIFIER'])==(code,field['id']), field['requirement']
+        field['label']=attrs['LABEL']
         if field['id']=='team':
-            field['header_with_units']=None;field['rendered_label']='team';continue
-        field['label']=re.search(r'Label text:\s*`([^`]*)`',description).group(1)
-        header=re.search(r'Header text with units:\s*`([^`]*)`',description)
-        field['header_with_units']=header.group(1) if header else None
+            field['header_with_units']=None;field['rendered_label']=attrs['LABEL'];continue
+        field['header_with_units']=attrs['LABEL_AND_UNIT'] or None
         if field['header_with_units']=='""':field['header_with_units']=''
         if field['header_with_units']:
             text=field['header_with_units'];assert text==text.lower(),field['requirement']
             assert text.count('{unit}')<=1 and not re.search(r'[{}]',text.replace('{unit}','')),field['requirement']
         if field['unit'] not in ['speed','distance','elevation','temperature','degrees']:
-            unit=re.search(r'Unit text:\s*`([^`]*)`',description).group(1)
+            unit=primary_unit(attrs)
             field['unit']='' if unit=='\"\"' else unit
     props=[dict(key='enlarged_field_count',type='number',default=0,choices=[0,1,2],title='Enlarged slot count'),
            dict(key='alignment',type='number',default=1,choices=[0,1],identifiers=['center','right']),

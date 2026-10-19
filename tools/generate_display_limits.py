@@ -11,6 +11,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 from header_text import unit_header
+from field_metadata import field_attributes
 
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = [
@@ -194,7 +195,7 @@ def requirement_limits_match(description, record, field, groups):
         return False
     expected = (cells[0] +
                 '. All supported devices, regular/enlarged cells, headers hidden/shown.')
-    return actual in {expected, cells[0]+"."}
+    return actual == expected or actual.removesuffix(".") == cells[0]
 
 
 def generate():
@@ -280,7 +281,8 @@ def main():
         catalogue={f['id']:f for f in read('config/catalogue.json')['fields']}
         for field in contract['fields']:
             description=rows[field['requirement']]['description']
-            assert 'Precision:' in description and 'Normal display ranges' in description, field['requirement']
+            field_attributes(rows[field['requirement']])
+            assert 'Normal display ranges' in description, field['requirement']
             assert requirement_limits_match(description, field, catalogue[field['field']], contract['groups']), ('Requirement ranges differ from executable limits',field['requirement'])
         fonts={font['id']:font for font in read('config/font-manifest.json')['fonts']}
         devices={device['id']:device for device in read('config/devices.json')}

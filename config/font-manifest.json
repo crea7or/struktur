@@ -3,10 +3,10 @@
   "pillow": "12.2.0",
   "python": "3.14.7",
   "inventory_inputs": {
-    "config/catalogue.json": "aa737b209dbd30d4258638233372414000e27316a9183dbd8890aebb7d8c9c73",
-    "config/decisions.json": "93776a3aff70fdeca456dff33c7770b7e7f66fe4476b723cc2de8d4bf786edbe",
+    "config/catalogue.json": "8be42bf4e535ffe2880632ad35f420543b0a1d252a1798c49ec60f09e569a8ac",
+    "config/decisions.json": "0f2cfdca6cfa5f88bd32a2d86f88856268d0028ac352e887ab43dbfccdfd0ef7",
     "config/devices.json": "849592e2e3ae403d4461410306f49d3ff74ebfef13483fe5a35a621dd0c2ed99",
-    "requirements/workspace-snapshot.json": "917dafc11171c3072a051c3171bda193e4a2bbd09479854c46fa1f7be9b17b93",
+    "requirements/workspace-snapshot.json": "772896b3be5f866c0af6e8f5f3824038dd64a352db1422edecd188268bc1376f",
     "source/Snapshot.mc": "6980be644ae474c29336a531d59df00a234503efd0eb28a49cb9ce829180230f",
     "source/FieldRenderer.mc": "4c864f8b9c47c44c67d935b013b7fcab63edfcc2032a60344a1a31508d701467",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
@@ -17,8 +17,8 @@
     "tools/generate_fonts.py": "ccaa6b359fa201b8a84b6f87c62b2fcf3d4c3b6da6a8e345fb95f704e65847ec",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "abc8904474e96718b9d182fab6393a7ae2f93905dfab48625fbad476a9ce4f78",
-    "source/Catalog.mc": "c1a0cd4c41acfc83803e4c352125810d994a4996a6cfdc64a0957ef578d67bb3",
+    "tools/generate_catalog.py": "4aae34480446f238f15dbedb44421dfbb5af8c8fe66720555e4b68f53ffc5afd",
+    "source/Catalog.mc": "eff00e2c1155e61153f3131ffd4f2f5d3b49e16ecf5f6f9d8544fdce9d56c378",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
     "profiles/edge550/DeviceProfile.mc": "ca9e89b8aa44ec279d5519489ef25b0db56650075831f48cb7eab374b3f801c3",
@@ -35,11 +35,11 @@
       "description_sha256": "2b58838a4c93ce82a19bba4509c391be701ee66289161c10dd9c1091e61c2805"
     },
     "APP-25": {
-      "revision": 39,
-      "description_sha256": "9f6f5fb0b8e6b32b134ecc5065471dda372a26afe3496d8507247fbb09ecea33"
+      "revision": 41,
+      "description_sha256": "4107c1c620c85e0fbbac34c94111a3b68ff95ab09637f8a630f8e6a1077ddc1f"
     },
     "APP-34": {
-      "revision": 97,
+      "revision": 98,
       "description_sha256": "3226e3d5fb9899f09cd15ab4ff4c7060767e01e99cee6a3130ae982991ffa5cf"
     },
     "SPEC-154": {
@@ -54,7 +54,7 @@
     "label_glyphs": " %./0123456789ENSWabcdefghiklmnoprstuvwxyz|°",
     "labels": [
       "speed",
-      "average speed",
+      "avg speed",
       "cadence",
       "avg cadence",
       "heart rate",

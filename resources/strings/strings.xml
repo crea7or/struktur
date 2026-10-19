@@ -3,7 +3,7 @@
   <strings>
     <string id="AppName">Struktur</string>
     <string id="Field_current_speed" scope="settings">speed</string>
-    <string id="Field_average_speed" scope="settings">average speed</string>
+    <string id="Field_average_speed" scope="settings">avg speed</string>
     <string id="Field_current_cadence" scope="settings">cadence</string>
     <string id="Field_average_cadence" scope="settings">avg cadence</string>
     <string id="Field_current_heart_rate" scope="settings">heart rate</string>
@@ -64,7 +64,7 @@
     <string id="Choice_tsrc_2" scope="settings">Heart rate</string>
     <string id="Setting_a1" scope="settings">Slot 1: value</string>
     <string id="Choice_current_speed" scope="settings">speed</string>
-    <string id="Choice_average_speed" scope="settings">average speed</string>
+    <string id="Choice_average_speed" scope="settings">avg speed</string>
     <string id="Choice_current_cadence" scope="settings">cadence</string>
     <string id="Choice_average_cadence" scope="settings">avg cadence</string>
     <string id="Choice_current_heart_rate" scope="settings">heart rate</string>

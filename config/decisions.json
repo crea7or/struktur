@@ -80,7 +80,7 @@
     "specification_review": "Native source guards and read-age/cache contracts approved; physical model/firmware provenance and sensor-pairing qualification remain pending.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-34": 162
+      "DVS-34": 165
     },
     "requirement_states": {
       "DVS-34": "draft"
@@ -125,7 +125,7 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 165
+      "DVS-29": 168
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
@@ -163,7 +163,7 @@
     "specification_review": "Completed-lap acquisition contract now belongs to DVS-39.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-39": 121
+      "DVS-39": 124
     },
     "requirement_states": {
       "DVS-39": "draft"
@@ -244,8 +244,8 @@
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
       "APP-22": 66,
-      "APP-25": 39,
-      "APP-36": 80,
+      "APP-25": 41,
+      "APP-36": 81,
       "SPEC-154": 41
     },
     "requirement_states": {
@@ -293,8 +293,8 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "requirement_revisions": {
       "APP-46": 71,
-      "SPEC-155": 107,
-      "DVS-50": 63
+      "SPEC-155": 115,
+      "DVS-50": 64
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
