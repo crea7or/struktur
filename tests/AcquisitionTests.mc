@@ -13,20 +13,9 @@ function gradeRegression(logger) {
     Test.assertEqual(10.0d,g.push(102,20,2000,true,100));
     Test.assertEqual(10.0d,g.push(999,20,2000,true,100));
     g.push(103,30,3000,true,100);g.push(104,40,4000,true,100);
-    Test.assertEqual(11.33d,g.push(107,50,5000,true,100));
-    Test.assertEqual(14.0d,g.estimate()); // Unsmoothed regression; published mean is (10+10+14)/3. // [101,102,103,104,107]: slope .14
-    Test.assertEqual(5,g.sampleCount());Test.assertEqual(10,g.point(0)[0]);Test.assertEqual(3,g._smoothCount);
-    g.reset();Test.assertEqual(0,g._smoothCount);
-    Test.assertEqual(4.0d,g.smooth(4,10));Test.assertEqual(5.0d,g.smooth(6,11));
-    Test.assertEqual(6.0d,g.smooth(8,12));Test.assertEqual(8.0d,g.smooth(10,13));
-    Test.assertEqual(8.0d,g.smooth(100,13));Test.assertEqual(3,g._smoothCount);
-    Test.assertEqual(20.0d,g.smooth(20,15));Test.assertEqual(1,g._smoothCount); // Missing second resets only mean.
-    Test.assertEqual(10.0d,g.smooth(0,16));Test.assertEqual(3.33d,g.smooth(-10,17));
-    Test.assertEqual(7.0d,g.smooth(7,14)); // Regressing second resets.
-    Test.assert(g.smooth(null,15)==null);Test.assertEqual(0,g._smoothCount);
-    Test.assertEqual(-2.01d,g.smooth(-2.01d,16));Test.assertEqual(-2.02d,g.smooth(-2.02d,17));
-    Test.assertEqual(-2.02d,g.smooth(-2.04d,18));
-    g.reset();g.smooth(-0.004d,1);Test.assertEqual(0.0,g._value);
+    Test.assertEqual(14.0d,g.push(107,50,5000,true,100)); // Latest regression is published immediately, without temporal averaging.
+    Test.assertEqual(14.0d,g.estimate());
+    Test.assertEqual(5,g.sampleCount());Test.assertEqual(10,g.point(0)[0]);
     g.reset();g.push(-10,0,0,true,100);g.push(-11,10,1000,true,100);
     Test.assertEqual(-10.0d,g.push(-12,20,2000,true,100));
     g.reset();g.push(0,0,0,true,100);g.push(20,10,1000,true,100);
@@ -67,10 +56,10 @@ function gradeResetAndBounds(logger) {
     Test.assertEqual(0.0,g.push(3,29,4000,true,100)); // distance regression resets
     Test.assertEqual(0.0,g.push(4,39,5000,true,200)); // identity resets
     Test.assert(g.push(5,49,6000,false,200)==null);Test.assertEqual(0,g.sampleCount());
-    for(var i=0;i<150;i+=1) {g.push(0,i/10.0,i*1000,true,200);Test.assert(g.sampleCount()<=5);Test.assert(g._smoothCount<=3);}
+    for(var i=0;i<150;i+=1) {g.push(0,i/10.0,i*1000,true,200);Test.assert(g.sampleCount()<=5);}
     Test.assertEqual(5,g.sampleCount());Test.assertEqual(145000,g.point(0)[2]);
     g.reset();g.push(0,0,0,true,200);g.push(1,1,500,true,200);Test.assertEqual(1,g.sampleCount());
-    Test.assert(g.push(null,2,1000,true,200)==null);Test.assertEqual(0,g.sampleCount());Test.assertEqual(0,g._smoothCount);
+    Test.assert(g.push(null,2,1000,true,200)==null);Test.assertEqual(0,g.sampleCount());
     return true;
 }
 

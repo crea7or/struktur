@@ -1,6 +1,6 @@
 {
   "requirement_revisions": {
-    "DVS-29": 157,
+    "DVS-29": 161,
     "DVS-34": 162,
     "DVS-39": 121
   },
@@ -11,10 +11,6 @@
     "canonical_decimal_places": 2,
     "stationary_reset_s": 3,
     "maximum_sample_gap_ms": 2000,
-    "temporal_average_samples": 3,
-    "temporal_average_period_s": 1,
-    "temporal_average_warmup": "mean of available estimates; regression warm-up zeros excluded",
-    "temporal_average_gap": "clear on nonconsecutive elapsed-second buckets",
     "display_decimal_places": 1
   },
   "temperature": {
