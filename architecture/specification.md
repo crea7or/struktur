@@ -6,6 +6,10 @@ Field identity, labels, units, header templates and precision are stored as type
 
 ## Index
 
+- [SPEC-284 — Verify native power-zone mapping](#spec-284)
+- [TFNC-24 — Validated zone metadata and snapshot classification](#tfnc-24)
+- [DVS-42 — Handle unsupported training-zone data honestly](#dvs-42)
+- [APP-20 — Configure the two-column Garmin field grid](#app-20)
 - [TPRF-6 — Optional battery clock and diagnostic work](#tprf-6)
 - [TPRF-4 — Bounded snapshot caches and live-input invalidation](#tprf-4)
 - [APP-26 — Prepare geometry and sensor values outside the drawing path](#app-26)
@@ -168,7 +172,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [DVS-45 — Keep slope and temperature palette extensions separate](#dvs-45)
 - [APP-46 — Configure visible fields in Garmin Connect](#app-46)
 - [APP-45 — Support day and night themes on Garmin devices](#app-45)
-- [DVS-42 — Handle unsupported training-zone data honestly](#dvs-42)
 - [DVS-40 — Convert SDK units before displaying values](#dvs-40)
 - [APP-38 — Qualify the declared Garmin device matrix](#app-38)
 - [APP-37 — Stay within device memory and refresh budgets](#app-37)
@@ -184,7 +187,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-23 — Choose grid row capacity from the assigned drawing area](#app-23)
 - [APP-22 — Select grid independently of alignment](#app-22)
 - [APP-21 — Align field labels and values at center or right](#app-21)
-- [APP-20 — Configure the two-column Garmin field grid](#app-20)
 - [TSTFUNC-5 — SDK runner process ownership and cleanup](#tstfunc-5)
 - [TSTFUNC-4 — Core: compact properties, defaults and field applicability](#tstfunc-4)
 - [TSTFUNC-3 — Native properties persistence and settings callback](#tstfunc-3)
@@ -205,7 +207,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-287 — Verify Team text options](#spec-287)
 - [SPEC-286 — Verify Team catalogue compatibility](#spec-286)
 - [SPEC-285 — Verify cadence option validation](#spec-285)
-- [SPEC-284 — Verify native power-zone mapping](#spec-284)
 - [SPEC-283 — Verify classification cache isolation](#spec-283)
 - [SPEC-282 — Verify zone fallback and recovery](#spec-282)
 - [SPEC-281 — Verify all metric family colors](#spec-281)
@@ -233,7 +234,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [TPRF-8 — All three profile font resources can load](#tprf-8)
 - [TPRF-5 — Changed-cell fitting and prepared-only rendering](#tprf-5)
 - [TFNC-26 — Late loading and gaps do not invent lap history](#tfnc-26)
-- [TFNC-24 — Validated zone metadata and snapshot classification](#tfnc-24)
 - [TFNC-23 — Rolling samples use activity time and valid values](#tfnc-23)
 - [TUI-7 — Effect foreground contrast and exact glyph widths](#tui-7)
 - [TUI-6 — Exactly three fixed font roles in every layout](#tui-6)
@@ -319,6 +319,70 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-13 — onShow()](#app-13)
 - [APP-10 — onStart(state)](#app-10)
 - [APP-9 — getInitialView()](#app-9)
+
+<a id="spec-284"></a>
+## SPEC-284 — Verify native power-zone mapping
+
+Type: test | State: approved | Revision: 13
+
+Suite: Core. Requirements: [DVS-42](#dvs-42), [SPEC-246](#spec-246).
+
+For zones 1..5 assert the specified colors; zones 6, 7 and 10 use magenta #FF00FF while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.
+
+Synthetic fixtures do not confirm the native device layout. Execution evidence is separate.
+
+**Relations**
+
+- verifies: [DVS-42](#dvs-42), [SPEC-246](#spec-246)
+
+<a id="tfnc-24"></a>
+## TFNC-24 — Validated zone metadata and snapshot classification
+
+Type: test | State: approved | Revision: 19
+
+Suite: Core. Requirements: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248).
+
+Run approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.
+
+Synthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [SPEC-162](#spec-162); this definition records no execution.
+
+**Relations**
+
+- verifies: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248)
+
+<a id="dvs-42"></a>
+## DVS-42 — Handle unsupported training-zone data honestly
+
+Type: requirement | State: approved | Revision: 55
+
+Retrieve cycling personal thresholds with UserProfile permission/capability checks, never inferred FTP/defaults. Normalize qualified metadata to finite nonnegative strictly increasing b[0..n]: b0 zone-1 minimum; b1..bn successive maxima. HR requires five zones/six min-max values. Power (getPowerZones, API 5.2.2+) uses the same layout and qualifies only when b0=0 W; any other first bound is an unrecognized layout. Null, older-API, ambiguous or unsupported metadata is unavailable. Physical-device confirmation of the power layout remains separate.
+Classify displayed whole-unit v: zone 1 b0<=v<=b1; zone i>1 b[i-1]<v<=b[i]. Outside b0..bn has no zone; upper equality belongs to the lower zone. Numeric zones/backgrounds share this classifier; invalid metadata does not invalidate an otherwise valid metric.
+
+**Relations**
+
+- allocated_to: [APP-3](#app-3)
+- uses: [APP-42](#app-42), [APP-43](#app-43), [DVS-7](#dvs-7)
+
+<a id="app-20"></a>
+## APP-20 — Configure the two-column Garmin field grid
+
+Type: requirement | State: approved | Revision: 95
+
+Options: [SPEC-302](#spec-302), [SPEC-340](#spec-340). Two columns; regular is one column/row, enlarged spans both columns/two rows. Stack enlarged cells first in slot order; fill remaining left-to-right/top-to-bottom. Only complete combinations:
+
+| Row capacity | Enlarged | Regular | Total |
+| --- | --- | --- | --- |
+| 4 | 0 | 8 | 8 |
+| 4 | 1 | 4 | 5 |
+| 4 | 2 | 0 | 2 |
+| 5 | 0 | 10 | 10 |
+| 5 | 1 | 6 | 7 |
+| 5 | 2 | 2 | 4 |
+No independent count selector or partial grid.
+
+**Relations**
+
+- allocated_to: [APP-3](#app-3), [APP-4](#app-4)
 
 <a id="tprf-6"></a>
 ## TPRF-6 — Optional battery clock and diagnostic work
@@ -2911,19 +2975,6 @@ Options: [SPEC-304](#spec-304), [SPEC-342](#spec-342). Auto uses supported devic
 - allocated_to: [APP-4](#app-4)
 - uses: [APP-39](#app-39), [APP-40](#app-40)
 
-<a id="dvs-42"></a>
-## DVS-42 — Handle unsupported training-zone data honestly
-
-Type: requirement | State: approved | Revision: 51
-
-Retrieve cycling personal thresholds with UserProfile permission/capability checks, never inferred FTP/defaults. Normalize qualified metadata to finite nonnegative strictly increasing b[0..n]: b0 zone-1 minimum; b1..bn successive maxima. HR requires five zones/six min-max values. Qualify the power adapter's SDK/device array interpretation before enabling it; ambiguous/unsupported metadata is unavailable.
-Classify displayed whole-unit v: zone 1 b0<=v<=b1; zone i>1 b[i-1]<v<=b[i]. Outside b0..bn has no zone; upper equality belongs to the lower zone. Numeric zones/backgrounds share this classifier; invalid metadata does not invalidate an otherwise valid metric.
-
-**Relations**
-
-- allocated_to: [APP-3](#app-3)
-- uses: [APP-42](#app-42), [APP-43](#app-43), [DVS-7](#dvs-7)
-
 <a id="dvs-40"></a>
 ## DVS-40 — Convert SDK units before displaying values
 
@@ -3123,26 +3174,6 @@ Reserve R=max(label line height, shared band height) in every cell, including ef
 
 - allocated_to: [APP-4](#app-4)
 - uses: [APP-25](#app-25), [DVS-12](#dvs-12)
-
-<a id="app-20"></a>
-## APP-20 — Configure the two-column Garmin field grid
-
-Type: requirement | State: approved | Revision: 91
-
-Options: [SPEC-302](#spec-302), [SPEC-340](#spec-340). Two columns; regular is one column/row, enlarged spans both columns/two rows. Stack enlarged cells first in slot order; fill remaining left-to-right/top-to-bottom. Only complete combinations:
-| Row capacity | Enlarged | Regular | Total |
-| --- | --- | --- | --- |
-| 4 | 0 | 8 | 8 |
-| 4 | 1 | 4 | 5 |
-| 4 | 2 | 0 | 2 |
-| 5 | 0 | 10 | 10 |
-| 5 | 1 | 6 | 7 |
-| 5 | 2 | 2 | 4 |
-No independent count selector or partial grid.
-
-**Relations**
-
-- allocated_to: [APP-3](#app-3), [APP-4](#app-4)
 
 <a id="tstfunc-5"></a>
 ## TSTFUNC-5 — SDK runner process ownership and cleanup
@@ -3381,19 +3412,6 @@ Check types/keys/defaults, all boundary limits, Boolean/fractional/negative/>300
 **Relations**
 
 - verifies: [SPEC-252](#spec-252)
-
-<a id="spec-284"></a>
-## SPEC-284 — Verify native power-zone mapping
-
-Type: test | State: approved | Revision: 9
-
-Suite: Core. Definition; execution evidence is separate.
-
-For qualified native power zones 1..5 assert [SPEC-246](#spec-246) colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.
-
-**Relations**
-
-- verifies: [DVS-42](#dvs-42), [SPEC-246](#spec-246)
 
 <a id="spec-283"></a>
 ## SPEC-283 — Verify classification cache isolation
@@ -3787,27 +3805,6 @@ Evidence follows [SPEC-162](#spec-162): record actual selected suite, baseline/s
 **Relations**
 
 - verifies: [DVS-39](#dvs-39), [FUNC-10](#func-10), [FUNC-9](#func-9)
-
-<a id="tfnc-24"></a>
-## TFNC-24 — Validated zone metadata and snapshot classification
-
-Type: test | State: approved | Revision: 15
-
-Purpose: Validated zone metadata and snapshot classification.
-
-Suite: Core. Default fast regression after app changes; no Memory or Placement work.
-
-Requirement references: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248).
-
-Procedure and expected results: Exercise qualified synthetic min/max zone bounds, displayed whole-number upper-inclusive thresholds, missing/invalid metadata and safe unqualified power behavior; fixture bounds do not qualify production APIs.
-
-Executable source: `tests/AcquisitionTests.mc`; named test `approvedZoneSnapshot`.
-
-Evidence follows [SPEC-162](#spec-162): record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.
-
-**Relations**
-
-- verifies: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248)
 
 <a id="tfnc-23"></a>
 ## TFNC-23 — Rolling samples use activity time and valid values

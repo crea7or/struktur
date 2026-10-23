@@ -185,7 +185,7 @@
     ],
     "status": "draft",
     "owner": "product reviewer",
-    "implementation": "One rounded, upper-inclusive production classifier. HR validates six min/max bounds. Ambiguous power metadata remains disabled under DVS-42; see requirements/zone-api-assessment.json.",
+    "implementation": "One rounded, upper-inclusive production classifier. HR validates six min/max bounds. Power zones are enabled by user decision (2026-10-23) using the HR-documented layout: zone-1 minimum of 0 W, then each zone maximum; any other or non-increasing array is unavailable. Physical-device confirmation of the getPowerZones layout remains open.",
     "decision": {
       "upper_inclusive": true,
       "use_displayed_whole_number": true,

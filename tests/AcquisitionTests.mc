@@ -343,7 +343,66 @@ function approvedZoneSnapshot(logger) {
     Test.assertEqual("110",snapshot[:values][0][ValueRecord.TEXT]);Test.assertEqual("1",snapshot[:values][1][ValueRecord.TEXT]);
     Test.assertEqual("blue",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual("blue",snapshot[:values][2][ValueRecord.BAND]);
     Test.assertEqual("1",snapshot[:values][3][ValueRecord.TEXT]);
+    // DEC-ZONES power layout: zone-1 minimum of 0 W, then each zone maximum; zones above five stay numeric.
+    Test.assert(ZoneMetadata.power(null,true)==null);
+    Test.assert(ZoneMetadata.power([150,200,250,300,350,400,2000],true)==null); // upper-bound-only list
+    Test.assert(ZoneMetadata.power([0,150,150,250],true)==null);
+    var seven=[0,150,200,250,300,350,400,2000];Test.assert(ZoneMetadata.power(seven,true)==seven);
+    e._powerZones=ZoneMetadata.power(seven,true);
+    snapshot=e.compute({"current_heart_rate"=>110.4,"current_power"=>380},s);
+    Test.assertEqual("6",snapshot[:values][3][ValueRecord.TEXT]);Test.assertEqual("magenta",snapshot[:values][2][ValueRecord.BAND]);
+    snapshot=e.compute({"current_heart_rate"=>110.4,"current_power"=>0},s);
+    Test.assertEqual("1",snapshot[:values][3][ValueRecord.TEXT]);Test.assertEqual("blue",snapshot[:values][2][ValueRecord.BAND]);
+    snapshot=e.compute({"current_heart_rate"=>110.4,"current_power"=>2001},s);
+    Test.assert(snapshot[:values][3][ValueRecord.TEXT]==null);
+    verifyNativePowerZoneMetadata();
     return true;
+}
+
+// Substitute only the native read; metadata validation, clearing and snapshots stay production code.
+(:testSupport)
+class NativePowerZoneEngine extends SnapshotEngine {
+    var nativePower=null;
+    var powerReads=0;
+    function initialize() { SnapshotEngine.initialize(); }
+    function readPowerZones() { powerReads+=1;return nativePower; }
+}
+
+(:testSupport)
+function verifyNativePowerZoneMetadata() {
+    var engine=new NativePowerZoneEngine();
+    var settings=new DisplaySettings();
+    settings.apply({"a1"=>"current_power","a2"=>"power_zone","a1_bg"=>1,"a2_bg"=>1,"a_theme"=>1});
+    engine.nativePower=[0,150,200,250,300,350,400,2000];
+    engine.metadata();Test.assertEqual(1,engine.powerReads);
+    var snapshot=engine.compute({"current_power"=>380},settings);
+    Test.assertEqual("6",snapshot[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual("magenta",snapshot[:values][0][ValueRecord.BAND]);
+    Test.assertEqual("magenta",snapshot[:values][1][ValueRecord.BAND]);
+    snapshot=engine.compute({"current_power"=>150},settings);
+    Test.assertEqual("1",snapshot[:values][1][ValueRecord.TEXT]);
+    snapshot=engine.compute({"current_power"=>150.5},settings);
+    Test.assertEqual("2",snapshot[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual(1,engine.powerReads); // No native read in compute.
+    var retained=snapshot;
+    var rejected=[null,[150,200,250,300,350,400,2000],[0,150,150,250]];
+    for(var i=0;i<rejected.size();i+=1) {
+        // Reload valid metadata first, so each invalid read must clear a previously usable profile.
+        engine.nativePower=[0,150,200,250,300,350,400,2000];engine.metadata();
+        engine.compute({"current_power"=>380},settings);
+        engine.nativePower=rejected[i];engine.metadata();
+        snapshot=engine.compute({"current_power"=>380},settings);
+        Test.assertEqual("380",snapshot[:values][0][ValueRecord.TEXT]);
+        Test.assert(snapshot[:values][1][ValueRecord.TEXT]==null);
+        Test.assertEqual("light_gray",snapshot[:values][0][ValueRecord.BAND]);
+        Test.assertEqual("light_gray",snapshot[:values][1][ValueRecord.BAND]);
+    }
+    engine.nativePower=[0,150,200,250,300,350,400,2000];engine.metadata();
+    snapshot=engine.compute({"current_power"=>380},settings);
+    Test.assertEqual("6",snapshot[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual("magenta",snapshot[:values][0][ValueRecord.BAND]);
+    Test.assertEqual("2",retained[:values][1][ValueRecord.TEXT]);
+    Test.assertEqual(8,engine.powerReads);
 }
 
 (:test)

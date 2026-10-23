@@ -1,5 +1,5 @@
 using Toybox.Lang;
-// DVS-42: HR's six min/max bounds are documented; power's shape is not.
+// DVS-42: documented HR bounds and the accepted, device-unconfirmed power layout.
 module ZoneMetadata {
     function bounds(values, count) {
         if(!(values instanceof Lang.Array) || values.size()<2 || (count!=null && values.size()!=count)) { return null; }
@@ -9,13 +9,11 @@ module ZoneMetadata {
         return values;
     }
     function heart(values) { return bounds(values,6); }
+    // DEC-ZONES: power uses HR's documented layout, zone-1 minimum then each zone maximum.
+    // The accepted power layout starts at 0 W; reject any other first bound.
     function power(values,qualifiedMinMax) {
-        return qualifiedMinMax==true?bounds(values,null):null;
-    }
-    function powerQualified() {
-        // No pinned SDK/device evidence establishes the power array interpretation.
-        // See requirements/zone-api-assessment.json. Never assume HR's representation.
-        return false;
+        var result=qualifiedMinMax==true?bounds(values,null):null;
+        return result!=null && result[0]==0?result:null;
     }
     // Internal path: bounds are an immutable result of heart()/power(), or null.
     function classifyValidated(value,bounds) {

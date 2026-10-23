@@ -114,7 +114,10 @@ class SnapshotEngine {
     function metadata() {
         _hrZones=null; _powerZones=null;
         try { if (UserProfile has :getHeartRateZones) { _hrZones=ZoneMetadata.heart(UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_BIKING)); } } catch(e) {}
-        try { if (UserProfile has :getPowerZones && ZoneMetadata.powerQualified()) { _powerZones=ZoneMetadata.power(UserProfile.getPowerZones(Activity.SPORT_CYCLING),true); } } catch(e) {}
+        try { _powerZones=ZoneMetadata.power(readPowerZones(),true); } catch(e) {}
+    }
+    function readPowerZones() {
+        return UserProfile has :getPowerZones?UserProfile.getPowerZones(Activity.SPORT_CYCLING):null;
     }
     function rawValue(raw as Lang.Dictionary,key) { return raw.hasKey(key) ? raw[key] : null; }
     function initial(settings) { return prepare({},settings,false); }

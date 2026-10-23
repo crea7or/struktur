@@ -271,7 +271,7 @@
     "context": "Foreground UserProfile permission; power method guarded and unavailable on older APIs; metadata loaded at initialization/settings reload.",
     "raw_type": "nullable numeric",
     "raw_unit": "dimensionless",
-    "validity": "Metadata shape must be qualified; currently disabled because the SDK does not document array interpretation.",
+    "validity": "Enabled on API 5.2.2+ using the HR-documented layout (0 W zone-1 minimum, then each zone maximum, strictly increasing); other layouts, null or older APIs are unavailable. Device confirmation of the layout is pending.",
     "trigger": "Each delivered activity callback; one shared acquisition per internal slot set.",
     "clock": "Host activity sample, no direct sensor polling.",
     "normalization": "Normalize once in displayed units; precision and ranges follow this field contract.",

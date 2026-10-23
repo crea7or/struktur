@@ -970,15 +970,15 @@
         "DVS-45",
         "SPEC-248"
       ],
-      "procedure": "Purpose: Validated zone metadata and snapshot classification.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nProcedure and expected results: Exercise qualified synthetic min/max zone bounds, displayed whole-number upper-inclusive thresholds, missing/invalid metadata and safe unqualified power behavior; fixture bounds do not qualify production APIs.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `approvedZoneSnapshot`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
-      "definition": "Purpose: Validated zone metadata and snapshot classification.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nProcedure and expected results: Exercise qualified synthetic min/max zone bounds, displayed whole-number upper-inclusive thresholds, missing/invalid metadata and safe unqualified power behavior; fixture bounds do not qualify production APIs.\n\nExecutable source: `tests/AcquisitionTests.mc`; named test `approvedZoneSnapshot`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
+      "procedure": "Suite: Core. Requirements: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nRun approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.\n\nSynthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [[SPEC-162]]; this definition records no execution.",
+      "definition": "Suite: Core. Requirements: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nRun approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.\n\nSynthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [[SPEC-162]]; this definition records no execution.",
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-24",
-      "revision": 15,
+      "revision": 19,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-42": 51,
+        "DVS-42": 55,
         "DVS-45": 43,
         "SPEC-248": 50
       },
@@ -2188,9 +2188,9 @@
       "source": "tests/CoreTests.mc",
       "runner": "logic",
       "title": "Verify native power-zone mapping",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor qualified native power zones 1..5 assert [[SPEC-246]] colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor qualified native power zones 1..5 assert [[SPEC-246]] colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.",
-      "revision": 9,
+      "definition": "Suite: Core. Requirements: [[DVS-42]], [[SPEC-246]].\n\nFor zones 1..5 assert the specified colors; zones 6, 7 and 10 use magenta #FF00FF while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.\n\nSynthetic fixtures do not confirm the native device layout. Execution evidence is separate.",
+      "procedure": "Suite: Core. Requirements: [[DVS-42]], [[SPEC-246]].\n\nFor zones 1..5 assert the specified colors; zones 6, 7 and 10 use magenta #FF00FF while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.\n\nSynthetic fixtures do not confirm the native device layout. Execution evidence is separate.",
+      "revision": 13,
       "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -2199,7 +2199,7 @@
         "SPEC-246"
       ],
       "requirement_revisions": {
-        "DVS-42": 51,
+        "DVS-42": 55,
         "SPEC-246": 18
       },
       "stable_id": "SPEC-284"
