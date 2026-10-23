@@ -25,7 +25,8 @@ class LapMean {
                 if(!Numeric.finite(_sum) || !Numeric.finite(_covered)) { _failed=true; breakInterval(); return; }
             }
         }
-        _previous=[value,elapsed,timer];
+        if(_previous==null) { _previous=[value,elapsed,timer]; }
+        else { _previous[0]=value;_previous[1]=elapsed;_previous[2]=timer; }
     }
     function value() { return !_failed && _covered>0?_sum/_covered:null; }
 }

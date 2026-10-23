@@ -43,8 +43,8 @@
     },
     "implementation": "Implemented in production and deterministic fixtures; source-matched validation is recorded separately in artifacts. Requirement review states are preserved.",
     "requirement_revisions": {
-      "DVS-13": 66,
-      "SPEC-161": 20
+      "DVS-13": 68,
+      "SPEC-161": 22
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
@@ -80,7 +80,7 @@
     "specification_review": "Native source guards and read-age/cache contracts approved; physical model/firmware provenance and sensor-pairing qualification remain pending.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-34": 165
+      "DVS-34": 168
     },
     "requirement_states": {
       "DVS-34": "draft"
@@ -125,7 +125,7 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "fixture_expectations": "tests/AcquisitionTests.mc and config/acquisition-contracts.json",
     "requirement_revisions": {
-      "DVS-29": 168
+      "DVS-29": 170
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
@@ -163,7 +163,7 @@
     "specification_review": "Completed-lap acquisition contract now belongs to DVS-39.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-39": 124
+      "DVS-39": 126
     },
     "requirement_states": {
       "DVS-39": "draft"
@@ -196,8 +196,8 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "DVS-45": 41,
-      "SPEC-248": 48
+      "DVS-45": 43,
+      "SPEC-248": 50
     },
     "requirement_states": {
       "DVS-45": "draft",
@@ -243,10 +243,10 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
-      "APP-22": 66,
-      "APP-25": 41,
-      "APP-36": 81,
-      "SPEC-154": 41
+      "APP-22": 68,
+      "APP-25": 43,
+      "APP-36": 83,
+      "SPEC-154": 43
     },
     "requirement_states": {
       "APP-22": "draft",
@@ -292,9 +292,9 @@
     "rationale": "Current contract is defined by the linked service requirements; previous implementation evidence does not qualify these revisions.",
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "requirement_revisions": {
-      "APP-46": 71,
-      "SPEC-155": 115,
-      "DVS-50": 64
+      "APP-46": 73,
+      "SPEC-155": 117,
+      "DVS-50": 66
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
@@ -322,8 +322,8 @@
     "question": "Record validated exact tool versions, hardware coverage, durations/repetitions and primary host.",
     "implementation": "SDK 9.2.0 and JetBrains Java 25.0.3 are recorded with compiler/device-package hashes. Hardware selection, duration and qualification remain open.",
     "requirement_revisions": {
-      "SPEC-151": 7,
-      "SPEC-159": 10
+      "SPEC-151": 9,
+      "SPEC-159": 12
     },
     "requirement_states": {
       "SPEC-151": "draft",

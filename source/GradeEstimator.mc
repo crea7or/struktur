@@ -78,8 +78,11 @@ class GradeEstimator {
             return _value;
         }
         if(_count>0 && Math.floor(point(_count-1)[2]/1000.0)==Math.floor(elapsedMs/1000.0)) { return _value; }
-        if(_count==CAPACITY) { discardOldest(); }
-        _points[(_head+_count)%CAPACITY]=[distance,altitude,elapsedMs]; _count+=1;
+        var recycled=null;
+        if(_count==CAPACITY) { recycled=_points[_head];discardOldest(); }
+        if(recycled==null) { recycled=[distance,altitude,elapsedMs]; }
+        else { recycled[0]=distance;recycled[1]=altitude;recycled[2]=elapsedMs; }
+        _points[(_head+_count)%CAPACITY]=recycled; _count+=1;
         _value=average(estimate());
         return _value;
     }

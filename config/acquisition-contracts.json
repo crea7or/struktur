@@ -1,8 +1,8 @@
 {
   "requirement_revisions": {
-    "DVS-29": 168,
-    "DVS-34": 165,
-    "DVS-39": 124
+    "DVS-29": 170,
+    "DVS-34": 168,
+    "DVS-39": 126
   },
   "grade": {
     "maximum_samples": 5,

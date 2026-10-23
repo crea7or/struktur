@@ -12,9 +12,9 @@ module ValueRecord {
     const LABEL=0;const TEXT=1;const UNIT=2;const EXPANDEDUNIT=3;const BAND=4;const ANGLE=5;const FORMAT=6;const COVERAGE=7;
 }
 module SnapshotDescriptor {
-    const ID=0;const INDEX=1;const KIND=2;const FORMAT=3;const HIDE=4;const STATUTE=5;const LABEL=6;const AM=7;const PM=8;const READY=9;const READING=10;const CONVERTED=11;const LASTLABEL=12;const TEXT=13;const UNIT=14;const EXPANDED=15;const HOUR=16;const MINUTE=17;const CLOCK24=18;const HASSAMPLE=19;const CONVERSION=20;const STYLE=21;const EFFECT=22;const ZONECHANNEL=23;const RECORD=24;const EFFECTREADY=25;const EFFECTREADING=26;const EFFECTBOUNDS=27;const EFFECTBAND=28;const EFFECTANGLE=29;const EFFECTINPUT=30;
+    const ID=0;const INDEX=1;const KIND=2;const FORMAT=3;const HIDE=4;const STATUTE=5;const LABEL=6;const AM=7;const PM=8;const READY=9;const READING=10;const CONVERTED=11;const LASTLABEL=12;const TEXT=13;const UNIT=14;const EXPANDED=15;const HOUR=16;const MINUTE=17;const CLOCK24=18;const HASSAMPLE=19;const CONVERSION=20;const STYLE=21;const EFFECT=22;const ZONECHANNEL=23;const RECORD=24;const EFFECTREADY=25;const EFFECTREADING=26;const EFFECTBOUNDS=27;const EFFECTBAND=28;const EFFECTANGLE=29;const EFFECTINPUT=30;const ZONESOURCE=31;
     function create(fieldId,fieldIndex) {
-        var d=new [31];
+        var d=new [32];
         d[SnapshotDescriptor.HIDE]=null;d[SnapshotDescriptor.STATUTE]=null;d[SnapshotDescriptor.READY]=false;d[SnapshotDescriptor.CONVERSION]=0;d[SnapshotDescriptor.STYLE]=0;d[SnapshotDescriptor.EFFECT]=0;d[SnapshotDescriptor.ZONECHANNEL]=-1;d[SnapshotDescriptor.EFFECTREADY]=false;
         d[SnapshotDescriptor.ID]=fieldId;d[SnapshotDescriptor.INDEX]=fieldIndex;
         d[SnapshotDescriptor.KIND]=d[SnapshotDescriptor.INDEX]==null?"":Catalog.UNITS[d[SnapshotDescriptor.INDEX]];
@@ -46,7 +46,9 @@ module SnapshotDescriptor {
             else if("average_cadence".equals(d[SnapshotDescriptor.ID])) { d[SnapshotDescriptor.ZONECHANNEL]=9; }
             else if("lap_cadence".equals(d[SnapshotDescriptor.ID])) { d[SnapshotDescriptor.ZONECHANNEL]=10; }
             if(d[SnapshotDescriptor.ZONECHANNEL]>=0) { d[SnapshotDescriptor.EFFECT]=3; }
-            else if("heart_rate_zone".equals(d[SnapshotDescriptor.ID]) || "power_zone".equals(d[SnapshotDescriptor.ID])) { d[SnapshotDescriptor.EFFECT]=5; }
+            // Zone-number fields resolve their live source channel once: HR 0, power 3.
+            else if("heart_rate_zone".equals(d[SnapshotDescriptor.ID])) { d[SnapshotDescriptor.EFFECT]=5;d[SnapshotDescriptor.ZONESOURCE]=0; }
+            else if("power_zone".equals(d[SnapshotDescriptor.ID])) { d[SnapshotDescriptor.EFFECT]=5;d[SnapshotDescriptor.ZONESOURCE]=3; }
         }
         return d;
     }
@@ -133,21 +135,31 @@ class SnapshotEngine {
         raw["heart_rate_zone"]=zone(0,heart);
         raw["power_zone"]=zone(3,watts);
     }
-    function prepare(raw as Lang.Dictionary,settings,hasSample) as Lang.Dictionary {
-        return prepareWithPreferences(raw,settings,hasSample,System.getDeviceSettings(),hasSample && settings.usesClock?System.getClockTime():null);
+    function preferences(device) {
+        return (device has :distanceUnits && device.distanceUnits==System.UNIT_STATUTE?1:0)+
+            (device has :elevationUnits && device.elevationUnits==System.UNIT_STATUTE?2:0)+
+            (device has :temperatureUnits && device.temperatureUnits==System.UNIT_STATUTE?4:0)+
+            (!(device has :is24Hour) || device.is24Hour!=false?8:0)+
+            (device has :isNightModeEnabled && device.isNightModeEnabled==true?16:0);
     }
-    function prepareWithPreferences(raw,settings,hasSample,device,clock) as Lang.Dictionary {
-        var distanceStatute=device has :distanceUnits && device.distanceUnits==System.UNIT_STATUTE;
-        var elevationStatute=device has :elevationUnits && device.elevationUnits==System.UNIT_STATUTE;
-        var temperatureStatute=device has :temperatureUnits && device.temperatureUnits==System.UNIT_STATUTE;
-        var clock24=!(device has :is24Hour) || device.is24Hour!=false;
-        var night=FieldPresentation.baseNight(settings.theme,device has :isNightModeEnabled,device has :isNightModeEnabled && device.isNightModeEnabled);
+    function prepare(raw as Lang.Dictionary,settings,hasSample) as Lang.Dictionary {
+        // Unit, clock-format and automatic-theme preferences are live inputs, not sample-window state.
+        return prepareWithPreferences(raw,settings,hasSample,preferences(System.getDeviceSettings()),hasSample && settings.usesClock?System.getClockTime():null);
+    }
+    // Accepts packed preferences or a device-settings object; no extra frame on the legacy VM stack.
+    function prepareWithPreferences(raw,settings,hasSample,packed,clock) as Lang.Dictionary {
+        if(!(packed instanceof Lang.Number)) { packed=preferences(packed); }
+        var distanceStatute=(packed&1)!=0;
+        var elevationStatute=(packed&2)!=0;
+        var temperatureStatute=(packed&4)!=0;
+        var clock24=(packed&8)!=0;
+        var night=FieldPresentation.baseNight(settings.theme,(packed&16)!=0,(packed&16)!=0);
         var hour=clock!=null && clock has :hour?clock.hour:null;
         var minute=clock!=null && clock has :min?clock.min:null;
         var configure=_configuration!=settings || _configurationRevision!=settings.revision ||
             _distanceStatute!=distanceStatute || _elevationStatute!=elevationStatute || _temperatureStatute!=temperatureStatute;
         _cadenceZones=settings.cadenceBounds;
-        var values=[] as Lang.Array;
+        var values=new [10] as Lang.Array;
         for(var i=0;i<10;i+=1) {
             var d=configure?descriptor(i,settings.slots[i],settings.hideValueUnits,distanceStatute,elevationStatute,temperatureStatute):_descriptors[i];
             if(d[SnapshotDescriptor.STYLE]==6 && configure) { configureTeam(d,settings); }
@@ -155,8 +167,8 @@ class SnapshotEngine {
             // A profile refresh can occur between delivered samples. Reuse the
             // current-source cache instead of a stale zone number in retained raw data.
             if(d[SnapshotDescriptor.EFFECT]==5) {
-                if("heart_rate_zone".equals(d[SnapshotDescriptor.ID]) && raw.hasKey("current_heart_rate")) { value=zone(0,raw["current_heart_rate"]); }
-                else if("power_zone".equals(d[SnapshotDescriptor.ID]) && raw.hasKey("current_power")) { value=zone(3,raw["current_power"]); }
+                if(d[SnapshotDescriptor.ZONESOURCE]==0) { if(raw.hasKey("current_heart_rate")) { value=zone(0,raw["current_heart_rate"]); } }
+                else if(raw.hasKey("current_power")) { value=zone(3,raw["current_power"]); }
             }
             var label=d[SnapshotDescriptor.LABEL];var unit="";
             var reading=value;var text=null;var expandedUnit=null;
@@ -195,7 +207,7 @@ class SnapshotEngine {
             var band=null; var angle=null;
             if(settings.effects[i] && value!=null && d[SnapshotDescriptor.EFFECT]!=0) {
                 d[SnapshotDescriptor.EFFECTINPUT]=d[SnapshotDescriptor.STYLE]==6?rawValue(raw,d[SnapshotDescriptor.ZONECHANNEL]==3?"current_power":"current_heart_rate"):reading;
-                var bounds=d[SnapshotDescriptor.ZONECHANNEL]>=0?boundsFor(d[SnapshotDescriptor.ZONECHANNEL]):(d[SnapshotDescriptor.EFFECT]==5?("heart_rate_zone".equals(d[SnapshotDescriptor.ID])?_hrZones:_powerZones):null);
+                var bounds=d[SnapshotDescriptor.ZONECHANNEL]>=0?boundsFor(d[SnapshotDescriptor.ZONECHANNEL]):(d[SnapshotDescriptor.EFFECT]==5?(d[SnapshotDescriptor.ZONESOURCE]==0?_hrZones:_powerZones):null);
                 if(!d[SnapshotDescriptor.EFFECTREADY] || d[SnapshotDescriptor.EFFECTREADING]!=d[SnapshotDescriptor.EFFECTINPUT] || d[SnapshotDescriptor.EFFECTBOUNDS]!=bounds) {
                     d[SnapshotDescriptor.EFFECTBAND]=null;d[SnapshotDescriptor.EFFECTANGLE]=null;
                     if(d[SnapshotDescriptor.EFFECT]==1) { d[SnapshotDescriptor.EFFECTBAND]=Effects.gradeBand(d[SnapshotDescriptor.EFFECTINPUT]);d[SnapshotDescriptor.EFFECTANGLE]=Effects.horizonAngle(d[SnapshotDescriptor.EFFECTINPUT]); }
@@ -217,7 +229,7 @@ class SnapshotEngine {
                 d[SnapshotDescriptor.RECORD]=[label,text,unit,expandedUnit,band,angle,d[SnapshotDescriptor.FORMAT],settings.modes[i]];
                 recordBuilds+=1;
             }
-            values.add(d[SnapshotDescriptor.RECORD]); // Never mutate a record retained by an earlier snapshot.
+            values[i]=d[SnapshotDescriptor.RECORD]; // Never mutate a record retained by an earlier snapshot.
         }
         _configuration=settings;_configurationRevision=settings.revision;
         _distanceStatute=distanceStatute;_elevationStatute=elevationStatute;_temperatureStatute=temperatureStatute;

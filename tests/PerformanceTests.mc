@@ -26,6 +26,7 @@ function snapshotCacheInvalidation(logger) {
     s.apply({"a1"=>"future-metric"});changed=e.prepareWithPreferences({},s,false,d,null);
     Test.assertEqual("field",changed[:values][0][ValueRecord.LABEL]);Test.assert(changed[:values][0][ValueRecord.TEXT]==null);
     Test.assertEqual("time",changed[:values][3][ValueRecord.LABEL]);Test.assert(changed[:values][3][ValueRecord.TEXT]==null);
+    verifyLiveDevicePreferences();
     verifySnapshotSlotIsolation();
     verifyPresentationRecordReuse();
     return true;
@@ -136,6 +137,7 @@ function rendererCacheAndDrawPurity(logger) {
 
 (:test)
 function optionalRuntimeQueries(logger) {
+    verifyHiddenTemperatureAge();
     var settings=new DisplaySettings();Test.assert(!settings.usesBattery);
     Test.assert(settings.usesClock);
     settings.apply({"a10"=>"battery"});Test.assert(settings.usesBattery);
@@ -208,3 +210,86 @@ class FieldDrawScenario {
 
 (:testSupport)
 function deliverFieldCallback(target,name,dc) { target.method(name).invoke(dc); }
+
+// Exercise the production prepare entry on consecutive samples without modifying device preferences.
+(:testSupport)
+class LivePreferenceEngine extends SnapshotEngine {
+    var selected;var reads=0;
+    function initialize() { SnapshotEngine.initialize();selected=new PresentationDevice(false,true,false); }
+    function preferences(device) { reads+=1;return SnapshotEngine.preferences(selected); }
+}
+
+(:testSupport)
+class LivePreferenceField extends StrukturField {
+    function initialize() { StrukturField.initialize();_engine=new LivePreferenceEngine();_snapshot=_engine.initial(_settings); }
+    function temperatureReading() { return 20; }
+}
+
+(:testSupport)
+class PreferenceActivityInfo extends AcquisitionInfo { var currentSpeed=10; }
+
+(:testSupport)
+function verifyLiveDevicePreferences() {
+    var field=new LivePreferenceField();
+    field.applyFieldSets(secondSetConfiguration({"a1"=>"current_speed","a2"=>"elevation","a3"=>"temperature","a4"=>"time_of_day","a_hideu"=>false}));
+    var engine=field._engine;engine.reads=0;
+    var info=new PreferenceActivityInfo();info.altitude=100;
+    field.processActivity(info);var first=field._snapshot;
+    Test.assertEqual(1,engine.reads);Test.assertEqual("speed | km/h",first[:values][0][ValueRecord.LABEL]);
+    engine.selected.distanceUnits=System.UNIT_STATUTE;
+    field.processActivity(info);var next=field._snapshot;
+    Test.assertEqual(2,engine.reads);Test.assertEqual("speed | mph",next[:values][0][ValueRecord.LABEL]);
+    Test.assertEqual(Formatting.floating(Formatting.speed(10,true)),next[:values][0][ValueRecord.TEXT]);
+    Test.assertEqual("elevation | m",next[:values][1][ValueRecord.LABEL]);
+    engine.selected.elevationUnits=System.UNIT_STATUTE;engine.selected.temperatureUnits=System.UNIT_STATUTE;
+    engine.selected.is24Hour=false;engine.selected.isNightModeEnabled=true;
+    field.processActivity(info);next=field._snapshot;
+    Test.assertEqual(3,engine.reads);Test.assertEqual("elevation | ft",next[:values][1][ValueRecord.LABEL]);
+    Test.assertEqual(Formatting.fixed(Formatting.temperature(20,true),1),next[:values][2][ValueRecord.TEXT]);
+    Test.assert(!engine._descriptors[3][SnapshotDescriptor.CLOCK24]);Test.assert(next[:night]);
+    engine.selected.distanceUnits=System.UNIT_METRIC;engine.selected.elevationUnits=System.UNIT_METRIC;
+    engine.selected.temperatureUnits=System.UNIT_METRIC;engine.selected.is24Hour=true;engine.selected.isNightModeEnabled=false;
+    field.processActivity(info);next=field._snapshot;
+    Test.assertEqual(4,engine.reads);Test.assertEqual("speed | km/h",next[:values][0][ValueRecord.LABEL]);
+    Test.assertEqual("elevation | m",next[:values][1][ValueRecord.LABEL]);Test.assert(!next[:night]);
+    Test.assert(engine._descriptors[3][SnapshotDescriptor.CLOCK24]);
+    Test.assertEqual("speed | km/h",first[:values][0][ValueRecord.LABEL]);
+}
+
+// Keep real app/cache dispatch, substituting only time at the cache boundary.
+(:testSupport)
+class ObservedTemperatureCache extends TemperatureCache {
+    var wall=1000;var mono=1000000;var ageReads=0;
+    function initialize() { TemperatureCache.initialize(); }
+    function value(actualWall,actualMono) { ageReads+=1;return TemperatureCache.value(wall,mono); }
+    function seed(temperature) {
+        Test.assert(receive([TemperatureSource.PROTOCOL,temperature,wall,TemperatureSource.PATH],wall,mono,true));
+    }
+}
+
+(:testSupport)
+function verifyHiddenTemperatureAge() {
+    var app=Toybox.Application.getApp();var original=app._temperature;
+    var cache=new ObservedTemperatureCache();app._temperature=cache;
+    try {
+        cache.seed(25);
+        var field=new StrukturField();var props={"trig"=>3};
+        for(var i=1;i<=10;i+=1) { props["a"+i]="current_speed";props["b"+i]="current_speed"; }
+        props["b1"]="temperature";
+        field.applyFieldSets(secondSetConfiguration(props));
+        var reads=cache.ageReads;var info=new AcquisitionInfo();
+        cache.wall=1001;cache.mono=1001000;field.processActivity(info);
+        Test.assertEqual(reads+1,cache.ageReads);Test.assertEqual(25,field._snapshot[:raw]["temperature"]);
+        cache.wall=1361;cache.mono=1361000;field.processActivity(info);
+        Test.assertEqual(reads+2,cache.ageReads);Test.assert(!cache.hasValue());
+        Test.assert(field._snapshot[:raw]["temperature"]==null);
+        field.processActivity(info);Test.assertEqual(reads+2,cache.ageReads); // Empty cache skips age/clock work.
+        field.handleLap(null,true);Test.assert(field._fieldSets.second);
+        Test.assert(field._snapshot[:values][0][ValueRecord.TEXT]==null);
+        field.handleLap(null,true);Test.assert(!field._fieldSets.second);
+        cache.wall=1500;cache.mono=1500000;cache.seed(0);field.processActivity(info);
+        Test.assertEqual(0,field._snapshot[:raw]["temperature"]);
+        cache.wall=1499;cache.mono=1501000;field.processActivity(info); // Clock rollback while unassigned.
+        Test.assert(!cache.hasValue());Test.assert(field._snapshot[:raw]["temperature"]==null);
+    } finally { app._temperature=original; }
+}

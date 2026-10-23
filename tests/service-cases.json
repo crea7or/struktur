@@ -16,15 +16,15 @@
       ],
       "procedure": "Purpose: Floating-point display boundaries.\n\nRequirement references: [[DVS-2]], [[DVS-4]], [[DVS-32]], [[DVS-7]].\n\nProcedure and expected results: Check zero, trailing zeros and the 10/100 magnitude transitions on both signs, exact-half rounding carries into the next band, negative-zero suppression, invalid/non-finite input and large whole-number formatting. Precision is independent of text length; measured cell overflow is separate. Use literal expected values in floatingBoundaries.\n\nExecutable source: `tests/CoreTests.mc`; fixture `floatingBoundaries`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-2": 62,
-        "DVS-32": 61,
-        "DVS-4": 51,
-        "DVS-7": 59
+        "DVS-2": 64,
+        "DVS-32": 63,
+        "DVS-4": 53,
+        "DVS-7": 61
       },
       "definition": "Purpose: Floating-point display boundaries.\n\nRequirement references: [[DVS-2]], [[DVS-4]], [[DVS-32]], [[DVS-7]].\n\nProcedure and expected results: Check zero, trailing zeros and the 10/100 magnitude transitions on both signs, exact-half rounding carries into the next band, negative-zero suppression, invalid/non-finite input and large whole-number formatting. Precision is independent of text length; measured cell overflow is separate. Use literal expected values in floatingBoundaries.\n\nExecutable source: `tests/CoreTests.mc`; fixture `floatingBoundaries`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-1",
-      "revision": 20,
-      "status": "draft",
+      "revision": 22,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -40,12 +40,12 @@
       ],
       "procedure": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n\n\nCompare exact slope sky/ground vertices against full rectangle clipping at signed shallow, zero and steep angles, with translated regular/enlarged bounds. Skipping redundant clipping must preserve rounded vertices and cell containment.",
       "requirement_revisions": {
-        "APP-20": 89
+        "APP-20": 91
       },
       "definition": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n\n\nCompare exact slope sky/ground vertices against full rectangle clipping at signed shallow, zero and steep angles, with translated regular/enlarged bounds. Skipping redundant clipping must preserve rounded vertices and cell containment.",
       "stable_id": "TFNC-2",
-      "revision": 19,
-      "status": "draft",
+      "revision": 21,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -63,14 +63,14 @@
       ],
       "procedure": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]].\n\nProcedure and expected results: For power samples 100,200,300,400 at consecutive seconds require 100,150,200,300. Heart rate remains unavailable for its first two valid samples and publishes the three-sample mean next. Check duplicate seconds, missing/invalid input, gaps, regressing time, measured zero and explicit reset. After each reset exclude stale buffer entries and restart power from its first valid sample; no sample means unavailable.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-22": 70,
-        "DVS-41": 50,
-        "DVS-47": 83
+        "DVS-22": 72,
+        "DVS-41": 52,
+        "DVS-47": 85
       },
       "definition": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]].\n\nProcedure and expected results: For power samples 100,200,300,400 at consecutive seconds require 100,150,200,300. Heart rate remains unavailable for its first two valid samples and publishes the three-sample mean next. Check duplicate seconds, missing/invalid input, gaps, regressing time, measured zero and explicit reset. After each reset exclude stale buffer entries and restart power from its first valid sample; no sample means unavailable.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-3",
-      "revision": 13,
-      "status": "draft",
+      "revision": 15,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -87,13 +87,13 @@
       ],
       "procedure": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-29": 168,
-        "DVS-34": 165
+        "DVS-29": 170,
+        "DVS-34": 168
       },
       "definition": "Purpose: Grade and temperature effect boundaries.\n\nRequirement references: [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Assert the literal grade/temperature boundary arrays and expected band names in exactEffectBands, including fractional boundaries, negative values and null. Check horizon clamping to +/-45 degrees. Verify [[DVS-42]] upper-inclusive boundaries using displayed whole-number values, invalid/outside metadata, and [[DVS-45]] exact RGB mapping. Update the production-policy fixtures before execution; historical helper-only runs do not cover this addition.\n\nExecutable source: `tests/CoreTests.mc`; fixture `exactEffectBands`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-4",
-      "revision": 19,
-      "status": "draft",
+      "revision": 21,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -113,16 +113,16 @@
       ],
       "procedure": "Suite: Core. Verify default Right alignment, both exact ten-slot presets, per-bank enlargement and coverage defaults, and matching XML/read fallbacks. Exercise valid zero/false/None, duplicate and hidden assignments, malformed values and unknown field codes. Use compact keys only; require no migration writes or compatibility declarations. Executable: typedSettingsAndHiddenSlots in tests/CoreTests.mc, with secondSetSettings and nativeSettingsCallbacks for both-bank/native reload coverage. Requirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]]. Evidence follows [[SPEC-162]]; historical executions retain their original scope.",
       "requirement_revisions": {
-        "APP-20": 89,
-        "APP-30": 47,
-        "APP-31": 113,
-        "APP-49": 132,
-        "SPEC-155": 115
+        "APP-20": 91,
+        "APP-30": 49,
+        "APP-31": 115,
+        "APP-49": 134,
+        "SPEC-155": 117
       },
       "definition": "Suite: Core. Verify default Right alignment, both exact ten-slot presets, per-bank enlargement and coverage defaults, and matching XML/read fallbacks. Exercise valid zero/false/None, duplicate and hidden assignments, malformed values and unknown field codes. Use compact keys only; require no migration writes or compatibility declarations. Executable: typedSettingsAndHiddenSlots in tests/CoreTests.mc, with secondSetSettings and nativeSettingsCallbacks for both-bank/native reload coverage. Requirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]]. Evidence follows [[SPEC-162]]; historical executions retain their original scope.",
       "stable_id": "TFNC-5",
-      "revision": 20,
-      "status": "draft",
+      "revision": 22,
+      "status": "approved",
       "suite": "Core",
       "implementation_status": "Implemented all-slot off defaults, malformed fallback, saved choices and hidden/reassigned slot preservation; matching-source results are separate.",
       "suite_stable_id": "TRGR-1"
@@ -143,16 +143,16 @@
       ],
       "procedure": "Purpose: Unit conversion and clock/duration formats.\n\nRequirement references: [[DVS-13]], [[DVS-30]], [[DVS-31]], [[DVS-32]], [[SPEC-157]].\n\nProcedure and expected results: Check 10m/s -> 36km/h, 1609.344m -> 1mi and 0C -> 32F. Use the exact boundary cases in [[DVS-13]] through 100h, including omission of seconds at 10h. Verify separate timer/elapsed paths, invalid times and both clock modes with the [[DVS-32]] header indicator. Retain [[DVS-42]] zone classification checks.\n\nExecutable source to update/verify: `tests/CoreTests.mc`, `unitsAndExplicitFormatPolicy`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "requirement_revisions": {
-        "DVS-13": 66,
-        "DVS-30": 55,
-        "DVS-31": 55,
-        "DVS-32": 61,
-        "SPEC-157": 71
+        "DVS-13": 68,
+        "DVS-30": 57,
+        "DVS-31": 57,
+        "DVS-32": 63,
+        "SPEC-157": 73
       },
       "definition": "Purpose: Unit conversion and clock/duration formats.\n\nRequirement references: [[DVS-13]], [[DVS-30]], [[DVS-31]], [[DVS-32]], [[SPEC-157]].\n\nProcedure and expected results: Check 10m/s -> 36km/h, 1609.344m -> 1mi and 0C -> 32F. Use the exact boundary cases in [[DVS-13]] through 100h, including omission of seconds at 10h. Verify separate timer/elapsed paths, invalid times and both clock modes with the [[DVS-32]] header indicator. Retain [[DVS-42]] zone classification checks.\n\nExecutable source to update/verify: `tests/CoreTests.mc`, `unitsAndExplicitFormatPolicy`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-6",
-      "revision": 20,
-      "status": "draft",
+      "revision": 22,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -172,16 +172,16 @@
       ],
       "procedure": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-25]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "requirement_revisions": {
-        "APP-21": 97,
-        "APP-24": 77,
-        "APP-25": 41,
-        "DVS-13": 66,
-        "DVS-3": 87
+        "APP-21": 99,
+        "APP-24": 79,
+        "APP-25": 43,
+        "DVS-13": 68,
+        "DVS-3": 89
       },
       "definition": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-25]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "stable_id": "TFNC-7",
-      "revision": 22,
-      "status": "draft",
+      "revision": 24,
+      "status": "approved",
       "suite": "Placement",
       "suite_stable_id": "TRGR-2"
     },
@@ -202,17 +202,17 @@
       ],
       "procedure": "Purpose: Physical-unit header selection.\n\nRequirement references: [[DVS-50]], [[DVS-32]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and a_hideu/b_hideu false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam always displays header `team` and no unit under [[SPEC-253]]; physical-unit visibility does not alter its header or saved value.",
       "requirement_revisions": {
-        "APP-31": 113,
-        "APP-35": 45,
-        "DVS-13": 66,
-        "DVS-32": 61,
-        "DVS-50": 64,
-        "SPEC-155": 115
+        "APP-31": 115,
+        "APP-35": 47,
+        "DVS-13": 68,
+        "DVS-32": 63,
+        "DVS-50": 66,
+        "SPEC-155": 117
       },
       "definition": "Purpose: Physical-unit header selection.\n\nRequirement references: [[DVS-50]], [[DVS-32]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and a_hideu/b_hideu false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam always displays header `team` and no unit under [[SPEC-253]]; physical-unit visibility does not alter its header or saved value.",
       "stable_id": "TFNC-8",
-      "revision": 30,
-      "status": "draft",
+      "revision": 32,
+      "status": "approved",
       "suite": "Core",
       "additional_functions": [
         "composedHeaderWidthAudit",
@@ -238,9 +238,9 @@
       ],
       "procedure": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-32": 79,
-        "APP-45": 58,
-        "DVS-51": 76
+        "APP-32": 81,
+        "APP-45": 60,
+        "DVS-51": 78
       },
       "definition": "Purpose: Independent theme inversion and sample preservation.\n\nRequirement references: [[DVS-51]], [[APP-32]], [[APP-45]].\n\nProcedure and expected results: Check explicit Day/Night and Auto capability fallback, every base-theme/enlarged/inversion combination, and preservation of the known rolling average through presentation-setting changes.\n\nExecutable source: `tests/PresentationTests.mc`; fixture `presentationThemeAndActivity`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-9",
@@ -305,56 +305,56 @@
       ],
       "procedure": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
       "requirement_revisions": {
-        "APP-21": 97,
-        "APP-24": 77,
-        "APP-26": 89,
-        "APP-32": 79,
-        "APP-34": 98,
-        "APP-36": 81,
-        "APP-49": 132,
-        "DVS-10": 49,
-        "DVS-11": 49,
-        "DVS-12": 112,
-        "DVS-18": 63,
-        "DVS-19": 60,
-        "DVS-20": 50,
-        "DVS-21": 59,
-        "DVS-22": 70,
-        "DVS-23": 58,
-        "DVS-24": 50,
-        "DVS-25": 48,
-        "DVS-26": 52,
-        "DVS-27": 42,
-        "DVS-28": 42,
-        "DVS-29": 168,
-        "DVS-30": 55,
-        "DVS-31": 55,
-        "DVS-32": 61,
-        "DVS-33": 46,
-        "DVS-34": 165,
-        "DVS-35": 51,
-        "DVS-36": 87,
-        "DVS-37": 47,
-        "DVS-39": 124,
-        "DVS-47": 83,
-        "DVS-51": 76,
-        "DVS-6": 102,
-        "DVS-8": 59,
-        "DVS-9": 56,
-        "FUNC-3": 47,
-        "FUNC-4": 36,
-        "FUNC-5": 48,
-        "FUNC-6": 46,
-        "FUNC-7": 45,
-        "FUNC-8": 42,
-        "SPEC-157": 71,
-        "SPEC-249": 18,
-        "SPEC-253": 40
+        "APP-21": 99,
+        "APP-24": 79,
+        "APP-26": 95,
+        "APP-32": 81,
+        "APP-34": 100,
+        "APP-36": 83,
+        "APP-49": 134,
+        "DVS-10": 51,
+        "DVS-11": 51,
+        "DVS-12": 114,
+        "DVS-18": 65,
+        "DVS-19": 62,
+        "DVS-20": 52,
+        "DVS-21": 61,
+        "DVS-22": 72,
+        "DVS-23": 60,
+        "DVS-24": 52,
+        "DVS-25": 50,
+        "DVS-26": 54,
+        "DVS-27": 44,
+        "DVS-28": 44,
+        "DVS-29": 170,
+        "DVS-30": 57,
+        "DVS-31": 57,
+        "DVS-32": 63,
+        "DVS-33": 48,
+        "DVS-34": 168,
+        "DVS-35": 53,
+        "DVS-36": 89,
+        "DVS-37": 49,
+        "DVS-39": 126,
+        "DVS-47": 85,
+        "DVS-51": 78,
+        "DVS-6": 104,
+        "DVS-8": 61,
+        "DVS-9": 58,
+        "FUNC-3": 49,
+        "FUNC-4": 38,
+        "FUNC-5": 50,
+        "FUNC-6": 48,
+        "FUNC-7": 47,
+        "FUNC-8": 44,
+        "SPEC-157": 73,
+        "SPEC-249": 20,
+        "SPEC-253": 42
       },
       "definition": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
       "stable_id": "TUI-1",
-      "revision": 97,
-      "status": "draft",
+      "revision": 99,
+      "status": "approved",
       "additional_sources": [
         "tests/NormalRangeTests.mc",
         "tests/limits"
@@ -377,14 +377,14 @@
       ],
       "procedure": "Purpose: Verify [[DVS-29]] regression and startup averaging. Suite: Core.\n\nRequire linear +/-10% ramps 0,0,+/-2,+/-4,+/-6,+/-8,+/-10; retain signed, large-value, rounding and degenerate-denominator checks. At unchanged distance keep only the latest altitude, without changing point count, FIFO, admission time, published grade or average cursor. A replacement must not block movement in that second. Duplicate timestamps remain ignored.\n\nWith relative altitudes -105.4,0,0,-0.2,-0.2 at distances 0,0,0,1.68,4.56 and one-second delivery, require 0,0,0,0,-0.78%; continued fixed altitude gives -0.94,-1.08,-1.08,-1.08,-0.30,-0.14,0. Original timestamp gaps follow the reset contract. Do not clamp or invent sensor data.\n\nExecutable: tests/AcquisitionTests.mc, gradeRegression, gradeDistinctDistance and gradeRepeatedDistanceStartup. Definitions are separate from execution evidence.",
       "requirement_revisions": {
-        "DVS-2": 62,
-        "DVS-29": 168,
-        "DVS-36": 87
+        "DVS-2": 64,
+        "DVS-29": 170,
+        "DVS-36": 89
       },
       "definition": "Purpose: Verify [[DVS-29]] regression and startup averaging. Suite: Core.\n\nRequire linear +/-10% ramps 0,0,+/-2,+/-4,+/-6,+/-8,+/-10; retain signed, large-value, rounding and degenerate-denominator checks. At unchanged distance keep only the latest altitude, without changing point count, FIFO, admission time, published grade or average cursor. A replacement must not block movement in that second. Duplicate timestamps remain ignored.\n\nWith relative altitudes -105.4,0,0,-0.2,-0.2 at distances 0,0,0,1.68,4.56 and one-second delivery, require 0,0,0,0,-0.78%; continued fixed altitude gives -0.94,-1.08,-1.08,-1.08,-0.30,-0.14,0. Original timestamp gaps follow the reset contract. Do not clamp or invent sensor data.\n\nExecutable: tests/AcquisitionTests.mc, gradeRegression, gradeDistinctDistance and gradeRepeatedDistanceStartup. Definitions are separate from execution evidence.",
       "stable_id": "TFNC-10",
-      "revision": 33,
-      "status": "draft",
+      "revision": 35,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "additional_functions": [
@@ -404,12 +404,12 @@
       ],
       "procedure": "Purpose: Verify [[DVS-29]] continuity and bounded history. Suite: Core.\n\nDuplicate time does not refresh inactivity. Repeated distance updates altitude but not distance-progress time; at 3000 ms without progress, grade stays unavailable until movement resumes. Replacement does not evict a point from a full five-distinct-distance FIFO. Permit a 2000 ms gap; reset for 2001 ms, counter/identity regression, invalid input and non-running state. Reset regression and zero-initialized average together. Recovery with three new linear 10% points publishes 0,0,2%. Pause/reset and duplicate slots/settings/draws must not reuse stale history or advance windows.\n\nExecutable: tests/AcquisitionTests.mc, gradeResetAndBounds and gradeDistinctDistance. This is a definition, not a memory measurement or execution.",
       "requirement_revisions": {
-        "DVS-29": 168
+        "DVS-29": 170
       },
       "definition": "Purpose: Verify [[DVS-29]] continuity and bounded history. Suite: Core.\n\nDuplicate time does not refresh inactivity. Repeated distance updates altitude but not distance-progress time; at 3000 ms without progress, grade stays unavailable until movement resumes. Replacement does not evict a point from a full five-distinct-distance FIFO. Permit a 2000 ms gap; reset for 2001 ms, counter/identity regression, invalid input and non-running state. Reset regression and zero-initialized average together. Recovery with three new linear 10% points publishes 0,0,2%. Pause/reset and duplicate slots/settings/draws must not reuse stale history or advance windows.\n\nExecutable: tests/AcquisitionTests.mc, gradeResetAndBounds and gradeDistinctDistance. This is a definition, not a memory measurement or execution.",
       "stable_id": "TFNC-11",
-      "revision": 28,
-      "status": "draft",
+      "revision": 30,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -426,13 +426,13 @@
       ],
       "procedure": "Purpose: Known-zero lap baseline and pause/reset lifecycle.\n\nRequirement references: [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Late attachment remains unknown despite start/lap callbacks. A proven fresh snapshot/reset sequence establishes zero; confirmed notifications increment once. Pause/stop/start preserve the count; old/end-session notifications cannot leak into a new session.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapBaselineLifecycle`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-39": 124,
-        "FUNC-9": 36
+        "DVS-39": 126,
+        "FUNC-9": 38
       },
       "definition": "Purpose: Known-zero lap baseline and pause/reset lifecycle.\n\nRequirement references: [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Late attachment remains unknown despite start/lap callbacks. A proven fresh snapshot/reset sequence establishes zero; confirmed notifications increment once. Pause/stop/start preserve the count; old/end-session notifications cannot leak into a new session.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapBaselineLifecycle`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-12",
-      "revision": 19,
-      "status": "draft",
+      "revision": 21,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -449,13 +449,13 @@
       ],
       "procedure": "Purpose: Lap identity, regression and overflow invalidation.\n\nRequirement references: [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Reject incomplete or ambiguous zero-baseline snapshots. Invalidate on changed identity, each timer/elapsed/distance regression, confirmed continuity loss and counter overflow; never wrap or fabricate a total.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapIdentityAndOverflow`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-39": 124,
-        "FUNC-9": 36
+        "DVS-39": 126,
+        "FUNC-9": 38
       },
       "definition": "Purpose: Lap identity, regression and overflow invalidation.\n\nRequirement references: [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Reject incomplete or ambiguous zero-baseline snapshots. Invalidate on changed identity, each timer/elapsed/distance regression, confirmed continuity loss and counter overflow; never wrap or fabricate a total.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `lapIdentityAndOverflow`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-13",
-      "revision": 19,
-      "status": "draft",
+      "revision": 21,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -471,12 +471,12 @@
       ],
       "procedure": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]].\n\nProcedure and expected results: Exercise owned protocol-2 four-element edge-native-v2 packets. Reject protocol-1/onboard-v1 packets from earlier builds. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Through SnapshotEngine, also verify exactly one fractional digit in Celsius and Fahrenheit, trailing zeros, positive and negative half rounding, negative-zero suppression, null/unavailable values, and color bands selected from unrounded Celsius. Cover normal-range temperature endpoints and interior values via normalRangeFormatting and normalRangeCellBounds. Synthetic packets do not certify physical source provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-34": 165
+        "DVS-34": 168
       },
       "definition": "Purpose: Temperature packet and cache-age boundaries.\n\nRequirement references: [[DVS-34]].\n\nProcedure and expected results: Exercise owned protocol-2 four-element edge-native-v2 packets. Reject protocol-1/onboard-v1 packets from earlier builds. Valid 0C survives age 360s but expires at 361s. Reject old/duplicate/future timestamps, wrong protocol/path/type; newer invalid reads clear the cache. Through SnapshotEngine, also verify exactly one fractional digit in Celsius and Fahrenheit, trailing zeros, positive and negative half rounding, negative-zero suppression, null/unavailable values, and color bands selected from unrounded Celsius. Cover normal-range temperature endpoints and interior values via normalRangeFormatting and normalRangeCellBounds. Synthetic packets do not certify physical source provenance.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureProtocolAndAge`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-14",
-      "revision": 25,
-      "status": "draft",
+      "revision": 27,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -492,12 +492,12 @@
       ],
       "procedure": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]].\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and rejection of non-owned worker delivery. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-34": 165
+        "DVS-34": 168
       },
       "definition": "Purpose: Temperature delivery delay and clock guards.\n\nRequirement references: [[DVS-34]].\n\nProcedure and expected results: Include delivery delay in cache age. Check 359s/360s read-age boundaries, monotonic advancement, UTC rollback/forward jumps, monotonic wrap/rollback and rejection of non-owned worker delivery. Invalidated values remain unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temperatureClockAndDelivery`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-15",
-      "revision": 22,
-      "status": "draft",
+      "revision": 24,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -514,13 +514,13 @@
       ],
       "procedure": "Purpose: Legal temperature scheduling and runtime source guards.\n\nRequirement references: [[DVS-34]], [[APP-38]].\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. Check that an empty native registry and explicitly ONBOARD temperature metadata pass the source-registration guard; reject null/missing/malformed metadata, ANT/BLE and unknown technology, non-Number enum types (including Float 2.0), wrong sensor types and more than 32 entries, regardless of connection state. Inspect TemperatureSource.read to verify registry checks before and after Sensor.getInfo; use fixtures to verify that foreground rejects non-owned or incompatible delivery. Preserve clock/cache and invalid-value cases. Physical qualification remains separate; these fixtures do not certify real-device provenance or actual event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-38": 55,
-        "DVS-34": 165
+        "APP-38": 57,
+        "DVS-34": 168
       },
       "definition": "Purpose: Legal temperature scheduling and runtime source guards.\n\nRequirement references: [[DVS-34]], [[APP-38]].\n\nProcedure and expected results: Assert earliest legal temporal times with no prior event, a prior event and 300s spacing. Check that an empty native registry and explicitly ONBOARD temperature metadata pass the source-registration guard; reject null/missing/malformed metadata, ANT/BLE and unknown technology, non-Number enum types (including Float 2.0), wrong sensor types and more than 32 entries, regardless of connection state. Inspect TemperatureSource.read to verify registry checks before and after Sensor.getInfo; use fixtures to verify that foreground rejects non-owned or incompatible delivery. Preserve clock/cache and invalid-value cases. Physical qualification remains separate; these fixtures do not certify real-device provenance or actual event delivery.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `temporalAndSourceQualification`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-16",
-      "revision": 24,
-      "status": "draft",
+      "revision": 26,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -540,16 +540,16 @@
       ],
       "procedure": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]], [[FUNC-9]].\n\nProcedure and expected results: Replay fresh-session activity -> zero-initialized average ramp (0,0,2,4,6,8,10%) -> confirmed 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-29": 168,
-        "DVS-34": 165,
-        "DVS-36": 87,
-        "DVS-39": 124,
-        "FUNC-9": 36
+        "DVS-29": 170,
+        "DVS-34": 168,
+        "DVS-36": 89,
+        "DVS-39": 126,
+        "FUNC-9": 38
       },
       "definition": "Purpose: Shared acquisition integration and duplicate slots.\n\nRequirement references: [[DVS-29]], [[DVS-34]], [[DVS-39]], [[DVS-36]], [[FUNC-9]].\n\nProcedure and expected results: Replay fresh-session activity -> zero-initialized average ramp (0,0,2,4,6,8,10%) -> confirmed 10% grade -> confirmed lap; duplicate grade/lap/temperature slots share one value. Check metric/statute temperature formatting with effects based on raw Celsius, cache expiry, paused grade with preserved laps, and cardinal suffix only when measured width fits.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionToSnapshot`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-17",
-      "revision": 28,
-      "status": "draft",
+      "revision": 30,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -567,14 +567,14 @@
       ],
       "procedure": "Purpose: Data Field callbacks preserve lap continuity.\n\nRequirement references: [[APP-32]], [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `datafieldCallbackIsolation`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-32": 79,
-        "DVS-39": 124,
-        "FUNC-9": 36
+        "APP-32": 81,
+        "DVS-39": 126,
+        "FUNC-9": 38
       },
       "definition": "Purpose: Data Field callbacks preserve lap continuity.\n\nRequirement references: [[APP-32]], [[DVS-39]], [[FUNC-9]].\n\nProcedure and expected results: Invoke production callbacks around a known two-lap session. Pause/stop/resume/start, hide/show and settings reload preserve the count. Reset and old callbacks do not leak; a newly attached field stays unknown. Direct callbacks are fixtures, not physical FIT delivery evidence.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `datafieldCallbackIsolation`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-18",
-      "revision": 20,
-      "status": "draft",
+      "revision": 22,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -592,14 +592,14 @@
       ],
       "procedure": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "APP-33": 45,
-        "DVS-29": 168,
-        "DVS-34": 165
+        "APP-33": 47,
+        "DVS-29": 170,
+        "DVS-34": 168
       },
       "definition": "Purpose: Invalid acquisition input and safe background startup.\n\nRequirement references: [[APP-33]], [[DVS-29]], [[DVS-34]].\n\nProcedure and expected results: Check production onStart creates no foreground view/cache. Reject null, strings, Booleans, non-finite values, negative time/distance, missing running state and incorrectly typed protocol/timestamps. Grade/cache failures independently become unavailable.\n\nExecutable source: `tests/AcquisitionTests.mc`; fixture `acquisitionInvalidInputs`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-19",
-      "revision": 24,
-      "status": "draft",
+      "revision": 26,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
     },
@@ -615,8 +615,8 @@
       "source": "scripts/build.ps1",
       "procedure": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-152": 33,
-        "SPEC-153": 39
+        "SPEC-152": 35,
+        "SPEC-153": 41
       },
       "definition": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TINT-1",
@@ -637,8 +637,8 @@
       "source": "tools/validate_fonts.py",
       "procedure": "Purpose: Exact glyph inventories and reproducible font resources.\n\nRequirement references: [[SPEC-176]], [[SPEC-177]].\n\nProcedure and expected results: Run the complete font validator and two isolated deterministic regenerations. For every current manifest variant require exact derived numeric/label character sets, transparent padding, valid rectangles, original glyph masks/metrics, verified source fonts and identical generated resource hashes. A pass covers atlas/role correctness and regeneration; it does not measure loaded memory or certify physical readability.\n\nExecutable source: `tools/validate_fonts.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-176": 26,
-        "SPEC-177": 34
+        "SPEC-176": 28,
+        "SPEC-177": 36
       },
       "definition": "Purpose: Exact glyph inventories and reproducible font resources.\n\nRequirement references: [[SPEC-176]], [[SPEC-177]].\n\nProcedure and expected results: Run the complete font validator and two isolated deterministic regenerations. For every current manifest variant require exact derived numeric/label character sets, transparent padding, valid rectangles, original glyph masks/metrics, verified source fonts and identical generated resource hashes. A pass covers atlas/role correctness and regeneration; it does not measure loaded memory or certify physical readability.\n\nExecutable source: `tools/validate_fonts.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TCOM-1",
@@ -658,7 +658,7 @@
       "source": "tools/test_font_validation.py",
       "procedure": "Purpose: Reject semantic font defects with refreshed cached hashes.\n\nRequirement references: [[SPEC-177]].\n\nProcedure and expected results: Run all isolated negative fixtures in test_font_validation.py. Require the intended semantic diagnostic for missing f, unused numeric letter, undeclared opaque pixels, duplicate/missing IDs, bounds/overlap and changed masks/metrics even when cached hashes are refreshed. Check controlled presentation-text inventory changes and unstable/stale regeneration. No simulator font-loading or memory probe.\n\nExecutable source: `tools/test_font_validation.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-177": 34
+        "SPEC-177": 36
       },
       "definition": "Purpose: Reject semantic font defects with refreshed cached hashes.\n\nRequirement references: [[SPEC-177]].\n\nProcedure and expected results: Run all isolated negative fixtures in test_font_validation.py. Require the intended semantic diagnostic for missing f, unused numeric letter, undeclared opaque pixels, duplicate/missing IDs, bounds/overlap and changed masks/metrics even when cached hashes are refreshed. Check controlled presentation-text inventory changes and unstable/stale regeneration. No simulator font-loading or memory probe.\n\nExecutable source: `tools/test_font_validation.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-20",
@@ -680,9 +680,9 @@
       "source": "tools/check_publication.py",
       "procedure": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-153": 39,
-        "SPEC-155": 115,
-        "SPEC-162": 22
+        "SPEC-153": 41,
+        "SPEC-155": 117,
+        "SPEC-162": 24
       },
       "definition": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TSEC-1",
@@ -709,14 +709,14 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-22",
-      "revision": 22,
-      "status": "draft",
+      "revision": 24,
+      "status": "approved",
       "requirement_revisions": {
-        "DVS-26": 52,
-        "DVS-29": 168,
-        "DVS-8": 59,
-        "DVS-9": 56,
-        "FUNC-5": 48
+        "DVS-26": 54,
+        "DVS-29": 170,
+        "DVS-8": 61,
+        "DVS-9": 58,
+        "FUNC-5": 50
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -740,10 +740,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 77,
-        "APP-34": 98,
-        "DVS-12": 112,
-        "DVS-50": 64
+        "APP-24": 79,
+        "APP-34": 100,
+        "DVS-12": 114,
+        "DVS-50": 66
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -766,9 +766,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-32": 61,
-        "DVS-4": 51,
-        "DVS-50": 64
+        "DVS-32": 63,
+        "DVS-4": 53,
+        "DVS-50": 66
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -792,10 +792,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-20": 89,
-        "APP-24": 77,
-        "APP-34": 98,
-        "DVS-50": 64
+        "APP-20": 91,
+        "APP-24": 79,
+        "APP-34": 100,
+        "DVS-50": 66
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -815,12 +815,12 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-5",
-      "revision": 12,
-      "status": "draft",
+      "revision": 14,
+      "status": "approved",
       "requirement_revisions": {
-        "DVS-13": 66,
-        "DVS-36": 87,
-        "SPEC-155": 115
+        "DVS-13": 68,
+        "DVS-36": 89,
+        "SPEC-155": 117
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -839,11 +839,11 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-6",
-      "revision": 10,
-      "status": "draft",
+      "revision": 12,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-24": 77,
-        "APP-25": 41
+        "APP-24": 79,
+        "APP-25": 43
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -864,13 +864,13 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-7",
-      "revision": 11,
-      "status": "draft",
+      "revision": 13,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "APP-36": 81,
-        "DVS-29": 168,
-        "DVS-6": 102
+        "APP-26": 95,
+        "APP-36": 83,
+        "DVS-29": 170,
+        "DVS-6": 104
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -896,12 +896,12 @@
       "revision": 10,
       "status": "approved",
       "requirement_revisions": {
-        "APP-22": 66,
-        "APP-26": 89,
-        "APP-32": 79,
-        "HFER-7": 23,
-        "HFER-8": 23,
-        "SPEC-155": 115
+        "APP-22": 68,
+        "APP-26": 95,
+        "APP-32": 81,
+        "HFER-7": 25,
+        "HFER-8": 25,
+        "SPEC-155": 117
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -925,10 +925,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 77,
-        "APP-34": 98,
-        "DVS-13": 66,
-        "DVS-32": 61
+        "APP-24": 79,
+        "APP-34": 100,
+        "DVS-13": 68,
+        "DVS-32": 63
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -949,13 +949,13 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-23",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-35": 45,
-        "DVS-22": 70,
-        "DVS-41": 50,
-        "DVS-47": 83
+        "APP-35": 47,
+        "DVS-22": 72,
+        "DVS-41": 52,
+        "DVS-47": 85
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -975,12 +975,12 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-24",
-      "revision": 13,
-      "status": "draft",
+      "revision": 15,
+      "status": "approved",
       "requirement_revisions": {
-        "DVS-42": 49,
-        "DVS-45": 41,
-        "SPEC-248": 48
+        "DVS-42": 51,
+        "DVS-45": 43,
+        "SPEC-248": 50
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1008,14 +1008,14 @@
       "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "FUNC-10": 22,
-        "FUNC-3": 47,
-        "FUNC-4": 36,
-        "FUNC-5": 48,
-        "FUNC-6": 46,
-        "FUNC-7": 45,
-        "FUNC-8": 42,
-        "FUNC-9": 36
+        "FUNC-10": 24,
+        "FUNC-3": 49,
+        "FUNC-4": 38,
+        "FUNC-5": 50,
+        "FUNC-6": 48,
+        "FUNC-7": 47,
+        "FUNC-8": 44,
+        "FUNC-9": 38
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1035,12 +1035,12 @@
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-26",
-      "revision": 10,
-      "status": "draft",
+      "revision": 12,
+      "status": "approved",
       "requirement_revisions": {
-        "DVS-39": 124,
-        "FUNC-10": 22,
-        "FUNC-9": 36
+        "DVS-39": 126,
+        "FUNC-10": 24,
+        "FUNC-9": 38
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1064,10 +1064,10 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-34": 98,
-        "DVS-2": 62,
-        "DVS-3": 87,
-        "SPEC-157": 71
+        "APP-34": 100,
+        "DVS-2": 64,
+        "DVS-3": 89,
+        "SPEC-157": 73
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1092,11 +1092,11 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 77,
-        "APP-34": 98,
-        "DVS-12": 112,
-        "DVS-6": 102,
-        "SPEC-157": 71
+        "APP-24": 79,
+        "APP-34": 100,
+        "DVS-12": 114,
+        "DVS-6": 104,
+        "SPEC-157": 73
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1112,18 +1112,18 @@
         "DVS-4",
         "DVS-50"
       ],
-      "procedure": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].",
-      "definition": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].",
+      "procedure": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].\n\nRegression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.",
+      "definition": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].\n\nRegression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.",
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-4",
-      "revision": 8,
+      "revision": 12,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "DVS-32": 61,
-        "DVS-4": 51,
-        "DVS-50": 64
+        "APP-26": 95,
+        "DVS-32": 63,
+        "DVS-4": 53,
+        "DVS-50": 66
       },
       "suite_stable_id": "TRGR-1",
       "implementation_status": "Implemented duplicate-slot isolation, immutable earlier snapshots and descriptor bounds through 64 reassignments; matching-source results are separate."
@@ -1144,12 +1144,12 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-5",
-      "revision": 20,
-      "status": "draft",
+      "revision": 22,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "APP-32": 79,
-        "DVS-29": 168
+        "APP-26": 95,
+        "APP-32": 81,
+        "DVS-29": 170
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1162,19 +1162,21 @@
       "requirements": [
         "APP-26",
         "APP-37",
+        "DVS-34",
         "DVS-35"
       ],
-      "procedure": "Purpose: Optional battery clock and diagnostic work.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[APP-37]], [[DVS-35]].\n\nProcedure and expected results: Require battery/clock selection flags to include hidden assignments, no battery reading on the disabled adapter path, and disabled production RuntimeMetrics counters through real activity callbacks. Core does not collect runtime memory samples.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `optionalRuntimeQueries`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
-      "definition": "Purpose: Optional battery clock and diagnostic work.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[APP-37]], [[DVS-35]].\n\nProcedure and expected results: Require battery/clock selection flags to include hidden assignments, no battery reading on the disabled adapter path, and disabled production RuntimeMetrics counters through real activity callbacks. Core does not collect runtime memory samples.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `optionalRuntimeQueries`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.",
+      "procedure": "Purpose: Optional queries and temperature-cache freshness.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[APP-37]], [[DVS-35]], [[DVS-34]].\n\nProcedure and expected results: Require battery/clock selection flags to include hidden assignments, no battery reading on the disabled adapter path, and disabled production RuntimeMetrics counters through real activity callbacks. Core does not collect runtime memory samples.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `optionalRuntimeQueries`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: Through real StrukturField activity processing and app temperature-cache dispatch, keep temperature absent from the active bank. Require a nonempty cache age check each sample, expiry after 360 seconds and clock-rollback rejection while unassigned; switching to a temperature bank must not revive the invalid reading. A valid zero remains valid. Empty caches perform no age/clock queries. Restore the test app cache after the fixture; do not modify production settings.",
+      "definition": "Purpose: Optional queries and temperature-cache freshness.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[APP-37]], [[DVS-35]], [[DVS-34]].\n\nProcedure and expected results: Require battery/clock selection flags to include hidden assignments, no battery reading on the disabled adapter path, and disabled production RuntimeMetrics counters through real activity callbacks. Core does not collect runtime memory samples.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `optionalRuntimeQueries`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: Through real StrukturField activity processing and app temperature-cache dispatch, keep temperature absent from the active bank. Require a nonempty cache age check each sample, expiry after 360 seconds and clock-rollback rejection while unassigned; switching to a temperature bank must not revive the invalid reading. A valid zero remains valid. Empty caches perform no age/clock queries. Restore the test app cache after the fixture; do not modify production settings.",
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-6",
-      "revision": 6,
+      "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "APP-37": 35,
-        "DVS-35": 51
+        "APP-26": 95,
+        "APP-37": 37,
+        "DVS-34": 168,
+        "DVS-35": 53
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1197,9 +1199,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-47": 19,
-        "APP-48": 32,
-        "SPEC-177": 34
+        "APP-47": 21,
+        "APP-48": 34,
+        "SPEC-177": 36
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1218,11 +1220,11 @@
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-8",
-      "revision": 10,
-      "status": "draft",
+      "revision": 12,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-25": 41,
-        "SPEC-177": 34
+        "APP-25": 43,
+        "SPEC-177": 36
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1243,13 +1245,13 @@
       "category": "ui",
       "runner": "logic",
       "stable_id": "TUI-12",
-      "revision": 11,
-      "status": "draft",
+      "revision": 13,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-24": 77,
-        "APP-25": 41,
-        "APP-26": 89,
-        "APP-34": 98
+        "APP-24": 79,
+        "APP-25": 43,
+        "APP-26": 95,
+        "APP-34": 100
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1275,12 +1277,12 @@
       "revision": 9,
       "status": "approved",
       "requirement_revisions": {
-        "APP-20": 89,
-        "APP-21": 97,
-        "APP-34": 98,
-        "APP-36": 81,
-        "DVS-51": 76,
-        "DVS-6": 102
+        "APP-20": 91,
+        "APP-21": 99,
+        "APP-34": 100,
+        "APP-36": 83,
+        "DVS-51": 78,
+        "DVS-6": 104
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1303,9 +1305,9 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 77,
-        "APP-34": 98,
-        "SPEC-157": 71
+        "APP-24": 79,
+        "APP-34": 100,
+        "SPEC-157": 73
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1326,13 +1328,13 @@
       "category": "performance",
       "runner": "runtime",
       "stable_id": "TPRF-9",
-      "revision": 23,
-      "status": "draft",
+      "revision": 25,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-37": 35,
-        "APP-38": 55,
-        "APP-47": 19,
-        "APP-48": 32
+        "APP-37": 37,
+        "APP-38": 57,
+        "APP-47": 21,
+        "APP-48": 34
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1356,16 +1358,16 @@
       "title": "Core: verify second-set settings, defaults",
       "definition": "Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 63-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
       "procedure": "Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 63-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
-      "revision": 23,
-      "status": "draft",
+      "revision": 25,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-31": 113,
-        "SPEC-155": 115,
-        "SPEC-208": 24,
-        "SPEC-210": 25,
-        "SPEC-211": 19,
-        "SPEC-212": 12,
-        "SPEC-243": 24
+        "APP-31": 115,
+        "SPEC-155": 117,
+        "SPEC-208": 26,
+        "SPEC-210": 27,
+        "SPEC-211": 21,
+        "SPEC-212": 14,
+        "SPEC-243": 26
       }
     },
     {
@@ -1388,16 +1390,16 @@
       "title": "Core: verify threshold hysteresis and source validity",
       "definition": "Verification definition; implementation and execution evidence are recorded separately. Use production transition logic with deterministic acquisition fixtures. With power A=250,R=220, fresh outputs 249,250,235,220,219 shall select default,second,second,second,default. Raw 249.6 must not activate despite displayed whole-watt 250; 219.6 returns despite displayed 220. Repeat for HR A=160,R=150 using 159,160,155,150,149. Equal A=R activates at equality and returns only below it. Test startup within hysteresis band, exact boundaries, finite zero power, null/negative/NaN/Infinity, HR zero, power before its first valid sample, partial power windows, missing/gapped samples, dropout and recovery inside the band: unavailable returns default, and recovery below activation stays default. Prove current HR and shared 3s power are used with neither selected in either bank, with duplicate slots, and while instantaneous power or HR3s disagrees. Unrelated-channel loss changes nothing. Verify no extra dwell delay beyond the producer and one decision per delivered sample. This is Core and uses no runtime Memory or deliberate overflow cases.\nPower startup and recovery follow [[DVS-22]]: a first 300 W sample activates immediately at A=250; subsequent decisions use two- and three-sample means. Verify this through the real Data Field pipeline with no visible power fields; the trigger must reuse the shared producer.",
       "procedure": "Verification definition; implementation and execution evidence are recorded separately. Use production transition logic with deterministic acquisition fixtures. With power A=250,R=220, fresh outputs 249,250,235,220,219 shall select default,second,second,second,default. Raw 249.6 must not activate despite displayed whole-watt 250; 219.6 returns despite displayed 220. Repeat for HR A=160,R=150 using 159,160,155,150,149. Equal A=R activates at equality and returns only below it. Test startup within hysteresis band, exact boundaries, finite zero power, null/negative/NaN/Infinity, HR zero, power before its first valid sample, partial power windows, missing/gapped samples, dropout and recovery inside the band: unavailable returns default, and recovery below activation stays default. Prove current HR and shared 3s power are used with neither selected in either bank, with duplicate slots, and while instantaneous power or HR3s disagrees. Unrelated-channel loss changes nothing. Verify no extra dwell delay beyond the producer and one decision per delivered sample. This is Core and uses no runtime Memory or deliberate overflow cases.\nPower startup and recovery follow [[DVS-22]]: a first 300 W sample activates immediately at A=250; subsequent decisions use two- and three-sample means. Verify this through the real Data Field pipeline with no visible power fields; the trigger must reuse the shared producer.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "requirement_revisions": {
-        "DVS-22": 70,
-        "SPEC-211": 19,
-        "SPEC-212": 12,
-        "SPEC-213": 14,
-        "SPEC-214": 12,
-        "SPEC-215": 11,
-        "SPEC-216": 9
+        "DVS-22": 72,
+        "SPEC-211": 21,
+        "SPEC-212": 14,
+        "SPEC-213": 16,
+        "SPEC-214": 14,
+        "SPEC-215": 13,
+        "SPEC-216": 11
       }
     },
     {
@@ -1416,12 +1418,12 @@
       "title": "Core: verify manual-lap adapters and exactly-once boundaries",
       "definition": "Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.\nAfter native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0/1/2 enlarged fields, both alignments and all coverage modes. Repeated manual toggles must prepare drawable headers/values without stack overflow; do not substitute onLapNotification for the typed entry point.",
       "procedure": "Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.\nAfter native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0/1/2 enlarged fields, both alignments and all coverage modes. Repeated manual toggles must prepare drawable headers/values without stack overflow; do not substitute onLapNotification for the typed entry point.",
-      "revision": 8,
-      "status": "draft",
+      "revision": 10,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "SPEC-217": 8,
-        "SPEC-218": 9
+        "APP-26": 95,
+        "SPEC-217": 10,
+        "SPEC-218": 11
       }
     },
     {
@@ -1443,9 +1445,9 @@
       "revision": 4,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-211": 19,
-        "SPEC-219": 9,
-        "SPEC-220": 12
+        "SPEC-211": 21,
+        "SPEC-219": 11,
+        "SPEC-220": 14
       }
     },
     {
@@ -1466,14 +1468,14 @@
       "title": "Core: verify switching lifecycle, atomic frames and shared acquisition",
       "definition": "Verification definition; implementation and execution evidence are recorded separately. Use distinct first/second fields, enlarged count, alignment, theme, unit preference, effects and grid so mixed frames are observable. Verify startup/reset, pause retention, resume with an incomplete power window (first unavailable running sample returns default), post-reset finalizing laps ignored until rearmed, known activity-identity change, fresh-sample resume, page hide/show, late load, mode/selected-threshold edits, unused threshold edits and presentation-only edits. Validate the expected bank at every event and next frame. A switch publishes one bank consistently and never changes activity counters or rolling/grade/current-lap state. For N delivered samples with duplicate fields across both banks, assert N acquisition advances and one lap reset per delivered boundary. Trace clock/battery queries for active-set demand and correct values on activation; no trigger-only timer or draw-time acquisition. Inspect initialized/cached descriptors and ordinary draw replay using bounded fixture counters, not a runtime heap qualification. Include maximum supported normal layouts of each bank and prove no inherited first-set styles. This is Core; separate Memory and insufficient-area tests remain excluded.",
       "procedure": "Verification definition; implementation and execution evidence are recorded separately. Use distinct first/second fields, enlarged count, alignment, theme, unit preference, effects and grid so mixed frames are observable. Verify startup/reset, pause retention, resume with an incomplete power window (first unavailable running sample returns default), post-reset finalizing laps ignored until rearmed, known activity-identity change, fresh-sample resume, page hide/show, late load, mode/selected-threshold edits, unused threshold edits and presentation-only edits. Validate the expected bank at every event and next frame. A switch publishes one bank consistently and never changes activity counters or rolling/grade/current-lap state. For N delivered samples with duplicate fields across both banks, assert N acquisition advances and one lap reset per delivered boundary. Trace clock/battery queries for active-set demand and correct values on activation; no trigger-only timer or draw-time acquisition. Inspect initialized/cached descriptors and ordinary draw replay using bounded fixture counters, not a runtime heap qualification. Include maximum supported normal layouts of each bank and prove no inherited first-set styles. This is Core; separate Memory and insufficient-area tests remain excluded.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "APP-33": 45,
-        "SPEC-208": 24,
-        "SPEC-220": 12,
-        "SPEC-221": 13
+        "APP-26": 95,
+        "APP-33": 47,
+        "SPEC-208": 26,
+        "SPEC-220": 14,
+        "SPEC-221": 15
       }
     },
     {
@@ -1490,10 +1492,10 @@
       "title": "Memory: verify bounded allocation while switching both field sets",
       "definition": "Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [[APP-48]] limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.\n\nExecute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.\n\nDispatch bounded batches of transitions/settings changes across native drawing callbacks so harness batching does not trigger the watchdog. Preserve all 1000 transitions, 200 changes and repeated-state checkpoints; require completion within the declared runner timeout.",
       "procedure": "Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [[APP-48]] limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.\n\nExecute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.\n\nDispatch bounded batches of transitions/settings changes across native drawing callbacks so harness batching does not trigger the watchdog. Preserve all 1000 transitions, 200 changes and repeated-state checkpoints; require completion within the declared runner timeout.",
-      "revision": 13,
-      "status": "draft",
+      "revision": 15,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89
+        "APP-26": 95
       }
     },
     {
@@ -1514,8 +1516,8 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-33": 45,
-        "SPEC-208": 24
+        "APP-33": 47,
+        "SPEC-208": 26
       }
     },
     {
@@ -1526,8 +1528,8 @@
       "title": "Verify Team catalogue compatibility",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck generated/runtime choices 0..32, exact team identifier/caption and all old mappings. Upgrade saved assignments in both banks and verify their layout, presets and switching remain unchanged.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck generated/runtime choices 0..32, exact team identifier/caption and all old mappings. Upgrade saved assignments in both banks and verify their layout, presets and switching remain unchanged.",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1537,10 +1539,10 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "APP-46": 71,
-        "SPEC-155": 115,
-        "SPEC-210": 25,
-        "SPEC-253": 40
+        "APP-46": 73,
+        "SPEC-155": 117,
+        "SPEC-210": 27,
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-286"
     },
@@ -1552,8 +1554,8 @@
       "title": "Verify enlarged semantic label fill",
       "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nUse qualified HR/power fixtures and temperature bands with one/two enlarged slots in each set. Assert full-width/full-band fill and ordinary value pixels in both alignments/themes and inverted enlarged palettes.",
       "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nUse qualified HR/power fixtures and temperature bands with one/two enlarged slots in each set. Assert full-width/full-band fill and ordinary value pixels in both alignments/themes and inverted enlarged palettes.",
-      "revision": 8,
-      "status": "draft",
+      "revision": 10,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1561,8 +1563,8 @@
         "DVS-12"
       ],
       "requirement_revisions": {
-        "APP-49": 132,
-        "DVS-12": 112
+        "APP-49": 134,
+        "DVS-12": 114
       },
       "stable_id": "SPEC-272"
     },
@@ -1574,8 +1576,8 @@
       "title": "Verify enlarged neutral fallback",
       "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nExercise no custom source, missing/invalid/unsupported/expired/unqualified sources and recovery, including valid zero. Verify both gray shades, each mode, both sets and inversion without hiding valid values.",
       "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nExercise no custom source, missing/invalid/unsupported/expired/unqualified sources and recovery, including valid zero. Verify both gray shades, each mode, both sets and inversion without hiding valid values.",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1583,8 +1585,8 @@
         "SPEC-249"
       ],
       "requirement_revisions": {
-        "DVS-51": 76,
-        "SPEC-249": 18
+        "DVS-51": 78,
+        "SPEC-249": 20
       },
       "stable_id": "SPEC-273"
     },
@@ -1596,8 +1598,8 @@
       "title": "Verify enlarged color bounds and contrast",
       "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nCompare cell commands/pixels before/after effects for zero/one/two enlarged layouts, all grid modes and both alignments. Check complete glyphs/halos, shared band bounds and neighboring cells.",
       "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nCompare cell commands/pixels before/after effects for zero/one/two enlarged layouts, all grid modes and both alignments. Check complete glyphs/halos, shared band bounds and neighboring cells.",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1606,9 +1608,9 @@
         "DVS-6"
       ],
       "requirement_revisions": {
-        "APP-34": 98,
-        "DVS-12": 112,
-        "DVS-6": 102
+        "APP-34": 100,
+        "DVS-12": 114,
+        "DVS-6": 104
       },
       "stable_id": "SPEC-274"
     },
@@ -1620,15 +1622,15 @@
       "title": "Verify color-only packet invalidation",
       "definition": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nHold displayed text/bounds constant while changing thresholds, source validity, theme and coverage. Verify replacement packets and complete erasure; earlier snapshots remain byte-for-byte unchanged.",
       "procedure": "Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.\n\nHold displayed text/bounds constant while changing thresholds, source validity, theme and coverage. Verify replacement packets and complete erasure; earlier snapshots remain byte-for-byte unchanged.",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 89
+        "APP-26": 95
       },
       "stable_id": "SPEC-275"
     },
@@ -1640,8 +1642,8 @@
       "title": "Verify current coverage settings without legacy declarations",
       "definition": "Suite: Core. Verify all twenty compact aN_bg/bN_bg controls expose integer 0 None, 1 Label and 2 Whole cell. Match the per-slot XML defaults and independent read fallbacks. Exercise every explicit mode, missing/null/Boolean/fractional/negative/unknown values, hidden slots and reassignment. Require no legacy switches, sentinel or schema marker. Execute typedSettingsAndHiddenSlots and secondSetSettings; preserve unrelated values without runtime writes.",
       "procedure": "Suite: Core. Verify all twenty compact aN_bg/bN_bg controls expose integer 0 None, 1 Label and 2 Whole cell. Match the per-slot XML defaults and independent read fallbacks. Exercise every explicit mode, missing/null/Boolean/fractional/negative/unknown values, hidden slots and reassignment. Require no legacy switches, sentinel or schema marker. Execute typedSettingsAndHiddenSlots and secondSetSettings; preserve unrelated values without runtime writes.",
-      "revision": 11,
-      "status": "draft",
+      "revision": 13,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1650,9 +1652,9 @@
         "SPEC-243"
       ],
       "requirement_revisions": {
-        "APP-31": 113,
-        "SPEC-155": 115,
-        "SPEC-243": 24
+        "APP-31": 115,
+        "SPEC-155": 117,
+        "SPEC-243": 26
       },
       "stable_id": "SPEC-276"
     },
@@ -1664,15 +1666,15 @@
       "title": "Verify read-only compact property loading",
       "definition": "Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 63 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.",
       "procedure": "Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 63 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-244"
       ],
       "requirement_revisions": {
-        "SPEC-244": 13
+        "SPEC-244": 15
       },
       "stable_id": "SPEC-277"
     },
@@ -1684,15 +1686,15 @@
       "title": "Verify serialized property budget",
       "definition": "Suite: Core build checks. Invoke scripts/check-properties.ps1 with the installed Garmin SDK serializer. Serialize all current keys/defaults and maximum allowed Team text; both sizes must be <=8000 bytes, including overhead. Require nonzero exit for an oversized dictionary or serializer failure. Verify invalid keys and duplicate declarations are rejected. Preserve exact measured counts in artifacts/property-budget.json. This host check is not runtime Memory qualification.",
       "procedure": "Suite: Core build checks. Invoke scripts/check-properties.ps1 with the installed Garmin SDK serializer. Serialize all current keys/defaults and maximum allowed Team text; both sizes must be <=8000 bytes, including overhead. Require nonzero exit for an oversized dictionary or serializer failure. Verify invalid keys and duplicate declarations are rejected. Preserve exact measured counts in artifacts/property-budget.json. This host check is not runtime Memory qualification.",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-245"
       ],
       "requirement_revisions": {
-        "SPEC-245": 9
+        "SPEC-245": 11
       },
       "stable_id": "SPEC-278"
     },
@@ -1704,8 +1706,8 @@
       "title": "Verify background mode choices",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck all 20 keys, exact captions/codes/types and both bank presets. Edit duplicate and hidden slots independently; reload and verify their modes. No Boolean switch remains visible.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck all 20 keys, exact captions/codes/types and both bank presets. Edit duplicate and hidden slots independently; reload and verify their modes. No Boolean switch remains visible.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1713,8 +1715,8 @@
         "SPEC-155"
       ],
       "requirement_revisions": {
-        "APP-49": 132,
-        "SPEC-155": 115
+        "APP-49": 134,
+        "SPEC-155": 117
       },
       "stable_id": "SPEC-267"
     },
@@ -1726,8 +1728,8 @@
       "title": "Verify background coverage regions",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor None/Label/Whole cell, compare production fill commands and pixels in regular/enlarged cells, both sets/themes/alignments. Assert unchanged alignment anchors and clipping at cell borders; any required clearance refit is confined to the affected cell. Exercise the Team and slope exceptions.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor None/Label/Whole cell, compare production fill commands and pixels in regular/enlarged cells, both sets/themes/alignments. Assert unchanged alignment anchors and clipping at cell borders; any required clearance refit is confined to the affected cell. Exercise the Team and slope exceptions.",
-      "revision": 11,
-      "status": "draft",
+      "revision": 13,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1736,9 +1738,9 @@
         "DVS-34"
       ],
       "requirement_revisions": {
-        "APP-49": 132,
-        "DVS-29": 168,
-        "DVS-34": 165
+        "APP-49": 134,
+        "DVS-29": 170,
+        "DVS-34": 168
       },
       "stable_id": "SPEC-268"
     },
@@ -1750,8 +1752,8 @@
       "title": "Verify whole-cell text contrast",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nRender all palette colors, including magenta #FF00FF with black text and an opposite white one-pixel halo, both neutral grays and all coverage modes. Assert foreground/halo colors and transparency for header, primary and secondary glyphs, including enlarged inversion. Changing coverage leaves no obsolete fill/halo.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nRender all palette colors, including magenta #FF00FF with black text and an opposite white one-pixel halo, both neutral grays and all coverage modes. Assert foreground/halo colors and transparency for header, primary and secondary glyphs, including enlarged inversion. Changing coverage leaves no obsolete fill/halo.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1759,8 +1761,8 @@
         "DVS-6"
       ],
       "requirement_revisions": {
-        "APP-36": 81,
-        "DVS-6": 102
+        "APP-36": 83,
+        "DVS-6": 104
       },
       "stable_id": "SPEC-269"
     },
@@ -1772,8 +1774,8 @@
       "title": "Verify isolated mode validation",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInject missing/null/Boolean/fractional/negative/unknown values in one slot. Verify its bank-specific fallback and unchanged other slots/settings; valid explicit 0 survives reload.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInject missing/null/Boolean/fractional/negative/unknown values in one slot. Verify its bank-specific fallback and unchanged other slots/settings; valid explicit 0 survives reload.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1781,8 +1783,8 @@
         "APP-49"
       ],
       "requirement_revisions": {
-        "APP-31": 113,
-        "APP-49": 132
+        "APP-31": 115,
+        "APP-49": 134
       },
       "stable_id": "SPEC-270"
     },
@@ -1794,8 +1796,8 @@
       "title": "Verify mode-only invalidation",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nChange one mode with unchanged text, readings and bounds. Assert new production packets/fills on next update, unchanged geometry, other slots and lap/rolling/grade/trigger state. Fitting counters remain unchanged when clearance is unchanged; otherwise only the affected cell may refit to keep complete glyphs/halos inside its bounds.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nChange one mode with unchanged text, readings and bounds. Assert new production packets/fills on next update, unchanged geometry, other slots and lap/rolling/grade/trigger state. Fitting counters remain unchanged when clearance is unchanged; otherwise only the affected cell may refit to keep complete glyphs/halos inside its bounds.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1803,8 +1805,8 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 89,
-        "APP-32": 79
+        "APP-26": 95,
+        "APP-32": 81
       },
       "stable_id": "SPEC-271"
     },
@@ -1816,15 +1818,15 @@
       "title": "Verify cadence option validation",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck types/keys/defaults, all boundary limits, Boolean/fractional/negative/>300 values, equal/reversed bounds and partially absent settings. Assert shared profile across both sets and unchanged stored invalid data.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck types/keys/defaults, all boundary limits, Boolean/fractional/negative/>300 values, equal/reversed bounds and partially absent settings. Assert shared profile across both sets and unchanged stored invalid data.",
-      "revision": 3,
-      "status": "draft",
+      "revision": 5,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-252"
       ],
       "requirement_revisions": {
-        "SPEC-252": 11
+        "SPEC-252": 13
       },
       "stable_id": "SPEC-285"
     },
@@ -1836,15 +1838,15 @@
       "title": "Verify Team text options",
       "definition": "Suite: Core. Check exactly two shared Team controls before every slot control: Team name and Team color source, with no font selector, hidden font property or per-slot/second-set copies. Verify Slot N captions and text default/empty/32/33 characters/spaces/case/wrong types/non-ASCII validation. All duplicate, hidden and reassigned Team slots use the shared text and source after reload/switches; coverage remains independent.",
       "procedure": "Suite: Core. Check exactly two shared Team controls before every slot control: Team name and Team color source, with no font selector, hidden font property or per-slot/second-set copies. Verify Slot N captions and text default/empty/32/33 characters/spaces/case/wrong types/non-ASCII validation. All duplicate, hidden and reassigned Team slots use the shared text and source after reload/switches; coverage remains independent.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 40
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-287"
     },
@@ -1856,15 +1858,15 @@
       "title": "Verify Team binding options",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nCheck keys/types/captions/defaults for all 20 slots, each valid code and invalid Boolean/fraction/unknown values. Verify binding and coverage remain independent through reload and bank switching.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nCheck keys/types/captions/defaults for all 20 slots, each valid code and invalid Boolean/fraction/unknown values. Verify binding and coverage remain independent through reload and bank switching.",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 40
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-288"
     },
@@ -1876,15 +1878,15 @@
       "title": "Verify Team preparation invalidation",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and shared text/font/source edits and isolated slot bounds/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples. Shared text/font/source changes update every affected Team presentation; earlier snapshots retain their old content.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument fitting, capability discovery, compute and drawing with unchanged inputs and shared text/font/source edits and isolated slot bounds/theme/coverage edits. Assert only required work runs, no font search/geometry calculation occurs in ordinary drawing, and duplicates add no samples. Shared text/font/source changes update every affected Team presentation; earlier snapshots retain their old content.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 89
+        "APP-26": 95
       },
       "stable_id": "SPEC-299"
     },
@@ -1896,8 +1898,8 @@
       "title": "Verify Team literal rendering",
       "definition": "Suite: Core. Render TEAM, mixed case, digits, punctuation, repeated spaces and empty text in both sets with units shown/hidden. Assert the exact lowercase team header, unchanged user value and no physical unit or numeric conversion. Empty text retains the header. Render duplicate Team assignments in both sets, including regular/enlarged cells: assert the shared text updates every visible Team value and previous snapshots remain unchanged.",
       "procedure": "Suite: Core. Render TEAM, mixed case, digits, punctuation, repeated spaces and empty text in both sets with units shown/hidden. Assert the exact lowercase team header, unchanged user value and no physical unit or numeric conversion. Empty text retains the header. Render duplicate Team assignments in both sets, including regular/enlarged cells: assert the shared text updates every visible Team value and previous snapshots remain unchanged.",
-      "revision": 10,
-      "status": "draft",
+      "revision": 12,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1907,10 +1909,10 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "DVS-12": 112,
-        "DVS-50": 64,
-        "SPEC-156": 21,
-        "SPEC-253": 40
+        "DVS-12": 114,
+        "DVS-50": 66,
+        "SPEC-156": 23,
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-289"
     },
@@ -1922,8 +1924,8 @@
       "title": "Verify Team settings isolation",
       "definition": "Suite: Core. Set one shared Team text and color source. Hide/reassign duplicate slots, disable the second set, switch banks and reload: all Team slots retain the shared values. Exactly two Team properties exist. Slot assignments and coverage remain independent.",
       "procedure": "Suite: Core. Set one shared Team text and color source. Hide/reassign duplicate slots, disable the second set, switch banks and reload: all Team slots retain the shared values. Exactly two Team properties exist. Slot assignments and coverage remain independent.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1931,8 +1933,8 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-208": 24,
-        "SPEC-253": 40
+        "SPEC-208": 26,
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-290",
       "additional_executable_checks": [
@@ -1952,8 +1954,8 @@
       "title": "Verify Team native text bounds",
       "definition": "Suite: Core. On all nine profiles verify fitting native Team lines below the shared header in regular/enlarged slots, both sets and alignments. Check five-percent value-area padding, one-pixel clearance, per-line alignment and vertically centered block. Markers do not count as normal-fit evidence.",
       "procedure": "Suite: Core. On all nine profiles verify fitting native Team lines below the shared header in regular/enlarged slots, both sets and alignments. Check five-percent value-area padding, one-pixel clearance, per-line alignment and vertically centered block. Markers do not count as normal-fit evidence.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1962,9 +1964,9 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "APP-21": 97,
-        "APP-34": 98,
-        "SPEC-253": 40
+        "APP-21": 99,
+        "APP-34": 100,
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-291"
     },
@@ -1976,8 +1978,8 @@
       "title": "Verify native Team font selection",
       "definition": "Suite: Core. Verify greedy space-only wrapping with repeated spaces, one-line and multiline values. Assert words remain whole and within-line spaces survive. Using deterministic metrics and native drawing, verify the largest complete-block fit and tie rule, fixed native candidate eligibility and unchanged fit cache on source/color-only changes. No-fit cases belong to Placement.",
       "procedure": "Suite: Core. Verify greedy space-only wrapping with repeated spaces, one-line and multiline values. Assert words remain whole and within-line spaces survive. Using deterministic metrics and native drawing, verify the largest complete-block fit and tie rule, fixed native candidate eligibility and unchanged fit cache on source/color-only changes. No-fit cases belong to Placement.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -1985,8 +1987,8 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "APP-25": 41,
-        "SPEC-253": 40
+        "APP-25": 43,
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-292"
     },
@@ -1998,15 +2000,15 @@
       "title": "Verify Team source binding and fallback",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor a qualified Power binding above zone 5, assert magenta #FF00FF under [[SPEC-246]] with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor a qualified Power binding above zone 5, assert magenta #FF00FF under [[SPEC-246]] with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 40
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-293"
     },
@@ -2018,15 +2020,15 @@
       "title": "Verify Team coloring regions",
       "definition": "Suite: Core. Render None, Label and Whole cell with semantic/neutral colors in both themes, alignments, sets and regular/enlarged slots. Assert Label fills only the common full-width team header band, Whole fills the cell, and None keeps ordinary backgrounds. Check header/value contrast independently and unchanged wrap/positions across color-only edits.",
       "procedure": "Suite: Core. Render None, Label and Whole cell with semantic/neutral colors in both themes, alignments, sets and regular/enlarged slots. Assert Label fills only the common full-width team header band, Whole fills the cell, and None keeps ordinary backgrounds. Check header/value contrast independently and unchanged wrap/positions across color-only edits.",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 40
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-294"
     },
@@ -2038,8 +2040,8 @@
       "title": "Verify automatic Team font eligibility",
       "definition": "Suite: Core. Verify the fixed native FONT_XTINY/TINY/SMALL/MEDIUM/LARGE candidate set and largest complete-block fit with the existing tie rule. The settings and properties expose no Team font selector or font code. Verify shared text survives settings refresh and bank switches; report actual native drawing separately from deterministic wrapping metrics.",
       "procedure": "Suite: Core. Verify the fixed native FONT_XTINY/TINY/SMALL/MEDIUM/LARGE candidate set and largest complete-block fit with the existing tie rule. The settings and properties expose no Team font selector or font code. Verify shared text survives settings refresh and bank switches; report actual native drawing separately from deterministic wrapping metrics.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -2049,10 +2051,10 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "APP-38": 55,
-        "SPEC-176": 26,
-        "SPEC-177": 34,
-        "SPEC-253": 40
+        "APP-38": 57,
+        "SPEC-176": 28,
+        "SPEC-177": 36,
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-297"
     },
@@ -2064,15 +2066,15 @@
       "title": "Verify automatic Team fitting preserves settings",
       "definition": "Suite: Core. Verify automatic font fitting never rewrites shared Team text, source or slot assignments/coverage. Empty text retains its header, unchanged values reuse fitted runs, and text edits refit during a current layout callback. Missing-candidate and deliberate no-fit cases remain in Placement and require an explicit request.",
       "procedure": "Suite: Core. Verify automatic font fitting never rewrites shared Team text, source or slot assignments/coverage. Empty text retains its header, unchanged values reuse fitted runs, and text edits refit during a current layout callback. Missing-candidate and deliberate no-fit cases remain in Placement and require an explicit request.",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 40
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-298"
     },
@@ -2084,8 +2086,8 @@
       "title": "Verify exact five-zone colors",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nAssert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nAssert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -2093,8 +2095,8 @@
         "SPEC-246"
       ],
       "requirement_revisions": {
-        "DVS-45": 41,
-        "SPEC-246": 16
+        "DVS-45": 43,
+        "SPEC-246": 18
       },
       "stable_id": "SPEC-279"
     },
@@ -2106,15 +2108,15 @@
       "title": "Verify cadence boundary table",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor defaults and edited thresholds test below/equal/above every bound, rounding across a bound, zero and invalid readings. Assert exactly one zone for every valid nonnegative displayed value.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor defaults and edited thresholds test below/equal/above every bound, rounding across a bound, zero and invalid readings. Assert exactly one zone for every valid nonnegative displayed value.",
-      "revision": 3,
-      "status": "draft",
+      "revision": 5,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-247"
       ],
       "requirement_revisions": {
-        "SPEC-247": 9
+        "SPEC-247": 11
       },
       "stable_id": "SPEC-280"
     },
@@ -2126,8 +2128,8 @@
       "title": "Verify all metric family colors",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nProvide simultaneous current, 3s, activity-average and lap values in different zones; verify each family and numeric-zone field. Include measured zero watts/rpm, missing lap coverage and duplicate slots with different modes.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nProvide simultaneous current, 3s, activity-average and lap values in different zones; verify each family and numeric-zone field. Include measured zero watts/rpm, missing lap coverage and duplicate slots with different modes.",
-      "revision": 10,
-      "status": "draft",
+      "revision": 12,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -2135,8 +2137,8 @@
         "SPEC-248"
       ],
       "requirement_revisions": {
-        "SPEC-155": 115,
-        "SPEC-248": 48
+        "SPEC-155": 117,
+        "SPEC-248": 50
       },
       "stable_id": "SPEC-281"
     },
@@ -2148,15 +2150,15 @@
       "title": "Verify zone fallback and recovery",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInject invalid readings/profiles separately and together, including malformed cadence bounds and unsupported native power metadata. Verify neutral fill, preserved valid readings, None suppression and recovery without a restart.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInject invalid readings/profiles separately and together, including malformed cadence bounds and unsupported native power metadata. Verify neutral fill, preserved valid readings, None suppression and recovery without a restart.",
-      "revision": 3,
-      "status": "draft",
+      "revision": 5,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "SPEC-249"
       ],
       "requirement_revisions": {
-        "SPEC-249": 18
+        "SPEC-249": 20
       },
       "stable_id": "SPEC-282"
     },
@@ -2168,15 +2170,15 @@
       "title": "Verify classification cache isolation",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument source/classifier calls across duplicates, zone fields and Team bindings. Change one reading/profile/coverage and assert only dependent records change; old snapshots and other channels remain unchanged.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nInstrument source/classifier calls across duplicates, zone fields and Team bindings. Change one reading/profile/coverage and assert only dependent records change; old snapshots and other channels remain unchanged.",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 89
+        "APP-26": 95
       },
       "stable_id": "SPEC-283"
     },
@@ -2188,8 +2190,8 @@
       "title": "Verify native power-zone mapping",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nFor qualified native power zones 1..5 assert [[SPEC-246]] colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nFor qualified native power zones 1..5 assert [[SPEC-246]] colors; for zones 6, 7 and 10 assert magenta #FF00FF, never red. Preserve each numeric zone unchanged. Verify all power metrics, power-zone and Power-bound Team uses, both themes/inversion and Label/Whole cell; None suppresses fills. Unknown metadata or invalid/out-of-domain readings use neutral fallback, not magenta. Synthetic fixtures do not qualify a physical device.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -2197,8 +2199,8 @@
         "SPEC-246"
       ],
       "requirement_revisions": {
-        "DVS-42": 49,
-        "SPEC-246": 16
+        "DVS-42": 51,
+        "SPEC-246": 18
       },
       "stable_id": "SPEC-284"
     },
@@ -2210,8 +2212,8 @@
       "title": "Verify: specify each displayed value acquisition path and deterministic sensor fixtures",
       "definition": "Verify every one of the 33 selectable identifiers has one explicit acquisition/normalization contract under [[SPEC-156]]. Cover current/activity-average speed, cadence, heart rate and power; distance, elevation, ascent/descent, grade, timers, local time, calories, battery, heading, waypoint distance, zones, completed laps and the six current-lap fields. Check each Label text, Unit text, producer API/units, validity/ranges and conversion/rounding against the production adapter; do not substitute whole-activity values for lap values.\n\nReplay zero, negative where valid, null/non-finite, absent members, sensor interruption/recovery, unit changes, activity reset and clock/timer boundaries. Verify current readings become unavailable while explicitly accumulated/cache values obey their own retention rules. Inspect all complete exact headers and the distinct unavailable/overflow markers. Unavailable navigation or zone metadata must not become fabricated zeros. Use [[TFNC-21]] for lap lifecycle/weighted fixtures and [[TFNC-10]]..[[TFNC-19]] for existing derived acquisitions. Physical source/callback evidence remains separate under [[SPEC-171]]. Record actual results under [[SPEC-162]].\n\nCore fixtures requestedFieldPrecision and normalRangeFormatting verify magnitude-based precision for current/average/lap speed, activity/lap/waypoint distance after unit conversion; slope always has one decimal; temperature keeps one decimal, elevation stays integral, and other field-specific precision rules remain in force. normalRangeCellBounds covers the declared per-layout intervals under [[APP-34]]; formatting correctness outside them does not imply fit. Preserve canonical two-decimal regression grade/effect calculations under [[DVS-29]] and existing acquisition validity/lifecycle rules.\n\nTeam has settings-sourced literal text and no numeric/sensor acquisition under [[SPEC-253]]; its optional color source is tested independently under [[SPEC-253]].",
       "procedure": "Verify every one of the 33 selectable identifiers has one explicit acquisition/normalization contract under [[SPEC-156]]. Cover current/activity-average speed, cadence, heart rate and power; distance, elevation, ascent/descent, grade, timers, local time, calories, battery, heading, waypoint distance, zones, completed laps and the six current-lap fields. Check each Label text, Unit text, producer API/units, validity/ranges and conversion/rounding against the production adapter; do not substitute whole-activity values for lap values.\n\nReplay zero, negative where valid, null/non-finite, absent members, sensor interruption/recovery, unit changes, activity reset and clock/timer boundaries. Verify current readings become unavailable while explicitly accumulated/cache values obey their own retention rules. Inspect all complete exact headers and the distinct unavailable/overflow markers. Unavailable navigation or zone metadata must not become fabricated zeros. Use [[TFNC-21]] for lap lifecycle/weighted fixtures and [[TFNC-10]]..[[TFNC-19]] for existing derived acquisitions. Physical source/callback evidence remains separate under [[SPEC-171]]. Record actual results under [[SPEC-162]].\n\nCore fixtures requestedFieldPrecision and normalRangeFormatting verify magnitude-based precision for current/average/lap speed, activity/lap/waypoint distance after unit conversion; slope always has one decimal; temperature keeps one decimal, elevation stays integral, and other field-specific precision rules remain in force. normalRangeCellBounds covers the declared per-layout intervals under [[APP-34]]; formatting correctness outside them does not imply fit. Preserve canonical two-decimal regression grade/effect calculations under [[DVS-29]] and existing acquisition validity/lifecycle rules.\n\nTeam has settings-sourced literal text and no numeric/sensor acquisition under [[SPEC-253]]; its optional color source is tested independently under [[SPEC-253]].",
-      "revision": 47,
-      "status": "draft",
+      "revision": 49,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -2238,27 +2240,27 @@
         "SPEC-156"
       ],
       "requirement_revisions": {
-        "APP-34": 98,
-        "DVS-10": 49,
-        "DVS-11": 49,
-        "DVS-18": 63,
-        "DVS-19": 60,
-        "DVS-20": 50,
-        "DVS-21": 59,
-        "DVS-22": 70,
-        "DVS-23": 58,
-        "DVS-24": 50,
-        "DVS-25": 48,
-        "DVS-26": 52,
-        "DVS-27": 42,
-        "DVS-28": 42,
-        "DVS-33": 46,
-        "DVS-35": 51,
-        "DVS-37": 47,
-        "DVS-40": 28,
-        "DVS-8": 59,
-        "DVS-9": 56,
-        "SPEC-156": 21
+        "APP-34": 100,
+        "DVS-10": 51,
+        "DVS-11": 51,
+        "DVS-18": 65,
+        "DVS-19": 62,
+        "DVS-20": 52,
+        "DVS-21": 61,
+        "DVS-22": 72,
+        "DVS-23": 60,
+        "DVS-24": 52,
+        "DVS-25": 50,
+        "DVS-26": 54,
+        "DVS-27": 44,
+        "DVS-28": 44,
+        "DVS-33": 48,
+        "DVS-35": 53,
+        "DVS-37": 49,
+        "DVS-40": 30,
+        "DVS-8": 61,
+        "DVS-9": 58,
+        "SPEC-156": 23
       },
       "stable_id": "SPEC-168"
     },
@@ -2270,15 +2272,15 @@
       "title": "Verify battery percentage validity before rounding",
       "definition": "Suite: Core. Definition; execution evidence is separate.\n\nThrough the production formatter verify [[DVS-35]]: 0, 50 and 100 remain valid; 50.4 displays 50 and 50.6 displays 51 under [[DVS-7]]. Inputs -0.01, 100.01, missing, NaN and infinities display --; do not clamp or round an out-of-range input into validity. Check battery header/unit visibility separately under [[DVS-50]] and preserve a valid zero. No memory sampling is part of this test.",
       "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nThrough the production formatter verify [[DVS-35]]: 0, 50 and 100 remain valid; 50.4 displays 50 and 50.6 displays 51 under [[DVS-7]]. Inputs -0.01, 100.01, missing, NaN and infinities display --; do not clamp or round an out-of-range input into validity. Check battery header/unit visibility separately under [[DVS-50]] and preserve a valid zero. No memory sampling is part of this test.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
         "DVS-35"
       ],
       "requirement_revisions": {
-        "DVS-35": 51
+        "DVS-35": 53
       },
       "stable_id": "TSTFUNC-1"
     },
@@ -2290,8 +2292,8 @@
       "title": "Verify: publish one typed settings catalogue shared by XML, runtime and tests",
       "definition": "Core definition; not executed here. Compare generated catalogue, property/settings XML and runtime validation under [[SPEC-155]]: exact current property count, 33 append-only choices, stable codes, both presets, all mode/Team/cadence keys and compact keys. Verify defaults and saved/missing/malformed values independently, hidden/duplicate slots, all six layouts and grouped/flat settings order.\n\nCheck live changes preserve active recording and unrelated settings. Exercise explicit None/zero/false, source-binding independence and read-only loading through the linked new Tests. Core contains no Memory or deliberate insufficient-area probes. Record current source/product/requirement revisions only when executed.",
       "procedure": "Core definition; not executed here. Compare generated catalogue, property/settings XML and runtime validation under [[SPEC-155]]: exact current property count, 33 append-only choices, stable codes, both presets, all mode/Team/cadence keys and compact keys. Verify defaults and saved/missing/malformed values independently, hidden/duplicate slots, all six layouts and grouped/flat settings order.\n\nCheck live changes preserve active recording and unrelated settings. Exercise explicit None/zero/false, source-binding independence and read-only loading through the linked new Tests. Core contains no Memory or deliberate insufficient-area probes. Record current source/product/requirement revisions only when executed.",
-      "revision": 26,
-      "status": "draft",
+      "revision": 28,
+      "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
       "requirements": [
@@ -2299,8 +2301,8 @@
         "SPEC-155"
       ],
       "requirement_revisions": {
-        "APP-46": 71,
-        "SPEC-155": 115
+        "APP-46": 73,
+        "SPEC-155": 117
       },
       "stable_id": "SPEC-167"
     },
@@ -2312,15 +2314,15 @@
       "title": "Verify Team and coloring runtime memory",
       "definition": "Suite: Memory. Definition; execution evidence is separate.\n\nExplicit-request Memory: run the normal Data Field runtime on all nine profiles with maximum valid Team strings, all three bundled fonts, native text, all colored families/modes and repeated edits/switches. Record peak/steady memory, device limit, source/binary hashes and failures; synthetic test-application memory is insufficient.",
       "procedure": "Suite: Memory. Definition; execution evidence is separate.\n\nExplicit-request Memory: run the normal Data Field runtime on all nine profiles with maximum valid Team strings, all three bundled fonts, native text, all colored families/modes and repeated edits/switches. Record peak/steady memory, device limit, source/binary hashes and failures; synthetic test-application memory is insufficient.",
-      "revision": 4,
-      "status": "draft",
+      "revision": 6,
+      "status": "approved",
       "suite": "Memory",
       "suite_stable_id": "TPER-1",
       "requirements": [
         "APP-48"
       ],
       "requirement_revisions": {
-        "APP-48": 32
+        "APP-48": 34
       },
       "stable_id": "SPEC-296"
     },
@@ -2332,15 +2334,15 @@
       "title": "Verify Team insufficient-area handling",
       "definition": "Suite: Placement. On explicit request, test Team values with overlong words, oversized fonts and insufficient value area: expect !, then no value when ! cannot fit, while retaining the team header and other cells. When the fixed header itself cannot fit, use the shared grid fallback under [[APP-34]]. Repeat regular/enlarged cells, both alignments/themes and sets.",
       "procedure": "Suite: Placement. On explicit request, test Team values with overlong words, oversized fonts and insufficient value area: expect !, then no value when ! cannot fit, while retaining the team header and other cells. When the fixed header itself cannot fit, use the shared grid fallback under [[APP-34]]. Repeat regular/enlarged cells, both alignments/themes and sets.",
-      "revision": 5,
-      "status": "draft",
+      "revision": 7,
+      "status": "approved",
       "suite": "Placement",
       "suite_stable_id": "TRGR-2",
       "requirements": [
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 40
+        "SPEC-253": 42
       },
       "stable_id": "SPEC-295"
     },
@@ -2359,13 +2361,13 @@
       "title": "Mixed Team and metric layouts through typed lap callbacks",
       "definition": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Keep slot 1 Team and slot 2 numeric in both banks, including the two-visible-slot layout. Assert active bank, shared Team text, native text draw commands and numeric draw commands. When slot 3 is visible, make it a duplicate Team and assert the same shared text. Never index a hidden slot. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
       "procedure": "Suite: Core. After native font measurement and initial layout, call production onTimerLap2 with manual metadata on supported profiles, and onTimerLap on legacy profiles. Switch mixed Team/metric banks four times per 0/1/2-enlarged layout and None/Label/Whole cell coverage, alternating alignments. Keep slot 1 Team and slot 2 numeric in both banks, including the two-visible-slot layout. Assert active bank, shared Team text, native text draw commands and numeric draw commands. When slot 3 is visible, make it a duplicate Team and assert the same shared text. Never index a hidden slot. No stack/serialization errors or compact fallback. Executable: mixedTeamLapCallbacks in tests/FieldSetTests.mc.\nExpire the drawing context after each layout/update. Deliver lap callbacks while it is expired; require no width access until a fresh drawing callback and no retained Dc afterward.",
-      "revision": 7,
-      "status": "draft",
+      "revision": 9,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-26": 89,
-        "SPEC-217": 8,
-        "SPEC-218": 9,
-        "SPEC-253": 40
+        "APP-26": 95,
+        "SPEC-217": 10,
+        "SPEC-218": 11,
+        "SPEC-253": 42
       }
     },
     {
@@ -2381,11 +2383,11 @@
       "title": "Native properties persistence and settings callback",
       "definition": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.\nRegression: start with a numeric first slot, expire the layout Dc, save Team in slots 1/2 and call onSettingsChanged. Require zero native width reads during the settings callback, pending fitting, and Team text on the next redraw with a fresh scoped Dc. Expire it again; unchanged refreshes must not measure. Switch banks and edit shared text with the Dc expired; the next valid redraw must show the new text, with no retained Dc after return.",
       "procedure": "Suite: Core. Run native Properties writes under a separate test application identity; never change production preferences. Write numeric selections, alignment/grid and shared Team text/color source through Application.Properties, then call the app onSettingsChanged after initial layout. Verify duplicate Team values, settings in both banks, unchanged active-bank latch and reload through FieldSetsSettings.load. Restore original test-app properties. Separately save in the simulator editor and restart the normal app; verify retained values, callback application and no serialization error. Report editor/restart evidence separately from in-process tests. Executable: nativeSettingsCallbacks in tests/FieldSetTests.mc.\nRegression: start with a numeric first slot, expire the layout Dc, save Team in slots 1/2 and call onSettingsChanged. Require zero native width reads during the settings callback, pending fitting, and Team text on the next redraw with a fresh scoped Dc. Expire it again; unchanged refreshes must not measure. Switch banks and edit shared text with the Dc expired; the next valid redraw must show the new text, with no retained Dc after return.",
-      "revision": 9,
-      "status": "draft",
+      "revision": 11,
+      "status": "approved",
       "requirement_revisions": {
-        "APP-32": 79,
-        "SPEC-253": 40
+        "APP-32": 81,
+        "SPEC-253": 42
       }
     },
     {
@@ -2466,76 +2468,76 @@
       "title": "Core: compact properties, defaults and field applicability",
       "definition": "Suite: Core. Compare all 63 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.",
       "procedure": "Suite: Core. Compare all 63 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.",
-      "revision": 6,
-      "status": "draft",
+      "revision": 8,
+      "status": "approved",
       "requirement_revisions": {
-        "SPEC-243": 24,
-        "SPEC-244": 13,
-        "SPEC-245": 9,
-        "SPEC-301": 34,
-        "SPEC-302": 35,
-        "SPEC-303": 35,
-        "SPEC-304": 35,
-        "SPEC-305": 27,
-        "SPEC-306": 35,
-        "SPEC-307": 35,
-        "SPEC-308": 3,
-        "SPEC-310": 3,
-        "SPEC-311": 36,
-        "SPEC-312": 37,
-        "SPEC-313": 36,
-        "SPEC-314": 37,
-        "SPEC-315": 36,
-        "SPEC-316": 37,
-        "SPEC-317": 36,
-        "SPEC-318": 37,
-        "SPEC-319": 36,
-        "SPEC-320": 37,
-        "SPEC-321": 36,
-        "SPEC-322": 37,
-        "SPEC-323": 36,
-        "SPEC-324": 37,
-        "SPEC-325": 36,
-        "SPEC-326": 37,
-        "SPEC-327": 36,
-        "SPEC-328": 37,
-        "SPEC-329": 36,
-        "SPEC-330": 37,
-        "SPEC-331": 6,
-        "SPEC-332": 6,
-        "SPEC-333": 6,
-        "SPEC-334": 6,
-        "SPEC-335": 4,
-        "SPEC-336": 3,
-        "SPEC-337": 3,
-        "SPEC-338": 3,
-        "SPEC-339": 3,
-        "SPEC-340": 35,
-        "SPEC-341": 35,
-        "SPEC-342": 35,
-        "SPEC-343": 27,
-        "SPEC-344": 35,
-        "SPEC-345": 35,
-        "SPEC-346": 36,
-        "SPEC-347": 37,
-        "SPEC-348": 36,
-        "SPEC-349": 37,
-        "SPEC-350": 36,
-        "SPEC-351": 37,
-        "SPEC-352": 36,
-        "SPEC-353": 37,
-        "SPEC-354": 36,
-        "SPEC-355": 37,
-        "SPEC-356": 36,
-        "SPEC-357": 37,
-        "SPEC-358": 36,
-        "SPEC-359": 37,
-        "SPEC-360": 36,
-        "SPEC-361": 37,
-        "SPEC-362": 36,
-        "SPEC-363": 37,
-        "SPEC-364": 36,
-        "SPEC-365": 37
+        "SPEC-243": 26,
+        "SPEC-244": 15,
+        "SPEC-245": 11,
+        "SPEC-301": 36,
+        "SPEC-302": 37,
+        "SPEC-303": 37,
+        "SPEC-304": 37,
+        "SPEC-305": 29,
+        "SPEC-306": 37,
+        "SPEC-307": 37,
+        "SPEC-308": 5,
+        "SPEC-310": 5,
+        "SPEC-311": 38,
+        "SPEC-312": 39,
+        "SPEC-313": 38,
+        "SPEC-314": 39,
+        "SPEC-315": 38,
+        "SPEC-316": 39,
+        "SPEC-317": 38,
+        "SPEC-318": 39,
+        "SPEC-319": 38,
+        "SPEC-320": 39,
+        "SPEC-321": 38,
+        "SPEC-322": 39,
+        "SPEC-323": 38,
+        "SPEC-324": 39,
+        "SPEC-325": 38,
+        "SPEC-326": 39,
+        "SPEC-327": 38,
+        "SPEC-328": 39,
+        "SPEC-329": 38,
+        "SPEC-330": 39,
+        "SPEC-331": 8,
+        "SPEC-332": 8,
+        "SPEC-333": 8,
+        "SPEC-334": 8,
+        "SPEC-335": 6,
+        "SPEC-336": 5,
+        "SPEC-337": 5,
+        "SPEC-338": 5,
+        "SPEC-339": 5,
+        "SPEC-340": 37,
+        "SPEC-341": 37,
+        "SPEC-342": 37,
+        "SPEC-343": 29,
+        "SPEC-344": 37,
+        "SPEC-345": 37,
+        "SPEC-346": 38,
+        "SPEC-347": 39,
+        "SPEC-348": 38,
+        "SPEC-349": 39,
+        "SPEC-350": 38,
+        "SPEC-351": 39,
+        "SPEC-352": 38,
+        "SPEC-353": 39,
+        "SPEC-354": 38,
+        "SPEC-355": 39,
+        "SPEC-356": 38,
+        "SPEC-357": 39,
+        "SPEC-358": 38,
+        "SPEC-359": 39,
+        "SPEC-360": 38,
+        "SPEC-361": 39,
+        "SPEC-362": 38,
+        "SPEC-363": 39,
+        "SPEC-364": 38,
+        "SPEC-365": 39
       }
     },
     {
@@ -2552,11 +2554,11 @@
       "title": "SDK runner process ownership and cleanup",
       "definition": "Suite: Core (host prerequisite). Run scripts/test-sdk-runner.ps1. Exercise successful exit, nonzero exit, timeout and controller disposal with an active child; include a child surviving its immediate parent. Require bounded cleanup of every owned descendant, unchanged completed exit codes, readable preserved stdout/stderr with released file handles, and survival of an unrelated sentinel process. No simulator or physical qualification is claimed.",
       "procedure": "Suite: Core (host prerequisite). Run scripts/test-sdk-runner.ps1. Exercise successful exit, nonzero exit, timeout and controller disposal with an active child; include a child surviving its immediate parent. Require bounded cleanup of every owned descendant, unchanged completed exit codes, readable preserved stdout/stderr with released file handles, and survival of an unrelated sentinel process. No simulator or physical qualification is claimed.",
-      "revision": 3,
-      "status": "draft",
+      "revision": 5,
+      "status": "approved",
       "requirement_revisions": {
-        "SPEC-153": 39,
-        "SPEC-160": 11
+        "SPEC-153": 41,
+        "SPEC-160": 13
       }
     }
   ],

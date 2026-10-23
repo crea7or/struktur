@@ -29,13 +29,14 @@ class StrukturField extends LapAwareDataField {
         _snapshot=null;
         var raw=ActivityReader.readWithBattery(info,false);
         _acquisition.read(info,raw);
-        raw["temperature"]=temperatureReading();
         if(info has :timerState) { _samplingEnabled=info.timerState==Activity.TIMER_STATE_ON; }
         raw["_sampling_enabled"]=_samplingEnabled;
         _engine.advance(raw);
         _fieldSets.evaluate(raw,_samplingEnabled);
         selectSettings();
+        // Battery follows active retained needs; nonempty temperature caches must keep validating age/clocks.
         raw["battery"]=_settings.usesBattery?batteryReading():null;
+        raw["temperature"]=temperatureReading();
         _snapshot=_engine.prepare(raw,_settings,true);
         _renderer.prepare(_snapshot);_layoutDirty=_renderer.needsLayout();
         if(RuntimeMetrics.enabled) { RuntimeMetrics.sampleCompute(System.getTimer()-started); }
