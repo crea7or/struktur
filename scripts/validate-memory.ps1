@@ -1,8 +1,9 @@
 param([string]$Product='all',[string]$Python=$(if($env:STRUKTUR_PYTHON){$env:STRUKTUR_PYTHON}else{$env:MSGDF_PYTHON}),
       [string]$SdkRoot=$env:CONNECTIQ_SDK,[string]$JavaHome=$env:JAVA_HOME,
       [string]$DeviceRoot=$env:CONNECTIQ_DEVICES,[string]$DeveloperKey=$(if($env:STRUKTUR_DEVELOPER_KEY){$env:STRUKTUR_DEVELOPER_KEY}else{$env:MSGDF_DEVELOPER_KEY}),
-      [int]$TimeoutSeconds=600)
+      [int]$TimeoutSeconds=600,[ValidateSet("all","native","matrix","switching")][string]$Scenario="all")
 $ErrorActionPreference='Stop'
+$requestedScenario=$Scenario
 . (Join-Path $PSScriptRoot 'sdk-runner.ps1')
 $projectRoot=Split-Path $PSScriptRoot -Parent
 if(!$Python){$Python=Join-Path $projectRoot '.local\font-venv\Scripts\python.exe'}
@@ -19,7 +20,7 @@ if($previous.Count){
     foreach($evidence in $previous){Copy-Item -LiteralPath $evidence.FullName -Destination (Join-Path $archive $evidence.Name)}
 }
 & (Join-Path $PSScriptRoot 'check-fonts.ps1') -Python $Python
-foreach($scenario in @('matrix','switching')){
+foreach($scenario in @('native','matrix','switching')){
     & $Python (Join-Path $projectRoot 'tools\prepare_memory_validation.py') --scenario $scenario
     if($LASTEXITCODE -ne 0){throw 'Could not prepare memory qualification inputs.'}
 }
@@ -39,9 +40,9 @@ try{
     foreach($target in $targets){
         $id=$target.id
         $scenarios=@()
-        foreach($scenario in @('matrix','switching')){
-        $stem=if($scenario -eq 'matrix'){'memory'}else{'memory-switching'}
-        $jungle=if($scenario -eq 'matrix'){'memory.jungle'}else{'memory-switching.jungle'}
+        foreach($scenario in $(if($requestedScenario -eq 'all'){@('native','matrix','switching')}else{@($requestedScenario)})){
+        $stem=if($scenario -eq 'native'){'memory-native'}elseif($scenario -eq 'matrix'){'memory'}else{'memory-switching'}
+        $jungle=if($scenario -eq 'native'){'memory-native.jungle'}elseif($scenario -eq 'matrix'){'memory.jungle'}else{'memory-switching.jungle'}
         $reportStem=if($scenario -eq 'matrix'){'memory-matrix'}else{$stem}
         $program=Join-Path $projectRoot ('bin\'+$id+'-'+$stem+'.prg')
         $compilerLog=Join-Path $projectRoot ('artifacts\'+$id+'-'+$stem+'-compiler.log')
@@ -72,7 +73,7 @@ try{
                     try{$text=$reader.ReadToEnd()}finally{$reader.Dispose()}
                 }
                 if($text -match 'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory|Stack Overflow|StackOverflow|Watchdog Tripped|Code Executed Too Long'){throw 'Runtime allocation/stack failure or crash; inspect memory logs.'}
-                $completion=if($scenario -eq 'matrix'){'DF_MEMORY_DONE'}else{'DF_SWITCH_MEMORY_DONE'}
+                $completion=if($scenario -eq 'native'){'DF_NATIVE_MEMORY_DONE'}elseif($scenario -eq 'matrix'){'DF_MEMORY_DONE'}else{'DF_SWITCH_MEMORY_DONE'}
                 if($text -match ($completion+' product='+$id+' ')){$done=$true;break}
                 if($process.HasExited){throw 'Runner exited without a completed normal-runtime memory record.'}
             }
@@ -92,12 +93,25 @@ try{
             if($null -ne $process){$process.Dispose()}
         }
         }
-        $status=if(@($scenarios|Where-Object{$_.status -ne 'passed'}).Count){'failed'}else{'passed'}
-        $combined=[pscustomobject]@{product=$id;status=$status;source_revision=$provenance.source_revision;runtime='two separate normal simulator Data Field runs; matrix and second-set switching';scenarios=$scenarios;physical_device_memory='unrun'}
-        if($status -eq 'passed'){
+        $status=if(@($scenarios|Where-Object{$_.status -ne 'passed'}).Count){'failed'}elseif($requestedScenario -eq 'all'){'passed'}else{'diagnostic_passed'}
+        $combined=[pscustomobject]@{product=$id;status=$status;source_revision=$provenance.source_revision;runtime='separate native-callback observer, matrix and second-set switching in normal Data Field allocation';requested_scenario=$requestedScenario;qualification_complete=($requestedScenario -eq 'all' -and $status -eq 'passed');scenarios=$scenarios;physical_device_memory='unrun'}
+        if($status -in @('passed','diagnostic_passed')){
             $combined|Add-Member -NotePropertyName published_limit_bytes -NotePropertyValue 131072
             $combined|Add-Member -NotePropertyName max_sampled_used_bytes -NotePropertyValue (($scenarios|Measure-Object max_sampled_used_bytes -Maximum).Maximum)
             $combined|Add-Member -NotePropertyName min_sampled_free_bytes -NotePropertyValue (($scenarios|Measure-Object min_sampled_free_bytes -Minimum).Minimum)
+        }
+        if($requestedScenario -eq 'all' -and $status -eq 'passed'){
+            $native=@($scenarios|Where-Object{$_.scenario -eq 'native'})[0]
+            $matrix=@($scenarios|Where-Object{$_.matrix_cases -eq 648})[0]
+            $comparison=[pscustomobject]@{
+                native_observed_peak_bytes=$native.max_sampled_used_bytes
+                matrix_including_driver_peak_bytes=$matrix.max_sampled_used_bytes
+                initialized_driver_delta_bytes=($matrix.observer.initialized_used_bytes-$native.observer.initialized_used_bytes)
+                native_first_draw_bytes=$native.observer.first_draw_used_bytes
+                matrix_first_draw_bytes=$matrix.observer.first_draw_used_bytes
+                interpretation='Initialization delta includes observer/driver code and retained fixture state. Different scenario peaks are not subtracted; all instrumented usages must pass unchanged limits. Native observation includes a small observer and is not an exact uninstrumented app peak.'
+            }
+            $combined|Add-Member -NotePropertyName observer_comparison -NotePropertyValue $comparison
         }
         $combined|ConvertTo-Json -Depth 10|Set-Content -LiteralPath (Join-Path $projectRoot ('artifacts\'+$id+'-memory.json')) -Encoding UTF8
         $results+=$combined
@@ -108,4 +122,4 @@ try{
 }
 $environment|ConvertTo-Json -Depth 10|Set-Content -LiteralPath (Join-Path $projectRoot 'artifacts\datafield-memory-environment.json') -Encoding UTF8
 [pscustomobject]@{source_revision=$provenance.source_revision;runtime='normal simulator Data Field';products=$results;physical_devices='not run'}|ConvertTo-Json -Depth 10|Set-Content -LiteralPath (Join-Path $projectRoot 'artifacts\datafield-memory-results.json') -Encoding UTF8
-if(@($results|Where-Object{$_.status -ne 'passed'}).Count){throw 'One or more normal Data Field memory profiles failed.'}
+if(@($results|Where-Object{$_.status -notin @('passed','diagnostic_passed')}).Count){throw 'One or more normal Data Field memory profiles failed.'}

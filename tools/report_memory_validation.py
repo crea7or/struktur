@@ -11,10 +11,31 @@ def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def read(path):return json.loads((ROOT/path).read_text(encoding='utf-8-sig'))
 
+def completion(text, product, scenario):
+    assert not re.search(r'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory|Stack Overflow|StackOverflow|Watchdog Tripped|Code Executed Too Long',text,re.I), 'Runtime failure'
+    prefix={'native':'DF_NATIVE_MEMORY_DONE','matrix':'DF_MEMORY_DONE','switching':'DF_SWITCH_MEMORY_DONE'}[scenario]
+    done=re.findall(re.escape(prefix+' product='+product)+r' ([^\r\n]+)',text)
+    assert len(done)==1, 'Missing or repeated completion record'
+    pairs=re.findall(r'(\w+)=(\d+)',done[0])
+    metrics={key:int(value) for key,value in pairs}
+    assert len(metrics)==len(pairs), 'Duplicate completion metric'
+    for key in ['samples','max_used','min_free','total_low','total_high','native_compute','native_draw','elapsed_ms']:
+        assert key in metrics, 'Missing metric: '+key
+    assert metrics['native_compute']>=10 and metrics['native_draw']>=3 and metrics['elapsed_ms']>=30000
+    return metrics
+
+
+def allocation(metrics, limit):
+    assert 0<metrics['total_low']<=metrics['total_high']<=limit, 'Wrong Data Field allocation'
+    assert metrics['max_used']<=metrics['total_low'] and metrics['min_free']>=0, 'Memory limit exceeded'
+    # The instrumented allocation is the pass criterion. Never subtract a baseline,
+    # calibration delta or estimated observer cost to manufacture a passing value.
+
+
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('-Product',required=True);parser.add_argument('--scenario',choices=['matrix','switching'],default='matrix')
+    parser=argparse.ArgumentParser();parser.add_argument('-Product',required=True);parser.add_argument('--scenario',choices=['native','matrix','switching'],default='matrix')
     args=parser.parse_args();product=args.Product;scenario=args.scenario
-    stem='memory' if scenario=='matrix' else 'memory-switching'
+    stem={'native':'memory-native','matrix':'memory','switching':'memory-switching'}[scenario]
     source=read('artifacts/datafield-memory-source.json')
     for item in source['files']:
         assert digest(ROOT/item['path'])==item['sha256'], 'Source changed during memory run: '+item['path']
@@ -23,19 +44,40 @@ def main():
     assert inputs['jungle_sha256']==digest(ROOT/inputs['jungle_path'])
     assert inputs['probe_sha256']==digest(ROOT/'validation/memory/MemoryValidation.mc')
     assert inputs['switching_probe_sha256']==digest(ROOT/'validation/memory/MemorySwitching.mc')
+    assert inputs['observer_sha256']==digest(ROOT/'validation/memory/MemoryObservation.mc')
+    assert inputs['native_probe_sha256']==digest(ROOT/'validation/memory/MemoryNative.mc')
     for item in inputs['production_sources']:
         assert digest(ROOT/item['production_path'])==item['production_sha256']
         assert digest(ROOT/inputs['qualification_source_folder']/Path(item['production_path']).name)==item['qualification_sha256']
         if not item['changed']:assert item['production_sha256']==item['qualification_sha256']
     log=ROOT/'artifacts'/(product+'-'+stem+'.log')
     text=log.read_text(encoding='utf-8-sig')
-    assert not re.search(r'DF_MEMORY_FAIL|Encountered an app crash|Unhandled Exception|Out Of Memory|OutOfMemory|Stack Overflow|StackOverflow|Watchdog Tripped|Code Executed Too Long',text,re.I)
-    done=re.findall((r'DF_MEMORY_DONE product=' if scenario=='matrix' else r'DF_SWITCH_MEMORY_DONE product=')+re.escape(product)+r' ([^\r\n]+)',text)
-    assert len(done)==1, 'Missing or repeated completion record'
-    metrics={key:int(value) for key,value in re.findall(r'(\w+)=(\d+)',done[0])}
+    metrics=completion(text,product,scenario)
     package=Path.home()/'AppData/Roaming/Garmin/ConnectIQ/Devices'/product/'compiler.json'
     package_data=json.loads(package.read_text(encoding='utf-8-sig'))
     limit=next(item['memoryLimit'] for item in package_data['appTypes'] if item['type']=='datafield')
+    allocation(metrics,limit)
+    observations=re.findall(r'DF_MEMORY_OBSERVER product='+re.escape(product)+r' initial_used=(\d+) startup_used=(\d+) peak_stage=(\w+)',text)
+    assert len(observations)==1, 'Missing or repeated observer checkpoint'
+    initial_used,startup_used,peak_stage=observations[0]
+    assert int(initial_used)<=metrics['max_used'] and int(startup_used)<=metrics['max_used']
+    observer=dict(initialized_used_bytes=int(initial_used),first_draw_used_bytes=int(startup_used),peak_stage=peak_stage,
+                  logging='fixed counters during sampling; deferred output after fixture temporaries return',
+                  overhead='included in measured allocation; no subtraction')
+    if scenario=='native':
+        assert metrics['samples']>=14
+        row=dict(product=product,status='passed',scenario=scenario,source_revision=source['source_revision'],
+                 runtime='normal simulator Data Field; native production callbacks only; no synthetic matrix/switching fixtures',
+                 max_sampled_used_bytes=metrics['max_used'],min_sampled_free_bytes=metrics['min_free'],
+                 runtime_total_min_bytes=metrics['total_low'],runtime_total_max_bytes=metrics['total_high'],
+                 published_limit_bytes=limit,samples=metrics['samples'],native_compute_callbacks=metrics['native_compute'],
+                 native_draw_callbacks=metrics['native_draw'],elapsed_ms=metrics['elapsed_ms'],observer=observer,
+                 binary_sha256=digest(ROOT/'bin'/(product+'-'+stem+'.prg')),log_sha256=digest(log),
+                 scope='Native/default configuration baseline with sparse observer included; not uninstrumented peak app usage or maximal fixture qualification',
+                 physical_device_memory='unrun')
+        (ROOT/'artifacts'/(product+'-'+stem+'.json')).write_text(json.dumps(row,indent=2)+'\n',encoding='utf-8')
+        print(f'{product} native observer: peak {metrics["max_used"]}; minimum free {metrics["min_free"]}; overhead included')
+        return
     if scenario=='switching':
         assert metrics['transitions']==1000 and metrics['settings']==200
         assert 'DF_SECOND_SET_DONE transitions=1000 settings=200' in text
@@ -53,7 +95,7 @@ def main():
         assert 0<metrics['total_low']<=metrics['total_high']<=limit
         assert metrics['max_used']<=metrics['total_low'] and metrics['min_free']>=0
         row=dict(product=product,status='passed',scenario=scenario,source_revision=source['source_revision'],published_limit_bytes=limit,runtime='normal simulator Data Field; no --unit-test or /t',max_sampled_used_bytes=metrics['max_used'],min_sampled_free_bytes=metrics['min_free'],runtime_total_min_bytes=metrics['total_low'],runtime_total_max_bytes=metrics['total_high'],second_set_switches=metrics['transitions'],second_set_settings_changes=metrics['settings'],samples=metrics['samples'],maximum_cached_font_roles=metrics['max_fonts'],native_compute_callbacks=metrics['native_compute'],native_draw_callbacks=metrics['native_draw'],elapsed_ms=metrics['elapsed_ms'],binary_sha256=digest(ROOT/'bin'/(product+'-'+stem+'.prg')),log_sha256=digest(log),physical_device_memory='unrun',sampling='Observed stages; transient peaks between samples not proven absent; driver overhead included.')
-        row.update(switch_checkpoints=checkpoints,same_configuration_settings_returns=settings_returns,sustained_retained_growth='not observed')
+        row.update(observer=observer,switch_checkpoints=checkpoints,same_configuration_settings_returns=settings_returns,sustained_retained_growth='not observed')
         (ROOT/'artifacts'/(product+'-'+stem+'.json')).write_text(json.dumps(row,indent=2)+'\n',encoding='utf-8')
         print(f'{product} switching: peak sampled {metrics["max_used"]} / {limit} bytes; minimum free {metrics["min_free"]}')
         return
@@ -71,7 +113,7 @@ def main():
     row=dict(product=product,status='passed',runtime='normal simulator Data Field; no --unit-test or /t',
              source_revision=source['source_revision'],published_limit_bytes=limit,
              runtime_total_min_bytes=metrics['total_low'],runtime_total_max_bytes=metrics['total_high'],
-             max_sampled_used_bytes=metrics['max_used'],min_sampled_free_bytes=metrics['min_free'],
+             max_sampled_used_bytes=metrics['max_used'],min_sampled_free_bytes=metrics['min_free'],observer=observer,
              headroom_to_published_limit_bytes=limit-metrics['max_used'],
              samples=metrics['samples'],matrix_cases=metrics['cases'],matrix_cycles=metrics['cycles'],
              full_native_grid_cases=metrics['full_grids'],maximum_cached_font_roles=metrics['max_fonts'],

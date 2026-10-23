@@ -102,6 +102,7 @@ class MemorySwitchingField extends StrukturField {
         if(_renderer._fonts.size()>_maxFonts) {_maxFonts=_renderer._fonts.size();}
         if(_switches==1000 && _switchSettings==200 && _nativeComputes>=10 && System.getTimer()-_started>=30000) {
             _done=true;
+            MemoryObservation.report();
             System.println("DF_SWITCH_MEMORY_DONE product="+DeviceProfile.ID+" transitions="+_switches+" settings="+_switchSettings+
                 " samples="+MemoryObservation.samples+" max_used="+MemoryObservation.maximum+" min_free="+MemoryObservation.minimum+
                 " total_low="+MemoryObservation.totalLow+" total_high="+MemoryObservation.totalHigh+

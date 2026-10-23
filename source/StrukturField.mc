@@ -53,7 +53,7 @@ class StrukturField extends LapAwareDataField {
         if(_layoutDirty || _renderer.needsLayout()) { onLayout(dc); }
         _renderer.draw(dc,_snapshot,_settings);
     }
-    function reloadSettings() { _renderer.discardPresentation();var next=new FieldSetsSettings();next.load();applyFieldSets(next); }
+    function reloadSettings() { _renderer.releaseForSettingsReload();var next=new FieldSetsSettings();next.load();applyFieldSets(next); }
     function applyFieldSets(next) {
         _fieldSets.configure(next);_engine.metadata();refreshPresentation();
     }

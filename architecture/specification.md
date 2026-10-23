@@ -6,6 +6,10 @@ Field identity, labels, units, header templates and precision are stored as type
 
 ## Index
 
+- [TPRF-5 — Changed-cell fitting and prepared-only rendering](#tprf-5)
+- [APP-26 — Prepare geometry and sensor values outside the drawing path](#app-26)
+- [TPRF-9 — Normal Data Field runtime memory validation](#tprf-9)
+- [APP-48 — Measure runtime memory and verify bounded allocation](#app-48)
 - [TINT-1 — Compile the production Data Field for each declared profile](#tint-1)
 - [SPEC-153 — Provide repeatable CLI build, simulator-test and package commands](#spec-153)
 - [SPEC-152 — Version the Data Field project and per-device API capability matrix](#spec-152)
@@ -29,7 +33,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-20 — Configure the two-column Garmin field grid](#app-20)
 - [TPRF-6 — Optional battery clock and diagnostic work](#tprf-6)
 - [TPRF-4 — Bounded snapshot caches and live-input invalidation](#tprf-4)
-- [APP-26 — Prepare geometry and sensor values outside the drawing path](#app-26)
 - [DVS-34 — Temperature](#dvs-34)
 - [SPEC-300 — Application properties](#spec-300)
 - [SPEC-233 — Shared Coloring and Settings Migration](#spec-233)
@@ -179,7 +182,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-156 — Specify each displayed value acquisition path and deterministic sensor fixtures](#spec-156)
 - [SPEC-154 — Reproduce Garmin-compatible Roboto Condensed resources within the memory budget](#spec-154)
 - [SPEC-151 — Record and verify a reproducible Connect IQ development toolchain](#spec-151)
-- [APP-48 — Measure runtime memory and verify bounded allocation](#app-48)
 - [APP-47 — Apply per-device Connect IQ Data Field memory ceilings](#app-47)
 - [DVS-45 — Keep slope and temperature palette extensions separate](#dvs-45)
 - [APP-46 — Configure visible fields in Garmin Connect](#app-46)
@@ -236,10 +238,8 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-230 — Core: verify switching lifecycle, atomic frames and shared acquisition](#spec-230)
 - [SPEC-227 — Core: verify threshold hysteresis and source validity](#spec-227)
 - [SPEC-226 — Core: verify second-set settings, defaults](#spec-226)
-- [TPRF-9 — Normal Data Field runtime memory validation](#tprf-9)
 - [TUI-12 — Actual overflow and compact layout cache behavior](#tui-12)
 - [TPRF-8 — All three profile font resources can load](#tprf-8)
-- [TPRF-5 — Changed-cell fitting and prepared-only rendering](#tprf-5)
 - [TFNC-26 — Late loading and gaps do not invent lap history](#tfnc-26)
 - [TFNC-23 — Rolling samples use activity time and valid values](#tfnc-23)
 - [TUI-7 — Effect foreground contrast and exact glyph widths](#tui-7)
@@ -319,6 +319,88 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-13 — onShow()](#app-13)
 - [APP-10 — onStart(state)](#app-10)
 - [APP-9 — getInitialView()](#app-9)
+
+<a id="tprf-5"></a>
+## TPRF-5 — Changed-cell fitting and prepared-only rendering
+
+Type: test | State: approved | Revision: 30
+
+Purpose: Verify [APP-26](#app-26) changed-cell preparation and draw-only replay. Suite: Core.
+
+Unchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.
+
+Lock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [APP-26](#app-26) preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.
+
+Bank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.
+
+Executable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [SPEC-162](#spec-162); no Memory, Placement or hardware qualification is implied.
+
+Assert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.
+Exercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.
+
+**Relations**
+
+- verifies: [APP-12](#app-12), [APP-26](#app-26), [APP-32](#app-32), [DVS-29](#dvs-29)
+
+<a id="app-26"></a>
+## APP-26 — Prepare geometry and sensor values outside the drawing path
+
+Type: requirement | State: approved | Revision: 103
+
+Prepare bounded caches when inputs become available:
+- Init/settings: validate both banks; resolve descriptors/conversions/formats/effects/channels and unavailable-safe values. Cache three metric roles, native candidates and header metrics. Keep at most two configuration banks, one acquisition state and one active prepared presentation; release outgoing fits/packets/headers before replacements. Reuse valid active geometry/fonts across switches. Retain only the selected geometry/separator plan; release failed/unselected plans and release obsolete geometry before replacing it.
+- Layout: cache geometry, selected fonts, header width/ink, separators and repeated segment tables. Identical layouts reuse state; grid-only edits refresh separators. Retain only assigned header variants.
+- Refit only for changed displayed text/secondary/header, native face, bounds or halo clearance. Reuse wrapped lines/runs/packets/equal-angle polygons. Reconsider preferred capacity after fallback when candidates change; slots beyond preferred capacity never refit visible cells.
+- Validate zone bounds on metadata refresh, cache by channel/reading/profile revision, and share current-source classification across duplicates/zone fields/text bindings. Invalidate only affected channels/packets; equal cadence bounds preserve cache.
+- Advance readings/rolling/grade/lap/lifecycle once per delivered compute, including hidden sources/triggers. Never duplicate sampling by slot/bank. Clock/battery queries follow active retained needs; newly active banks obtain required current values before their frame. Validate nonempty temperature caches on every delivered compute and presentation refresh, even without an assigned temperature slot; skip age/clock queries only while empty. Read device unit, clock-format and automatic-theme preferences on each delivered compute and presentation refresh; apply changes to that snapshot without sample-count throttling.
+Never mutate published records: reuse unchanged records, replace changed ones. Skip record-field comparisons for identical records; skip cell preparation when visible records, palette and layout are unchanged. Prepare coordinates/colors/contours/polygons/wrapped text before drawing. Ordinary onUpdate only dispatches prepared graphics/clip commands. After clearing the frame, fill a cell base only when its prepared background differs from the cleared background; retain label bands, slope polygons and text contrast. Packed separator commands may decode their stored coordinates and grayscale bytes during dispatch; geometry, gradient selection and fitting remain cached. It may dispatch onLayout with its current Dc once for uninitialized/changed bounds or pending Team text/font/header fitting that needs live native measurements. That bounded layout branch performs the required measurement/preparation; unchanged frames do not remeasure. Outside it, onUpdate performs no formatting, measurement, resource loading, sensor/settings queries or presentation calculations. This applies to the complete DataField entry and renderer. Release obsolete caches; retain no unbounded history. Settings/switches preserve shared acquisition.
+Keep callback preparation within the target VM stack limit, including mixed native Team and sprite metrics after layout through settings and typed lap callbacks.
+Never retain a native Dc after its callback returns. Settings, compute, lap and background callbacks may invalidate native fits but must defer native measurement to the next layout with a current Dc.
+Use bounded packed slot/presentation/geometry state. Release replaced raw frames and reset presentation before constructing their successors; externally retained presentation records remain unchanged.
+On full properties reload, release outgoing presentation, geometry and font handles before loading the property dictionary and replacement banks. Retain metric tables and acquisition history, then reload only the required fixed font roles. Ordinary bank switches continue to reuse valid geometry/fonts.
+
+**Relations**
+
+- allocated_to: [APP-3](#app-3)
+- uses: [APP-12](#app-12), [APP-7](#app-7), [APP-8](#app-8)
+
+<a id="tprf-9"></a>
+## TPRF-9 — Normal Data Field runtime memory validation
+
+Type: test | State: approved | Revision: 33
+
+Purpose: Normal Data Field runtime memory validation. Suite: Memory; explicit request only.
+
+References: [APP-47](#app-47), [APP-48](#app-48), [APP-37](#app-37), [APP-38](#app-38), [SPEC-162](#spec-162), [SPEC-231](#spec-231), [SPEC-296](#spec-296).
+
+After isolated font probes, run scripts/validate-memory.ps1 for each requested profile with identical production sources/resources and current hashes. Run separately:
+1. Native/default observer: real production callbacks, no synthetic fixtures, RuntimeMetrics disabled; at least 10 computes, three draws and 30 seconds.
+2. Matrix: three cycles of 216 cases; at least 54 complete native grids, three font roles and all 33 fields in fitting roles, including maximum Team text, effects/themes/inversion, missing values, settings/lifecycle and bounded acquisition history. Cache header eligibility; substitute a compatible field only for unsupported regular headers and report substitutions. Unsupported placements remain in Placement.
+3. Switching: all [SPEC-231](#spec-231) transitions, settings changes and repeated-state checkpoints.
+
+Use native full-bounds Dc directly. Retain at most the app's two configuration banks, one acquisition and one active presentation; recreate reference settings between cycles rather than retaining a third bank. Release outgoing raw/presentation state before replacements and synthetic presentation before native producer callbacks. Supply known validated synthetic zone bounds without cloning presentation records; this does not qualify sensor provenance.
+
+Sampling retains fixed counters without I/O or formatting. Defer diagnostics until fixture locals are released. Record initialization/first-draw values and peak/free/total for each run; identify native observer and driver overhead without subtracting estimates to obtain a pass. Run host regressions for sampler I/O, incomplete/duplicate/crashed records and absolute limit violations.
+
+Require all three current-source normal Data Field reports, no allocation/stack failure, unchanged runtime/published limits and no sustained growth over repeated returns to the same configuration. Partial diagnosis runs cannot qualify a profile. Preserve failed attempts, environment, source/binary hashes and exact coverage. Observer overhead is included; default observation and sparse sampling do not establish uninstrumented/maximal/transient peaks. Missing physical evidence stays unrun/blocked.
+
+**Relations**
+
+- verifies: [APP-37](#app-37), [APP-38](#app-38), [APP-47](#app-47), [APP-48](#app-48)
+
+<a id="app-48"></a>
+## APP-48 — Measure runtime memory and verify bounded allocation
+
+Type: requirement | State: approved | Revision: 38
+
+Only explicit Memory validation enables diagnostic sampling. Record total/used/free memory after initialization/resources and through maximal grid/resources, themes/effects, rolling buffers, sensor interruptions, settings and repeated bank switches. State sampling method and maximum used/minimum free bytes; sampling does not prove absence of between-sample peaks.
+Pass only within runtime allocation and Data Field ceiling, without allocation failure/OOM or sustained unreclaimed growth after returning to the same configuration. Bound/reuse resources, buffers and caches. Qualify each profile independently even when screen/fonts/ceiling match: before API 4.0 loaded fonts share heap, while newer APIs have a separate graphics pool. Record resource hashes; retain fixed fonts and maximal-grid coverage during optimization checks. Hardware evidence is separate.
+
+Memory sampling shall retain fixed counters and stage identifiers without console output or diagnostic formatting in the sampling path. Emit records after fixture temporaries are released. Measure a separate native-callback/default-configuration observer without synthetic driver state; identify its observer overhead and scope. Apply limits to unadjusted instrumented usage; never subtract estimated overhead to obtain a pass.
+
+**Relations**
+
+- uses: [APP-37](#app-37), [APP-47](#app-47)
 
 <a id="tint-1"></a>
 ## TINT-1 — Compile the production Data Field for each declared profile
@@ -672,27 +754,6 @@ Regression: Through SnapshotEngine.prepare, change distance, elevation and tempe
 **Relations**
 
 - verifies: [APP-26](#app-26), [DVS-32](#dvs-32), [DVS-4](#dvs-4), [DVS-50](#dvs-50)
-
-<a id="app-26"></a>
-## APP-26 — Prepare geometry and sensor values outside the drawing path
-
-Type: requirement | State: approved | Revision: 95
-
-Prepare bounded caches when inputs become available:
-- Init/settings: validate both banks; resolve descriptors/conversions/formats/effects/channels and unavailable-safe values. Cache three metric roles, native candidates and header metrics. Keep at most two configuration banks, one acquisition state and one active prepared presentation; release outgoing fits/packets/headers before replacements. Reuse geometry/fonts across switches.
-- Layout: cache geometry, selected fonts, header width/ink, separators and repeated segment tables. Identical layouts reuse state; grid-only edits refresh separators. Retain only assigned header variants.
-- Refit only for changed displayed text/secondary/header, native face, bounds or halo clearance. Reuse wrapped lines/runs/packets/equal-angle polygons. Reconsider preferred capacity after fallback when candidates change; slots beyond preferred capacity never refit visible cells.
-- Validate zone bounds on metadata refresh, cache by channel/reading/profile revision, and share current-source classification across duplicates/zone fields/text bindings. Invalidate only affected channels/packets; equal cadence bounds preserve cache.
-- Advance readings/rolling/grade/lap/lifecycle once per delivered compute, including hidden sources/triggers. Never duplicate sampling by slot/bank. Clock/battery queries follow active retained needs; newly active banks obtain required current values before their frame. Validate nonempty temperature caches on every delivered compute and presentation refresh, even without an assigned temperature slot; skip age/clock queries only while empty. Read device unit, clock-format and automatic-theme preferences on each delivered compute and presentation refresh; apply changes to that snapshot without sample-count throttling.
-Never mutate published records: reuse unchanged records, replace changed ones. Skip record-field comparisons for identical records; skip cell preparation when visible records, palette and layout are unchanged. Prepare coordinates/colors/contours/polygons/wrapped text before drawing. Ordinary onUpdate only dispatches prepared graphics/clip commands. After clearing the frame, fill a cell base only when its prepared background differs from the cleared background; retain label bands, slope polygons and text contrast. Packed separator commands may decode their stored coordinates and grayscale bytes during dispatch; geometry, gradient selection and fitting remain cached. It may dispatch onLayout with its current Dc once for uninitialized/changed bounds or pending Team text/font/header fitting that needs live native measurements. That bounded layout branch performs the required measurement/preparation; unchanged frames do not remeasure. Outside it, onUpdate performs no formatting, measurement, resource loading, sensor/settings queries or presentation calculations. This applies to the complete DataField entry and renderer. Release obsolete caches; retain no unbounded history. Settings/switches preserve shared acquisition.
-Keep callback preparation within the target VM stack limit, including mixed native Team and sprite metrics after layout through settings and typed lap callbacks.
-Never retain a native Dc after its callback returns. Settings, compute, lap and background callbacks may invalidate native fits but must defer native measurement to the next layout with a current Dc.
-Use bounded packed slot/presentation/geometry state. Release replaced raw frames and reset presentation before constructing their successors; externally retained presentation records remain unchanged.
-
-**Relations**
-
-- allocated_to: [APP-3](#app-3)
-- uses: [APP-12](#app-12), [APP-7](#app-7), [APP-8](#app-8)
 
 <a id="dvs-34"></a>
 ## DVS-34 — Temperature
@@ -3088,18 +3149,6 @@ Document Garmin-supported dependency/account provisioning for fresh developers a
 
 - uses: [APP-24](#app-24)
 
-<a id="app-48"></a>
-## APP-48 — Measure runtime memory and verify bounded allocation
-
-Type: requirement | State: approved | Revision: 34
-
-Only explicit Memory validation enables diagnostic sampling. Record total/used/free memory after initialization/resources and through maximal grid/resources, themes/effects, rolling buffers, sensor interruptions, settings and repeated bank switches. State sampling method and maximum used/minimum free bytes; sampling does not prove absence of between-sample peaks.
-Pass only within runtime allocation and Data Field ceiling, without allocation failure/OOM or sustained unreclaimed growth after returning to the same configuration. Bound/reuse resources, buffers and caches. Qualify each profile independently even when screen/fonts/ceiling match: before API 4.0 loaded fonts share heap, while newer APIs have a separate graphics pool. Record resource hashes; retain fixed fonts and maximal-grid coverage during optimization checks. Hardware evidence is separate.
-
-**Relations**
-
-- uses: [APP-37](#app-37), [APP-47](#app-47)
-
 <a id="app-47"></a>
 ## APP-47 — Apply per-device Connect IQ Data Field memory ceilings
 
@@ -3788,39 +3837,6 @@ Retain existing activation/threshold contracts under [SPEC-211](#spec-211)/[SPEC
 
 - verifies: [APP-31](#app-31), [SPEC-155](#spec-155), [SPEC-208](#spec-208), [SPEC-210](#spec-210), [SPEC-211](#spec-211), [SPEC-212](#spec-212), [SPEC-243](#spec-243)
 
-<a id="tprf-9"></a>
-## TPRF-9 — Normal Data Field runtime memory validation
-
-Type: test | State: approved | Revision: 25
-
-Purpose: Normal Data Field runtime memory validation.
-
-Suite: Memory. Explicit user request only.
-
-Requirement references: [APP-47](#app-47), [APP-48](#app-48), [APP-37](#app-37), [APP-38](#app-38).
-
-Procedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.
-
-This is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [SPEC-162](#spec-162).
-
-Native fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.
-
-Run the layout/resource driver separately from the second-set driver under [SPEC-231](#spec-231). Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.
-
-
-Keep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.
-
-
-For effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.
-
-
-Extend current-source coverage to Team/native fonts and all new modes under [SPEC-296](#spec-296). This separate request-only Memory definition records no new execution.
-After publishing a synthetic frame, release the driver-local raw reference before lifecycle/reset checks; the active snapshot retains its raw data. Reset must exercise production release-before-replacement. This avoids pinning an obsolete fixture map through reset while retaining all cases and sampled instrumentation overhead.
-
-**Relations**
-
-- verifies: [APP-37](#app-37), [APP-38](#app-38), [APP-47](#app-47), [APP-48](#app-48)
-
 <a id="tui-12"></a>
 ## TUI-12 — Actual overflow and compact layout cache behavior
 
@@ -3862,25 +3878,6 @@ Evidence follows [SPEC-162](#spec-162): record actual selected suite, baseline/s
 **Relations**
 
 - verifies: [APP-25](#app-25), [SPEC-177](#spec-177)
-
-<a id="tprf-5"></a>
-## TPRF-5 — Changed-cell fitting and prepared-only rendering
-
-Type: test | State: approved | Revision: 22
-
-Purpose: Verify [APP-26](#app-26) changed-cell preparation and draw-only replay. Suite: Core.
-
-Unchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.
-
-Lock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [APP-26](#app-26) preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.
-
-Bank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.
-
-Executable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [SPEC-162](#spec-162); no Memory, Placement or hardware qualification is implied.
-
-**Relations**
-
-- verifies: [APP-12](#app-12), [APP-26](#app-26), [APP-32](#app-32), [DVS-29](#dvs-29)
 
 <a id="tfnc-26"></a>
 ## TFNC-26 — Late loading and gaps do not invent lap history

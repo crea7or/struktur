@@ -91,6 +91,8 @@ try{
     throw
 }finally{if($null -ne $process){$process.Dispose()};Pop-Location}
 if($Suite -eq 'Memory'){
+    & $Python (Join-Path $projectRoot 'tools\test_memory_observation.py')
+    if($LASTEXITCODE -ne 0){throw 'Memory observation/reporting regression failed.'}
     $report=Get-Content -Raw -LiteralPath $resultPath|ConvertFrom-Json
     $report.status='font_probes_passed_runtime_pending'
     $report|ConvertTo-Json -Depth 6|Set-Content -LiteralPath $resultPath -Encoding UTF8

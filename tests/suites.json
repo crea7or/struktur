@@ -28,7 +28,10 @@
         "tests/FontTests.mc"
       ],
       "support": [],
-      "scope": "Isolated font resource probes plus separate normal Data Field runtime memory validation. Explicit request only."
+      "scope": "Isolated font probes, native-callback observation, layout/resource matrix and switching memory validation. Explicit request only.",
+      "host_checks": [
+        "tools/test_memory_observation.py"
+      ]
     },
     "Placement": {
       "jungle": "placement-tests.jungle",

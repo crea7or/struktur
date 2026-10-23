@@ -307,7 +307,7 @@
       "requirement_revisions": {
         "APP-21": 99,
         "APP-24": 79,
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-32": 81,
         "APP-34": 100,
         "APP-36": 83,
@@ -867,7 +867,7 @@
       "revision": 13,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-36": 83,
         "DVS-29": 170,
         "DVS-6": 104
@@ -897,7 +897,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-22": 68,
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-32": 81,
         "HFER-7": 25,
         "HFER-8": 25,
@@ -1120,7 +1120,7 @@
       "revision": 12,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "DVS-32": 63,
         "DVS-4": 53,
         "DVS-50": 66
@@ -1139,15 +1139,15 @@
         "APP-32",
         "DVS-29"
       ],
-      "procedure": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.",
-      "definition": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.",
+      "procedure": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.\n\nAssert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.\nExercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.",
+      "definition": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.\n\nAssert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.\nExercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.",
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-5",
-      "revision": 22,
+      "revision": 30,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-32": 81,
         "DVS-29": 170
       },
@@ -1173,7 +1173,7 @@
       "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-37": 37,
         "DVS-34": 168,
         "DVS-35": 53
@@ -1200,7 +1200,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-47": 21,
-        "APP-48": 34,
+        "APP-48": 38,
         "SPEC-177": 36
       },
       "suite_stable_id": "TPER-1"
@@ -1250,7 +1250,7 @@
       "requirement_revisions": {
         "APP-24": 79,
         "APP-25": 43,
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-34": 100
       },
       "suite_stable_id": "TRGR-2"
@@ -1323,18 +1323,18 @@
         "APP-47",
         "APP-48"
       ],
-      "procedure": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.\nAfter publishing a synthetic frame, release the driver-local raw reference before lifecycle/reset checks; the active snapshot retains its raw data. Reset must exercise production release-before-replacement. This avoids pinning an obsolete fixture map through reset while retaining all cases and sampled instrumentation overhead.",
-      "definition": "Purpose: Normal Data Field runtime memory validation.\n\nSuite: Memory. Explicit user request only.\n\nRequirement references: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]].\n\nProcedure and expected results: After isolated font probes, run scripts/validate-memory.ps1 for each requested product using validation/memory/MemoryValidation.mc. Exercise the maximum grid/resources, effects/themes/inversion, settings rebuilds and bounded rolling/lap/grade history. Require normal Data Field execution, no out-of-memory/allocation failure, usage within runtime allocation and the 131072-byte ceiling, and no sustained unreclaimed growth after return to the same configuration. Record per-product configuration, current source/binary/toolchain and observed used/free/total values; simulator success does not qualify physical devices or between-sample peaks. Missing hardware evidence stays unrun/blocked, never inferred.\n\nThis is the separate runtime validation stage, not a Toybox.Test function. Creating this definition or linking it to the suite records no execution. Evidence follows [[SPEC-162]].\n\nNative fixture contract: Three cycles of 216 cases, at least 54 complete preferred grids and three maximum cached font roles, with observed native compute/draw callbacks. Cache regular-header eligibility at the actual width, substitute a compatible short field only in unsupported regular-header contexts, and require all 32 existing numeric field types to be drawn in fitting roles. Log substitution counts; verify unsupported placements separately in Placement. Split fixture helpers to bound local-variable stack overhead, and prepare changed settings/snapshots through production entrypoints before drawing. Keep instrumentation inside measured allocation and fail on allocation or stack exceptions. Preserve failed attempts; do not weaken memory ceilings or silently omit field coverage.\n\nRun the layout/resource driver separately from the second-set driver under [[SPEC-231]]. Include both normal-runtime reports in the per-product Memory outcome. Fixture configuration replacement shall release prior presentation state through the same renderer invalidation used by production switching before preparing its replacement; this does not bypass the periodic real reloadSettings() path.\n\n\nKeep synthetic-case and native producer frames separate: after a synthetic frame has been measured/drawn, discard its renderer presentation before the next native compute callback. Do not retain two independent producer fixtures as if they were one app frame. Native compute still executes the full production pipeline; all 648 synthetic compute/layout/draw cases and lifecycle/settings calls remain measured. The separate switching driver covers retained prepared frames across native callbacks. Report this fixture boundary and retain instrumentation overhead inside the measured allocation.\n\n\nFor effect-memory scenarios, supply known validated synthetic heart-rate/power zone bounds before calling the production snapshot engine. Use its own generated presentation/effects records rather than retaining a second, cloned presentation with injected bands. Preserve enabled/disabled slot effects, gray unavailable/default backgrounds, valid grade/temperature effects and fitting-field coverage. Synthetic zone bounds qualify allocation and drawing only; they do not qualify device power-zone metadata or sensor provenance.\n\n\nExtend current-source coverage to Team/native fonts and all new modes under [[SPEC-296]]. This separate request-only Memory definition records no new execution.\nAfter publishing a synthetic frame, release the driver-local raw reference before lifecycle/reset checks; the active snapshot retains its raw data. Reset must exercise production release-before-replacement. This avoids pinning an obsolete fixture map through reset while retaining all cases and sampled instrumentation overhead.",
+      "procedure": "Purpose: Normal Data Field runtime memory validation. Suite: Memory; explicit request only.\n\nReferences: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]], [[SPEC-162]], [[SPEC-231]], [[SPEC-296]].\n\nAfter isolated font probes, run scripts/validate-memory.ps1 for each requested profile with identical production sources/resources and current hashes. Run separately:\n1. Native/default observer: real production callbacks, no synthetic fixtures, RuntimeMetrics disabled; at least 10 computes, three draws and 30 seconds.\n2. Matrix: three cycles of 216 cases; at least 54 complete native grids, three font roles and all 33 fields in fitting roles, including maximum Team text, effects/themes/inversion, missing values, settings/lifecycle and bounded acquisition history. Cache header eligibility; substitute a compatible field only for unsupported regular headers and report substitutions. Unsupported placements remain in Placement.\n3. Switching: all [[SPEC-231]] transitions, settings changes and repeated-state checkpoints.\n\nUse native full-bounds Dc directly. Retain at most the app's two configuration banks, one acquisition and one active presentation; recreate reference settings between cycles rather than retaining a third bank. Release outgoing raw/presentation state before replacements and synthetic presentation before native producer callbacks. Supply known validated synthetic zone bounds without cloning presentation records; this does not qualify sensor provenance.\n\nSampling retains fixed counters without I/O or formatting. Defer diagnostics until fixture locals are released. Record initialization/first-draw values and peak/free/total for each run; identify native observer and driver overhead without subtracting estimates to obtain a pass. Run host regressions for sampler I/O, incomplete/duplicate/crashed records and absolute limit violations.\n\nRequire all three current-source normal Data Field reports, no allocation/stack failure, unchanged runtime/published limits and no sustained growth over repeated returns to the same configuration. Partial diagnosis runs cannot qualify a profile. Preserve failed attempts, environment, source/binary hashes and exact coverage. Observer overhead is included; default observation and sparse sampling do not establish uninstrumented/maximal/transient peaks. Missing physical evidence stays unrun/blocked.",
+      "definition": "Purpose: Normal Data Field runtime memory validation. Suite: Memory; explicit request only.\n\nReferences: [[APP-47]], [[APP-48]], [[APP-37]], [[APP-38]], [[SPEC-162]], [[SPEC-231]], [[SPEC-296]].\n\nAfter isolated font probes, run scripts/validate-memory.ps1 for each requested profile with identical production sources/resources and current hashes. Run separately:\n1. Native/default observer: real production callbacks, no synthetic fixtures, RuntimeMetrics disabled; at least 10 computes, three draws and 30 seconds.\n2. Matrix: three cycles of 216 cases; at least 54 complete native grids, three font roles and all 33 fields in fitting roles, including maximum Team text, effects/themes/inversion, missing values, settings/lifecycle and bounded acquisition history. Cache header eligibility; substitute a compatible field only for unsupported regular headers and report substitutions. Unsupported placements remain in Placement.\n3. Switching: all [[SPEC-231]] transitions, settings changes and repeated-state checkpoints.\n\nUse native full-bounds Dc directly. Retain at most the app's two configuration banks, one acquisition and one active presentation; recreate reference settings between cycles rather than retaining a third bank. Release outgoing raw/presentation state before replacements and synthetic presentation before native producer callbacks. Supply known validated synthetic zone bounds without cloning presentation records; this does not qualify sensor provenance.\n\nSampling retains fixed counters without I/O or formatting. Defer diagnostics until fixture locals are released. Record initialization/first-draw values and peak/free/total for each run; identify native observer and driver overhead without subtracting estimates to obtain a pass. Run host regressions for sampler I/O, incomplete/duplicate/crashed records and absolute limit violations.\n\nRequire all three current-source normal Data Field reports, no allocation/stack failure, unchanged runtime/published limits and no sustained growth over repeated returns to the same configuration. Partial diagnosis runs cannot qualify a profile. Preserve failed attempts, environment, source/binary hashes and exact coverage. Observer overhead is included; default observation and sparse sampling do not establish uninstrumented/maximal/transient peaks. Missing physical evidence stays unrun/blocked.",
       "category": "performance",
       "runner": "runtime",
       "stable_id": "TPRF-9",
-      "revision": 25,
+      "revision": 33,
       "status": "approved",
       "requirement_revisions": {
         "APP-37": 37,
         "APP-38": 57,
         "APP-47": 21,
-        "APP-48": 34
+        "APP-48": 38
       },
       "suite_stable_id": "TPER-1"
     },
@@ -1421,7 +1421,7 @@
       "revision": 14,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "SPEC-217": 10,
         "SPEC-218": 11
       }
@@ -1471,7 +1471,7 @@
       "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-33": 47,
         "SPEC-208": 26,
         "SPEC-220": 14,
@@ -1495,7 +1495,7 @@
       "revision": 19,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95
+        "APP-26": 103
       }
     },
     {
@@ -1630,7 +1630,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 95
+        "APP-26": 103
       },
       "stable_id": "SPEC-275"
     },
@@ -1805,7 +1805,7 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "APP-32": 81
       },
       "stable_id": "SPEC-271"
@@ -1886,7 +1886,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 95
+        "APP-26": 103
       },
       "stable_id": "SPEC-299"
     },
@@ -2178,7 +2178,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 95
+        "APP-26": 103
       },
       "stable_id": "SPEC-283"
     },
@@ -2322,7 +2322,7 @@
         "APP-48"
       ],
       "requirement_revisions": {
-        "APP-48": 34
+        "APP-48": 38
       },
       "stable_id": "SPEC-296"
     },
@@ -2364,7 +2364,7 @@
       "revision": 9,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 95,
+        "APP-26": 103,
         "SPEC-217": 10,
         "SPEC-218": 11,
         "SPEC-253": 42

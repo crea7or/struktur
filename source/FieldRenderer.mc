@@ -88,7 +88,15 @@ class FieldRenderer {
     // fitting/drawing state before preparing its replacement on the shared heap.
     function discardPresentation() {
         _preparedValues=[];_runs=[];_packets=[];_headerFits={};
+        _cells=[];_separators=[]; // One valid geometry plan may be reused by the next bank.
         _polygons=[];_polygonAngles=[];_cellNights=[];_needsLayout=true;
+    }
+    // A complete Properties reload temporarily allocates a dictionary and two new
+    // banks. Release old raster handles first on legacy shared heaps. Ordinary
+    // bank switches still reuse the active geometry and loaded fixed font roles.
+    function releaseForSettingsReload() {
+        discardPresentation();_gridPlans={};_separatorPlans={};_geometryDirty=true;
+        _fonts={};_labels=null;_compactFont=null;_compactPackets=[];_compactLines=[];
     }
     function needsLayout() { return _needsLayout; }
     function coverage(value) { return value.size()>ValueRecord.COVERAGE?value[ValueRecord.COVERAGE]:(value[ValueRecord.ANGLE]!=null?2:1); }
@@ -161,7 +169,7 @@ class FieldRenderer {
                 if(run==null) { break; }
                 runs.add(run);
             }
-            if(runs.size()==cells.size()) { return [cells,runs,DeviceProfile.LABEL_SIZE]; }
+            if(runs.size()==cells.size()) { return [cells,runs,DeviceProfile.LABEL_SIZE,rows]; }
         }
         return null;
     }
@@ -178,6 +186,7 @@ class FieldRenderer {
     function configure(settings) {
         if(_configuredEnlarged!=settings.enlarged) {
             _geometryDirty=true;_needsLayout=true;
+            _gridPlans={};_separatorPlans={}; // Release obsolete geometry before replacing its bank.
         }
         if(_configuredAlignment==null || !_configuredAlignment.equals(settings.alignment)) { _needsLayout=true; }
         var gridChanged=_configuredGrid==null || !_configuredGrid.equals(settings.gridType);
@@ -221,15 +230,22 @@ class FieldRenderer {
         if(_geometryDirty) { _gridPlans={};_separatorPlans={};_geometryDirty=false; }
         _labelMetrics=metric(DeviceProfile.LABEL_SIZE,true);
         _labelHeight=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
+        // A failed preferred plan is rebuilt only when changed candidates require
+        // reconsideration; do not retain the prior fallback alongside that trial.
+        if(!_gridPlans.hasKey(DeviceProfile.DESIGN_ROWS)) {_gridPlans={};_separatorPlans={};}
         var nextFonts={}; var selected=null;
         if(_preparedValues.size()>=10) {
             selected=plan(DeviceProfile.DESIGN_ROWS);
             if(selected==null && DeviceProfile.DESIGN_ROWS==5) { selected=plan(4); }
         }
-        if(selected==null) { compact(nextFonts); }
+        if(selected==null) { _gridPlans={};_separatorPlans={};compact(nextFonts); }
         else {
             _compactLines=[];_compactFont=null;
             _cells=selected[0];_runs=selected[1];var labelSize=selected[2];
+            // Retain only the winning layout, never a failed preferred-grid plan.
+            _gridPlans={};_gridPlans[selected[3]]=_cells;
+            var separators=_separatorPlans.hasKey(_cells.size())?_separatorPlans[_cells.size()]:null;
+            _separatorPlans={};if(separators!=null) {_separatorPlans[_cells.size()]=separators;}
             _labels=selectFont(labelSize,true,nextFonts);_labelHeight=FontSelection.height(labelSize,true);
             _labelMetrics=metric(labelSize,true);
             for(var i=0;i<_runs.size();i+=1) { if(!_runs[i].isNative) { _runs[i].font=selectFont(_runs[i].size,false,nextFonts); } }

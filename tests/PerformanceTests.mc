@@ -124,8 +124,18 @@ class RendererCacheScenario {
         raw["temperature"]=20;sample(); // Slot 10 is hidden in every one-enlarged native layout.
         Test.assertEqual(fits,renderer.fitCount);Test.assertEqual(geometry,renderer.geometryBuilds);Test.assertEqual(packets,renderer.packetBuilds);
         Test.assertEqual(passes,renderer.geometryPasses);
-        renderer.discardPresentation();Test.assertEqual(0,renderer._runs.size());Test.assertEqual(0,renderer._packets.size());Test.assertEqual(0,renderer._headerFits.size());
+        Test.assertEqual(1,renderer._gridPlans.size());Test.assert(renderer._separatorPlans.size()<=1);
+        var activeCells=renderer._cells;var plans=renderer._gridPlans;
+        renderer.discardPresentation();Test.assert(renderer._gridPlans==plans);Test.assertEqual(0,renderer._cells.size());Test.assertEqual(0,renderer._separators.size());Test.assertEqual(0,renderer._runs.size());Test.assertEqual(0,renderer._packets.size());Test.assertEqual(0,renderer._headerFits.size());
         renderer.prepare(snapshot);renderer.layout(dc,settings);Test.assert(renderer._runs.size()>0 && renderer._packets.size()>0);
+        Test.assert(renderer._cells==activeCells);Test.assertEqual(1,renderer._gridPlans.size());Test.assert(renderer._separatorPlans.size()<=1);
+        settings.enlarged=2;renderer.configure(settings);
+        Test.assertEqual(0,renderer._gridPlans.size());Test.assertEqual(0,renderer._separatorPlans.size());
+        var metricRoles=renderer._metrics.size();
+        renderer.releaseForSettingsReload();Test.assertEqual(0,renderer._fonts.size());Test.assert(renderer._labels==null);Test.assert(renderer._compactFont==null);
+        Test.assertEqual(0,renderer._compactPackets.size());Test.assertEqual(metricRoles,renderer._metrics.size());
+        settings.enlarged=1;renderer.prepare(snapshot);renderer.layout(dc,settings);
+        Test.assert(renderer._fonts.size()>0 && renderer._fonts.size()<=3);Test.assert(renderer._cells.size()>0);
     }
 }
 

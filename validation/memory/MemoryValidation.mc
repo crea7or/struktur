@@ -6,6 +6,7 @@ using Toybox.WatchUi;
 using Toybox.Activity;
 
 // Bounded producer fixture for maximum retained acquisition state; not sensor evidence.
+(:memoryFixture)
 class MemoryHistoryInfo {
     var elapsedTime=0;
     var timerTime=0;
@@ -16,57 +17,7 @@ class MemoryHistoryInfo {
     var currentCadence=0;
 }
 
-// Qualification only; this file is not in the production jungle source path.
-// Reuse the native Dc with bounded drawing coordinates, never a bitmap buffer.
-(:memoryMatrix)
-class MemoryAreaDc {
-    var _dc;
-    var _width;
-    var _height;
-    function initialize(dc,width,height) { _dc=dc; _width=width; _height=height; }
-    function getWidth() { return _width; }
-    function getHeight() { return _height; }
-    function getTextWidthInPixels(text,font) { return _dc.getTextWidthInPixels(text,font); }
-    function setColor(a,b) { _dc.setColor(a,b); }
-    function clear() { _dc.clear(); }
-    function drawText(x,y,font,text,flags) { _dc.drawText(x,y,font,text,flags); }
-    function setClip(x,y,w,h) { _dc.setClip(x,y,w,h); }
-    function clearClip() { _dc.clearClip(); }
-    function fillRectangle(x,y,w,h) { _dc.fillRectangle(x,y,w,h); }
-    function fillPolygon(points) { _dc.fillPolygon(points); }
-    function drawLine(x1,y1,x2,y2) { _dc.drawLine(x1,y1,x2,y2); }
-}
-
-module MemoryObservation {
-    var samples=0;
-    var maximum=0;
-    var minimum=null;
-    var totalLow=null;
-    var totalHigh=0;
-    function sample(stage) {
-        var stats=System.getSystemStats();
-        samples+=1;
-        var used=stats.usedMemory;
-        var free=stats.freeMemory;
-        var total=stats.totalMemory;
-        if(used>maximum) { maximum=used; }
-        if(minimum==null || free<minimum) { minimum=free; }
-        if(totalLow==null || total<totalLow) { totalLow=total; }
-        if(total>totalHigh) { totalHigh=total; }
-        if(total<=0 || total>DeviceProfile.MEMORY_LIMIT || used>total || used>DeviceProfile.MEMORY_LIMIT || free<0) {
-            System.println("DF_MEMORY_FAIL product="+DeviceProfile.ID+" stage="+stage+
-                " used="+used.toString()+" free="+free.toString()+" total="+total.toString());
-            throw new Lang.InvalidValueException("Data Field allocation/limit violation");
-        }
-        if(samples==1 || used==maximum) {
-            System.println("DF_MEMORY_SAMPLE product="+DeviceProfile.ID+" stage="+stage+
-                " used="+used.toString()+" free="+free.toString()+" total="+total.toString()+
-                " max="+maximum.toString()+" min="+minimum.toString());
-        }
-        return used;
-    }
-}
-
+// Qualification uses the native Dc directly: full bounds need no proxy.
 (:memoryMatrix)
 class MemoryValidationField extends StrukturField {
     var _started;
@@ -110,7 +61,7 @@ class MemoryValidationField extends StrukturField {
         for(var field=0;field<Catalog.IDS.size();field+=1) { _coverage.add(0);_plainFits.add(0);_unitFits.add(0); }
         RuntimeMetrics.enabled=true; // Explicit validation build only; production remains off.
         StrukturField.initialize();
-        _reference=new DisplaySettings(); _reference.load();
+        _reference=_settings; // Share the actual primary bank until fixtures replace it.
         MemoryObservation.sample("initialized");
     }
     function compute(info) {
@@ -202,17 +153,18 @@ class MemoryValidationField extends StrukturField {
         return next;
     }
     function runCase(dc,index) {
+        _reference=null; // A third reference bank is driver state, not an app bank.
         _renderer.discardPresentation(); // Same release-before-replacement path as production bank changes.
         _fieldSets.configuration.trigger=0;_fieldSets.second=false;
         _settings=caseSettings(index);_fieldSets.configuration.primary=_settings;_renderer.configure(_settings);
         _engine.metadata();_engine._hrZones=_fixtureHeart;_engine._powerZones=_fixturePower;
         var sample=fixture(index);sample["elapsed_time"]=(_cycle*CASES+index+1)*1000;
+        _snapshot=null; // Match production processActivity release-before-replacement.
         _snapshot=_engine.compute(sample,_settings);sample=null; // Snapshot owns the current raw fixture; do not pin it across reset.
         if(index%12==0) { boundedHistory(); }
         MemoryObservation.sample("fixture_compute");
         var width=dc.getWidth();var height=dc.getHeight();
-        var bounded=new MemoryAreaDc(dc,width,height);
-        _renderer.prepare(_snapshot);_renderer.layout(bounded,_settings);_renderer.prepare(_snapshot);_layoutDirty=false;
+        _renderer.prepare(_snapshot);_renderer.layout(dc,_settings);_renderer.prepare(_snapshot);_layoutDirty=false;
         if(_renderer._cells.size()==0) { failedPrecondition(index,width,height); }
         if(_renderer._fonts.size()>3 || _renderer._metrics.size()>3) { throw new Lang.InvalidValueException("More than three font roles retained"); }
         recordCoverage();
@@ -222,7 +174,7 @@ class MemoryValidationField extends StrukturField {
             _fullGrids+=1;
         }
         MemoryObservation.sample("fixture_layout");
-        _renderer.draw(bounded,_snapshot,_settings);
+        _renderer.draw(dc,_snapshot,_settings);
         MemoryObservation.sample("fixture_draw");
         if(index%37==0) { StrukturField.onTimerPause();StrukturField.onTimerResume(); }
         if(index%41==0) { StrukturField.onTimerReset();StrukturField.onTimerStart(); }
@@ -246,6 +198,7 @@ class MemoryValidationField extends StrukturField {
     }
     function reference(dc) {
         _renderer.discardPresentation();
+        if(_reference==null) {StrukturField.reloadSettings();_reference=_settings;}
         _fieldSets.configuration.trigger=0;_fieldSets.second=false;
         _settings=_reference;_fieldSets.configuration.primary=_reference;
         _engine.reset();_snapshot=_engine.initial(_settings);
@@ -274,6 +227,7 @@ class MemoryValidationField extends StrukturField {
         }
         if(_cycle>=CYCLES && _nativeComputes>=10 && System.getTimer()-_started>=30000) {
             _done=true;
+            MemoryObservation.report();
             System.println("DF_MEMORY_DONE product="+DeviceProfile.ID+" cycles="+_cycle.toString()+
                 " cases="+(CASES*CYCLES).toString()+" samples="+MemoryObservation.samples.toString()+
                 " max_used="+MemoryObservation.maximum.toString()+" min_free="+MemoryObservation.minimum.toString()+
