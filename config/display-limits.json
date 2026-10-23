@@ -53,9 +53,10 @@
     },
     {
       "id": "large",
-      "title": "1050",
+      "title": "1050/1060",
       "products": [
-        "edge1050"
+        "edge1050",
+        "edge1060"
       ],
       "width": 480,
       "height": 800,

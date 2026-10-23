@@ -4,21 +4,24 @@
   "sdk_version": "9.2.0",
   "java_distribution_version": "JetBrains OpenJDK 25.0.3+-15898627-b508.16",
   "device_package_hashes": {
-    "edge530": "2ab6e4b71ea76615583f9210b0dd0bb348366b448cdbf5f82f04094aa37ff303",
-    "edge540": "c625295a1c2d0aec34647e4ced3db7540402246ed7f2f7fb9fe3db936ce59c92",
-    "edge550": "cbee7a9be0855c27a951b4b6866ed450034bad790d87b61648dab11df05a6cc9",
-    "edge830": "af1e86b0868b0ea6f4f499fdad10bb951ad4870a8fd9ecb2ecfed8e10deab66f",
-    "edge840": "aaa5f3e68e3da3c89d8b324da9f2cba9d9de1fc7e04c359ab04b8f31af23414d",
-    "edge850": "5bf7e50c1545642997b6fc45929c1a33f7e886dc7803103485c56045f649bbae",
-    "edge1030": "6cd98189c897da4b55d4f4fc5c73e2c3262c6d6fc938ca6135477f290f639e9c",
-    "edge1040": "99182ff9a71b65defa90a0311439f913f1851110d5d08d3ead37e498c526f043",
-    "edge1050": "ebcac9d336dd5c0ae20d080da06c6e476827f533b90f1435132e70a2fe19b66a"
+    "edge530": "3b99493bed0f114520d7a4ce2ddc78d8ff0061a844ea00dbe56d5cd7bc6e5d38",
+    "edge540": "9baa5c2abe7979568e93d95a879454aab31b7f0222b8028e822a37705dd7ba1f",
+    "edge550": "e3bb259e5b901a706fbc9217a50f2c1bddddbc2ce44ede69b43dc8a6de5fc733",
+    "edge830": "0d52a3ec41fa2830c6da085a3605b900dd697f66c633db83df09a2de2d85c6f0",
+    "edge840": "609616c56c3734333297be54cc8cdcbb6c8a5865552531984f60155c8582a42c",
+    "edge850": "1417e2ec447ca0353a9c7c37601345f59d666ee9a2e18ebbe5ec73fd1e91e1c8",
+    "edge1030": "eb3dcfb3216a570b63cee570869e0a2631cfcbcd9ca62f94fec56ee89e0ff804",
+    "edge1040": "f584e4456e09308729020126be1b2b2f4743562a474454819cdab25591f92968",
+    "edge1050": "35d42c944d709d86c93882f20fbd0a6b0994c911df98daa8dadde97460eaba2b",
+    "edge1060": "1a80fbcb499c86de6fe09447c6d12956865be691fe8dd30b00e2a11667930491"
   },
   "font_generator": "Python/Pillow; see font-manifest.json",
   "target_build_results": "artifacts/build-results.json",
   "simulator_results": "artifacts/<product>-core-tests.json; current named test inventory is tests/suites.json. Memory/Placement and physical qualification remain separate.",
   "hardware_results": "not run",
   "compiler_jar_sha256": "6cf13788631f4e25611cbfc9477f7f3b2093f4d35872d9859e18658cb1b0dca2",
-  "device_dimension_gate": "All nine project dimensions must equal installed simulator.json display.location dimensions before build/tests. Edge 850 corrected to 420x600.",
-  "compiler_optimization": "3z (code size), shared by app/package/preview and all validation builds"
+  "device_dimension_gate": "All ten project dimensions must equal installed simulator.json display.location dimensions before build/tests. Edge 850 corrected to 420x600.",
+  "compiler_optimization": "3z (code size), shared by app/package/preview and all validation builds",
+  "device_package_hash_scheme": "sha256 of compact sorted JSON {file: sha256} over compiler.json, simulator.json and <product>.bin",
+  "sdk_selection": "SDK 9.2.0 is pinned for all ten products. Store packaging uses an isolated firmware-only override for worldwide Edge 1040 (006-B3843-00): 31.35 to 31.33, preserving API 6.0.0. Other device gates and installed libraries remain unchanged."
 }

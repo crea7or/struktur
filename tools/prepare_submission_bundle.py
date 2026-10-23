@@ -67,7 +67,7 @@ def main():
     products = {d['id'] for d in devices}
     assert {r['product'] for r in build['products']} == products == set(package['products'])
     assert {r['product'] for r in aliases['products']} == products
-    assert len(fonts['products']) == len(products) == 9
+    assert len(fonts['products']) == len(products) == 10
     assert all(r['status'] == 'passed' and len(r['font_resources']) == 3 for r in fonts['products'])
     candidate = Path(package['binary'])
     assert sha(candidate) == package['binary_sha256']
@@ -183,7 +183,7 @@ def main():
     guide = '''Struktur publishing candidate
 
 Struktur-candidate.iq: SDK-signed, release-format Connect IQ store upload candidate,
-covering nine Edge models and their regional part numbers. Preserve this file
+covering ten Edge models and their regional part numbers. Preserve this file
 unchanged. It is not an approved/qualified release. No upload has been performed.
 The SDK includes companion debug.xml metadata (including source paths) inside IQ;
 raw build logs, local configuration, signing private keys and preview PRGs are excluded.
@@ -205,8 +205,8 @@ Power-zone coloring and onboard-temperature readings are not yet qualified.
 The overview is a contact sheet; use the nine original PNGs for store screenshots.
 Confirm image/artwork requirements in the current Garmin submission form.
 
-Core: matching-source suites passed on all nine profiles; see manifest.json for
-exact per-device counts. All nine app profiles compiled and retain
+Core: matching-source suites passed on all ten profiles; see manifest.json for
+exact per-device counts. All ten app profiles compiled and retain
 exactly three serialized font resources. Memory/Placement suites were not run.
 Physical-device qualification and remaining release gates must be completed
 before claiming full support. The store listing remains a publisher-review draft.
@@ -230,7 +230,7 @@ Built with https://ai-architect.link requirement service.
                   products=len(products), native_screenshots=len(images), selectable_fields=len(covered),
                   bundle_sha256=sha(bundle), bundle_files=sorted(allowed), iq_sha256=sha(candidate))
     (ROOT / 'artifacts/submission-bundle.json').write_text(json.dumps(report, indent=2)+'\n', 'utf-8')
-    print('Prepared signed candidate, nine sideload PRGs and nine verified native screenshots; all grid/alignment modes and 32 field types covered.')
+    print('Prepared signed candidate, ten sideload PRGs and nine verified native screenshots; all grid/alignment modes and 32 field types covered.')
     print('Source revision:', revision)
 
 

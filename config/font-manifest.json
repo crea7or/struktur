@@ -4,9 +4,9 @@
   "python": "3.14.7",
   "inventory_inputs": {
     "config/catalogue.json": "8be42bf4e535ffe2880632ad35f420543b0a1d252a1798c49ec60f09e569a8ac",
-    "config/decisions.json": "bc63977f04ff591056aeac91ec2da1e67267f6454f792938bf25bb584af72667",
-    "config/devices.json": "aaf7ded6a95c093f18682cc82cb26ab68b521be393446c4b5cd00adf7e44b728",
-    "requirements/workspace-snapshot.json": "c252048a8ab96559fe815ee6a54b8482511a0b4300a36a368ad2a038764e9869",
+    "config/decisions.json": "d43a137a3c753daf28eb0302acf24f47f8213cbb34a22e2bb99619e1184c81e0",
+    "config/devices.json": "b01276258fd6433d5e19d3f644bd50481f19ed50b8f6b990972b069d3900c9de",
+    "requirements/workspace-snapshot.json": "8b8c1931e7dd35adc0e203d22e6f3d488432b60368cf671d69edb1bf7e85c31b",
     "source/Snapshot.mc": "614c924d47f4377b5fe9a072e0e7c1e9093ddf2c57e5d70cc54de64d1975f5a0",
     "source/FieldRenderer.mc": "4ba69c23b060b4225d5e58831b103a017b5396818ade998ace9a41b6666bfa60",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
@@ -27,20 +27,21 @@
     "profiles/edge850/DeviceProfile.mc": "c3ab074ad6bee807fea3500ae228ee698d9952bdac3c5ee8f8c752dba884b8d8",
     "profiles/edge1030/DeviceProfile.mc": "826a20d0fafb4686abeac25eae0da7614ba28150e9ded0b6cf649de7cbb86e4f",
     "profiles/edge1040/DeviceProfile.mc": "c4ea9ec058e2f55f6cc1b704aa6423ff8a507ea5f9d88483d7fae176abf5deb9",
-    "profiles/edge1050/DeviceProfile.mc": "fcd0835ca4e9a35d1299b29385f11ee3a657bae6faa43745ac02049b70120690"
+    "profiles/edge1050/DeviceProfile.mc": "fcd0835ca4e9a35d1299b29385f11ee3a657bae6faa43745ac02049b70120690",
+    "profiles/edge1060/DeviceProfile.mc": "610cc09bcd488bdcc42c1502c11ca6aba56437c10f9ff699df838c55e0f369d6"
   },
   "requirement_refs": {
     "APP-24": {
-      "revision": 79,
-      "description_sha256": "2b58838a4c93ce82a19bba4509c391be701ee66289161c10dd9c1091e61c2805"
+      "revision": 83,
+      "description_sha256": "15a96ab6dd1cea8e44aaf8532d6a73cf96a488c1ec8a9908fa4daf05fb9cf445"
     },
     "APP-25": {
       "revision": 43,
       "description_sha256": "4107c1c620c85e0fbbac34c94111a3b68ff95ab09637f8a630f8e6a1077ddc1f"
     },
     "APP-34": {
-      "revision": 100,
-      "description_sha256": "3226e3d5fb9899f09cd15ab4ff4c7060767e01e99cee6a3130ae982991ffa5cf"
+      "revision": 104,
+      "description_sha256": "4ffce1f5815a6af34028b23cd985524f75617fb786f08eb56dcd7f4278996c40"
     },
     "SPEC-154": {
       "revision": 43,
@@ -1841,6 +1842,20 @@
         35
       ],
       "resource_path": "profiles/edge1050/fonts/fonts.xml",
+      "resource_sha256": "490cfcad3ffdfe4734b3232e44a0ee2cfa46872ca865d1ad5adda804fd35d23b",
+      "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
+    },
+    "edge1060": {
+      "path": "profiles/edge1060/FontData.mc",
+      "sha256": "ff4fb6c914af6afeacf7acbca1dfe0a9b68f97accf644bb2db7df4febcd1f8cd",
+      "numeric_sizes": [
+        95,
+        200
+      ],
+      "label_sizes": [
+        35
+      ],
+      "resource_path": "profiles/edge1060/fonts/fonts.xml",
       "resource_sha256": "490cfcad3ffdfe4734b3232e44a0ee2cfa46872ca865d1ad5adda804fd35d23b",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     }

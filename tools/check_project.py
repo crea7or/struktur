@@ -109,7 +109,7 @@ def main():
     devices=read('config/devices.json');manifest=ET.parse(ROOT/'manifest.xml');ns={'iq':'http://www.garmin.com/xml/connectiq'}
     app=manifest.find('iq:application',ns);assert app.attrib['type']=='datafield'
     assert {p.attrib['id'] for p in app.findall('iq:products/iq:product',ns)}=={p['id'] for p in devices}
-    assert len(devices)==9 and all(d['datafield_ceiling_bytes']==131072 and not d['release_supported'] for d in devices)
+    assert len(devices)==10 and all(d['datafield_ceiling_bytes']==131072 and not d['release_supported'] for d in devices)
     for d in devices:
         assert (ROOT/'profiles'/d['id']/'DeviceProfile.mc').exists()
         profile=(ROOT/'profiles'/d['id']/'DeviceProfile.mc').read_text(encoding='utf-8')
@@ -177,7 +177,7 @@ def main():
     assert 'RuntimeMetrics.enabled=true;' in (ROOT/'validation/memory/MemoryValidation.mc').read_text(encoding='utf-8')
     assert all((ROOT/path).exists() for row in trace for path in row['source'])
     assert 'const PAD_LEADING_MINUTES = null' in production or 'const PAD_LEADING_MINUTES = true' in production or 'const PAD_LEADING_MINUTES = false' in production
-    result=dict(status='passed project input consistency checks',reviewed_workspace_requirements=len(by_id),approved_requirements=sum(r['status']=='approved' for r in by_id.values()),approved_supporting_records=sum(r['status']=='approved' for r in supporting),draft_requirements=[r['stable_id'] for r in by_id.values() if r['status']=='draft'],candidate_products=9,
+    result=dict(status='passed project input consistency checks',reviewed_workspace_requirements=len(by_id),approved_requirements=sum(r['status']=='approved' for r in by_id.values()),approved_supporting_records=sum(r['status']=='approved' for r in supporting),draft_requirements=[r['stable_id'] for r in by_id.values() if r['status']=='draft'],candidate_products=len(devices),
                 settings=len(props),selectable_values=len(fields),verified_font_assets=2,generated_font_atlases=len(fonts['fonts']),
                 planned_monkeyc_test_functions=tests.count('(:test)'),monkeyc_compilation='not run',
                 simulator_tests='not run',physical_tests='not run',resource_memory='not measured')

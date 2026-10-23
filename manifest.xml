@@ -6,7 +6,7 @@
     <iq:products>
       <iq:product id="edge530"/><iq:product id="edge540"/><iq:product id="edge550"/>
       <iq:product id="edge830"/><iq:product id="edge840"/><iq:product id="edge850"/>
-      <iq:product id="edge1030"/><iq:product id="edge1040"/><iq:product id="edge1050"/>
+      <iq:product id="edge1030"/><iq:product id="edge1040"/><iq:product id="edge1050"/><iq:product id="edge1060"/>
     </iq:products>
     <iq:permissions><iq:uses-permission id="UserProfile"/><iq:uses-permission id="Background"/><iq:uses-permission id="Sensor"/></iq:permissions>
     <iq:languages><iq:language>eng</iq:language></iq:languages>

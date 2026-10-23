@@ -142,5 +142,21 @@
     "release_supported": false,
     "regular_font_reference": 95,
     "label_font_reference": 35
+  },
+  {
+    "id": "edge1060",
+    "design_width": 480,
+    "design_height": 800,
+    "design_rows": 5,
+    "datafield_ceiling_bytes": 131072,
+    "candidate_manifest_min_api": "2.4.0",
+    "firmware_qualification": "not measured",
+    "api_qualification": "Compilation evidence: artifacts/build-results.json. Runtime API/hardware qualification remains incomplete.",
+    "power_zones": "guarded optional API 5.2.2; 0 W-minimum layout enabled, device layout confirmation pending",
+    "night_mode": "guarded optional; Auto fallback Day",
+    "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
+    "release_supported": false,
+    "regular_font_reference": 95,
+    "label_font_reference": 35
   }
 ]

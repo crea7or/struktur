@@ -29,7 +29,7 @@ if($Mode -in @('release','package')){
     $open=@($decisions|Where-Object{$_.status -ne 'approved'})
     if($open.Count){throw ('Release is blocked by unresolved decisions: '+(($open|ForEach-Object{$_.id})-join ', '))}
     $qualificationPath=Join-Path $projectRoot 'artifacts\qualification.json'
-    if(!(Test-Path -LiteralPath $qualificationPath)){throw 'Release requires reviewed nine-device simulator/hardware qualification evidence.'}
+    if(!(Test-Path -LiteralPath $qualificationPath)){throw 'Release requires reviewed ten-device simulator/hardware qualification evidence.'}
     $qualification=Get-Content -Raw -LiteralPath $qualificationPath|ConvertFrom-Json
     if($qualification.source_revision -ne $provenance.source_revision){throw 'Qualification evidence does not match current build inputs.'}
     foreach($target in $targets){
@@ -67,7 +67,11 @@ try{
         $savedPreference=$ErrorActionPreference
         try{
             $ErrorActionPreference='Continue'
-            $output=& (Join-Path $environment.sdk 'bin\monkeyc.bat') @compilerArgs 2>&1
+            if($packageMode){
+                $output=& $Python (Join-Path $projectRoot 'tools\compile_package.py') --sdk $environment.sdk --java-home $environment.java_home --devices $environment.device_library -- @compilerArgs 2>&1
+            }else{
+                $output=& (Join-Path $environment.sdk 'bin\monkeyc.bat') @compilerArgs 2>&1
+            }
             $code=$LASTEXITCODE
         }finally{$ErrorActionPreference=$savedPreference}
         $output=@($output|ForEach-Object{$_.ToString()})

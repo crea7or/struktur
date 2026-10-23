@@ -6,6 +6,23 @@ Field identity, labels, units, header templates and precision are stored as type
 
 ## Index
 
+- [TINT-1 — Compile the production Data Field for each declared profile](#tint-1)
+- [SPEC-153 — Provide repeatable CLI build, simulator-test and package commands](#spec-153)
+- [SPEC-152 — Version the Data Field project and per-device API capability matrix](#spec-152)
+- [SPEC-229 — Core: verify workout-start latch and timer-reset return](#spec-229)
+- [SPEC-232 — Placement: verify compact fallback independently for both field sets](#spec-232)
+- [SPEC-170 — Verify: exercise and record the complete nine-device simulator scenario matrix](#spec-170)
+- [TFNC-21 — Verify current-lap fields, averages and boundary lifecycle](#tfnc-21)
+- [SPEC-228 — Core: verify manual-lap adapters and exactly-once boundaries](#spec-228)
+- [SPEC-231 — Memory: verify bounded allocation while switching both field sets](#spec-231)
+- [SPEC-291 — Verify Team native text bounds](#spec-291)
+- [SPEC-296 — Verify Team and coloring runtime memory](#spec-296)
+- [SPEC-163 — Verify: record and verify a reproducible Connect IQ development toolchain](#spec-163)
+- [SPEC-164 — Verify: version the Data Field project and per-device API capability matrix](#spec-164)
+- [SPEC-219 — Latch the second set from workout start until timer reset](#spec-219)
+- [SPEC-217 — Toggle on manual typed lap events exactly once](#spec-217)
+- [APP-34 — Reflow the grid to the assigned data-field bounds](#app-34)
+- [APP-24 — Target Garmin Edge full-screen design profiles](#app-24)
 - [SPEC-284 — Verify native power-zone mapping](#spec-284)
 - [TFNC-24 — Validated zone metadata and snapshot classification](#tfnc-24)
 - [DVS-42 — Handle unsupported training-zone data honestly](#dvs-42)
@@ -52,12 +69,10 @@ Field identity, labels, units, header templates and precision are stored as type
 - [DVS-50 — Show or hide physical units in field headers](#dvs-50)
 - [SPEC-160 — Gate changes on repeatable compilation and explicit test evidence](#spec-160)
 - [SPEC-155 — Publish one typed settings catalogue shared by XML, runtime and tests](#spec-155)
-- [SPEC-153 — Provide repeatable CLI build, simulator-test and package commands](#spec-153)
 - [APP-49 — Select background coverage independently per field slot](#app-49)
 - [DVS-47 — Display three-second average heart rate](#dvs-47)
 - [DVS-41 — Compute shared three-second windows](#dvs-41)
 - [APP-36 — Keep text readable when effects and themes change](#app-36)
-- [APP-34 — Reflow the grid to the assigned data-field bounds](#app-34)
 - [APP-33 — Publish complete display snapshots before drawing](#app-33)
 - [APP-31 — Validate saved settings and use safe display defaults](#app-31)
 - [APP-30 — Configure visible count and value of each grid field](#app-30)
@@ -145,9 +160,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-244 — Read current properties without compatibility migration](#spec-244)
 - [SPEC-221 — Apply settings changes without replaying old events](#spec-221)
 - [SPEC-220 — Reset switching state at activity and app boundaries](#spec-220)
-- [SPEC-219 — Latch the second set from workout start until timer reset](#spec-219)
 - [SPEC-218 — Require Auto Lap disabled for legacy lap switching](#spec-218)
-- [SPEC-217 — Toggle on manual typed lap events exactly once](#spec-217)
 - [SPEC-216 — Return threshold modes to default on unavailable input](#spec-216)
 - [SPEC-215 — Evaluate the heart-rate event from current heart rate](#spec-215)
 - [SPEC-213 — Switch threshold modes with defined hysteresis](#spec-213)
@@ -165,7 +178,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-157 — Run deterministic Monkey C tests for formatting, settings and sample processing](#spec-157)
 - [SPEC-156 — Specify each displayed value acquisition path and deterministic sensor fixtures](#spec-156)
 - [SPEC-154 — Reproduce Garmin-compatible Roboto Condensed resources within the memory budget](#spec-154)
-- [SPEC-152 — Version the Data Field project and per-device API capability matrix](#spec-152)
 - [SPEC-151 — Record and verify a reproducible Connect IQ development toolchain](#spec-151)
 - [APP-48 — Measure runtime memory and verify bounded allocation](#app-48)
 - [APP-47 — Apply per-device Connect IQ Data Field memory ceilings](#app-47)
@@ -183,7 +195,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [DVS-7 — Display valid integral values within field bounds](#dvs-7)
 - [DVS-3 — Position numeric secondary text beside the primary value](#dvs-3)
 - [DVS-2 — Format decimals using field precision and value magnitude](#dvs-2)
-- [APP-24 — Target Garmin Edge full-screen design profiles](#app-24)
 - [APP-23 — Choose grid row capacity from the assigned drawing area](#app-23)
 - [APP-22 — Select grid independently of alignment](#app-22)
 - [APP-21 — Align field labels and values at center or right](#app-21)
@@ -195,12 +206,10 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-299 — Verify Team preparation invalidation](#spec-299)
 - [SPEC-298 — Verify automatic Team fitting preserves settings](#spec-298)
 - [SPEC-297 — Verify automatic Team font eligibility](#spec-297)
-- [SPEC-296 — Verify Team and coloring runtime memory](#spec-296)
 - [SPEC-295 — Verify Team insufficient-area handling](#spec-295)
 - [SPEC-294 — Verify Team coloring regions](#spec-294)
 - [SPEC-293 — Verify Team source binding and fallback](#spec-293)
 - [SPEC-292 — Verify native Team font selection](#spec-292)
-- [SPEC-291 — Verify Team native text bounds](#spec-291)
 - [SPEC-290 — Verify Team settings isolation](#spec-290)
 - [SPEC-289 — Verify Team literal rendering](#spec-289)
 - [SPEC-288 — Verify Team binding options](#spec-288)
@@ -224,9 +233,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-269 — Verify whole-cell text contrast](#spec-269)
 - [SPEC-268 — Verify background coverage regions](#spec-268)
 - [SPEC-267 — Verify background mode choices](#spec-267)
-- [SPEC-231 — Memory: verify bounded allocation while switching both field sets](#spec-231)
 - [SPEC-230 — Core: verify switching lifecycle, atomic frames and shared acquisition](#spec-230)
-- [SPEC-228 — Core: verify manual-lap adapters and exactly-once boundaries](#spec-228)
 - [SPEC-227 — Core: verify threshold hysteresis and source validity](#spec-227)
 - [SPEC-226 — Core: verify second-set settings, defaults](#spec-226)
 - [TPRF-9 — Normal Data Field runtime memory validation](#tprf-9)
@@ -239,7 +246,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [TUI-6 — Exactly three fixed font roles in every layout](#tui-6)
 - [TUI-5 — Reviewed field formatting and stable choices](#tui-5)
 - [TFNC-22 — Magnitude-based speed, fixed-decimal slope and integral elevation](#tfnc-22)
-- [TFNC-21 — Verify current-lap fields, averages and boundary lifecycle](#tfnc-21)
 - [TFNC-19 — Invalid acquisition input and safe background startup](#tfnc-19)
 - [TFNC-18 — Data Field callbacks preserve lap continuity](#tfnc-18)
 - [TFNC-17 — Shared acquisition integration and duplicate slots](#tfnc-17)
@@ -260,7 +266,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [TFNC-2 — All six full-capacity logical grids](#tfnc-2)
 - [TFNC-1 — Floating-point display boundaries](#tfnc-1)
 - [SPEC-178 — Verify exact glyph inventories across font roles and supported UI states](#spec-178)
-- [SPEC-170 — Verify: exercise and record the complete nine-device simulator scenario matrix](#spec-170)
 - [SPEC-169 — Verify: run deterministic Monkey C tests for formatting, settings and sample processing](#spec-169)
 - [SPEC-168 — Verify: specify each displayed value acquisition path and deterministic sensor fixtures](#spec-168)
 - [SPEC-167 — Verify: publish one typed settings catalogue shared by XML, runtime and tests](#spec-167)
@@ -273,7 +278,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-12 — onUpdate(dc)](#app-12)
 - [APP-8 — compute(info)](#app-8)
 - [APP-7 — onLayout(dc)](#app-7)
-- [SPEC-232 — Placement: verify compact fallback independently for both field sets](#spec-232)
 - [SWINT-1 — Garmin SDK](#swint-1)
 - [TRGR-1 — Core](#trgr-1)
 - [APP-42 — Toybox.UserProfile.getHeartRateZones(...)](#app-42)
@@ -285,7 +289,6 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-6 — onSettingsChanged()](#app-6)
 - [TPER-1 — Memory](#tper-1)
 - [TRGR-2 — Placement](#trgr-2)
-- [SPEC-229 — Core: verify workout-start latch and timer-reset return](#spec-229)
 - [TUI-14 — Documented unsupported fields fail safe fitting](#tui-14)
 - [TUI-13 — Unsupported and reduced-area presentation matrix](#tui-13)
 - [TPRF-7 — Isolated three-font resource allocation probe](#tprf-7)
@@ -301,15 +304,12 @@ Field identity, labels, units, header templates and precision are stored as type
 - [TSEC-1 — Publication privacy, export integrity and current project consistency](#tsec-1)
 - [TFNC-20 — Reject semantic font defects with refreshed cached hashes](#tfnc-20)
 - [TCOM-1 — Exact glyph inventories and reproducible font resources](#tcom-1)
-- [TINT-1 — Compile the production Data Field for each declared profile](#tint-1)
 - [TFNC-9 — Independent theme inversion and sample preservation](#tfnc-9)
 - [SPEC-179 — Verify font subset rejection, regeneration and nine-profile compatibility](#spec-179)
 - [SPEC-174 — Verify: define development milestones and traceable release evidence](#spec-174)
 - [SPEC-173 — Verify: record unresolved product decisions before closing dependent development tasks](#spec-173)
 - [SPEC-172 — Verify: gate changes on repeatable compilation and explicit test evidence](#spec-172)
 - [SPEC-165 — Verify: provide repeatable CLI build, simulator-test and package commands](#spec-165)
-- [SPEC-164 — Verify: version the Data Field project and per-device API capability matrix](#spec-164)
-- [SPEC-163 — Verify: record and verify a reproducible Connect IQ development toolchain](#spec-163)
 - [APP-40 — Toybox.Application.AppBase.onNightModeChanged()](#app-40)
 - [APP-39 — Toybox.System.getDeviceSettings().isNightModeEnabled](#app-39)
 - [APP-19 — Toybox.WatchUi.DataField.createField(...)](#app-19)
@@ -319,6 +319,247 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-13 — onShow()](#app-13)
 - [APP-10 — onStart(state)](#app-10)
 - [APP-9 — getInitialView()](#app-9)
+
+<a id="tint-1"></a>
+## TINT-1 — Compile the production Data Field for each declared profile
+
+Type: test | State: approved | Revision: 22
+
+Purpose: Compile the production Data Field for each declared profile.
+
+Requirement references: [SPEC-152](#spec-152), [SPEC-153](#spec-153).
+
+Procedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.
+
+Executable source: `scripts/build.ps1`.
+
+Evidence follows [SPEC-162](#spec-162); this focused definition is not a full product qualification. Historical executions retain their original scope.
+Run tools/test_compile_package.py: verify only the declared worldwide Edge 1040 firmware changes to 31.33, the input remains unchanged, and missing/duplicate parts or upstream firmware/API drift fail. Export a candidate package and verify its worldwide Edge 1040 entry is firmware 31.33/API 6.0.0; compare every other regional gate with installed metadata. Confirm installed device hashes are unchanged.
+
+**Relations**
+
+- verifies: [SPEC-152](#spec-152), [SPEC-153](#spec-153)
+
+<a id="spec-153"></a>
+## SPEC-153 — Provide repeatable CLI build, simulator-test and package commands
+
+Type: requirement | State: approved | Revision: 53
+
+Provide documented clean/build/test/package commands accepting product/mode/SDK/external key. Targets are deterministic and IDE/checkout-path independent; failures return nonzero. Log product/invocation/source/resource/toolchain hashes without secrets. Distinguish debug/test/release; never package test/diagnostic fixtures in release.
+Use verified pinned-SDK options. Emit per-product PRG/debug and supported IQ artifacts. Test orchestration connects/starts the documented simulator and requires named tests plus a successful nonempty summary; timeout/crash/assertion/zero tests fails. Compilation is not runtime qualification. Inject external signing identity/tokens securely; exclude them from commits/artifacts/logs and retain signing identity across upgrades.
+Use code-size optimization -O 3z consistently for app, package, preview and test builds. Own automated SDK validation/preview runner descendants before startup; close the entire owned process group on success, failure, timeout or controller exit, including descendants of an exited parent. Preserve exit codes and logs; do not terminate unrelated processes or wait indefinitely for inherited output pipes.
+Keep the installed device library unchanged. For store packaging, copy device definitions into a project-local overlay and change only worldwide Edge 1040 (006-B3843-00) firmware 31.35 to 31.33; preserve API 6.0.0, APAC and all other metadata. Reject unexpected upstream firmware/API values. Compile and sign with SDK 9.2.0; never edit a signed package. Inspect exported firmware/API gates before distribution.
+
+**Relations**
+
+- uses: [SPEC-151](#spec-151), [SPEC-152](#spec-152)
+
+<a id="spec-152"></a>
+## SPEC-152 — Version the Data Field project and per-device API capability matrix
+
+Type: requirement | State: approved | Revision: 51
+
+Version Monkey C sources, manifest/jungle, resource/settings XML, tests/fixtures and build scripts. Project inputs use relative paths; tool/key locations are configurable external paths. Exclude generated binaries/caches/secrets. Manifest identifies a stable Data Field application ID/entry point.
+For every candidate, record minimum firmware/API, supported optional APIs and fallbacks (properties, zones, night mode, temperature, graphics), and justify permissions including UserProfile/Background/Sensor. Preserve older targets through guarded fallbacks; never require API 5.2.2 globally solely for optional power zones. Do not omit failing candidates or equate compilation with qualified support.
+Build all ten profiles with pinned SDK 9.2.0. Device firmware/API gates follow installed definitions, except worldwide Edge 1040 (006-B3843-00): package minimum firmware is 31.33 with API 6.0.0 unchanged. Inspect exported package gates independently of SDK version. Guard optional power APIs and compile typed-lap adapters only for supported profiles. Record simulator and physical qualification separately.
+
+**Relations**
+
+- uses: [APP-24](#app-24), [SPEC-151](#spec-151)
+
+<a id="spec-229"></a>
+## SPEC-229 — Core: verify workout-start latch and timer-reset return
+
+Type: test | State: approved | Revision: 8
+
+Verification definition; implementation and execution evidence are recorded separately. For Workout started mode, initialize default; onWorkoutStarted -> second; repeated workout-start -> second. While second, pause/stop/resume, timer start in the same activity, manual/automatic laps, workout-step completion, workout completion and sensor loss shall all retain second. onTimerReset -> default and repeated reset stays default; next activity remains default until a new workout-start event. Loading late or selecting this mode after an earlier start shall not replay it. Events in other modes do not activate Workout started. Verify onWorkoutStarted and onTimerReset symbols on all ten profiles; production callback entry points must share fixture-tested behavior. Physical workout/callback delivery is blocked until model/firmware evidence exists. This is Core, without Memory/Placement execution.
+
+**Relations**
+
+- verifies: [SPEC-211](#spec-211), [SPEC-219](#spec-219), [SPEC-220](#spec-220)
+
+<a id="spec-232"></a>
+## SPEC-232 — Placement: verify compact fallback independently for both field sets
+
+Type: test | State: approved | Revision: 12
+
+Verification definition; implementation and execution evidence are recorded separately. Run only when Placement is explicitly requested. On all ten profiles, give one bank a fitting supported layout and the other an intentionally insufficient assigned area/header combination, then switch both ways. Verify the existing exact compact fallback in the failing bank and recovery to the preferred fitting capacity in the other, with no pinned fallback, mixed set or silent partial grid. Repeat for enlarged layout, both alignments, unit-header visibility and each grid type; evaluate resource/glyph bounds and expected overflow markers only in deliberately unsupported contexts. Preserve active trigger state during repeated layout notifications. Record assigned bounds, both configurations and observed messages. These deliberate compact-message cases shall not enter the default Core inventory.
+
+**Relations**
+
+- verifies: [APP-33](#app-33), [SPEC-208](#spec-208)
+
+<a id="spec-170"></a>
+## SPEC-170 — Verify: exercise and record the complete nine-device simulator scenario matrix
+
+Type: test | State: approved | Revision: 31
+
+Execute the recorded matrix for all ten products and check coverage against scenario IDs. Verify compact fallback has no overlap, all cells stay within assigned bounds, settings leave no obsolete effect pixels and every supported effect has explicit assertions. Inspect product-specific images/logs and record simulator provenance; report unrun scenarios separately. This is a planned verification case; no passing execution is asserted.
+
+Explicitly verify [APP-23](#app-23) capacity selection, [APP-26](#app-26) cached drawing, [DVS-12](#dvs-12) headers, [APP-21](#app-21) alignment and [HFER-7](#hfer-7)/[HFER-8](#hfer-8) exact separator geometry/grayscale; cover [SPEC-248](#spec-248) independently averaged zone effects and [APP-37](#app-37) callback ordering/deadlines.
+
+
+**Relations**
+
+- verifies: [APP-21](#app-21), [APP-23](#app-23), [APP-26](#app-26), [APP-37](#app-37), [DVS-12](#dvs-12), [HFER-7](#hfer-7), [HFER-8](#hfer-8), [SPEC-158](#spec-158), [SPEC-248](#spec-248)
+
+<a id="tfnc-21"></a>
+## TFNC-21 — Verify current-lap fields, averages and boundary lifecycle
+
+Type: test | State: approved | Revision: 24
+
+Planned acceptance definition; no execution or implementation is asserted. Verify all six lap fields and the exact labels from their field definitions, codes 26..31, units and full/regular/enlarged/duplicate/hidden layouts. Prove existing 0..25 mappings, saved assignments, ten-slot defaults in both banks and the active catalogue in [SPEC-155](#spec-155) are exposed and the retired use_units_as_labels key is ignored. A full lap of 1000 m over 120000 active ms gives 1.00 km / 02.00 / 30.0 km/h; verify statute conversion, .SS preservation, zero distance and zero-duration unavailability. Use irregular-spacing/zero/missing-channel fixtures against [FUNC-10](#func-10). Verify all channel and time values at confirmed boundaries, including unavailable means until positive covered time.
+
+Exercise fresh activity, late loading while running/paused, recovery at the next confirmed boundary independently of an unknown completed-lap total, manual/Auto Lap, optional lap2 once-only fallback, workout-step-only notifications, pause/stop/resume, save/discard/reset, old events, identity/counter regressions and lost callback continuity under [FUNC-9](#func-9). Verify per-channel availability/coverage, first-sample seeding, gaps, duplicate/out-of-order samples, overflow and long-duration bounded memory. A missing boundary baseline remains unavailable rather than using a cached counter or activity-wide average. Changing settings/layout/visibility does not reset acquisition; drawing adds no samples.
+
+On all ten profiles, separately record compiler capability, callback order/capture freshness, sensor/zero behavior, FIT comparison and observed boundary error with product, SDK, firmware, source revision and captured requirement baseline. Simulator fixtures are not physical evidence. Hardware portions remain blocked until devices/evidence exist. Record unexecuted portions as unrun and missing hardware evidence as blocked. Link this test to its current-lap acquisition and field definitions; approval of the test definition is not a passing result.
+
+
+**Relations**
+
+- verifies: [FUNC-10](#func-10), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [FUNC-9](#func-9), [SPEC-155](#spec-155)
+
+<a id="spec-228"></a>
+## SPEC-228 — Core: verify manual-lap adapters and exactly-once boundaries
+
+Type: test | State: approved | Revision: 14
+
+Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all ten SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.
+After native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0/1/2 enlarged fields, both alignments and all coverage modes. Repeated manual toggles must prepare drawable headers/values without stack overflow; do not substitute onLapNotification for the typed entry point.
+
+**Relations**
+
+- verifies: [APP-26](#app-26), [SPEC-217](#spec-217), [SPEC-218](#spec-218)
+
+<a id="spec-231"></a>
+## SPEC-231 — Memory: verify bounded allocation while switching both field sets
+
+Type: test | State: approved | Revision: 19
+
+Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all ten actual Data Field simulator runtimes, measure initialize/peak/retained heap under [APP-48](#app-48) limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.
+
+Execute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.
+
+Dispatch bounded batches of transitions/settings changes across native drawing callbacks so harness batching does not trigger the watchdog. Preserve all 1000 transitions, 200 changes and repeated-state checkpoints; require completion within the declared runner timeout.
+
+**Relations**
+
+- verifies: [APP-26](#app-26)
+
+<a id="spec-291"></a>
+## SPEC-291 — Verify Team native text bounds
+
+Type: test | State: approved | Revision: 15
+
+Suite: Core. On all ten profiles verify fitting native Team lines below the shared header in regular/enlarged slots, both sets and alignments. Check five-percent value-area padding, one-pixel clearance, per-line alignment and vertically centered block. Markers do not count as normal-fit evidence.
+
+**Relations**
+
+- verifies: [APP-21](#app-21), [APP-34](#app-34), [SPEC-253](#spec-253)
+
+<a id="spec-296"></a>
+## SPEC-296 — Verify Team and coloring runtime memory
+
+Type: test | State: approved | Revision: 10
+
+Suite: Memory. Definition; execution evidence is separate.
+
+Explicit-request Memory: run the normal Data Field runtime on all ten profiles with maximum valid Team strings, all three bundled fonts, native text, all colored families/modes and repeated edits/switches. Record peak/steady memory, device limit, source/binary hashes and failures; synthetic test-application memory is insufficient.
+
+**Relations**
+
+- verifies: [APP-48](#app-48)
+
+<a id="spec-163"></a>
+## SPEC-163 — Verify: record and verify a reproducible Connect IQ development toolchain
+
+Type: test | State: approved | Revision: 7
+
+On a clean checkout on the documented host, follow only the guide, verify tool versions and resolve all ten product packages. Exercise missing Java, mismatched SDK and missing device-package cases; each must fail with a useful diagnostic. Compare optional IDE and CLI resolved SDK paths. Record versions and command output; this case is planned, not executed. This is a planned verification case; no passing execution is asserted.
+
+**Relations**
+
+- verifies: [SPEC-151](#spec-151)
+
+<a id="spec-164"></a>
+## SPEC-164 — Verify: version the Data Field project and per-device API capability matrix
+
+Type: test | State: approved | Revision: 11
+
+Inspect the manifest and build inputs; compile all ten candidates as Data Fields and compare product coverage with the matrix. Exercise unavailable newer APIs on an older candidate and verify the approved neutral/theme fallback. Fail on unsupported product/API references, unexplained permissions or an unreported missing candidate. This is a planned verification case; no passing execution is asserted.
+
+**Relations**
+
+- verifies: [SPEC-152](#spec-152)
+
+<a id="spec-219"></a>
+## SPEC-219 — Latch the second set from workout start until timer reset
+
+Type: requirement | State: approved | Revision: 15
+
+In Workout started mode, a delivered onWorkoutStarted() selects the second set. Further workout-start notifications keep it selected; this is a latch, not a toggle. Keep the second set until onTimerReset() selects the default and clears the latch. Pause, stop, resume/start of the same activity, manual/automatic laps, workout-step completion, completion of the workout itself, and missing power/heart-rate data shall not clear it.
+
+If the app is loaded after workout start, or this mode is selected after that event, start on the default set and wait for a subsequently delivered onWorkoutStarted(); do not infer an earlier event from samples or a workout-step callback. None/mode changes and process restart still follow [SPEC-211](#spec-211), [SPEC-221](#spec-221) and [SPEC-220](#spec-220). Use the documented callback on all ten profiles.
+
+API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html#onWorkoutStarted-instance_function
+
+**Relations**
+
+- uses: [SPEC-211](#spec-211), [SPEC-220](#spec-220)
+
+<a id="spec-217"></a>
+## SPEC-217 — Toggle on manual typed lap events exactly once
+
+Type: requirement | State: approved | Revision: 14
+
+On Edge 540/550/840/850/1040/1050/1060 with onTimerLap2 support, Manual lap mode toggles default -> second -> default only when trigger[:lapTrigger] equals WatchUi.DataField.LAP_TRIGGER_MANUAL. All other or missing/unknown trigger values leave the selected set unchanged. Do not infer manual type from lap count, timing or a workout-step callback.
+
+Route each lap notification through the shared lap-boundary processing once, independently of the selected switching mode. The typed handler shall return true after handling it, including non-manual notifications, so Garmin does not invoke onTimerLap() as fallback and reset or toggle twice. Preserve current-lap and completed-lap contracts; an ignored switching cause is still a delivered lap for acquisition. Compile/guard the typed adapter only for profiles that expose the API.
+
+API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html#onTimerLap2-instance_function
+
+**Relations**
+
+- uses: [FUNC-9](#func-9), [SPEC-211](#spec-211)
+
+<a id="app-34"></a>
+## APP-34 — Reflow the grid to the assigned data-field bounds
+
+Type: requirement | State: approved | Revision: 104
+
+Fit complete header/required value-secondary glyphs using cached visible bounds. Numeric margins: 4 px horizontally per edge, 2 px from header bottom to value, including halos. Never truncate/clip, impose a character cap, alter precision or scale fixed fonts to fit. Native fields declare their own value-fitting policy.
+If no complete eligible grid fits, centre full grid needs larger area in base palette, with no partial grid. Wrap at spaces in label font; if the complete message cannot fit, background only.
+Normal ranges are inclusive after conversion/presentation rounding in displayed units, at full-screen bounds, either alignment/theme and maximum halo. All-device statements cover 530/540/830/840, 550/850, 1030/1040 and 1050/1060 groups. Tables are needed only for differing contexts. none means no guarantee, not sensor invalidity. Duration intervals use elapsed h:mm:ss; clock intervals use 24-hour notation independently of display format. Optional cardinal text may be omitted. Four-row/two-enlarged layouts have no regular cells. Outside guarantees retain measured overflow/fallback.
+
+**Relations**
+
+- allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+- uses: [APP-20](#app-20), [APP-21](#app-21), [APP-24](#app-24), [APP-35](#app-35), [DVS-3](#dvs-3), [DVS-6](#dvs-6)
+
+<a id="app-24"></a>
+## APP-24 — Target Garmin Edge full-screen design profiles
+
+Type: requirement | State: approved | Revision: 83
+
+Use these full-screen design bounds, row capacities and three fixed font sizes:
+
+| Model | Resolution | Screen Ratio | Rows | Enlarged Font Size | Regular Font Size | Label Font Size |
+| --- | --- | --- | --- | --- | --- | --- |
+| Edge 1060 | 480 x 800 | 1.66 | 5 | 200px | 95px | 35px |
+| Edge 1050 | 480 x 800 | 1.66 | 5 | 200px | 95px | 35px |
+| Edge 850 | 420 x 600 | 1.42 | 4 | 175px | 83px | 35px |
+| Edge 550 | 420 x 600 | 1.42 | 4 | 175px | 83px | 35px |
+| Edge 1040 | 282 x 470 | 1.66 | 5 | 116px | 55px | 21px |
+| Edge 1030 | 282 x 470 | 1.66 | 5 | 116px | 55px | 21px |
+| Edge 840 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
+| Edge 830 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
+| Edge 540 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
+| Edge 530 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
+
+
+The table defines font sizes without percentage scaling. Assigned drawing bounds determine whether a complete grid fits under [APP-34](#app-34).
+
+At full-screen bounds, both numeric roles shall fit the complete primary text `00:00` and the timer group with primary `0:00` plus label-role `.00` secondary text and its two-pixel gap. Reserve the [APP-34](#app-34) four-pixel horizontal margins plus the largest applicable one-pixel halo; retain the header-height inset and vertical gap. Use these fixed sizes for all values in each role; this is a generation/verification constraint, not runtime font scaling. Other numeric values and complete headers retain their field-specific normal ranges under [APP-34](#app-34).
 
 <a id="spec-284"></a>
 ## SPEC-284 — Verify native power-zone mapping
@@ -1035,19 +1276,6 @@ Corresponding a/b properties have identical types/ranges and their own defaults.
 
 - uses: [APP-20](#app-20), [APP-21](#app-21), [APP-22](#app-22), [APP-30](#app-30), [APP-31](#app-31), [APP-45](#app-45), [APP-49](#app-49), [DVS-50](#dvs-50), [DVS-51](#dvs-51), [SPEC-208](#spec-208), [SPEC-211](#spec-211), [SPEC-212](#spec-212), [SPEC-244](#spec-244), [SPEC-252](#spec-252), [SPEC-253](#spec-253)
 
-<a id="spec-153"></a>
-## SPEC-153 — Provide repeatable CLI build, simulator-test and package commands
-
-Type: requirement | State: approved | Revision: 41
-
-Provide documented clean/build/test/package commands accepting product/mode/SDK/external key. Targets are deterministic and IDE/checkout-path independent; failures return nonzero. Log product/invocation/source/resource/toolchain hashes without secrets. Distinguish debug/test/release; never package test/diagnostic fixtures in release.
-Use verified pinned-SDK options. Emit per-product PRG/debug and supported IQ artifacts. Test orchestration connects/starts the documented simulator and requires named tests plus a successful nonempty summary; timeout/crash/assertion/zero tests fails. Compilation is not runtime qualification. Inject external signing identity/tokens securely; exclude them from commits/artifacts/logs and retain signing identity across upgrades.
-Use code-size optimization -O 3z consistently for app, package, preview and test builds. Own automated SDK validation/preview runner descendants before startup; close the entire owned process group on success, failure, timeout or controller exit, including descendants of an exited parent. Preserve exit codes and logs; do not terminate unrelated processes or wait indefinitely for inherited output pipes.
-
-**Relations**
-
-- uses: [SPEC-151](#spec-151), [SPEC-152](#spec-152)
-
 <a id="app-49"></a>
 ## APP-49 — Select background coverage independently per field slot
 
@@ -1108,20 +1336,6 @@ Ordinary Day: black on white; Night: white on black. Over fills: black on white/
 
 - allocated_to: [APP-4](#app-4)
 - uses: [APP-45](#app-45), [DVS-45](#dvs-45), [DVS-51](#dvs-51)
-
-<a id="app-34"></a>
-## APP-34 — Reflow the grid to the assigned data-field bounds
-
-Type: requirement | State: approved | Revision: 100
-
-Fit complete header/required value-secondary glyphs using cached visible bounds. Numeric margins: 4 px horizontally per edge, 2 px from header bottom to value, including halos. Never truncate/clip, impose a character cap, alter precision or scale fixed fonts to fit. Native fields declare their own value-fitting policy.
-If no complete eligible grid fits, centre full grid needs larger area in base palette, with no partial grid. Wrap at spaces in label font; if the complete message cannot fit, background only.
-Normal ranges are inclusive after conversion/presentation rounding in displayed units, at full-screen bounds, either alignment/theme and maximum halo. All-device statements cover 530/540/830/840, 550/850, 1030/1040 and 1050 groups. Tables are needed only for differing contexts. none means no guarantee, not sensor invalidity. Duration intervals use elapsed h:mm:ss; clock intervals use 24-hour notation independently of display format. Optional cardinal text may be omitted. Four-row/two-enlarged layouts have no regular cells. Outside guarantees retain measured overflow/fallback.
-
-**Relations**
-
-- allocated_to: [APP-3](#app-3), [APP-4](#app-4)
-- uses: [APP-20](#app-20), [APP-21](#app-21), [APP-24](#app-24), [APP-35](#app-35), [DVS-3](#dvs-3), [DVS-6](#dvs-6)
 
 <a id="app-33"></a>
 ## APP-33 — Publish complete display snapshots before drawing
@@ -2655,21 +2869,6 @@ After onTimerReset(), ignore lap/workout-step notifications for switching until 
 
 - uses: [SPEC-211](#spec-211), [SPEC-216](#spec-216)
 
-<a id="spec-219"></a>
-## SPEC-219 — Latch the second set from workout start until timer reset
-
-Type: requirement | State: approved | Revision: 11
-
-In Workout started mode, a delivered onWorkoutStarted() selects the second set. Further workout-start notifications keep it selected; this is a latch, not a toggle. Keep the second set until onTimerReset() selects the default and clears the latch. Pause, stop, resume/start of the same activity, manual/automatic laps, workout-step completion, completion of the workout itself, and missing power/heart-rate data shall not clear it.
-
-If the app is loaded after workout start, or this mode is selected after that event, start on the default set and wait for a subsequently delivered onWorkoutStarted(); do not infer an earlier event from samples or a workout-step callback. None/mode changes and process restart still follow [SPEC-211](#spec-211), [SPEC-221](#spec-221) and [SPEC-220](#spec-220). Use the documented callback on all nine profiles.
-
-API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html#onWorkoutStarted-instance_function
-
-**Relations**
-
-- uses: [SPEC-211](#spec-211), [SPEC-220](#spec-220)
-
 <a id="spec-218"></a>
 ## SPEC-218 — Require Auto Lap disabled for legacy lap switching
 
@@ -2678,21 +2877,6 @@ Type: requirement | State: approved | Revision: 11
 On Edge 530/830/1030, use onTimerLap() for Manual lap mode. Each delivered legacy lap callback toggles the active set once and processes its shared lap boundary once. The supported setup requires the rider to disable Auto Lap in the activity profile before using this mode. State in the mode's settings prompt and user guide: "Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events."
 
 The API exposes neither the cause through this callback nor a reliable Auto Lap setting check; do not claim the app detects or enforces the device setting. Other automatic lap sources, including workout-generated laps, are also indistinguishable: manual-only switching is supported only in activities without those sources. If this prerequisite is violated, automatic callbacks can toggle the set. Modern devices shall retain typed filtering even when Auto Lap is enabled. This restriction concerns switching, not ordinary lap-metric acquisition.
-
-**Relations**
-
-- uses: [FUNC-9](#func-9), [SPEC-211](#spec-211)
-
-<a id="spec-217"></a>
-## SPEC-217 — Toggle on manual typed lap events exactly once
-
-Type: requirement | State: approved | Revision: 10
-
-On Edge 540/550/840/850/1040/1050 with onTimerLap2 support, Manual lap mode toggles default -> second -> default only when trigger[:lapTrigger] equals WatchUi.DataField.LAP_TRIGGER_MANUAL. All other or missing/unknown trigger values leave the selected set unchanged. Do not infer manual type from lap count, timing or a workout-step callback.
-
-Route each lap notification through the shared lap-boundary processing once, independently of the selected switching mode. The typed handler shall return true after handling it, including non-manual notifications, so Garmin does not invoke onTimerLap() as fallback and reset or toggle twice. Preserve current-lap and completed-lap contracts; an ignored switching cause is still a delivered lap for acquisition. Compile/guard the typed adapter only for profiles that expose the API.
-
-API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html#onTimerLap2-instance_function
 
 **Relations**
 
@@ -2891,18 +3075,6 @@ Generate the three exact profile roles/sizes from versioned licensed source font
 **Relations**
 
 - uses: [APP-24](#app-24), [APP-25](#app-25), [SPEC-176](#spec-176), [SPEC-177](#spec-177)
-
-<a id="spec-152"></a>
-## SPEC-152 — Version the Data Field project and per-device API capability matrix
-
-Type: requirement | State: approved | Revision: 35
-
-Version Monkey C sources, manifest/jungle, resource/settings XML, tests/fixtures and build scripts. Project inputs use relative paths; tool/key locations are configurable external paths. Exclude generated binaries/caches/secrets. Manifest identifies a stable Data Field application ID/entry point.
-For every candidate, record minimum firmware/API, supported optional APIs and fallbacks (properties, zones, night mode, temperature, graphics), and justify permissions including UserProfile/Background/Sensor. Preserve older targets through guarded fallbacks; never require API 5.2.2 globally solely for optional power zones. Do not omit failing candidates or equate compilation with qualified support.
-
-**Relations**
-
-- uses: [APP-24](#app-24), [SPEC-151](#spec-151)
 
 <a id="spec-151"></a>
 ## SPEC-151 — Record and verify a reproducible Connect IQ development toolchain
@@ -3114,30 +3286,6 @@ Use declared fixed precision, or magnitude precision on abs(converted value): <1
 
 - allocated_to: [APP-4](#app-4)
 
-<a id="app-24"></a>
-## APP-24 — Target Garmin Edge full-screen design profiles
-
-Type: requirement | State: approved | Revision: 79
-
-Use these full-screen design bounds, row capacities and three fixed font sizes:
-
-| Model | Resolution | Screen Ratio | Rows | Enlarged Font Size | Regular Font Size | Label Font Size |
-| --- | --- | --- | --- | --- | --- | --- |
-| Edge 1050 | 480 x 800 | 1.66 | 5 | 200px | 95px | 35px |
-| Edge 850 | 420 x 600 | 1.42 | 4 | 175px | 83px | 35px |
-| Edge 550 | 420 x 600 | 1.42 | 4 | 175px | 83px | 35px |
-| Edge 1040 | 282 x 470 | 1.66 | 5 | 116px | 55px | 21px |
-| Edge 1030 | 282 x 470 | 1.66 | 5 | 116px | 55px | 21px |
-| Edge 840 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
-| Edge 830 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
-| Edge 540 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
-| Edge 530 | 246 x 322 | 1.30 | 4 | 100px | 45px | 21px |
-
-
-The table defines font sizes without percentage scaling. Assigned drawing bounds determine whether a complete grid fits under [APP-34](#app-34).
-
-At full-screen bounds, both numeric roles shall fit the complete primary text `00:00` and the timer group with primary `0:00` plus label-role `.00` secondary text and its two-pixel gap. Reserve the [APP-34](#app-34) four-pixel horizontal margins plus the largest applicable one-pixel halo; retain the header-height inset and vertical gap. Use these fixed sizes for all values in each role; this is a generation/verification constraint, not runtime font scaling. Other numeric values and complete headers retain their field-specific normal ranges under [APP-34](#app-34).
-
 <a id="app-23"></a>
 ## APP-23 — Choose grid row capacity from the assigned drawing area
 
@@ -3269,19 +3417,6 @@ Suite: Core. Verify the fixed native FONT_XTINY/TINY/SMALL/MEDIUM/LARGE candidat
 
 - verifies: [APP-38](#app-38), [SPEC-176](#spec-176), [SPEC-177](#spec-177), [SPEC-253](#spec-253)
 
-<a id="spec-296"></a>
-## SPEC-296 — Verify Team and coloring runtime memory
-
-Type: test | State: approved | Revision: 6
-
-Suite: Memory. Definition; execution evidence is separate.
-
-Explicit-request Memory: run the normal Data Field runtime on all nine profiles with maximum valid Team strings, all three bundled fonts, native text, all colored families/modes and repeated edits/switches. Record peak/steady memory, device limit, source/binary hashes and failures; synthetic test-application memory is insufficient.
-
-**Relations**
-
-- verifies: [APP-48](#app-48)
-
 <a id="spec-295"></a>
 ## SPEC-295 — Verify Team insufficient-area handling
 
@@ -3329,17 +3464,6 @@ Suite: Core. Verify greedy space-only wrapping with repeated spaces, one-line an
 **Relations**
 
 - verifies: [APP-25](#app-25), [SPEC-253](#spec-253)
-
-<a id="spec-291"></a>
-## SPEC-291 — Verify Team native text bounds
-
-Type: test | State: approved | Revision: 11
-
-Suite: Core. On all nine profiles verify fitting native Team lines below the shared header in regular/enlarged slots, both sets and alignments. Check five-percent value-area padding, one-pixel clearance, per-line alignment and vertically centered block. Markers do not count as normal-fit evidence.
-
-**Relations**
-
-- verifies: [APP-21](#app-21), [APP-34](#app-34), [SPEC-253](#spec-253)
 
 <a id="spec-290"></a>
 ## SPEC-290 — Verify Team settings isolation
@@ -3628,21 +3752,6 @@ Check all 20 keys, exact captions/codes/types and both bank presets. Edit duplic
 
 - verifies: [APP-49](#app-49), [SPEC-155](#spec-155)
 
-<a id="spec-231"></a>
-## SPEC-231 — Memory: verify bounded allocation while switching both field sets
-
-Type: test | State: approved | Revision: 15
-
-Verification definition; implementation and execution evidence are recorded separately. Run only when Memory is explicitly requested. For all nine actual Data Field simulator runtimes, measure initialize/peak/retained heap under [APP-48](#app-48) limits with distinct maximum-complexity sets, both trigger sources, lap/workout events and repeated mode/configuration changes. Include 1000 compute-driven bank transitions and 200 alternating settings changes; sample after warm-up, at 500 and 1000 transitions, and after settings cycles. Assert every measured heap remains within its profile ceiling, font resources stay shared, and retained object/cache counts remain within the declared two banks/one acquisition/one active presentation rather than growing with switch count. Report source fingerprint, SDK/profile, exact sequence, measurements, limits and any failure. Compare repeated steady-state cycles to distinguish retained growth from transient peak. Simulator evidence is not physical qualification; mark unavailable hardware portions blocked.
-
-Execute the switching driver (`validation/memory/MemorySwitching.mc`) separately from the 648-case layout/resource driver (`validation/memory/MemoryValidation.mc`), each in the normal bounded Data Field runtime with the same production sources and resources. Both runs must pass; retain separate source/binary hashes, logs and measurements and aggregate the worst measured usage. This prevents unrelated qualification drivers from occupying the measured heap together; it does not change the app limit, font sizes or required scenarios.
-
-Dispatch bounded batches of transitions/settings changes across native drawing callbacks so harness batching does not trigger the watchdog. Preserve all 1000 transitions, 200 changes and repeated-state checkpoints; require completion within the declared runner timeout.
-
-**Relations**
-
-- verifies: [APP-26](#app-26)
-
 <a id="spec-230"></a>
 ## SPEC-230 — Core: verify switching lifecycle, atomic frames and shared acquisition
 
@@ -3653,18 +3762,6 @@ Verification definition; implementation and execution evidence are recorded sepa
 **Relations**
 
 - verifies: [APP-26](#app-26), [APP-33](#app-33), [SPEC-208](#spec-208), [SPEC-220](#spec-220), [SPEC-221](#spec-221)
-
-<a id="spec-228"></a>
-## SPEC-228 — Core: verify manual-lap adapters and exactly-once boundaries
-
-Type: test | State: approved | Revision: 10
-
-Verification definition; implementation and execution evidence are recorded separately. Compile/inspect adapters for all nine SDK profiles. For modern profiles, inject manual,manual,manual -> second,default,second. Inject every non-manual enum plus absent/unknown metadata: bank unchanged, shared lap-boundary processing still once, handler returns true and legacy fallback is not invoked. In None/power/HR/workout modes, a lap still updates lap metrics once without acting as a manual toggle. Legacy fixtures deliver three callbacks -> second,default,second; verify the exact Auto Lap-off prompt and guide restriction on other automatic lap sources. Legacy cannot prove manual origin: do not report filtering support. Confirm no reset twice through modern/legacy dispatch and no changes from workout-step-only events. Actual physical callback origin/order and Auto Lap setup are a separate per-model/firmware integration check; mark those portions blocked if hardware evidence is unavailable. Core fixtures alone do not qualify physical delivery.
-After native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0/1/2 enlarged fields, both alignments and all coverage modes. Repeated manual toggles must prepare drawable headers/values without stack overflow; do not substitute onLapNotification for the typed entry point.
-
-**Relations**
-
-- verifies: [APP-26](#app-26), [SPEC-217](#spec-217), [SPEC-218](#spec-218)
 
 <a id="spec-227"></a>
 ## SPEC-227 — Core: verify threshold hysteresis and source validity
@@ -3910,22 +4007,6 @@ Evidence follows [SPEC-162](#spec-162): record actual selected suite, baseline/s
 **Relations**
 
 - verifies: [DVS-26](#dvs-26), [DVS-29](#dvs-29), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-5](#func-5)
-
-<a id="tfnc-21"></a>
-## TFNC-21 — Verify current-lap fields, averages and boundary lifecycle
-
-Type: test | State: approved | Revision: 20
-
-Planned acceptance definition; no execution or implementation is asserted. Verify all six lap fields and the exact labels from their field definitions, codes 26..31, units and full/regular/enlarged/duplicate/hidden layouts. Prove existing 0..25 mappings, saved assignments, ten-slot defaults in both banks and the active catalogue in [SPEC-155](#spec-155) are exposed and the retired use_units_as_labels key is ignored. A full lap of 1000 m over 120000 active ms gives 1.00 km / 02.00 / 30.0 km/h; verify statute conversion, .SS preservation, zero distance and zero-duration unavailability. Use irregular-spacing/zero/missing-channel fixtures against [FUNC-10](#func-10). Verify all channel and time values at confirmed boundaries, including unavailable means until positive covered time.
-
-Exercise fresh activity, late loading while running/paused, recovery at the next confirmed boundary independently of an unknown completed-lap total, manual/Auto Lap, optional lap2 once-only fallback, workout-step-only notifications, pause/stop/resume, save/discard/reset, old events, identity/counter regressions and lost callback continuity under [FUNC-9](#func-9). Verify per-channel availability/coverage, first-sample seeding, gaps, duplicate/out-of-order samples, overflow and long-duration bounded memory. A missing boundary baseline remains unavailable rather than using a cached counter or activity-wide average. Changing settings/layout/visibility does not reset acquisition; drawing adds no samples.
-
-On all nine profiles, separately record compiler capability, callback order/capture freshness, sensor/zero behavior, FIT comparison and observed boundary error with product, SDK, firmware, source revision and captured requirement baseline. Simulator fixtures are not physical evidence. Hardware portions remain blocked until devices/evidence exist. Record unexecuted portions as unrun and missing hardware evidence as blocked. Link this test to its current-lap acquisition and field definitions; approval of the test definition is not a passing result.
-
-
-**Relations**
-
-- verifies: [FUNC-10](#func-10), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [FUNC-9](#func-9), [SPEC-155](#spec-155)
 
 <a id="tfnc-19"></a>
 ## TFNC-19 — Invalid acquisition input and safe background startup
@@ -4302,20 +4383,6 @@ Construct an independently reviewed role inventory covering all configurable val
 
 - verifies: [SPEC-176](#spec-176)
 
-<a id="spec-170"></a>
-## SPEC-170 — Verify: exercise and record the complete nine-device simulator scenario matrix
-
-Type: test | State: approved | Revision: 27
-
-Execute the recorded matrix for all nine products and check coverage against scenario IDs. Verify compact fallback has no overlap, all cells stay within assigned bounds, settings leave no obsolete effect pixels and every supported effect has explicit assertions. Inspect product-specific images/logs and record simulator provenance; report unrun scenarios separately. This is a planned verification case; no passing execution is asserted.
-
-Explicitly verify [APP-23](#app-23) capacity selection, [APP-26](#app-26) cached drawing, [DVS-12](#dvs-12) headers, [APP-21](#app-21) alignment and [HFER-7](#hfer-7)/[HFER-8](#hfer-8) exact separator geometry/grayscale; cover [SPEC-248](#spec-248) independently averaged zone effects and [APP-37](#app-37) callback ordering/deadlines.
-
-
-**Relations**
-
-- verifies: [APP-21](#app-21), [APP-23](#app-23), [APP-26](#app-26), [APP-37](#app-37), [DVS-12](#dvs-12), [HFER-7](#hfer-7), [HFER-8](#hfer-8), [SPEC-158](#spec-158), [SPEC-248](#spec-248)
-
 <a id="spec-169"></a>
 ## SPEC-169 — Verify: run deterministic Monkey C tests for formatting, settings and sample processing
 
@@ -4453,17 +4520,6 @@ Type: data_item | State: approved | Revision: 19
 Toybox.WatchUi.View.onLayout(dc), inherited by DataField, supplies the drawing context assigned to the field. dc.getWidth()/getHeight() describe assigned bounds, which can differ from physical screen resolution. Application preparation and reuse rules are owned by [APP-26](#app-26).
 API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/View.html#onLayout-instance_function
 
-<a id="spec-232"></a>
-## SPEC-232 — Placement: verify compact fallback independently for both field sets
-
-Type: test | State: approved | Revision: 8
-
-Verification definition; implementation and execution evidence are recorded separately. Run only when Placement is explicitly requested. On all nine profiles, give one bank a fitting supported layout and the other an intentionally insufficient assigned area/header combination, then switch both ways. Verify the existing exact compact fallback in the failing bank and recovery to the preferred fitting capacity in the other, with no pinned fallback, mixed set or silent partial grid. Repeat for enlarged layout, both alignments, unit-header visibility and each grid type; evaluate resource/glyph bounds and expected overflow markers only in deliberately unsupported contexts. Preserve active trigger state during repeated layout notifications. Record assigned bounds, both configurations and observed messages. These deliberate compact-message cases shall not enter the default Core inventory.
-
-**Relations**
-
-- verifies: [APP-33](#app-33), [SPEC-208](#spec-208)
-
 <a id="swint-1"></a>
 ## SWINT-1 — Garmin SDK
 
@@ -4558,17 +4614,6 @@ Explicit user request only. Contains the four tests from tests/PlacementTests.mc
 **Relations**
 
 - includes_test: [SPEC-232](#spec-232), [SPEC-295](#spec-295), [TFNC-7](#tfnc-7), [TUI-12](#tui-12), [TUI-13](#tui-13), [TUI-14](#tui-14)
-
-<a id="spec-229"></a>
-## SPEC-229 — Core: verify workout-start latch and timer-reset return
-
-Type: test | State: approved | Revision: 4
-
-Verification definition; implementation and execution evidence are recorded separately. For Workout started mode, initialize default; onWorkoutStarted -> second; repeated workout-start -> second. While second, pause/stop/resume, timer start in the same activity, manual/automatic laps, workout-step completion, workout completion and sensor loss shall all retain second. onTimerReset -> default and repeated reset stays default; next activity remains default until a new workout-start event. Loading late or selecting this mode after an earlier start shall not replay it. Events in other modes do not activate Workout started. Verify onWorkoutStarted and onTimerReset symbols on all nine profiles; production callback entry points must share fixture-tested behavior. Physical workout/callback delivery is blocked until model/firmware evidence exists. This is Core, without Memory/Placement execution.
-
-**Relations**
-
-- verifies: [SPEC-211](#spec-211), [SPEC-219](#spec-219), [SPEC-220](#spec-220)
 
 <a id="tui-14"></a>
 ## TUI-14 — Documented unsupported fields fail safe fitting
@@ -4877,26 +4922,6 @@ Evidence follows [SPEC-162](#spec-162); this focused definition is not a full pr
 
 - verifies: [SPEC-176](#spec-176), [SPEC-177](#spec-177)
 
-<a id="tint-1"></a>
-## TINT-1 — Compile the production Data Field for each declared profile
-
-Type: test | State: approved | Revision: 10
-
-Purpose: Compile the production Data Field for each declared profile.
-
-Requirement references: [SPEC-152](#spec-152), [SPEC-153](#spec-153).
-
-Procedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the nine profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.
-
-Executable source: `scripts/build.ps1`.
-
-Evidence follows [SPEC-162](#spec-162); this focused definition is not a full product qualification. Historical executions retain their original scope.
-
-
-**Relations**
-
-- verifies: [SPEC-152](#spec-152), [SPEC-153](#spec-153)
-
 <a id="tfnc-9"></a>
 ## TFNC-9 — Independent theme inversion and sample preservation
 
@@ -4971,28 +4996,6 @@ Build from two different checkout paths, including one with spaces, using the sa
 **Relations**
 
 - verifies: [SPEC-153](#spec-153)
-
-<a id="spec-164"></a>
-## SPEC-164 — Verify: version the Data Field project and per-device API capability matrix
-
-Type: test | State: approved | Revision: 3
-
-Inspect the manifest and build inputs; compile all nine candidates as Data Fields and compare product coverage with the matrix. Exercise unavailable newer APIs on an older candidate and verify the approved neutral/theme fallback. Fail on unsupported product/API references, unexplained permissions or an unreported missing candidate. This is a planned verification case; no passing execution is asserted.
-
-**Relations**
-
-- verifies: [SPEC-152](#spec-152)
-
-<a id="spec-163"></a>
-## SPEC-163 — Verify: record and verify a reproducible Connect IQ development toolchain
-
-Type: test | State: approved | Revision: 3
-
-On a clean checkout on the documented host, follow only the guide, verify tool versions and resolve all nine product packages. Exercise missing Java, mismatched SDK and missing device-package cases; each must fail with a useful diagnostic. Compare optional IDE and CLI resolved SDK paths. Record versions and command output; this case is planned, not executed. This is a planned verification case; no passing execution is asserted.
-
-**Relations**
-
-- verifies: [SPEC-151](#spec-151)
 
 <a id="app-40"></a>
 ## APP-40 — Toybox.Application.AppBase.onNightModeChanged()

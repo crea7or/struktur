@@ -22,13 +22,13 @@ function expectedUnitHeader(index,unit,hideUnits) {
 (:testSupport)
 function profileDrawWidth() {
     if("edge550".equals(DeviceProfile.ID) || "edge850".equals(DeviceProfile.ID)) { return 420; }
-    if("edge1050".equals(DeviceProfile.ID)) { return 480; }
+    if("edge1050".equals(DeviceProfile.ID) || "edge1060".equals(DeviceProfile.ID)) { return 480; }
     return "edge1030".equals(DeviceProfile.ID) || "edge1040".equals(DeviceProfile.ID)?282:246;
 }
 (:testSupport)
 function profileDrawHeight() {
     if("edge550".equals(DeviceProfile.ID) || "edge850".equals(DeviceProfile.ID)) { return 600; }
-    if("edge1050".equals(DeviceProfile.ID)) { return 800; }
+    if("edge1050".equals(DeviceProfile.ID) || "edge1060".equals(DeviceProfile.ID)) { return 800; }
     return "edge1030".equals(DeviceProfile.ID) || "edge1040".equals(DeviceProfile.ID)?470:322;
 }
 

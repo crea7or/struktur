@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('edge530','edge540','edge550','edge830','edge840','edge850','edge1030','edge1040','edge1050')]
+    [ValidateSet('edge530','edge540','edge550','edge830','edge840','edge850','edge1030','edge1040','edge1050','edge1060')]
     [string]$Product='edge530',
     [switch]$Build,
     [string]$SdkRoot=$env:CONNECTIQ_SDK,

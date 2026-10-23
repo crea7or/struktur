@@ -18,7 +18,7 @@ GROUPS = [
     dict(id='small', title='530/540/830/840', products=['edge530','edge540','edge830','edge840']),
     dict(id='550', title='550/850', products=['edge550','edge850']),
     dict(id='wide', title='1030/1040', products=['edge1030','edge1040']),
-    dict(id='large', title='1050', products=['edge1050']),
+    dict(id='large', title='1050/1060', products=['edge1050','edge1060']),
 ]
 
 

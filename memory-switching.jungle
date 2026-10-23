@@ -20,3 +20,5 @@ edge1040.sourcePath = $(base.sourcePath);profiles/edge1040
 edge1040.resourcePath = $(base.resourcePath);profiles/edge1040/fonts
 edge1050.sourcePath = $(base.sourcePath);profiles/edge1050
 edge1050.resourcePath = $(base.resourcePath);profiles/edge1050/fonts
+edge1060.sourcePath = $(base.sourcePath);profiles/edge1060
+edge1060.resourcePath = $(base.resourcePath);profiles/edge1060/fonts
