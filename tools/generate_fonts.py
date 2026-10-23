@@ -153,6 +153,10 @@ def generate(root=ROOT):
             for f in [f for f in eligible if f['role']==role]:
                 tops=[b[0] for b in f['ink_bounds']];bottoms=[b[1] for b in f['ink_bounds']]
                 assert all(0<=x<=255 for x in tops+bottoms+f['advances'])
+                # FontMetrics.index stores glyph index+1 in a byte table spanning the glyph code range.
+                codes=[ord(c) for c in f['glyphs']]
+                if len(codes)!=len(set(codes)) or len(codes)>255:raise ValueError('Glyph set must be unique with at most 255 glyphs: '+f['id'])
+                if max(codes)-min(codes)+1>256:raise ValueError('Glyph code span exceeds the 256-byte lookup table: '+f['id'])
                 code.append('if(height=='+str(f['line_height'])+') { return ['+json.dumps(f['glyphs'],ensure_ascii=False)+','+json.dumps(tops)+'b,'+json.dumps(bottoms)+'b,'+json.dumps(f['advances'])+'b]; }')
             code.extend(['return null;','}'])
         code.append('}')

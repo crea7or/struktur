@@ -14,7 +14,7 @@
     "source/Formatting.mc": "b16ffbdad83a032a5319ac08e96f560c110d01d074bb4e2753514a00df8e02e3",
     "source/FieldPresentation.mc": "b60532192c787f1a762f483629c9d1fca2af02b24cc0328cc35aedc8792c8eb6",
     "tools/font_glyphs.py": "ae714fc43149844c642609d6c61a7eb1cd13cd590dd036bf9eaf810d6f4cd94a",
-    "tools/generate_fonts.py": "adac3b8853c91a82d1571e8e3a81c90cb648e727d4adedf55bd569d68a606711",
+    "tools/generate_fonts.py": "ce8e2202238a58be66dde5f611b68265a2cc14e1fcfb1cf9476862941216fcdc",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
     "tools/generate_catalog.py": "4aae34480446f238f15dbedb44421dfbb5af8c8fe66720555e4b68f53ffc5afd",
