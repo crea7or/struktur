@@ -2,6 +2,8 @@
 
 Your ride, your layout. Struktur is a free, open-source Garmin Edge Data Field that brings your cycling metrics together in two configurable dashboards. Keep everyday ride data on one screen and switch to a second layout for laps, hard efforts or workouts.
 
+Install from [Garmin IQ store](https://apps.garmin.com/apps/c4e2b981-9f34-4912-aa32-f88cfc500f4e)
+
 ![Struktur sample layouts with ride metrics, enlarged fields, day and night themes, and colored backgrounds](samples.png)
 
 *Screenshots use sample data.*
