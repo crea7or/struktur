@@ -25,7 +25,7 @@
 *.SET
 *.STR
 *.log
-
+/gfx/
 # Internal session notes and raw service attachment metadata.
 # Keep requirements baselines, traceability, verification plans and exports public.
 /README.txt
