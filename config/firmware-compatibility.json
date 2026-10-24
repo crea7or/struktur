@@ -1,0 +1,85 @@
+{
+  "feature_api_floor": "5.2.2",
+  "policy": "Apply only reviewed model/part targets. Record whether API evidence is a device report or release-family inference. Retain all undeclared installed gates. Preserve the feature API floor; physical qualification remains separate.",
+  "api_references": {
+    "power_zones": "https://developer.garmin.com/connect-iq/api-docs/Toybox/UserProfile.html#getPowerZones-instance_function",
+    "typed_laps": "https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html#onTimerLap2-instance_function",
+    "temperature_sensor_inventory": "https://developer.garmin.com/connect-iq/api-docs/Toybox/Sensor.html#getRegisteredSensors-instance_function"
+  },
+  "overrides": {
+    "edge1040": {
+      "part": "006-B3843-00",
+      "upstream_firmware": 3135,
+      "upstream_api": "6.0.0",
+      "firmware": 3018,
+      "api": "6.0.0",
+      "evidence": "https://forums.garmin.com/developer/connect-iq/f/discussion/374643/any-fix-for-makeimagerequest-on-ciq-4-devices/2019340?pifragment-1298=3",
+      "evidence_scope": "Device crash report identifies part 006-B3843-00, firmware 30.18, API 6.0.0 and VM 6.0.0.",
+      "evidence_kind": "device_report"
+    },
+    "edge1050": {
+      "part": "006-B4440-00",
+      "upstream_firmware": 3220,
+      "upstream_api": "6.0.3",
+      "firmware": 3018,
+      "api": "6.0.0",
+      "evidence": "https://forums.garmin.com/developer/connect-iq/i/bug-reports/textpicker-accepts-only-one-character-on-edge-1050",
+      "evidence_scope": "Model-specific developer reproduction reports firmware 30.18 and CIQ 6.0.0. API floor is checked against Garmin API documentation; this is not Struktur hardware execution.",
+      "evidence_kind": "device_report"
+    },
+    "edge540": {
+      "part": "006-B4061-00",
+      "upstream_firmware": 3133,
+      "upstream_api": "6.0.0",
+      "firmware": 3018,
+      "api": "6.0.0",
+      "evidence": "https://forums.garmin.com/sports-fitness/cycling/f/edge-540-series/430992/edge-540-series-sw-30-18",
+      "evidence_kind": "release_family_inference",
+      "api_evidence": "https://forums.garmin.com/developer/connect-iq/f/discussion/374643/any-fix-for-makeimagerequest-on-ciq-4-devices/2019340?pifragment-1298=3",
+      "evidence_scope": "Garmin model-specific 30.18 public release dated 2026-02-12. API 6.0.0 is inferred from the common release family and edge1040 device evidence, not a direct edge540 firmware/API capture. No API 6.0.1+ call is used by Struktur; historical physical qualification is pending."
+    },
+    "edge840": {
+      "part": "006-B4062-00",
+      "upstream_firmware": 3133,
+      "upstream_api": "6.0.0",
+      "firmware": 3018,
+      "api": "6.0.0",
+      "evidence": "https://forums.garmin.com/sports-fitness/cycling/f/edge-840-series/430994/edge-840-series-sw-30-18",
+      "evidence_kind": "release_family_inference",
+      "api_evidence": "https://forums.garmin.com/developer/connect-iq/f/discussion/374643/any-fix-for-makeimagerequest-on-ciq-4-devices/2019340?pifragment-1298=3",
+      "evidence_scope": "Garmin model-specific 30.18 public release dated 2026-02-12. API 6.0.0 is inferred from the common release family and edge1040 device evidence, not a direct edge840 firmware/API capture. No API 6.0.1+ call is used by Struktur; historical physical qualification is pending."
+    },
+    "edge550": {
+      "part": "006-B4633-00",
+      "upstream_firmware": 3220,
+      "upstream_api": "6.0.3",
+      "firmware": 3018,
+      "api": "6.0.0",
+      "evidence": "https://forums.garmin.com/sports-fitness/cycling/f/edge-550/430993/edge-550-series-sw-30-18",
+      "evidence_kind": "release_family_inference",
+      "api_evidence": "https://forums.garmin.com/developer/connect-iq/i/bug-reports/textpicker-accepts-only-one-character-on-edge-1050",
+      "evidence_scope": "Garmin model-specific 30.18 public release dated 2026-02-12. API 6.0.0 is inferred from the common release family and edge1050 device evidence, not a direct edge550 firmware/API capture. No API 6.0.1+ call is used by Struktur; historical physical qualification is pending."
+    },
+    "edge850": {
+      "part": "006-B4634-00",
+      "upstream_firmware": 3220,
+      "upstream_api": "6.0.3",
+      "firmware": 3018,
+      "api": "6.0.0",
+      "evidence": "https://forums.garmin.com/sports-fitness/cycling/f/edge-850/430995/edge-850-series-sw-30-18",
+      "evidence_kind": "release_family_inference",
+      "api_evidence": "https://forums.garmin.com/developer/connect-iq/i/bug-reports/textpicker-accepts-only-one-character-on-edge-1050",
+      "evidence_scope": "Garmin model-specific 30.18 public release dated 2026-02-12. API 6.0.0 is inferred from the common release family and edge1050 device evidence, not a direct edge850 firmware/API capture. No API 6.0.1+ call is used by Struktur; historical physical qualification is pending."
+    }
+  },
+  "retained_products": [
+    "edge530",
+    "edge830",
+    "edge1030",
+    "edge1060"
+  ],
+  "retained_regions": [
+    "006-B4305-00"
+  ],
+  "qualification": "Model-specific release evidence and documented API audit; the four additional modern targets use explicit release-family inference. Not absolute earliest-firmware discovery or physical qualification."
+}

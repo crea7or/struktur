@@ -79,6 +79,10 @@ try{
         $output|Set-Content -LiteralPath $log -Encoding UTF8
         $output|Write-Output
         if($code -ne 0){throw ('Compilation failed for '+$target+'; exit '+$code)}
+        if($packageMode){
+            & $Python (Join-Path $projectRoot 'tools\verify_package_compatibility.py') --package $out --devices $environment.device_library
+            if($LASTEXITCODE -ne 0){throw 'Signed package firmware/API verification failed.'}
+        }
         if(!$packageMode){
             $buildResults += [pscustomobject]@{product=$target;mode=$effectiveMode;status='passed';compiler_exit=$code;binary=$out;binary_sha256=(Get-FileHash -LiteralPath $out -Algorithm SHA256).Hash.ToLowerInvariant();log=$log}
         }

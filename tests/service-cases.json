@@ -613,14 +613,14 @@
         "SPEC-153"
       ],
       "source": "scripts/build.ps1",
-      "procedure": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\nRun tools/test_compile_package.py: verify only the declared worldwide Edge 1040 firmware changes to 31.33, the input remains unchanged, and missing/duplicate parts or upstream firmware/API drift fail. Export a candidate package and verify its worldwide Edge 1040 entry is firmware 31.33/API 6.0.0; compare every other regional gate with installed metadata. Confirm installed device hashes are unchanged.",
+      "procedure": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\nRun tools/test_compile_package.py in Core: verify all six declared 30.18/API 6.0.0 modern targets, unchanged input, languages and undeclared products/regions; reject upstream drift, missing/duplicate parts, invalid floors, unknown evidence kinds and missing inference anchors. Export a candidate package; tools/verify_package_compatibility.py must verify all regional gates against policy and installed definitions, plus unchanged installed hashes. Core simulator execution does not qualify historical firmware on hardware.",
       "requirement_revisions": {
-        "SPEC-152": 51,
-        "SPEC-153": 53
+        "SPEC-152": 59,
+        "SPEC-153": 61
       },
-      "definition": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\nRun tools/test_compile_package.py: verify only the declared worldwide Edge 1040 firmware changes to 31.33, the input remains unchanged, and missing/duplicate parts or upstream firmware/API drift fail. Export a candidate package and verify its worldwide Edge 1040 entry is firmware 31.33/API 6.0.0; compare every other regional gate with installed metadata. Confirm installed device hashes are unchanged.",
+      "definition": "Purpose: Compile the production Data Field for each declared profile.\n\nRequirement references: [[SPEC-152]], [[SPEC-153]].\n\nProcedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.\n\nExecutable source: `scripts/build.ps1`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\nRun tools/test_compile_package.py in Core: verify all six declared 30.18/API 6.0.0 modern targets, unchanged input, languages and undeclared products/regions; reject upstream drift, missing/duplicate parts, invalid floors, unknown evidence kinds and missing inference anchors. Export a candidate package; tools/verify_package_compatibility.py must verify all regional gates against policy and installed definitions, plus unchanged installed hashes. Core simulator execution does not qualify historical firmware on hardware.",
       "stable_id": "TINT-1",
-      "revision": 22,
+      "revision": 30,
       "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1"
@@ -680,7 +680,7 @@
       "source": "tools/check_publication.py",
       "procedure": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "SPEC-153": 53,
+        "SPEC-153": 61,
         "SPEC-155": 117,
         "SPEC-162": 24
       },
@@ -2557,7 +2557,7 @@
       "revision": 5,
       "status": "approved",
       "requirement_revisions": {
-        "SPEC-153": 53,
+        "SPEC-153": 61,
         "SPEC-160": 13
       }
     }

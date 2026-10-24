@@ -6,13 +6,13 @@ Field identity, labels, units, header templates and precision are stored as type
 
 ## Index
 
+- [TINT-1 — Compile the production Data Field for each declared profile](#tint-1)
+- [SPEC-153 — Provide repeatable CLI build, simulator-test and package commands](#spec-153)
+- [SPEC-152 — Version the Data Field project and per-device API capability matrix](#spec-152)
 - [TPRF-5 — Changed-cell fitting and prepared-only rendering](#tprf-5)
 - [APP-26 — Prepare geometry and sensor values outside the drawing path](#app-26)
 - [TPRF-9 — Normal Data Field runtime memory validation](#tprf-9)
 - [APP-48 — Measure runtime memory and verify bounded allocation](#app-48)
-- [TINT-1 — Compile the production Data Field for each declared profile](#tint-1)
-- [SPEC-153 — Provide repeatable CLI build, simulator-test and package commands](#spec-153)
-- [SPEC-152 — Version the Data Field project and per-device API capability matrix](#spec-152)
 - [SPEC-229 — Core: verify workout-start latch and timer-reset return](#spec-229)
 - [SPEC-232 — Placement: verify compact fallback independently for both field sets](#spec-232)
 - [SPEC-170 — Verify: exercise and record the complete nine-device simulator scenario matrix](#spec-170)
@@ -320,6 +320,53 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-10 — onStart(state)](#app-10)
 - [APP-9 — getInitialView()](#app-9)
 
+<a id="tint-1"></a>
+## TINT-1 — Compile the production Data Field for each declared profile
+
+Type: test | State: approved | Revision: 30
+
+Purpose: Compile the production Data Field for each declared profile.
+
+Requirement references: [SPEC-152](#spec-152), [SPEC-153](#spec-153).
+
+Procedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.
+
+Executable source: `scripts/build.ps1`.
+
+Evidence follows [SPEC-162](#spec-162); this focused definition is not a full product qualification. Historical executions retain their original scope.
+Run tools/test_compile_package.py in Core: verify all six declared 30.18/API 6.0.0 modern targets, unchanged input, languages and undeclared products/regions; reject upstream drift, missing/duplicate parts, invalid floors, unknown evidence kinds and missing inference anchors. Export a candidate package; tools/verify_package_compatibility.py must verify all regional gates against policy and installed definitions, plus unchanged installed hashes. Core simulator execution does not qualify historical firmware on hardware.
+
+**Relations**
+
+- verifies: [SPEC-152](#spec-152), [SPEC-153](#spec-153)
+
+<a id="spec-153"></a>
+## SPEC-153 — Provide repeatable CLI build, simulator-test and package commands
+
+Type: requirement | State: approved | Revision: 61
+
+Provide documented clean/build/test/package commands accepting product/mode/SDK/external key. Targets are deterministic and IDE/checkout-path independent; failures return nonzero. Log product/invocation/source/resource/toolchain hashes without secrets. Distinguish debug/test/release; never package test/diagnostic fixtures in release.
+Use verified pinned-SDK options. Emit per-product PRG/debug and supported IQ artifacts. Test orchestration connects/starts the documented simulator and requires named tests plus a successful nonempty summary; timeout/crash/assertion/zero tests fails. Compilation is not runtime qualification. Inject external signing identity/tokens securely; exclude them from commits/artifacts/logs and retain signing identity across upgrades.
+Use code-size optimization -O 3z consistently for app, package, preview and test builds. Own automated SDK validation/preview runner descendants before startup; close the entire owned process group on success, failure, timeout or controller exit, including descendants of an exited parent. Preserve exit codes and logs; do not terminate unrelated processes or wait indefinitely for inherited output pipes.
+Keep the installed device library unchanged. For store packaging, copy device definitions into a project-local overlay and apply only the model/part-specific firmware/API overrides in config/firmware-compatibility.json. Record device-report or release-family-inference evidence and preserve the feature API floor. An inferred target must cite both its model release notice and API evidence anchor; reject missing evidence or an unknown evidence kind. Reject missing/duplicate declared parts and unexpected upstream firmware/API values; preserve all undeclared metadata. Automatically verify every exported regional firmware/API gate and unchanged installed metadata before reporting package success. Compile and sign with SDK 9.2.0; never edit a signed package. Inspect exported firmware/API gates before distribution.
+
+**Relations**
+
+- uses: [SPEC-151](#spec-151), [SPEC-152](#spec-152)
+
+<a id="spec-152"></a>
+## SPEC-152 — Version the Data Field project and per-device API capability matrix
+
+Type: requirement | State: approved | Revision: 59
+
+Version Monkey C sources, manifest/jungle, resource/settings XML, tests/fixtures and build scripts. Project inputs use relative paths; tool/key locations are configurable external paths. Exclude generated binaries/caches/secrets. Manifest identifies a stable Data Field application ID/entry point.
+For every candidate, record minimum firmware/API, supported optional APIs and fallbacks (properties, zones, night mode, temperature, graphics), and justify permissions including UserProfile/Background/Sensor. Preserve older targets through guarded fallbacks; never require API 5.2.2 globally solely for optional power zones. Do not omit failing candidates or equate compilation with qualified support.
+Build all ten profiles with pinned SDK 9.2.0. Use config/firmware-compatibility.json for evidenced package floors: Edge 540/550/840/850, worldwide Edge 1040 and Edge 1050 require firmware 30.18/API 6.0.0. The four added models use model-specific release notices and explicit API release-family inference from 1040/1050 device evidence; do not describe that inference as a direct model/API capture. Retain legacy 530/830/1030, APAC 1040 and 1060 installed gates. Power zones and typed laps require API 5.2.2; do not lower a target by disabling these features. Historical VM versions alone do not prove API availability. These are evidenced compatibility targets, not exhaustive earliest-firmware or physical qualification claims. Inspect exported package gates independently of SDK version. Guard optional power APIs and compile typed-lap adapters only for supported profiles. Record simulator and physical qualification separately.
+
+**Relations**
+
+- uses: [APP-24](#app-24), [SPEC-151](#spec-151)
+
 <a id="tprf-5"></a>
 ## TPRF-5 — Changed-cell fitting and prepared-only rendering
 
@@ -401,53 +448,6 @@ Memory sampling shall retain fixed counters and stage identifiers without consol
 **Relations**
 
 - uses: [APP-37](#app-37), [APP-47](#app-47)
-
-<a id="tint-1"></a>
-## TINT-1 — Compile the production Data Field for each declared profile
-
-Type: test | State: approved | Revision: 22
-
-Purpose: Compile the production Data Field for each declared profile.
-
-Requirement references: [SPEC-152](#spec-152), [SPEC-153](#spec-153).
-
-Procedure and expected results: Run build.ps1 -Mode all with the declared toolchain and external signing key. For each of the ten profiles require compiler exit 0, a nonempty PRG, a recorded SHA256 matching the file and matching current source-input hashes. Normal application compilation only; no tests or memory measurements are invoked by this case.
-
-Executable source: `scripts/build.ps1`.
-
-Evidence follows [SPEC-162](#spec-162); this focused definition is not a full product qualification. Historical executions retain their original scope.
-Run tools/test_compile_package.py: verify only the declared worldwide Edge 1040 firmware changes to 31.33, the input remains unchanged, and missing/duplicate parts or upstream firmware/API drift fail. Export a candidate package and verify its worldwide Edge 1040 entry is firmware 31.33/API 6.0.0; compare every other regional gate with installed metadata. Confirm installed device hashes are unchanged.
-
-**Relations**
-
-- verifies: [SPEC-152](#spec-152), [SPEC-153](#spec-153)
-
-<a id="spec-153"></a>
-## SPEC-153 — Provide repeatable CLI build, simulator-test and package commands
-
-Type: requirement | State: approved | Revision: 53
-
-Provide documented clean/build/test/package commands accepting product/mode/SDK/external key. Targets are deterministic and IDE/checkout-path independent; failures return nonzero. Log product/invocation/source/resource/toolchain hashes without secrets. Distinguish debug/test/release; never package test/diagnostic fixtures in release.
-Use verified pinned-SDK options. Emit per-product PRG/debug and supported IQ artifacts. Test orchestration connects/starts the documented simulator and requires named tests plus a successful nonempty summary; timeout/crash/assertion/zero tests fails. Compilation is not runtime qualification. Inject external signing identity/tokens securely; exclude them from commits/artifacts/logs and retain signing identity across upgrades.
-Use code-size optimization -O 3z consistently for app, package, preview and test builds. Own automated SDK validation/preview runner descendants before startup; close the entire owned process group on success, failure, timeout or controller exit, including descendants of an exited parent. Preserve exit codes and logs; do not terminate unrelated processes or wait indefinitely for inherited output pipes.
-Keep the installed device library unchanged. For store packaging, copy device definitions into a project-local overlay and change only worldwide Edge 1040 (006-B3843-00) firmware 31.35 to 31.33; preserve API 6.0.0, APAC and all other metadata. Reject unexpected upstream firmware/API values. Compile and sign with SDK 9.2.0; never edit a signed package. Inspect exported firmware/API gates before distribution.
-
-**Relations**
-
-- uses: [SPEC-151](#spec-151), [SPEC-152](#spec-152)
-
-<a id="spec-152"></a>
-## SPEC-152 — Version the Data Field project and per-device API capability matrix
-
-Type: requirement | State: approved | Revision: 51
-
-Version Monkey C sources, manifest/jungle, resource/settings XML, tests/fixtures and build scripts. Project inputs use relative paths; tool/key locations are configurable external paths. Exclude generated binaries/caches/secrets. Manifest identifies a stable Data Field application ID/entry point.
-For every candidate, record minimum firmware/API, supported optional APIs and fallbacks (properties, zones, night mode, temperature, graphics), and justify permissions including UserProfile/Background/Sensor. Preserve older targets through guarded fallbacks; never require API 5.2.2 globally solely for optional power zones. Do not omit failing candidates or equate compilation with qualified support.
-Build all ten profiles with pinned SDK 9.2.0. Device firmware/API gates follow installed definitions, except worldwide Edge 1040 (006-B3843-00): package minimum firmware is 31.33 with API 6.0.0 unchanged. Inspect exported package gates independently of SDK version. Guard optional power APIs and compile typed-lap adapters only for supported profiles. Record simulator and physical qualification separately.
-
-**Relations**
-
-- uses: [APP-24](#app-24), [SPEC-151](#spec-151)
 
 <a id="spec-229"></a>
 ## SPEC-229 — Core: verify workout-start latch and timer-reset return

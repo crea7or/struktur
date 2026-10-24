@@ -6,7 +6,7 @@
     "config/catalogue.json": "8be42bf4e535ffe2880632ad35f420543b0a1d252a1798c49ec60f09e569a8ac",
     "config/decisions.json": "d43a137a3c753daf28eb0302acf24f47f8213cbb34a22e2bb99619e1184c81e0",
     "config/devices.json": "b01276258fd6433d5e19d3f644bd50481f19ed50b8f6b990972b069d3900c9de",
-    "requirements/workspace-snapshot.json": "84bf441b97b58f55bc2b5e4515566f8352c3b41ecdf72b1c8eef589a8ca0e63d",
+    "requirements/workspace-snapshot.json": "42563ba9d2d331ffc79a597cf075d7caff55a8d6d8ef3cfbd7389c7a1dd163a0",
     "source/Snapshot.mc": "614c924d47f4377b5fe9a072e0e7c1e9093ddf2c57e5d70cc54de64d1975f5a0",
     "source/FieldRenderer.mc": "7e7f6fe290b75e0367268b9badf9c8d395f2b9048937104d80e36e0bbfa2cf07",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
