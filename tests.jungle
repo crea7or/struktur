@@ -1,6 +1,6 @@
 # Core suite. Fast production calculations, formatting, settings and normal-value UI correctness. No memory probes or deliberate insufficient-area cases.
 project.manifest = tests/CoreManifest.xml
-base.sourcePath = source;tests/CoreTests.mc;tests/PresentationTests.mc;tests/AcquisitionTests.mc;tests/NormalRangeTests.mc;tests/PerformanceTests.mc;tests/FieldSetTests.mc;tests/CoreSupport.mc;tests/PresentationSupport.mc
+base.sourcePath = source;tests/CoreTests.mc;tests/PresentationTests.mc;tests/AcquisitionTests.mc;tests/NormalRangeTests.mc;tests/PerformanceTests.mc;tests/FieldSetTests.mc;tests/CustomZoneTests.mc;tests/CoreSupport.mc;tests/PresentationSupport.mc
 base.resourcePath = resources/strings;resources/settings;resources/drawables;tests/resources
 edge530.sourcePath = $(base.sourcePath);profiles/edge530;tests/limits/small
 edge540.sourcePath = $(base.sourcePath);profiles/edge540;tests/limits/small

@@ -432,6 +432,7 @@ class FieldRenderer {
         return "white".equals(name) || "yellow".equals(name) || "cyan".equals(name) || "green".equals(name) || "light_gray".equals(name) || "magenta".equals(name);
     }
     function color(name) {
+        if("dark_magenta".equals(name)) { return 0xAA00AA; }
         if("magenta".equals(name)) { return 0xFF00FF; }
         if("light_gray".equals(name)) { return 0xCCCCCC; } if("dark_gray".equals(name)) { return 0x333333; }
         if("blue".equals(name)) { return Graphics.COLOR_BLUE; } if("green".equals(name)) { return Graphics.COLOR_GREEN; }

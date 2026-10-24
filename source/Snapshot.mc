@@ -59,6 +59,7 @@ class SnapshotEngine {
     var _heart;
     var _hrZones;
     var _powerZones;
+    var _customHeart=null;var _customPower=null;
     var _identity as Lang.Numeric or Null;
     var _descriptors=[];
     var _configuration;var _configurationRevision=-1;
@@ -71,11 +72,11 @@ class SnapshotEngine {
     // Eleven fixed channels share results across duplicate slots and numeric zone fields.
     var _zoneReadings=new [11];var _zoneBounds=new [11];var _zoneResults=new [11];var _zoneReady=[false,false,false,false,false,false,false,false,false,false,false];
     var _cadenceZones=null;
-    function boundsFor(channel) { return channel>=8?_cadenceZones:(channel<3 || channel==6?_hrZones:_powerZones); }
+    function boundsFor(channel) { return channel>=8?_cadenceZones:(channel<3 || channel==6?(_customHeart!=null?_customHeart:_hrZones):(_customPower!=null?_customPower:_powerZones)); }
     function zone(channel,value) {
         var bounds=boundsFor(channel);
         if(!_zoneReady[channel] || _zoneReadings[channel]!=value || _zoneBounds[channel]!=bounds) {
-            _zoneResults[channel]=channel>=8?CadenceZones.classify(value,bounds):ZoneMetadata.classifyValidated(value,bounds);
+            _zoneResults[channel]=channel>=8?CadenceZones.classify(value,bounds):(bounds instanceof CustomZoneProfile?TrainingZones.classify(value,bounds,channel<3 || channel==6):ZoneMetadata.classifyValidated(value,bounds));
             _zoneReadings[channel]=value;_zoneBounds[channel]=bounds;_zoneReady[channel]=true;zoneBuilds+=1;
         }
         return _zoneResults[channel];
@@ -111,10 +112,16 @@ class SnapshotEngine {
         d[SnapshotDescriptor.ZONECHANNEL]=channel;d[SnapshotDescriptor.EFFECT]=channel>=0?3:0;
     }
     function reset() { _power.reset(); _heart.reset(); _identity=null; }
+    function selectProfiles(settings) { _customHeart=settings.heartProfile;_customPower=settings.powerProfile; }
     function metadata() {
-        _hrZones=null; _powerZones=null;
-        try { if (UserProfile has :getHeartRateZones) { _hrZones=ZoneMetadata.heart(UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_BIKING)); } } catch(e) {}
-        try { _powerZones=ZoneMetadata.power(readPowerZones(),true); } catch(e) {}
+        var heart=null;var power=null;
+        if(_customHeart==null) { try { heart=ZoneMetadata.heart(readHeartZones()); } catch(e) {} }
+        if(_customPower==null) { try { power=ZoneMetadata.power(readPowerZones(),true); } catch(e) {} }
+        if(!TrainingZones.same(_hrZones,heart)) { _hrZones=heart; }
+        if(!TrainingZones.same(_powerZones,power)) { _powerZones=power; }
+    }
+    function readHeartZones() {
+        return UserProfile has :getHeartRateZones?UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_BIKING):null;
     }
     function readPowerZones() {
         return UserProfile has :getPowerZones?UserProfile.getPowerZones(Activity.SPORT_CYCLING):null;
@@ -210,12 +217,12 @@ class SnapshotEngine {
             var band=null; var angle=null;
             if(settings.effects[i] && value!=null && d[SnapshotDescriptor.EFFECT]!=0) {
                 d[SnapshotDescriptor.EFFECTINPUT]=d[SnapshotDescriptor.STYLE]==6?rawValue(raw,d[SnapshotDescriptor.ZONECHANNEL]==3?"current_power":"current_heart_rate"):reading;
-                var bounds=d[SnapshotDescriptor.ZONECHANNEL]>=0?boundsFor(d[SnapshotDescriptor.ZONECHANNEL]):(d[SnapshotDescriptor.EFFECT]==5?(d[SnapshotDescriptor.ZONESOURCE]==0?_hrZones:_powerZones):null);
+                var bounds=d[SnapshotDescriptor.ZONECHANNEL]>=0?boundsFor(d[SnapshotDescriptor.ZONECHANNEL]):(d[SnapshotDescriptor.EFFECT]==5?boundsFor(d[SnapshotDescriptor.ZONESOURCE]):null);
                 if(!d[SnapshotDescriptor.EFFECTREADY] || d[SnapshotDescriptor.EFFECTREADING]!=d[SnapshotDescriptor.EFFECTINPUT] || d[SnapshotDescriptor.EFFECTBOUNDS]!=bounds) {
                     d[SnapshotDescriptor.EFFECTBAND]=null;d[SnapshotDescriptor.EFFECTANGLE]=null;
                     if(d[SnapshotDescriptor.EFFECT]==1) { d[SnapshotDescriptor.EFFECTBAND]=Effects.gradeBand(d[SnapshotDescriptor.EFFECTINPUT]);d[SnapshotDescriptor.EFFECTANGLE]=Effects.horizonAngle(d[SnapshotDescriptor.EFFECTINPUT]); }
                     else if(d[SnapshotDescriptor.EFFECT]==2) { d[SnapshotDescriptor.EFFECTBAND]=Effects.temperatureBand(d[SnapshotDescriptor.EFFECTINPUT]); }
-                    else if(d[SnapshotDescriptor.EFFECT]==5) { d[SnapshotDescriptor.EFFECTBAND]=bounds!=null && reading instanceof Lang.Number && reading<bounds.size()?Effects.zoneColor(reading):null; }
+                    else if(d[SnapshotDescriptor.EFFECT]==5) { d[SnapshotDescriptor.EFFECTBAND]=TrainingZones.hasZone(reading,bounds)?Effects.zoneColor(reading):null; }
                     else { d[SnapshotDescriptor.EFFECTBAND]=Effects.zoneColor(zone(d[SnapshotDescriptor.ZONECHANNEL],d[SnapshotDescriptor.EFFECTINPUT])); }
                     d[SnapshotDescriptor.EFFECTREADY]=true;d[SnapshotDescriptor.EFFECTREADING]=d[SnapshotDescriptor.EFFECTINPUT];d[SnapshotDescriptor.EFFECTBOUNDS]=bounds;effectBuilds+=1;
                 }

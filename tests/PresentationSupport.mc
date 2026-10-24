@@ -363,7 +363,7 @@ class ColoredFieldScenario {
         raw={};raw[id]=10;
         engine=new SnapshotEngine();device=new PresentationDevice(false,true,night==1);clock=new PresentationClock();
         snapshot=engine.prepareWithPreferences(raw,settings,true,device,clock);
-        var colors=["green","yellow","cyan","white","blue","orange","red","dark_red","black","magenta"];
+        var colors=["green","yellow","cyan","white","blue","orange","red","dark_red","black","magenta","dark_magenta"];
         if(field>0) { fixtureBand(snapshot,0,colors[(field+night+align+inverse+hideUnits)%colors.size()]); }
     }
     function run() {
@@ -643,9 +643,9 @@ class TeamScenario {
         props[prefix+"1_bg"]=0;sample(110);check();Test.assert(snapshot[:values][0][ValueRecord.BAND]==null);Test.assertEqual(fits,renderer.fitCount);
         props["tsrc"]=1;props[prefix+"1_bg"]=2;
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);watts=650;sample(110);check();
-        Test.assertEqual("magenta",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual(0xFF00FF,dc.records[0][:background]);
-        Test.assertEqual(Graphics.COLOR_BLACK,renderer._packets[0].primary[5]);
-        props["tsrc"]=0;sample(110);check();Test.assert(!"magenta".equals(snapshot[:values][0][ValueRecord.BAND]));
+        Test.assertEqual("dark_magenta",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual(0xAA00AA,dc.records[0][:background]);
+        Test.assertEqual(Graphics.COLOR_WHITE,renderer._packets[0].primary[5]);
+        props["tsrc"]=0;sample(110);check();Test.assert(!"dark_magenta".equals(snapshot[:values][0][ValueRecord.BAND]));
         old=snapshot;props["team"]="BLUE TEAM";automatic=null;sample(110);check();
         Test.assertEqual("Aa 12!",old[:values][0][ValueRecord.TEXT]);Test.assertEqual("Aa 12!",old[:values][1][ValueRecord.TEXT]);
         props[prefix+"_hideu"]=false;measures=renderer._nativeFonts.measurements;sample(110);check();Test.assertEqual(measures,renderer._nativeFonts.measurements);

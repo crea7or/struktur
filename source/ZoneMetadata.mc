@@ -32,7 +32,7 @@ module ZoneMetadata {
 module CadenceZones {
     function same(a,b) {
         if(a==b) { return true; } if(a==null || b==null) { return false; }
-        for(var i=0;i<4;i+=1) { if(a[i]!=b[i]) { return false; } } return true;
+        for(var i=0;i<4;i+=1) { if(a[i]!=b[i] || (a[i] instanceof Lang.Number)!=(b[i] instanceof Lang.Number)) { return false; } } return true;
     }
     function configured(values) {
         var defaults=[60,80,100,120];var result=[];
@@ -49,5 +49,45 @@ module CadenceZones {
         var whole=Numeric.whole(value);
         for(var i=0;i<4;i+=1) { if(whole<=bounds[i]) { return i+1; } }
         return 5;
+    }
+}
+
+// SPEC-661/662: custom cutoffs are not native min/max metadata.
+class CustomZoneProfile {
+    var bounds;
+    function initialize(cutoffs) { bounds=cutoffs; }
+}
+module TrainingZones {
+    var validations=0;
+    function same(a,b) {
+        if(a==b) { return true; }
+        if(a==null || b==null || a.size()!=b.size()) { return false; }
+        for(var i=0;i<a.size();i+=1) { if(a[i]!=b[i] || (a[i] instanceof Lang.Number)!=(b[i] instanceof Lang.Number)) { return false; } }
+        return true;
+    }
+    function configured(values,power,previous) {
+        var key=power?"cpz":"chz";
+        if(!values.hasKey(key) || !(values[key] instanceof Lang.Boolean) || values[key]!=true) { return null; }
+        var prefix=power?"pw":"hr";var count=power?6:4;var cutoffs=new [count];
+        for(var i=0;i<count;i+=1) {
+            key=prefix+(i+1).toString();cutoffs[i]=values.hasKey(key)?values[key]:0;
+        }
+        if(previous!=null && same(previous.bounds,cutoffs)) { return previous; }
+        validations+=1;var low=power?1:30;var high=power?3000:250;
+        for(var j=0;j<count;j+=1) {
+            if(!(cutoffs[j] instanceof Lang.Number) || cutoffs[j]<low || cutoffs[j]>high || (j>0 && cutoffs[j]<=cutoffs[j-1])) { return previous!=null && previous.bounds==null?previous:new CustomZoneProfile(null); }
+        }
+        return new CustomZoneProfile(cutoffs);
+    }
+    function classify(value,profile,heart) {
+        if(!Numeric.finite(value) || value<0 || (heart && value==0) || profile==null || profile.bounds==null) { return null; }
+        var whole=Numeric.whole(value);var limits=profile.bounds;
+        for(var i=0;i<limits.size();i+=1) { if(whole<=limits[i]) { return i+1; } }
+        return limits.size()+1;
+    }
+    function hasZone(value,profile) {
+        if(!(value instanceof Lang.Number) || value<1 || profile==null) { return false; }
+        if(profile instanceof CustomZoneProfile) { return profile.bounds!=null && value<=profile.bounds.size()+1; }
+        return value<profile.size();
     }
 }

@@ -48,8 +48,8 @@
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
-      "DVS-13": "draft",
-      "SPEC-161": "draft"
+      "DVS-13": "approved",
+      "SPEC-161": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -83,7 +83,7 @@
       "DVS-34": 168
     },
     "requirement_states": {
-      "DVS-34": "draft"
+      "DVS-34": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -129,7 +129,7 @@
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
-      "DVS-29": "draft"
+      "DVS-29": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -166,7 +166,7 @@
       "DVS-39": 126
     },
     "requirement_states": {
-      "DVS-39": "draft"
+      "DVS-39": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -185,23 +185,24 @@
     ],
     "status": "draft",
     "owner": "product reviewer",
-    "implementation": "One rounded, upper-inclusive production classifier. HR validates six min/max bounds. Power zones are enabled by user decision (2026-10-23) using the HR-documented layout: zone-1 minimum of 0 W, then each zone maximum; any other or non-increasing array is unavailable. Physical-device confirmation of the getPowerZones layout remains open.",
+    "implementation": "Independent custom HR/power selectors; four/six cutoffs classify five/seven open-ended zones. Device mode retains qualified min/max metadata. Zone 6 magenta, >=7 dark magenta. Profile preparation remains outside compute/draw; physical device metadata qualification is separate.",
     "decision": {
       "upper_inclusive": true,
       "use_displayed_whole_number": true,
       "outside_threshold_range": "unavailable",
-      "invalid_metadata": "neutral"
+      "invalid_metadata": "neutral",
+      "custom_final_zone": "open-ended"
     },
     "rationale": "User explicitly approved upper-inclusive thresholds classified from the displayed whole-number value during the workspace review.",
-    "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
+    "approval_status": "Current custom-zone requirements approved; matching-source Core execution is separate.",
     "reviewed_on": "2026-10-17",
     "requirement_revisions": {
       "DVS-45": 43,
-      "SPEC-248": 50
+      "SPEC-248": 58
     },
     "requirement_states": {
-      "DVS-45": "draft",
-      "SPEC-248": "draft"
+      "DVS-45": "approved",
+      "SPEC-248": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -249,10 +250,10 @@
       "SPEC-154": 43
     },
     "requirement_states": {
-      "APP-22": "draft",
-      "APP-25": "draft",
-      "APP-36": "draft",
-      "SPEC-154": "draft"
+      "APP-22": "approved",
+      "APP-25": "approved",
+      "APP-36": "approved",
+      "SPEC-154": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -293,14 +294,14 @@
     "approval_status": "Historical product choices retained; current consolidated requirement revisions remain Draft. No current-revision approval or execution is asserted.",
     "requirement_revisions": {
       "APP-46": 73,
-      "SPEC-155": 117,
+      "SPEC-155": 123,
       "DVS-50": 66
     },
     "reviewed_on": "2026-10-17",
     "requirement_states": {
-      "APP-46": "draft",
-      "SPEC-155": "draft",
-      "DVS-50": "draft"
+      "APP-46": "approved",
+      "SPEC-155": "approved",
+      "DVS-50": "approved"
     },
     "historical_product_approval": {
       "status": "approved",
@@ -326,8 +327,8 @@
       "SPEC-159": 12
     },
     "requirement_states": {
-      "SPEC-151": "draft",
-      "SPEC-159": "draft"
+      "SPEC-151": "approved",
+      "SPEC-159": "approved"
     }
   }
 ]

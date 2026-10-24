@@ -8,8 +8,8 @@ def validate_properties():
     catalog=read('config/catalogue.json');binding=read('config/property-contracts.json')
     props={p['key']:p for p in catalog['properties']};fields={f['requirement'] for f in catalog['fields']}
     by={r['stable_id']:r for name in ['requirements/workspace-snapshot.json','requirements/supporting-approved-snapshot.json'] for r in read(name)}
-    assert len(props)==63 and set(props)==set(binding['properties'])
-    assert len({b['requirement'] for b in binding['properties'].values()})==63
+    assert len(props)==75 and set(props)==set(binding['properties'])
+    assert len({b['requirement'] for b in binding['properties'].values()})==75
     edges={(r['source_client_ref'][5:],r['target_client_ref'][5:],r['relation_code']) for r in read('requirements/export/workspace-spec-package.json')['relations']}
     for key,p in props.items():
         assert re.fullmatch('[a-z][a-z0-9_]{0,7}',key) and not p.get('hidden')

@@ -40,7 +40,7 @@
       ],
       "procedure": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n\n\nCompare exact slope sky/ground vertices against full rectangle clipping at signed shallow, zero and steep angles, with translated regular/enlarged bounds. Skipping redundant clipping must preserve rounded vertices and cell containment.",
       "requirement_revisions": {
-        "APP-20": 91
+        "APP-20": 95
       },
       "definition": "Purpose: All six full-capacity logical grids.\n\nRequirement references: [[APP-20]].\n\nProcedure and expected results: For four/five rows and zero/one/two enlarged fields, assert capacities 8/5/2 and 10/7/4, cell bounds and non-overlap. Check a zero-cell plan for invalid row count and bounded horizon polygons at the literal angle fixtures.\n\nExecutable source: `tests/CoreTests.mc`; fixture `logicalGridCases`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n\n\nCompare exact slope sky/ground vertices against full rectangle clipping at signed shallow, zero and steep angles, with translated regular/enlarged bounds. Skipping redundant clipping must preserve rounded vertices and cell containment.",
       "stable_id": "TFNC-2",
@@ -63,9 +63,9 @@
       ],
       "procedure": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]].\n\nProcedure and expected results: For power samples 100,200,300,400 at consecutive seconds require 100,150,200,300. Heart rate remains unavailable for its first two valid samples and publishes the three-sample mean next. Check duplicate seconds, missing/invalid input, gaps, regressing time, measured zero and explicit reset. After each reset exclude stale buffer entries and restart power from its first valid sample; no sample means unavailable.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
-        "DVS-22": 72,
+        "DVS-22": 78,
         "DVS-41": 52,
-        "DVS-47": 85
+        "DVS-47": 91
       },
       "definition": "Purpose: Three-second rolling-window continuity.\n\nRequirement references: [[DVS-41]], [[DVS-47]], [[DVS-22]].\n\nProcedure and expected results: For power samples 100,200,300,400 at consecutive seconds require 100,150,200,300. Heart rate remains unavailable for its first two valid samples and publishes the three-sample mean next. Check duplicate seconds, missing/invalid input, gaps, regressing time, measured zero and explicit reset. After each reset exclude stale buffer entries and restart power from its first valid sample; no sample means unavailable.\n\nExecutable source: `tests/CoreTests.mc`; fixture `threeConsecutiveSamples`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "stable_id": "TFNC-3",
@@ -113,11 +113,11 @@
       ],
       "procedure": "Suite: Core. Verify default Right alignment, both exact ten-slot presets, per-bank enlargement and coverage defaults, and matching XML/read fallbacks. Exercise valid zero/false/None, duplicate and hidden assignments, malformed values and unknown field codes. Use compact keys only; require no migration writes or compatibility declarations. Executable: typedSettingsAndHiddenSlots in tests/CoreTests.mc, with secondSetSettings and nativeSettingsCallbacks for both-bank/native reload coverage. Requirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]]. Evidence follows [[SPEC-162]]; historical executions retain their original scope.",
       "requirement_revisions": {
-        "APP-20": 91,
+        "APP-20": 95,
         "APP-30": 49,
         "APP-31": 115,
         "APP-49": 134,
-        "SPEC-155": 117
+        "SPEC-155": 123
       },
       "definition": "Suite: Core. Verify default Right alignment, both exact ten-slot presets, per-bank enlargement and coverage defaults, and matching XML/read fallbacks. Exercise valid zero/false/None, duplicate and hidden assignments, malformed values and unknown field codes. Use compact keys only; require no migration writes or compatibility declarations. Executable: typedSettingsAndHiddenSlots in tests/CoreTests.mc, with secondSetSettings and nativeSettingsCallbacks for both-bank/native reload coverage. Requirement references: [[APP-20]], [[APP-30]], [[APP-31]], [[APP-49]], [[SPEC-155]]. Evidence follows [[SPEC-162]]; historical executions retain their original scope.",
       "stable_id": "TFNC-5",
@@ -173,7 +173,7 @@
       "procedure": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-25]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "requirement_revisions": {
         "APP-21": 99,
-        "APP-24": 79,
+        "APP-24": 83,
         "APP-25": 43,
         "DVS-13": 68,
         "DVS-3": 89
@@ -207,7 +207,7 @@
         "DVS-13": 68,
         "DVS-32": 63,
         "DVS-50": 66,
-        "SPEC-155": 117
+        "SPEC-155": 123
       },
       "definition": "Purpose: Physical-unit header selection.\n\nRequirement references: [[DVS-50]], [[DVS-32]], [[DVS-13]], [[SPEC-155]], [[APP-31]], [[APP-35]].\n\nProcedure and expected results: For all 33 fields, both physical-unit systems and a_hideu/b_hideu false/true, compare the exact header with the field requirement. Hidden units and empty Unit text use the full Label text without a separator. Shown nonempty units render the exact literal Header text with units, replacing its optional single {unit} placeholder when present without appending redundant unit text; an absent or empty template falls back to Label text + \" | \" + Unit text. Check independent distance/elevation/temperature preferences, lowercase text, preserved separator spaces, unavailable known readings and unknown fields. In particular, temperature uses temp | °c or temp | °f, and heart rate uses hr | bpm, while hidden-unit labels remain temperature and heart rate. Verify every specified physical-unit header against the actual profile font and available regular/enlarged cell widths, including applicable halos. A passing width audit does not establish whole-grid usability of other assigned fields or numeric values. No physical unit appears beside a value. Clock meridian indicators and duration components follow their own contracts independently.\n\nExecutable sources to update/verify: tests/PresentationTests.mc, presentationSettingsAndUnits, literalAndTemplateHeaderSelection and composedHeaderWidthAudit; tools/check_header_fit.py. Record a current pass only against matching source and requirement revisions.\n\nEvidence follows [[SPEC-162]]. Historical executions retain their captured scope.\n\nTeam always displays header `team` and no unit under [[SPEC-253]]; physical-unit visibility does not alter its header or saved value.",
       "stable_id": "TFNC-8",
@@ -306,22 +306,22 @@
       "procedure": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
       "requirement_revisions": {
         "APP-21": 99,
-        "APP-24": 79,
-        "APP-26": 103,
+        "APP-24": 83,
+        "APP-26": 105,
         "APP-32": 81,
-        "APP-34": 100,
+        "APP-34": 104,
         "APP-36": 83,
         "APP-49": 134,
         "DVS-10": 51,
         "DVS-11": 51,
         "DVS-12": 114,
-        "DVS-18": 65,
-        "DVS-19": 62,
-        "DVS-20": 52,
-        "DVS-21": 61,
-        "DVS-22": 72,
-        "DVS-23": 60,
-        "DVS-24": 52,
+        "DVS-18": 71,
+        "DVS-19": 68,
+        "DVS-20": 60,
+        "DVS-21": 67,
+        "DVS-22": 78,
+        "DVS-23": 66,
+        "DVS-24": 60,
         "DVS-25": 50,
         "DVS-26": 54,
         "DVS-27": 44,
@@ -336,7 +336,7 @@
         "DVS-36": 89,
         "DVS-37": 49,
         "DVS-39": 126,
-        "DVS-47": 85,
+        "DVS-47": 91,
         "DVS-51": 78,
         "DVS-6": 104,
         "DVS-8": 61,
@@ -344,12 +344,12 @@
         "FUNC-3": 49,
         "FUNC-4": 38,
         "FUNC-5": 50,
-        "FUNC-6": 48,
-        "FUNC-7": 47,
+        "FUNC-6": 54,
+        "FUNC-7": 53,
         "FUNC-8": 44,
         "SPEC-157": 73,
-        "SPEC-249": 20,
-        "SPEC-253": 42
+        "SPEC-249": 21,
+        "SPEC-253": 51
       },
       "definition": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
       "stable_id": "TUI-1",
@@ -681,7 +681,7 @@
       "procedure": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
       "requirement_revisions": {
         "SPEC-153": 61,
-        "SPEC-155": 117,
+        "SPEC-155": 123,
         "SPEC-162": 24
       },
       "definition": "Purpose: Publication privacy, export integrity and current project consistency.\n\nRequirement references: [[SPEC-153]], [[SPEC-155]], [[SPEC-162]].\n\nProcedure and expected results: Run check_project.py and check_publication.py. Require pinned Approved requirement/supporting hashes and revisions, settings/catalogue/XML consistency, all export descriptions/identifiers/revisions, document and attachment links, sanitized PNG metadata and matching export checksums. Scan current Git publication candidates for private keys, literal credentials, personal machine paths and emails; machine configuration and build outputs must be ignored. Git history is explicitly retained by user choice and excluded from this working-file privacy claim.\n\nExecutable source: `tools/check_publication.py`.\n\nEvidence follows [[SPEC-162]]; this focused definition is not a full product qualification. Historical executions retain their original scope.\n",
@@ -740,8 +740,8 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 79,
-        "APP-34": 100,
+        "APP-24": 83,
+        "APP-34": 104,
         "DVS-12": 114,
         "DVS-50": 66
       },
@@ -792,9 +792,9 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-20": 91,
-        "APP-24": 79,
-        "APP-34": 100,
+        "APP-20": 95,
+        "APP-24": 83,
+        "APP-34": 104,
         "DVS-50": 66
       },
       "suite_stable_id": "TRGR-1"
@@ -820,7 +820,7 @@
       "requirement_revisions": {
         "DVS-13": 68,
         "DVS-36": 89,
-        "SPEC-155": 117
+        "SPEC-155": 123
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -842,7 +842,7 @@
       "revision": 12,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 79,
+        "APP-24": 83,
         "APP-25": 43
       },
       "suite_stable_id": "TRGR-1"
@@ -867,7 +867,7 @@
       "revision": 13,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
+        "APP-26": 105,
         "APP-36": 83,
         "DVS-29": 170,
         "DVS-6": 104
@@ -897,11 +897,11 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-22": 68,
-        "APP-26": 103,
+        "APP-26": 105,
         "APP-32": 81,
         "HFER-7": 25,
         "HFER-8": 25,
-        "SPEC-155": 117
+        "SPEC-155": 123
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -925,8 +925,8 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 79,
-        "APP-34": 100,
+        "APP-24": 83,
+        "APP-34": 104,
         "DVS-13": 68,
         "DVS-32": 63
       },
@@ -953,9 +953,9 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-35": 47,
-        "DVS-22": 72,
+        "DVS-22": 78,
         "DVS-41": 52,
-        "DVS-47": 85
+        "DVS-47": 91
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -970,17 +970,17 @@
         "DVS-45",
         "SPEC-248"
       ],
-      "procedure": "Suite: Core. Requirements: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nRun approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.\n\nSynthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [[SPEC-162]]; this definition records no execution.",
-      "definition": "Suite: Core. Requirements: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nRun approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.\n\nSynthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [[SPEC-162]]; this definition records no execution.",
+      "procedure": "Suite: Core. Requirements: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nRun approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.\n\nSynthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [[SPEC-162]]; this definition records no execution.\n\nCustom modes additionally verify [[TSTFUNC-6]], [[TSTFUNC-7]] and [[TSTFUNC-8]]; device-mode metadata qualification remains unchanged.",
+      "definition": "Suite: Core. Requirements: [[DVS-42]], [[DVS-45]], [[SPEC-248]].\n\nRun approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePowerZoneMetadata through production metadata() with only the native read substituted. Accept strictly increasing bounds starting at 0 W; reject null, nonzero first bounds and duplicate bounds. Check displayed-value rounding, upper-inclusive equality, zone 6/magenta and out-of-range unavailability. Reload invalid metadata after a valid profile: clear stale zones and colors while retaining valid watts; recover on the next valid reload. Compute must not reread native metadata; retained snapshots remain unchanged.\n\nSynthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [[SPEC-162]]; this definition records no execution.\n\nCustom modes additionally verify [[TSTFUNC-6]], [[TSTFUNC-7]] and [[TSTFUNC-8]]; device-mode metadata qualification remains unchanged.",
       "category": "functional",
       "runner": "logic",
       "stable_id": "TFNC-24",
-      "revision": 19,
+      "revision": 27,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-42": 55,
+        "DVS-42": 60,
         "DVS-45": 43,
-        "SPEC-248": 50
+        "SPEC-248": 58
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -1012,8 +1012,8 @@
         "FUNC-3": 49,
         "FUNC-4": 38,
         "FUNC-5": 50,
-        "FUNC-6": 48,
-        "FUNC-7": 47,
+        "FUNC-6": 54,
+        "FUNC-7": 53,
         "FUNC-8": 44,
         "FUNC-9": 38
       },
@@ -1064,7 +1064,7 @@
       "revision": 7,
       "status": "approved",
       "requirement_revisions": {
-        "APP-34": 100,
+        "APP-34": 104,
         "DVS-2": 64,
         "DVS-3": 89,
         "SPEC-157": 73
@@ -1092,8 +1092,8 @@
       "revision": 8,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 79,
-        "APP-34": 100,
+        "APP-24": 83,
+        "APP-34": 104,
         "DVS-12": 114,
         "DVS-6": 104,
         "SPEC-157": 73
@@ -1112,15 +1112,15 @@
         "DVS-4",
         "DVS-50"
       ],
-      "procedure": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].\n\nRegression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.",
-      "definition": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].\n\nRegression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.",
+      "procedure": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].\n\nRegression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.\n\nCustom profile identity/invalidation and unchanged activity state are additionally verified by [[TSTFUNC-11]].",
+      "definition": "Purpose: Bounded snapshot caches and live-input invalidation.\n\nSuite: Core. Default fast regression after app changes; no Memory or Placement work.\n\nRequirement references: [[APP-26]], [[DVS-4]], [[DVS-50]], [[DVS-32]].\n\nProcedure and expected results: Require ten bounded assignment caches, no descriptor/header/format rebuild for unchanged input, selective changed-reading/unit/header/clock invalidation and unchanged previously published value text. Unknown assignments and unavailable clock state remain safe.\n\nExecutable source: `tests/PerformanceTests.mc`; named test `snapshotCacheInvalidation`.\n\nEvidence follows [[SPEC-162]]: record actual selected suite, baseline/source/toolchain/product and named results. This is a definition, not a new execution or a qualification claim. Historical evidence retains its captured scope.\n\nRegression: In snapshotCacheInvalidation, retain a published metric snapshot containing duplicate speed slots. Reassign only one slot, change the reading and distance units, and verify independent new distance/speed values while both old published speed values remain unchanged. Cycle the first assignment through all catalogue fields twice and require the retained descriptor count to remain ten. Keep the existing selective formatting/header/clock invalidation checks. This Core regression performs no runtime-memory sampling; native allocation acceptance remains [[TPRF-9]].\n\nRegression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.\n\nCustom profile identity/invalidation and unchanged activity state are additionally verified by [[TSTFUNC-11]].",
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-4",
-      "revision": 12,
+      "revision": 17,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
+        "APP-26": 105,
         "DVS-32": 63,
         "DVS-4": 53,
         "DVS-50": 66
@@ -1139,15 +1139,15 @@
         "APP-32",
         "DVS-29"
       ],
-      "procedure": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.\n\nAssert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.\nExercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.",
-      "definition": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.\n\nAssert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.\nExercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.",
+      "procedure": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.\n\nAssert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.\nExercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.\n\nCustom source/threshold edits must invalidate affected prepared colors before next display; retain draw-only and changed-cell constraints. See [[TSTFUNC-11]].",
+      "definition": "Purpose: Verify [[APP-26]] changed-cell preparation and draw-only replay. Suite: Core.\n\nUnchanged immutable visible records, including raw changes with equal displayed text, require zero record-field comparisons, geometry scans, refits and packet rebuilds. One changed value refits one cell. Equal-angle slope polygons survive unrelated changes. Theme, effects, layout and settings changes refresh affected presentation; hidden slots beyond preferred capacity do not scan geometry or refit visible cells.\n\nLock preparation, fitting, measurement and color-selection methods during ordinary drawing. Verify production callbacks replay prepared commands; packed separator decoding permitted by [[APP-26]] preserves exact endpoints/colors. After clear, ordinary cells perform zero base fills. Inverted or whole-cell backgrounds still fill when different; label bands, horizons and text retain the same rendered result.\n\nBank replacements release outgoing fits/packets/headers before successors, preserving retained records and acquisition. Repeated spans share bounded separator tables.\n\nExecutable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting horizon vertices are checked by logicalGridCases. Record executions separately under [[SPEC-162]]; no Memory, Placement or hardware qualification is implied.\n\nAssert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.\nExercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.\n\nCustom source/threshold edits must invalidate affected prepared colors before next display; retain draw-only and changed-cell constraints. See [[TSTFUNC-11]].",
       "category": "performance",
       "runner": "logic",
       "stable_id": "TPRF-5",
-      "revision": 30,
+      "revision": 35,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
+        "APP-26": 105,
         "APP-32": 81,
         "DVS-29": 170
       },
@@ -1173,7 +1173,7 @@
       "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
+        "APP-26": 105,
         "APP-37": 37,
         "DVS-34": 168,
         "DVS-35": 53
@@ -1248,10 +1248,10 @@
       "revision": 13,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 79,
+        "APP-24": 83,
         "APP-25": 43,
-        "APP-26": 103,
-        "APP-34": 100
+        "APP-26": 105,
+        "APP-34": 104
       },
       "suite_stable_id": "TRGR-2"
     },
@@ -1277,9 +1277,9 @@
       "revision": 9,
       "status": "approved",
       "requirement_revisions": {
-        "APP-20": 91,
+        "APP-20": 95,
         "APP-21": 99,
-        "APP-34": 100,
+        "APP-34": 104,
         "APP-36": 83,
         "DVS-51": 78,
         "DVS-6": 104
@@ -1305,8 +1305,8 @@
       "revision": 6,
       "status": "approved",
       "requirement_revisions": {
-        "APP-24": 79,
-        "APP-34": 100,
+        "APP-24": 83,
+        "APP-34": 104,
         "SPEC-157": 73
       },
       "suite_stable_id": "TRGR-2"
@@ -1356,13 +1356,13 @@
         "SPEC-243"
       ],
       "title": "Core: verify second-set settings, defaults",
-      "definition": "Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 63-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
-      "procedure": "Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 63-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
-      "revision": 25,
+      "definition": "Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/HR/power/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 75-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
+      "procedure": "Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/HR/power/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 75-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.\n\nRetain existing activation/threshold contracts under [[SPEC-211]]/[[SPEC-212]]: Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.",
+      "revision": 29,
       "status": "approved",
       "requirement_revisions": {
         "APP-31": 115,
-        "SPEC-155": 117,
+        "SPEC-155": 123,
         "SPEC-208": 26,
         "SPEC-210": 27,
         "SPEC-211": 21,
@@ -1393,7 +1393,7 @@
       "revision": 9,
       "status": "approved",
       "requirement_revisions": {
-        "DVS-22": 72,
+        "DVS-22": 78,
         "SPEC-211": 21,
         "SPEC-212": 14,
         "SPEC-213": 16,
@@ -1421,8 +1421,8 @@
       "revision": 14,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
-        "SPEC-217": 10,
+        "APP-26": 105,
+        "SPEC-217": 14,
         "SPEC-218": 11
       }
     },
@@ -1446,7 +1446,7 @@
       "status": "approved",
       "requirement_revisions": {
         "SPEC-211": 21,
-        "SPEC-219": 11,
+        "SPEC-219": 15,
         "SPEC-220": 14
       }
     },
@@ -1471,7 +1471,7 @@
       "revision": 11,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
+        "APP-26": 105,
         "APP-33": 47,
         "SPEC-208": 26,
         "SPEC-220": 14,
@@ -1495,7 +1495,7 @@
       "revision": 19,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103
+        "APP-26": 105
       }
     },
     {
@@ -1540,9 +1540,9 @@
       ],
       "requirement_revisions": {
         "APP-46": 73,
-        "SPEC-155": 117,
+        "SPEC-155": 123,
         "SPEC-210": 27,
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-286"
     },
@@ -1586,7 +1586,7 @@
       ],
       "requirement_revisions": {
         "DVS-51": 78,
-        "SPEC-249": 20
+        "SPEC-249": 21
       },
       "stable_id": "SPEC-273"
     },
@@ -1608,7 +1608,7 @@
         "DVS-6"
       ],
       "requirement_revisions": {
-        "APP-34": 100,
+        "APP-34": 104,
         "DVS-12": 114,
         "DVS-6": 104
       },
@@ -1630,7 +1630,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 103
+        "APP-26": 105
       },
       "stable_id": "SPEC-275"
     },
@@ -1653,7 +1653,7 @@
       ],
       "requirement_revisions": {
         "APP-31": 115,
-        "SPEC-155": 117,
+        "SPEC-155": 123,
         "SPEC-243": 26
       },
       "stable_id": "SPEC-276"
@@ -1664,9 +1664,9 @@
       "source": "tests/CoreTests.mc",
       "runner": "logic",
       "title": "Verify read-only compact property loading",
-      "definition": "Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 63 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.",
-      "procedure": "Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 63 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.",
-      "revision": 7,
+      "definition": "Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 75 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.",
+      "procedure": "Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 75 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.",
+      "revision": 11,
       "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -1694,7 +1694,7 @@
         "SPEC-245"
       ],
       "requirement_revisions": {
-        "SPEC-245": 11
+        "SPEC-245": 12
       },
       "stable_id": "SPEC-278"
     },
@@ -1716,7 +1716,7 @@
       ],
       "requirement_revisions": {
         "APP-49": 134,
-        "SPEC-155": 117
+        "SPEC-155": 123
       },
       "stable_id": "SPEC-267"
     },
@@ -1805,7 +1805,7 @@
         "APP-32"
       ],
       "requirement_revisions": {
-        "APP-26": 103,
+        "APP-26": 105,
         "APP-32": 81
       },
       "stable_id": "SPEC-271"
@@ -1846,7 +1846,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-287"
     },
@@ -1866,7 +1866,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-288"
     },
@@ -1886,7 +1886,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 103
+        "APP-26": 105
       },
       "stable_id": "SPEC-299"
     },
@@ -1912,7 +1912,7 @@
         "DVS-12": 114,
         "DVS-50": 66,
         "SPEC-156": 23,
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-289"
     },
@@ -1934,7 +1934,7 @@
       ],
       "requirement_revisions": {
         "SPEC-208": 26,
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-290",
       "additional_executable_checks": [
@@ -1965,8 +1965,8 @@
       ],
       "requirement_revisions": {
         "APP-21": 99,
-        "APP-34": 100,
-        "SPEC-253": 42
+        "APP-34": 104,
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-291"
     },
@@ -1988,7 +1988,7 @@
       ],
       "requirement_revisions": {
         "APP-25": 43,
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-292"
     },
@@ -1998,9 +1998,9 @@
       "source": "tests/PresentationTests.mc",
       "runner": "logic",
       "title": "Verify Team source binding and fallback",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor a qualified Power binding above zone 5, assert magenta #FF00FF under [[SPEC-246]] with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor a qualified Power binding above zone 5, assert magenta #FF00FF under [[SPEC-246]] with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.",
-      "revision": 9,
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor qualified Power binding zone 6 assert magenta #FF00FF with black text; zones >=7 use dark magenta #AA00AA with white text over the fill under [[SPEC-246]]. Label coverage retains ordinary value text. Retain Team string and selected coverage. HR and cadence retain five-zone classification.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nHide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.\n\nFor qualified Power binding zone 6 assert magenta #FF00FF with black text; zones >=7 use dark magenta #AA00AA with white text over the fill under [[SPEC-246]]. Label coverage retains ordinary value text. Retain Team string and selected coverage. HR and cadence retain five-zone classification.",
+      "revision": 14,
       "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -2008,7 +2008,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-293"
     },
@@ -2028,7 +2028,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-294"
     },
@@ -2054,7 +2054,7 @@
         "APP-38": 57,
         "SPEC-176": 28,
         "SPEC-177": 36,
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-297"
     },
@@ -2074,7 +2074,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-298"
     },
@@ -2083,10 +2083,10 @@
       "function": "exactEffectBands",
       "source": "tests/CoreTests.mc",
       "runner": "logic",
-      "title": "Verify exact five-zone colors",
-      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nAssert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
-      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nAssert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
-      "revision": 7,
+      "title": "Verify exact seven-zone colors",
+      "definition": "Suite: Core. Definition; execution evidence is separate.\n\nAssert exact shared RGB values for HR/cadence zones 1..5 and power zones 1..7 plus native zone 10 across both themes, inversion and coverage modes. Include white foreground on dark magenta and unchanged value foreground for Label coverage. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
+      "procedure": "Suite: Core. Definition; execution evidence is separate.\n\nAssert exact shared RGB values for HR/cadence zones 1..5 and power zones 1..7 plus native zone 10 across both themes, inversion and coverage modes. Include white foreground on dark magenta and unchanged value foreground for Label coverage. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.",
+      "revision": 11,
       "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -2096,7 +2096,7 @@
       ],
       "requirement_revisions": {
         "DVS-45": 43,
-        "SPEC-246": 18
+        "SPEC-246": 24
       },
       "stable_id": "SPEC-279"
     },
@@ -2137,8 +2137,8 @@
         "SPEC-248"
       ],
       "requirement_revisions": {
-        "SPEC-155": 117,
-        "SPEC-248": 50
+        "SPEC-155": 123,
+        "SPEC-248": 58
       },
       "stable_id": "SPEC-281"
     },
@@ -2158,7 +2158,7 @@
         "SPEC-249"
       ],
       "requirement_revisions": {
-        "SPEC-249": 20
+        "SPEC-249": 21
       },
       "stable_id": "SPEC-282"
     },
@@ -2178,7 +2178,7 @@
         "APP-26"
       ],
       "requirement_revisions": {
-        "APP-26": 103
+        "APP-26": 105
       },
       "stable_id": "SPEC-283"
     },
@@ -2188,9 +2188,9 @@
       "source": "tests/CoreTests.mc",
       "runner": "logic",
       "title": "Verify native power-zone mapping",
-      "definition": "Suite: Core. Requirements: [[DVS-42]], [[SPEC-246]].\n\nFor zones 1..5 assert the specified colors; zones 6, 7 and 10 use magenta #FF00FF while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.\n\nSynthetic fixtures do not confirm the native device layout. Execution evidence is separate.",
-      "procedure": "Suite: Core. Requirements: [[DVS-42]], [[SPEC-246]].\n\nFor zones 1..5 assert the specified colors; zones 6, 7 and 10 use magenta #FF00FF while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.\n\nSynthetic fixtures do not confirm the native device layout. Execution evidence is separate.",
-      "revision": 13,
+      "definition": "Suite: Core. Requirements: [[DVS-42]], [[SPEC-246]].\n\nFor zones 1..5 assert the specified colors; zone 6 uses magenta #FF00FF and zones 7 and 10 use dark magenta #AA00AA while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.\n\nSynthetic fixtures do not confirm the native device layout. Execution evidence is separate.",
+      "procedure": "Suite: Core. Requirements: [[DVS-42]], [[SPEC-246]].\n\nFor zones 1..5 assert the specified colors; zone 6 uses magenta #FF00FF and zones 7 and 10 use dark magenta #AA00AA while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.\n\nSynthetic fixtures do not confirm the native device layout. Execution evidence is separate.",
+      "revision": 18,
       "status": "approved",
       "suite": "Core",
       "suite_stable_id": "TRGR-1",
@@ -2199,8 +2199,8 @@
         "SPEC-246"
       ],
       "requirement_revisions": {
-        "DVS-42": 55,
-        "SPEC-246": 18
+        "DVS-42": 60,
+        "SPEC-246": 24
       },
       "stable_id": "SPEC-284"
     },
@@ -2240,16 +2240,16 @@
         "SPEC-156"
       ],
       "requirement_revisions": {
-        "APP-34": 100,
+        "APP-34": 104,
         "DVS-10": 51,
         "DVS-11": 51,
-        "DVS-18": 65,
-        "DVS-19": 62,
-        "DVS-20": 52,
-        "DVS-21": 61,
-        "DVS-22": 72,
-        "DVS-23": 60,
-        "DVS-24": 52,
+        "DVS-18": 71,
+        "DVS-19": 68,
+        "DVS-20": 60,
+        "DVS-21": 67,
+        "DVS-22": 78,
+        "DVS-23": 66,
+        "DVS-24": 60,
         "DVS-25": 50,
         "DVS-26": 54,
         "DVS-27": 44,
@@ -2302,7 +2302,7 @@
       ],
       "requirement_revisions": {
         "APP-46": 73,
-        "SPEC-155": 117
+        "SPEC-155": 123
       },
       "stable_id": "SPEC-167"
     },
@@ -2342,7 +2342,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 42
+        "SPEC-253": 51
       },
       "stable_id": "SPEC-295"
     },
@@ -2364,10 +2364,10 @@
       "revision": 9,
       "status": "approved",
       "requirement_revisions": {
-        "APP-26": 103,
-        "SPEC-217": 10,
+        "APP-26": 105,
+        "SPEC-217": 14,
         "SPEC-218": 11,
-        "SPEC-253": 42
+        "SPEC-253": 51
       }
     },
     {
@@ -2387,7 +2387,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-32": 81,
-        "SPEC-253": 42
+        "SPEC-253": 51
       }
     },
     {
@@ -2466,14 +2466,14 @@
         "SPEC-365"
       ],
       "title": "Core: compact properties, defaults and field applicability",
-      "definition": "Suite: Core. Compare all 63 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.",
-      "procedure": "Suite: Core. Compare all 63 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.",
-      "revision": 8,
+      "definition": "Suite: Core. Compare all 75 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.\n\nExtend the catalogue by the twelve custom-zone properties in [[SPEC-300]] (75 total); the native save/reload/restart and SDK serialized-size cases are defined in [[TSTFUNC-10]].",
+      "procedure": "Suite: Core. Compare all 75 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.\n\nExtend the catalogue by the twelve custom-zone properties in [[SPEC-300]] (75 total); the native save/reload/restart and SDK serialized-size cases are defined in [[TSTFUNC-10]].",
+      "revision": 29,
       "status": "approved",
       "requirement_revisions": {
         "SPEC-243": 26,
         "SPEC-244": 15,
-        "SPEC-245": 11,
+        "SPEC-245": 12,
         "SPEC-301": 36,
         "SPEC-302": 37,
         "SPEC-303": 37,
@@ -2482,7 +2482,7 @@
         "SPEC-306": 37,
         "SPEC-307": 37,
         "SPEC-308": 5,
-        "SPEC-310": 5,
+        "SPEC-310": 11,
         "SPEC-311": 38,
         "SPEC-312": 39,
         "SPEC-313": 38,
@@ -2559,6 +2559,192 @@
       "requirement_revisions": {
         "SPEC-153": 61,
         "SPEC-160": 13
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-6",
+      "key": "customHeartZoneBoundaries",
+      "function": "customHeartZoneBoundaries",
+      "source": "tests/CustomZoneTests.mc",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "runner": "logic",
+      "requirements": [
+        "SPEC-661",
+        "SPEC-666"
+      ],
+      "title": "Core: custom HR boundaries and validation",
+      "definition": "Suite: Core. Definition for implementation; no execution result.\n\nUse limits 100/120/140/160 bpm. Assert 99/100 ->1, 101/120 ->2, 121/140 ->3, 141/160 ->4, 161/251 ->5; include half-unit rounding carries. Reject raw zero, negative, missing and non-finite readings. Cover valid edge limits 30 and 250, repeated/descending/missing/zero/fractional/string/non-finite/out-of-range cutoffs; invalid tuples expose no zone. Positive raw values rounding to zero remain zone 1.",
+      "procedure": "Suite: Core. Definition for implementation; no execution result.\n\nUse limits 100/120/140/160 bpm. Assert 99/100 ->1, 101/120 ->2, 121/140 ->3, 141/160 ->4, 161/251 ->5; include half-unit rounding carries. Reject raw zero, negative, missing and non-finite readings. Cover valid edge limits 30 and 250, repeated/descending/missing/zero/fractional/string/non-finite/out-of-range cutoffs; invalid tuples expose no zone. Positive raw values rounding to zero remain zone 1.",
+      "revision": 3,
+      "status": "approved",
+      "requirement_revisions": {
+        "SPEC-661": 4,
+        "SPEC-666": 4
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-7",
+      "key": "customPowerZoneBoundaries",
+      "function": "customPowerZoneBoundaries",
+      "source": "tests/CustomZoneTests.mc",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "runner": "logic",
+      "requirements": [
+        "SPEC-662",
+        "SPEC-666"
+      ],
+      "title": "Core: custom power boundaries and names",
+      "definition": "Suite: Core. Definition for implementation; no execution result.\n\nUse limits 100/150/200/250/300/350 W. Check each boundary minus/at/plus one and half-unit rounding carries; zero ->1 and 351/3001 ->7. Reject negative/missing/non-finite raw input. Verify all seven exact names and open final zone. Cover valid limit edges 1/3000, repeated/descending/missing/zero/fractional/string/non-finite/out-of-range cutoffs.",
+      "procedure": "Suite: Core. Definition for implementation; no execution result.\n\nUse limits 100/150/200/250/300/350 W. Check each boundary minus/at/plus one and half-unit rounding carries; zero ->1 and 351/3001 ->7. Reject negative/missing/non-finite raw input. Verify all seven exact names and open final zone. Cover valid limit edges 1/3000, repeated/descending/missing/zero/fractional/string/non-finite/out-of-range cutoffs.",
+      "revision": 3,
+      "status": "approved",
+      "requirement_revisions": {
+        "SPEC-662": 4,
+        "SPEC-666": 4
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-8",
+      "key": "customZoneSourceSelection",
+      "function": "customZoneSourceSelection",
+      "source": "tests/CustomZoneTests.mc",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "runner": "logic",
+      "requirements": [
+        "FR-16431",
+        "FR-16438",
+        "SPEC-663",
+        "SPEC-664",
+        "SPEC-666",
+        "SPEC-668"
+      ],
+      "title": "Core: independent zone selection and recovery",
+      "definition": "Suite: Core. Definition for implementation; no execution result.\n\nExercise Off/Off, On/Off, Off/On, On/On with disagreeing device/custom fixtures. Check absent device profiles and older-API absence do not block valid custom classification. Invalid selected custom profiles never fall back; valid edits recover. Missing/malformed switch reads Off. Switch Off then On retains edited limits. Verify device mode retains native bounds and indices, including 10.",
+      "procedure": "Suite: Core. Definition for implementation; no execution result.\n\nExercise Off/Off, On/Off, Off/On, On/On with disagreeing device/custom fixtures. Check absent device profiles and older-API absence do not block valid custom classification. Invalid selected custom profiles never fall back; valid edits recover. Missing/malformed switch reads Off. Switch Off then On retains edited limits. Verify device mode retains native bounds and indices, including 10.",
+      "revision": 3,
+      "status": "approved",
+      "requirement_revisions": {
+        "FR-16431": 16,
+        "FR-16438": 16,
+        "SPEC-663": 7,
+        "SPEC-664": 7,
+        "SPEC-666": 4,
+        "SPEC-668": 3
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-9",
+      "key": "selectedZoneConsumers",
+      "function": "selectedZoneConsumers",
+      "source": "tests/CustomZoneTests.mc",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "runner": "logic",
+      "requirements": [
+        "DVS-20",
+        "DVS-24",
+        "SPEC-246",
+        "SPEC-248",
+        "SPEC-253",
+        "SPEC-663",
+        "SPEC-664",
+        "SPEC-665",
+        "SPEC-666"
+      ],
+      "title": "Core: selected profiles and seven exact colors",
+      "definition": "Suite: Core. Definition for implementation; no execution result.\n\nFor HR/power current, 3s, activity/lap averages, numeric zone and Team, give different metric values and assert each uses its own selected profile/value. Hide numeric sources; cover both sets, regular/enlarged/duplicate slots, themes/inversion, None/Label/Whole cell. Assert palette zones 1..7 and native 10; dark magenta uses white label text, white value text only for Whole cell, Label retains normal value area. Invalid/recovered zones retain valid values/text and use neutral/recovered effects. Cadence, grade and temperature classification remain unchanged.",
+      "procedure": "Suite: Core. Definition for implementation; no execution result.\n\nFor HR/power current, 3s, activity/lap averages, numeric zone and Team, give different metric values and assert each uses its own selected profile/value. Hide numeric sources; cover both sets, regular/enlarged/duplicate slots, themes/inversion, None/Label/Whole cell. Assert palette zones 1..7 and native 10; dark magenta uses white label text, white value text only for Whole cell, Label retains normal value area. Invalid/recovered zones retain valid values/text and use neutral/recovered effects. Cadence, grade and temperature classification remain unchanged.",
+      "revision": 8,
+      "status": "approved",
+      "requirement_revisions": {
+        "DVS-20": 60,
+        "DVS-24": 60,
+        "SPEC-246": 24,
+        "SPEC-248": 58,
+        "SPEC-253": 51,
+        "SPEC-663": 7,
+        "SPEC-664": 7,
+        "SPEC-665": 7,
+        "SPEC-666": 4
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-10",
+      "key": "customZoneSettingsPersistence",
+      "function": "customZoneSettingsPersistence",
+      "source": "tests/CustomZoneTests.mc",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "runner": "logic",
+      "requirements": [
+        "FR-16431",
+        "FR-16432",
+        "FR-16433",
+        "FR-16434",
+        "FR-16435",
+        "FR-16436",
+        "FR-16437",
+        "FR-16438",
+        "FR-16439",
+        "FR-16440",
+        "FR-16441",
+        "FR-16442",
+        "SPEC-155",
+        "SPEC-245",
+        "SPEC-668",
+        "SPEC-669"
+      ],
+      "title": "Core: custom zone properties and settings persistence",
+      "definition": "Suite: Core. Definition for implementation; no execution result.\n\nCompare twelve new keys/types/defaults/captions/ranges with property owners and generated catalogue; require 75 total unique properties, no schema or migration keys. Verify Training zones order, named power limits, units, open-final prompts and Team-before-slots. Save nondefault switches/limits through native settings callback, reload and app restart; test false/zero preservation and zero runtime writes. Serialize complete defaults and maximum allowed dictionary with Garmin SDK; both must be <=8000 bytes. Do not substitute XML byte length.",
+      "procedure": "Suite: Core. Definition for implementation; no execution result.\n\nCompare twelve new keys/types/defaults/captions/ranges with property owners and generated catalogue; require 75 total unique properties, no schema or migration keys. Verify Training zones order, named power limits, units, open-final prompts and Team-before-slots. Save nondefault switches/limits through native settings callback, reload and app restart; test false/zero preservation and zero runtime writes. Serialize complete defaults and maximum allowed dictionary with Garmin SDK; both must be <=8000 bytes. Do not substitute XML byte length.",
+      "revision": 6,
+      "status": "approved",
+      "requirement_revisions": {
+        "FR-16431": 16,
+        "FR-16432": 16,
+        "FR-16433": 16,
+        "FR-16434": 16,
+        "FR-16435": 16,
+        "FR-16436": 16,
+        "FR-16437": 16,
+        "FR-16438": 16,
+        "FR-16439": 16,
+        "FR-16440": 16,
+        "FR-16441": 16,
+        "FR-16442": 16,
+        "SPEC-155": 123,
+        "SPEC-245": 12,
+        "SPEC-668": 3,
+        "SPEC-669": 6
+      }
+    },
+    {
+      "stable_id": "TSTFUNC-11",
+      "key": "customZoneLifecycle",
+      "function": "customZoneLifecycle",
+      "source": "tests/CustomZoneTests.mc",
+      "suite": "Core",
+      "suite_stable_id": "TRGR-1",
+      "runner": "logic",
+      "requirements": [
+        "APP-26",
+        "SPEC-665",
+        "SPEC-667",
+        "SPEC-668"
+      ],
+      "title": "Core: zone preparation and activity isolation",
+      "definition": "Suite: Core. Definition for implementation; no execution result.\n\nInstrument init, settings reload, compute and drawing. Count one shared validation per changed family at preparation, no property parsing/profile validation/device-zone query in ordinary compute/draw, and no device lookup for custom-selected families. Reload source/limits while both banks contain duplicate, hidden and enlarged consumers; require next display updated and no stale cached zone/color/packet. Compare metric snapshots, rolling samples, lap history, active bank and trigger thresholds before/after: unchanged. Custom profiles share identity across consumers.",
+      "procedure": "Suite: Core. Definition for implementation; no execution result.\n\nInstrument init, settings reload, compute and drawing. Count one shared validation per changed family at preparation, no property parsing/profile validation/device-zone query in ordinary compute/draw, and no device lookup for custom-selected families. Reload source/limits while both banks contain duplicate, hidden and enlarged consumers; require next display updated and no stale cached zone/color/packet. Compare metric snapshots, rolling samples, lap history, active bank and trigger thresholds before/after: unchanged. Custom profiles share identity across consumers.",
+      "revision": 4,
+      "status": "approved",
+      "requirement_revisions": {
+        "APP-26": 105,
+        "SPEC-665": 7,
+        "SPEC-667": 6,
+        "SPEC-668": 3
       }
     }
   ],

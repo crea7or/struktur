@@ -90,7 +90,7 @@ function exactEffectBands(logger) {
     Test.assert(Effects.temperatureBand(null)==null);Test.assert(Effects.gradeBand(null)==null);
     Test.assertEqual(45.0,Effects.horizonAngle(99));Test.assertEqual(-45.0,Effects.horizonAngle(-99));
     Test.assertEqual(10.0,Effects.horizonAngle(5));
-    Test.assertEqual("magenta",Effects.zoneColor(7));Test.assert(Effects.zoneColor(null)==null);
+    Test.assertEqual("dark_magenta",Effects.zoneColor(7));Test.assert(Effects.zoneColor(null)==null);
     return true;
 }
 

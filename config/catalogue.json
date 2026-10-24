@@ -1352,6 +1352,134 @@
       "requirement": "SPEC-330"
     },
     {
+      "key": "cpz",
+      "type": "boolean",
+      "default": false,
+      "shared": true,
+      "title": "Use custom power zones",
+      "prompt": "Off uses device zones. On uses only the custom limits below; unset/invalid limits make zones unavailable.",
+      "requirement": "FR-16431"
+    },
+    {
+      "key": "pw1",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 3000,
+      "shared": true,
+      "title": "Power zone 1 (Active Recovery): upper W",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.",
+      "requirement": "FR-16432"
+    },
+    {
+      "key": "pw2",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 3000,
+      "shared": true,
+      "title": "Power zone 2 (Endurance): upper W",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.",
+      "requirement": "FR-16433"
+    },
+    {
+      "key": "pw3",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 3000,
+      "shared": true,
+      "title": "Power zone 3 (Tempo): upper W",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.",
+      "requirement": "FR-16434"
+    },
+    {
+      "key": "pw4",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 3000,
+      "shared": true,
+      "title": "Power zone 4 (Threshold): upper W",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.",
+      "requirement": "FR-16435"
+    },
+    {
+      "key": "pw5",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 3000,
+      "shared": true,
+      "title": "Power zone 5 (VO2 Max): upper W",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.",
+      "requirement": "FR-16436"
+    },
+    {
+      "key": "pw6",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 3000,
+      "shared": true,
+      "title": "Power zone 6 (Anaerobic): upper W",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.",
+      "requirement": "FR-16437"
+    },
+    {
+      "key": "chz",
+      "type": "boolean",
+      "default": false,
+      "shared": true,
+      "title": "Use custom heart rate zones",
+      "prompt": "Off uses device zones. On uses only the custom limits below; unset/invalid limits make zones unavailable.",
+      "requirement": "FR-16438"
+    },
+    {
+      "key": "hr1",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 250,
+      "shared": true,
+      "title": "Heart rate zone 1: upper bpm",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.",
+      "requirement": "FR-16439"
+    },
+    {
+      "key": "hr2",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 250,
+      "shared": true,
+      "title": "Heart rate zone 2: upper bpm",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.",
+      "requirement": "FR-16440"
+    },
+    {
+      "key": "hr3",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 250,
+      "shared": true,
+      "title": "Heart rate zone 3: upper bpm",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.",
+      "requirement": "FR-16441"
+    },
+    {
+      "key": "hr4",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 250,
+      "shared": true,
+      "title": "Heart rate zone 4: upper bpm",
+      "prompt": "Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.",
+      "requirement": "FR-16442"
+    },
+    {
       "key": "cad1",
       "type": "number",
       "default": 60,

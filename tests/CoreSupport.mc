@@ -126,7 +126,7 @@ class PropertyReadStore {
 (:testSupport)
 function verifyCompactProperties() {
     var store=new PropertyReadStore();store.values={"a1"=>32,"team"=>"SAVED TEAM","b1_bg"=>0,"unrelated"=>42};
-    var data=SettingsStore.read(store);Test.assertEqual(63,store.reads);Test.assertEqual(63,data.size());
+    var data=SettingsStore.read(store);Test.assertEqual(75,store.reads);Test.assertEqual(75,data.size());
     Test.assertEqual(32,data["a1"]);Test.assertEqual("SAVED TEAM",data["team"]);Test.assertEqual(0,data["b1_bg"]);
     Test.assert(!data.hasKey("unrelated"));Test.assertEqual(4,store.values.size());
     var keys=SettingsCatalogue.keys();var seen={};
@@ -149,10 +149,10 @@ function verifyColoringZones() {
     Test.assert(CadenceZones.classify(Math.acos(2.0),bounds)==null);
     var invalid=[-1,301,80,true,"60",60.0,null];
     for(var j=0;j<invalid.size();j+=1) { Test.assert(CadenceZones.configured({"cad1"=>invalid[j]})==null); }
-    var colors=["blue","green","yellow","orange","red","magenta"];
-    var rgb=[0x00AAFF,0x00FF00,0xFFAA00,0xFF5500,0xFF0000,0xFF00FF];var renderer=new FieldRenderer();
-    for(var z=1;z<=6;z+=1) { Test.assertEqual(colors[z-1],Effects.zoneColor(z));Test.assertEqual(rgb[z-1],renderer.color(colors[z-1])); }
-    Test.assertEqual("magenta",Effects.zoneColor(10));Test.assert(Effects.zoneColor(1.0)==null);
+    var colors=["blue","green","yellow","orange","red","magenta","dark_magenta"];
+    var rgb=[0x00AAFF,0x00FF00,0xFFAA00,0xFF5500,0xFF0000,0xFF00FF,0xAA00AA];var renderer=new FieldRenderer();
+    for(var z=1;z<=7;z+=1) { Test.assertEqual(colors[z-1],Effects.zoneColor(z));Test.assertEqual(rgb[z-1],renderer.color(colors[z-1])); }
+    Test.assertEqual("dark_magenta",Effects.zoneColor(10));Test.assert(Effects.zoneColor(1.0)==null);
     new ZoneFamilyScenario().run();
 }
 (:testSupport)
@@ -167,7 +167,7 @@ class ZoneFamilyScenario {
     function run() {
         var ids=["current_heart_rate","heart_rate_3s","average_heart_rate","lap_heart_rate","current_power","power_3s","average_power","lap_power","current_cadence","average_cadence","lap_cadence","heart_rate_zone","power_zone"];
         var readings=[90,110,130,150,50,150,250,650,60,81,121,2,7];
-        var colors=["blue","green","yellow","orange","blue","green","yellow","magenta","blue","yellow","red","green","magenta"];
+        var colors=["blue","green","yellow","orange","blue","green","yellow","dark_magenta","blue","yellow","red","green","dark_magenta"];
         for(var i=0;i<ids.size();i+=1) {
             props={"a1"=>ids[i],"a2"=>ids[i],"a1_bg"=>1,"a2_bg"=>2};raw={};raw[ids[i]]=readings[i];sample();
             Test.assertEqual(colors[i],snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual(colors[i],snapshot[:values][1][ValueRecord.BAND]);
@@ -182,7 +182,7 @@ class ZoneFamilyScenario {
         raw={"current_heart_rate"=>130,"heart_rate_zone"=>5,"current_power"=>650,"power_zone"=>10};
         engine._powerZones=ZoneMetadata.power([0,100,200,300,400,500,600,700,800,900,1000],true);sample();
         Test.assertEqual("3",snapshot[:values][0][ValueRecord.TEXT]);Test.assertEqual("yellow",snapshot[:values][0][ValueRecord.BAND]);
-        Test.assertEqual("7",snapshot[:values][1][ValueRecord.TEXT]);Test.assertEqual("magenta",snapshot[:values][1][ValueRecord.BAND]);old=snapshot;
+        Test.assertEqual("7",snapshot[:values][1][ValueRecord.TEXT]);Test.assertEqual("dark_magenta",snapshot[:values][1][ValueRecord.BAND]);old=snapshot;
         engine._hrZones=ZoneMetadata.heart([0,140,150,160,180,200]);sample();
         Test.assertEqual("1",snapshot[:values][0][ValueRecord.TEXT]);Test.assertEqual("blue",snapshot[:values][0][ValueRecord.BAND]);Test.assertEqual("3",old[:values][0][ValueRecord.TEXT]);
         var banks=new FieldSetsSettings();banks.apply({});Test.assert(banks.primary.cadenceBounds==banks.secondary.cadenceBounds);

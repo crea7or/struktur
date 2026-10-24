@@ -37,7 +37,7 @@
     <string id="Field_team" scope="settings">team</string>
     <string id="SecondSetTitle" scope="settings">Second field set</string>
     <string id="SecondSetDescription" scope="settings">Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.</string>
-    <string id="CadenceZonesTitle" scope="settings">Cadence coloring zones</string>
+    <string id="TrainingZonesTitle" scope="settings">Training zones</string>
     <string id="Setting_a_big" scope="settings">Enlarged slot count</string>
     <string id="Choice_0" scope="settings">0</string>
     <string id="Choice_1" scope="settings">1</string>
@@ -145,6 +145,30 @@
     <string id="Choice_a10_bg_0" scope="settings">None</string>
     <string id="Choice_a10_bg_1" scope="settings">Label</string>
     <string id="Choice_a10_bg_2" scope="settings">Whole cell</string>
+    <string id="Setting_cpz" scope="settings">Use custom power zones</string>
+    <string id="Prompt_cpz" scope="settings">Off uses device zones. On uses only the custom limits below; unset/invalid limits make zones unavailable.</string>
+    <string id="Setting_pw1" scope="settings">Power zone 1 (Active Recovery): upper W</string>
+    <string id="Prompt_pw1" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.</string>
+    <string id="Setting_pw2" scope="settings">Power zone 2 (Endurance): upper W</string>
+    <string id="Prompt_pw2" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.</string>
+    <string id="Setting_pw3" scope="settings">Power zone 3 (Tempo): upper W</string>
+    <string id="Prompt_pw3" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.</string>
+    <string id="Setting_pw4" scope="settings">Power zone 4 (Threshold): upper W</string>
+    <string id="Prompt_pw4" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.</string>
+    <string id="Setting_pw5" scope="settings">Power zone 5 (VO2 Max): upper W</string>
+    <string id="Prompt_pw5" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.</string>
+    <string id="Setting_pw6" scope="settings">Power zone 6 (Anaerobic): upper W</string>
+    <string id="Prompt_pw6" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.</string>
+    <string id="Setting_chz" scope="settings">Use custom heart rate zones</string>
+    <string id="Prompt_chz" scope="settings">Off uses device zones. On uses only the custom limits below; unset/invalid limits make zones unavailable.</string>
+    <string id="Setting_hr1" scope="settings">Heart rate zone 1: upper bpm</string>
+    <string id="Prompt_hr1" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.</string>
+    <string id="Setting_hr2" scope="settings">Heart rate zone 2: upper bpm</string>
+    <string id="Prompt_hr2" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.</string>
+    <string id="Setting_hr3" scope="settings">Heart rate zone 3: upper bpm</string>
+    <string id="Prompt_hr3" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.</string>
+    <string id="Setting_hr4" scope="settings">Heart rate zone 4: upper bpm</string>
+    <string id="Prompt_hr4" scope="settings">Custom mode only. All limits must increase; zero means unset. Use 30..250 bpm. Zone 5 is above zone 4.</string>
     <string id="Setting_cad1" scope="settings">Cadence zone 1: upper rpm</string>
     <string id="Prompt_cad1" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
     <string id="Setting_cad2" scope="settings">Cadence zone 2: upper rpm</string>

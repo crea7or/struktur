@@ -82,6 +82,13 @@ def main():
         props.extend([dict(key=f'slot_{i+1}_value',type='number',default=[f['id'] for f in fields].index(DEFAULTS[i]),choices=list(range(len(fields))),identifiers=[f['id'] for f in fields],title=f'Slot {i+1}: value'),
                       dict(key=f'slot_{i+1}_background_mode',type='number',default=0,choices=[0,1,2],choice_labels=['None','Label','Whole cell'],title=f'Slot {i+1}: background')])
     first_props=[p for p in props if not p.get("shared")]
+    for power, switch, count, maximum in [(True,'cpz',6,3000),(False,'chz',4,250)]:
+        family='power' if power else 'heart rate'
+        props.append(dict(key=switch,type='boolean',default=False,shared=True,title='Use custom '+family+' zones',prompt='Off uses device zones. On uses only the custom limits below; unset/invalid limits make zones unavailable.'))
+        names=['Active Recovery','Endurance','Tempo','Threshold','VO2 Max','Anaerobic']
+        for i in range(1,count+1):
+            title=f'Power zone {i} ({names[i-1]}): upper W' if power else f'Heart rate zone {i}: upper bpm'
+            props.append(dict(key=('pw' if power else 'hr')+str(i),type='number',default=0,min=0,max=maximum,shared=True,title=title,prompt=('Custom mode only. All limits must increase; zero means unset. '+('Use 1..3000 W. Zone 7 Neuromuscular is above zone 6.' if power else 'Use 30..250 bpm. Zone 5 is above zone 4.'))))
     props += [dict(key=f'cadence_zone_{i}_max_rpm',type='number',default=value,min=0,max=300,title=f'Cadence zone {i}: upper rpm',prompt='Four increasing upper bounds define five coloring zones; both field sets share these values.') for i,value in enumerate([60,80,100,120],1)]
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
                    identifiers=['trigger_none','trigger_power_3s','trigger_heart_rate','trigger_manual_lap','trigger_workout'],
@@ -111,6 +118,7 @@ def main():
             compact[prefix+f'slot_{i}_value']=bank+str(i)
             compact[prefix+f'slot_{i}_background_mode']=bank+str(i)+'_bg'
     compact.update({f'cadence_zone_{i}_max_rpm':'cad'+str(i) for i in range(1,5)})
+    compact.update({k:k for k in ['cpz','chz']+[f'pw{i}' for i in range(1,7)]+[f'hr{i}' for i in range(1,5)]})
     for p in props:
         p.setdefault('title',p['key'].replace('_',' ').capitalize())
         p['key']=compact[p['key']]
@@ -125,11 +133,11 @@ def main():
     settings_root=ET.Element('resources'); settings=ET.SubElement(settings_root,'settings')
     ET.SubElement(strings,'string',id='SecondSetTitle').text='Second field set'
     ET.SubElement(strings,'string',id='SecondSetDescription').text='Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.'
-    ET.SubElement(strings,'string',id='CadenceZonesTitle').text='Cadence coloring zones'
+    ET.SubElement(strings,'string',id='TrainingZonesTitle').text='Training zones'
     second_group=None
     for p in props:
-        if p['key']=='cad1':
-            second_group=ET.SubElement(settings,'group',id='cadence_zones',title='@Strings.CadenceZonesTitle')
+        if p['key']=='cpz':
+            second_group=ET.SubElement(settings,'group',id='training_zones',title='@Strings.TrainingZonesTitle')
         if p['key']=='trig':
             second_group=ET.SubElement(settings,'group',id='second_field_set',title='@Strings.SecondSetTitle',description='@Strings.SecondSetDescription')
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])

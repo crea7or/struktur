@@ -26,7 +26,7 @@ module Effects {
     function horizonAngle(g) { return Numeric.finite(g) ? Numeric.clamp(2.0 * g, -45.0, 45.0) : null; }
     function zoneColor(zone) {
         if (!(zone instanceof Lang.Number) || zone < 1) { return null; }
-        return zone > 5 ? "magenta" : ZONE_COLORS[zone - 1];
+        return zone>=7?"dark_magenta":(zone==6?"magenta":ZONE_COLORS[zone-1]);
     }
     // Zone equality requires a reviewed policy; no inferred FTP thresholds.
     function zone(value, thresholds, upperInclusive) {

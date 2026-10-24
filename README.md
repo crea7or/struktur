@@ -13,7 +13,7 @@ Your ride, your layout. Struktur is a free, open-source Garmin Edge Data Field t
 - **Build two independent dashboards.** Each saves ten slot assignments, with its own layout, alignment, theme, grid, unit headers and backgrounds. Assignments stay saved when a layout hides some slots.
 - **Enlarge up to two fields** to emphasize your priorities. Center labels and values or align them to the right.
 - **Choose your appearance:** Day, Night or automatic theme; no grid, horizontal lines or a full grid; optional inverted themes for enlarged fields.
-- **Set each slot's background** to None, Label or Whole cell. Add heart-rate, power or cadence zone colors, or a slope horizon with Whole cell background. Cadence zone boundaries are configurable.
+- **Set each slot's background** to None, Label or Whole cell. Add heart-rate, power or cadence zone colors, or a slope horizon with Whole cell background. Use device training zones or independently enable custom five-zone heart rate and seven-zone power profiles. Cadence zone boundaries are configurable.
 - **Show your team name.** Enter the text once and use it in any Team slot on either dashboard. Text fits automatically and wraps at spaces when needed, with optional heart-rate or power coloring.
 - **Use your preferred units**, optional `label | unit` headers and a 12- or 24-hour clock. Timers show compact seconds and support long rides.
 
@@ -36,6 +36,14 @@ The app starts on the first dashboard. For power and heart-rate switching, set t
 **Edge 530, 830 and 1030:** disable Auto Lap for Lap-button switching. Automatic and workout-generated laps can also toggle the dashboard on these devices.
 
 The second dashboard starts with enlarged 3s power, followed by heart rate, cadence, slope, lap average power, speed, lap distance, lap time, elevation and temperature. Label backgrounds are enabled for its first four slots. The number of visible slots depends on the device and enlargement choices.
+
+## Customize training zones
+
+In **Training zones**, enable **Use custom power zones** or **Use custom heart rate zones** independently. Set six increasing upper limits in watts for power and four in bpm for heart rate; the final zone has no upper limit. Both switches start off, using device zones.
+
+Power zones are Active Recovery, Endurance, Tempo, Threshold, VO2 Max, Anaerobic and Neuromuscular. Their colors are blue, green, yellow, orange, red, magenta and dark magenta. Heart rate uses the first five colors. A reading exactly at an upper limit stays in the lower zone.
+
+Custom limits apply across both dashboards, including averages, lap metrics, numeric zones and Team coloring. Zero means unset. An enabled profile with missing or invalid limits shows unavailable zones and neutral backgrounds while retaining valid metric values. Turn its switch off to use device zones again; custom limits stay saved.
 
 ## Devices and layouts
 

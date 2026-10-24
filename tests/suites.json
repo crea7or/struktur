@@ -10,7 +10,8 @@
         "tests/AcquisitionTests.mc",
         "tests/NormalRangeTests.mc",
         "tests/PerformanceTests.mc",
-        "tests/FieldSetTests.mc"
+        "tests/FieldSetTests.mc",
+        "tests/CustomZoneTests.mc"
       ],
       "support": [
         "tests/CoreSupport.mc",

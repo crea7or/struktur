@@ -1,6 +1,6 @@
 # Application properties
 
-All 63 properties use compact keys. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
+All 75 properties use compact keys. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
 
 The SDK serialization check includes keys and overhead, with the maximum 32-character Team value. Both default and maximum dictionaries must fit 8,000 bytes.
 
@@ -34,6 +34,18 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `a9_bg` | Slot 9: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
 | `a10` | Slot 10: value | number: field codes 0?32 (below) | `20` |
 | `a10_bg` | Slot 10: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
+| `cpz` | Use custom power zones | boolean | `false` |
+| `pw1` | Power zone 1 (Active Recovery): upper W | number: 0..3000 | `0` |
+| `pw2` | Power zone 2 (Endurance): upper W | number: 0..3000 | `0` |
+| `pw3` | Power zone 3 (Tempo): upper W | number: 0..3000 | `0` |
+| `pw4` | Power zone 4 (Threshold): upper W | number: 0..3000 | `0` |
+| `pw5` | Power zone 5 (VO2 Max): upper W | number: 0..3000 | `0` |
+| `pw6` | Power zone 6 (Anaerobic): upper W | number: 0..3000 | `0` |
+| `chz` | Use custom heart rate zones | boolean | `false` |
+| `hr1` | Heart rate zone 1: upper bpm | number: 0..250 | `0` |
+| `hr2` | Heart rate zone 2: upper bpm | number: 0..250 | `0` |
+| `hr3` | Heart rate zone 3: upper bpm | number: 0..250 | `0` |
+| `hr4` | Heart rate zone 4: upper bpm | number: 0..250 | `0` |
 | `cad1` | Cadence zone 1: upper rpm | number: 0?300 | `60` |
 | `cad2` | Cadence zone 2: upper rpm | number: 0?300 | `80` |
 | `cad3` | Cadence zone 3: upper rpm | number: 0?300 | `100` |
@@ -71,6 +83,8 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `b10_bg` | Second set: Slot 10: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
 
 All Team slots share `team` and `tsrc`. They are configured before the slot controls. Team font fitting is automatic; no font selector is exposed.
+
+The global Training zones group contains the power switch and six upper limits, then the HR switch and four upper limits, then cadence. Only Boolean true enables a custom family. Power limits must be integers 1..3000 W, HR limits 30..250 bpm, strictly increasing; defaults of zero are unset. The final zone is open-ended. Invalid custom profiles never fall back to device zones or rewrite saved values. Both banks share their selected family profiles; averages use their own readings and Team uses its chosen current source.
 
 Cadence bounds must increase strictly. Invalid present bounds disable cadence coloring. Each activation return threshold must be no greater than its activation threshold; invalid selected pairs keep the default dashboard.
 

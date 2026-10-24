@@ -29,6 +29,18 @@
     <property id="a9_bg" type="number">0</property>
     <property id="a10" type="number">20</property>
     <property id="a10_bg" type="number">0</property>
+    <property id="cpz" type="boolean">false</property>
+    <property id="pw1" type="number">0</property>
+    <property id="pw2" type="number">0</property>
+    <property id="pw3" type="number">0</property>
+    <property id="pw4" type="number">0</property>
+    <property id="pw5" type="number">0</property>
+    <property id="pw6" type="number">0</property>
+    <property id="chz" type="boolean">false</property>
+    <property id="hr1" type="number">0</property>
+    <property id="hr2" type="number">0</property>
+    <property id="hr3" type="number">0</property>
+    <property id="hr4" type="number">0</property>
     <property id="cad1" type="number">60</property>
     <property id="cad2" type="number">80</property>
     <property id="cad3" type="number">100</property>

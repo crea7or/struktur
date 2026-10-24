@@ -17,7 +17,7 @@ class StrukturField extends LapAwareDataField {
         var banks=new FieldSetsSettings();banks.load();
         _fieldSets=new FieldSetController(banks);_settings=_fieldSets.active();
         _acquisition=new ActivityAcquisition();
-        _engine=new SnapshotEngine();_engine.metadata();
+        _engine=new SnapshotEngine();_engine.selectProfiles(_settings);_engine.metadata();
         _snapshot=_engine.initial(_settings);_renderer=new FieldRenderer();_renderer.prepare(_snapshot);_layoutDirty=true;_samplingEnabled=false;
     }
     function compute(info) { processActivity(info); }
@@ -53,9 +53,11 @@ class StrukturField extends LapAwareDataField {
         if(_layoutDirty || _renderer.needsLayout()) { onLayout(dc); }
         _renderer.draw(dc,_snapshot,_settings);
     }
-    function reloadSettings() { _renderer.releaseForSettingsReload();var next=new FieldSetsSettings();next.load();applyFieldSets(next); }
+    function reloadSettings() { _renderer.releaseForSettingsReload();var next=new FieldSetsSettings();
+        next.primary.heartProfile=_settings.heartProfile;next.primary.powerProfile=_settings.powerProfile;
+        next.load();applyFieldSets(next); }
     function applyFieldSets(next) {
-        _fieldSets.configure(next);_engine.metadata();refreshPresentation();
+        _fieldSets.configure(next);_engine.selectProfiles(next.primary);_engine.metadata();refreshPresentation();
     }
     function refreshPresentation() {
         var changed=selectSettings();var raw=_snapshot[:raw];raw["temperature"]=temperatureReading();

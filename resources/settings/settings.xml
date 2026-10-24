@@ -484,7 +484,43 @@
         <listEntry value="2">@Strings.Choice_a10_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <group id="cadence_zones" title="@Strings.CadenceZonesTitle">
+    <group id="training_zones" title="@Strings.TrainingZonesTitle">
+      <setting propertyKey="@Properties.cpz" title="@Strings.Setting_cpz" prompt="@Strings.Prompt_cpz">
+        <settingConfig type="boolean" />
+      </setting>
+      <setting propertyKey="@Properties.pw1" title="@Strings.Setting_pw1" prompt="@Strings.Prompt_pw1">
+        <settingConfig type="numeric" min="0" max="3000" />
+      </setting>
+      <setting propertyKey="@Properties.pw2" title="@Strings.Setting_pw2" prompt="@Strings.Prompt_pw2">
+        <settingConfig type="numeric" min="0" max="3000" />
+      </setting>
+      <setting propertyKey="@Properties.pw3" title="@Strings.Setting_pw3" prompt="@Strings.Prompt_pw3">
+        <settingConfig type="numeric" min="0" max="3000" />
+      </setting>
+      <setting propertyKey="@Properties.pw4" title="@Strings.Setting_pw4" prompt="@Strings.Prompt_pw4">
+        <settingConfig type="numeric" min="0" max="3000" />
+      </setting>
+      <setting propertyKey="@Properties.pw5" title="@Strings.Setting_pw5" prompt="@Strings.Prompt_pw5">
+        <settingConfig type="numeric" min="0" max="3000" />
+      </setting>
+      <setting propertyKey="@Properties.pw6" title="@Strings.Setting_pw6" prompt="@Strings.Prompt_pw6">
+        <settingConfig type="numeric" min="0" max="3000" />
+      </setting>
+      <setting propertyKey="@Properties.chz" title="@Strings.Setting_chz" prompt="@Strings.Prompt_chz">
+        <settingConfig type="boolean" />
+      </setting>
+      <setting propertyKey="@Properties.hr1" title="@Strings.Setting_hr1" prompt="@Strings.Prompt_hr1">
+        <settingConfig type="numeric" min="0" max="250" />
+      </setting>
+      <setting propertyKey="@Properties.hr2" title="@Strings.Setting_hr2" prompt="@Strings.Prompt_hr2">
+        <settingConfig type="numeric" min="0" max="250" />
+      </setting>
+      <setting propertyKey="@Properties.hr3" title="@Strings.Setting_hr3" prompt="@Strings.Prompt_hr3">
+        <settingConfig type="numeric" min="0" max="250" />
+      </setting>
+      <setting propertyKey="@Properties.hr4" title="@Strings.Setting_hr4" prompt="@Strings.Prompt_hr4">
+        <settingConfig type="numeric" min="0" max="250" />
+      </setting>
       <setting propertyKey="@Properties.cad1" title="@Strings.Setting_cad1" prompt="@Strings.Prompt_cad1">
         <settingConfig type="numeric" min="0" max="300" />
       </setting>

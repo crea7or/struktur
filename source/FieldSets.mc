@@ -20,7 +20,7 @@ class FieldSetsSettings {
         return value instanceof Lang.Number && value>=low && value<=high?value:fallback;
     }
     function apply(values) {
-        primary.applyBank(values,"a");secondary.applyBank(values,"b");
+        primary.applyBank(values,"a");secondary.applySharedBank(values,"b",primary);
         secondary.cadenceBounds=primary.cadenceBounds;
         trigger=integer(values,"trig",0,4,3);
         powerActivate=integer(values,"p_on",1,3000,250);

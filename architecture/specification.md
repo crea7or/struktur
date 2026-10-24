@@ -1,6 +1,6 @@
 # Struktur — current requirements snapshot
 
-Captured: **23 October 2026**. This specification preserves current review states. Test definitions are separate from execution results.
+Captured: **24 October 2026**. This specification preserves current review states. Test definitions are separate from execution results.
 
 Field identity, labels, units, header templates and precision are stored as typed attributes. Conditional precision uses PRECISION_RULE rather than numeric PRECISION.
 
@@ -158,7 +158,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-252 — Configure four cadence upper boundaries](#spec-252)
 - [SPEC-248 — Color each metric from its own value](#spec-248)
 - [SPEC-247 — Classify cadence using five disjoint zones](#spec-247)
-- [SPEC-246 — Use five explicit training colors](#spec-246)
+- [SPEC-246 — Use seven explicit training colors](#spec-246)
 - [SPEC-245 — Bound the serialized settings dictionary](#spec-245)
 - [SPEC-244 — Read current properties without compatibility migration](#spec-244)
 - [SPEC-221 — Apply settings changes without replaying old events](#spec-221)
@@ -222,7 +222,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-282 — Verify zone fallback and recovery](#spec-282)
 - [SPEC-281 — Verify all metric family colors](#spec-281)
 - [SPEC-280 — Verify cadence boundary table](#spec-280)
-- [SPEC-279 — Verify exact five-zone colors](#spec-279)
+- [SPEC-279 — Verify exact seven-zone colors](#spec-279)
 - [SPEC-278 — Verify serialized property budget](#spec-278)
 - [SPEC-277 — Verify read-only compact property loading](#spec-277)
 - [SPEC-276 — Verify current coverage settings without legacy declarations](#spec-276)
@@ -319,6 +319,34 @@ Field identity, labels, units, header templates and precision are stored as type
 - [APP-13 — onShow()](#app-13)
 - [APP-10 — onStart(state)](#app-10)
 - [APP-9 — getInitialView()](#app-9)
+- [SPEC-660 — Custom training zones](#spec-660)
+- [SPEC-661 — Classify custom heart rate into five zones](#spec-661)
+- [SPEC-662 — Classify custom power into seven zones](#spec-662)
+- [SPEC-663 — Select the global power zone source](#spec-663)
+- [SPEC-664 — Select the global heart rate zone source](#spec-664)
+- [SPEC-665 — Share the selected zone profile with all consumers](#spec-665)
+- [SPEC-666 — Keep invalid custom zone profiles unavailable](#spec-666)
+- [SPEC-667 — Prepare zone profiles outside compute and drawing](#spec-667)
+- [SPEC-668 — Preserve activity state when editing zone settings](#spec-668)
+- [SPEC-669 — Group global training zone options](#spec-669)
+- [FR-16431 — Use custom power zones (cpz)](#fr-16431)
+- [FR-16432 — Power zone 1 (Active Recovery): upper W (pw1)](#fr-16432)
+- [FR-16433 — Power zone 2 (Endurance): upper W (pw2)](#fr-16433)
+- [FR-16434 — Power zone 3 (Tempo): upper W (pw3)](#fr-16434)
+- [FR-16435 — Power zone 4 (Threshold): upper W (pw4)](#fr-16435)
+- [FR-16436 — Power zone 5 (VO2 Max): upper W (pw5)](#fr-16436)
+- [FR-16437 — Power zone 6 (Anaerobic): upper W (pw6)](#fr-16437)
+- [FR-16438 — Use custom heart rate zones (chz)](#fr-16438)
+- [FR-16439 — Heart rate zone 1: upper bpm (hr1)](#fr-16439)
+- [FR-16440 — Heart rate zone 2: upper bpm (hr2)](#fr-16440)
+- [FR-16441 — Heart rate zone 3: upper bpm (hr3)](#fr-16441)
+- [FR-16442 — Heart rate zone 4: upper bpm (hr4)](#fr-16442)
+- [TSTFUNC-6 — Core: custom HR boundaries and validation](#tstfunc-6)
+- [TSTFUNC-7 — Core: custom power boundaries and names](#tstfunc-7)
+- [TSTFUNC-8 — Core: independent zone selection and recovery](#tstfunc-8)
+- [TSTFUNC-9 — Core: selected profiles and seven exact colors](#tstfunc-9)
+- [TSTFUNC-10 — Core: custom zone properties and settings persistence](#tstfunc-10)
+- [TSTFUNC-11 — Core: zone preparation and activity isolation](#tstfunc-11)
 
 <a id="tint-1"></a>
 ## TINT-1 — Compile the production Data Field for each declared profile
@@ -370,7 +398,7 @@ Build all ten profiles with pinned SDK 9.2.0. Use config/firmware-compatibility.
 <a id="tprf-5"></a>
 ## TPRF-5 — Changed-cell fitting and prepared-only rendering
 
-Type: test | State: approved | Revision: 30
+Type: test | State: approved | Revision: 35
 
 Purpose: Verify [APP-26](#app-26) changed-cell preparation and draw-only replay. Suite: Core.
 
@@ -385,14 +413,16 @@ Executable: tests/PerformanceTests.mc, rendererCacheAndDrawPurity. Supporting ho
 Assert active geometry/separator caches contain at most one selected plan. An unchanged-geometry switch reuses that plan; geometry replacement releases the previous plan before constructing a new one. Verify ordinary draw purity, fallback recovery and cache invalidation remain correct.
 Exercise full settings reload with three cached font roles: outgoing handles/packets/obsolete geometry are released before property loading, metric tables and acquisition history survive, and the rebuilt view loads at most the same three roles and draws correctly. Verify ordinary bank-switch reuse remains intact.
 
+Custom source/threshold edits must invalidate affected prepared colors before next display; retain draw-only and changed-cell constraints. See [TSTFUNC-11](#tstfunc-11).
+
 **Relations**
 
-- verifies: [APP-12](#app-12), [APP-26](#app-26), [APP-32](#app-32), [DVS-29](#dvs-29)
+- verifies: [APP-12](#app-12), [APP-26](#app-26), [APP-32](#app-32), [DVS-29](#dvs-29), [SPEC-667](#spec-667)
 
 <a id="app-26"></a>
 ## APP-26 — Prepare geometry and sensor values outside the drawing path
 
-Type: requirement | State: approved | Revision: 103
+Type: requirement | State: approved | Revision: 105
 
 Prepare bounded caches when inputs become available:
 - Init/settings: validate both banks; resolve descriptors/conversions/formats/effects/channels and unavailable-safe values. Cache three metric roles, native candidates and header metrics. Keep at most two configuration banks, one acquisition state and one active prepared presentation; release outgoing fits/packets/headers before replacements. Reuse valid active geometry/fonts across switches. Retain only the selected geometry/separator plan; release failed/unselected plans and release obsolete geometry before replacing it.
@@ -646,22 +676,22 @@ At full-screen bounds, both numeric roles shall fit the complete primary text `0
 <a id="spec-284"></a>
 ## SPEC-284 — Verify native power-zone mapping
 
-Type: test | State: approved | Revision: 13
+Type: test | State: approved | Revision: 18
 
 Suite: Core. Requirements: [DVS-42](#dvs-42), [SPEC-246](#spec-246).
 
-For zones 1..5 assert the specified colors; zones 6, 7 and 10 use magenta #FF00FF while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.
+For zones 1..5 assert the specified colors; zone 6 uses magenta #FF00FF and zones 7 and 10 use dark magenta #AA00AA while numeric zones remain unchanged. Cover every power metric, power-zone and Power-bound Team, both themes/inversion and Label/Whole cell; None suppresses fill. Unknown metadata and invalid/out-of-range readings use neutral fallback. Include production metadata loading, invalid-profile clearing and valid-profile recovery through approvedZoneSnapshot in tests/AcquisitionTests.mc.
 
 Synthetic fixtures do not confirm the native device layout. Execution evidence is separate.
 
 **Relations**
 
-- verifies: [DVS-42](#dvs-42), [SPEC-246](#spec-246)
+- verifies: [DVS-42](#dvs-42), [SPEC-246](#spec-246), [SPEC-663](#spec-663)
 
 <a id="tfnc-24"></a>
 ## TFNC-24 — Validated zone metadata and snapshot classification
 
-Type: test | State: approved | Revision: 19
+Type: test | State: approved | Revision: 27
 
 Suite: Core. Requirements: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248).
 
@@ -669,14 +699,18 @@ Run approvedZoneSnapshot in tests/AcquisitionTests.mc, including verifyNativePow
 
 Synthetic inputs verify the adapter contract, not the device array layout. Record actual product, source, toolchain and named results under [SPEC-162](#spec-162); this definition records no execution.
 
+Custom modes additionally verify [TSTFUNC-6](#tstfunc-6), [TSTFUNC-7](#tstfunc-7) and [TSTFUNC-8](#tstfunc-8); device-mode metadata qualification remains unchanged.
+
 **Relations**
 
-- verifies: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248)
+- verifies: [DVS-42](#dvs-42), [DVS-45](#dvs-45), [SPEC-248](#spec-248), [SPEC-661](#spec-661), [SPEC-662](#spec-662), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="dvs-42"></a>
 ## DVS-42 — Handle unsupported training-zone data honestly
 
-Type: requirement | State: approved | Revision: 55
+Type: requirement | State: approved | Revision: 60
+
+Device-selected profiles only; custom HR/power profiles are owned by [SPEC-661](#spec-661) and [SPEC-662](#spec-662).
 
 Retrieve cycling personal thresholds with UserProfile permission/capability checks, never inferred FTP/defaults. Normalize qualified metadata to finite nonnegative strictly increasing b[0..n]: b0 zone-1 minimum; b1..bn successive maxima. HR requires five zones/six min-max values. Power (getPowerZones, API 5.2.2+) uses the same layout and qualifies only when b0=0 W; any other first bound is an unrecognized layout. Null, older-API, ambiguous or unsupported metadata is unavailable. Physical-device confirmation of the power layout remains separate.
 Classify displayed whole-unit v: zone 1 b0<=v<=b1; zone i>1 b[i-1]<v<=b[i]. Outside b0..bn has no zone; upper equality belongs to the lower zone. Numeric zones/backgrounds share this classifier; invalid metadata does not invalidate an otherwise valid metric.
@@ -733,7 +767,7 @@ Regression: Through real StrukturField activity processing and app temperature-c
 <a id="tprf-4"></a>
 ## TPRF-4 — Bounded snapshot caches and live-input invalidation
 
-Type: test | State: approved | Revision: 12
+Type: test | State: approved | Revision: 17
 
 Purpose: Bounded snapshot caches and live-input invalidation.
 
@@ -751,9 +785,11 @@ Regression: In snapshotCacheInvalidation, retain a published metric snapshot con
 
 Regression: Through SnapshotEngine.prepare, change distance, elevation and temperature units, 12/24-hour format and automatic night preference across consecutive samples without lifecycle callbacks. Require a preference read each time, independent unit conversion and matching headers on that snapshot, current clock/theme mode and unchanged retained snapshots.
 
+Custom profile identity/invalidation and unchanged activity state are additionally verified by [TSTFUNC-11](#tstfunc-11).
+
 **Relations**
 
-- verifies: [APP-26](#app-26), [DVS-32](#dvs-32), [DVS-4](#dvs-4), [DVS-50](#dvs-50)
+- verifies: [APP-26](#app-26), [DVS-32](#dvs-32), [DVS-4](#dvs-4), [DVS-50](#dvs-50), [SPEC-667](#spec-667)
 
 <a id="dvs-34"></a>
 ## DVS-34 — Temperature
@@ -784,9 +820,9 @@ Normal display ranges: °c: -40–60; °f: -40–140. All supported devices, reg
 <a id="spec-300"></a>
 ## SPEC-300 — Application properties
 
-Type: document | State: approved | Revision: 79
+Type: document | State: approved | Revision: 102
 
-Current compact settings schema: 63 properties, no compatibility aliases or migration. Property requirements own keys, types, ranges and defaults; shared behavior is linked. a = default set; b = second set. Field definitions remain only in [DVS-1](#dvs-1). Key/storage policy: [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245).
+Current compact settings schema: 75 properties, no compatibility aliases or migration. Property requirements own keys, types, ranges and defaults; shared behavior is linked. a = default set; b = second set. Field definitions remain only in [DVS-1](#dvs-1). Key/storage policy: [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245).
 
 <a id="spec-233"></a>
 ## SPEC-233 — Shared Coloring and Settings Migration
@@ -1044,17 +1080,17 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 <a id="spec-310"></a>
 ## SPEC-310 — Team color source (tsrc)
 
-Type: requirement | State: approved | Revision: 5
+Type: requirement | State: approved | Revision: 11
 
 Key: `tsrc`. Caption: Team color source. Type/values: Integer 0, 1, 2. Default: `0`.
 
-One shared Team color source: 0 None, 1 current Power, 2 current Heart rate. Source selection does not enable slot coverage. Invalid or missing input uses 0 without rewriting storage.
+One shared Team color source: 0 None, 1 current Power, 2 current Heart rate. HR/Power use their selected global zone profiles under [SPEC-664](#spec-664) and [SPEC-663](#spec-663). Source selection does not enable slot coverage. Invalid or missing input uses 0 without rewriting storage.
 
 Fields: [SPEC-253](#spec-253).
 
 **Relations**
 
-- uses: [SPEC-253](#spec-253)
+- uses: [SPEC-253](#spec-253), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-308"></a>
 ## SPEC-308 — Team name (team)
@@ -1074,7 +1110,7 @@ Fields: [SPEC-253](#spec-253).
 <a id="spec-253"></a>
 ## SPEC-253 — Team
 
-Type: requirement | State: approved | Revision: 42
+Type: requirement | State: approved | Revision: 51
 
 | Attribute | Value |
 | --- | --- |
@@ -1093,18 +1129,18 @@ Fit below the shared header, reserving px=ceil(0.05*cell_width), py=ceil(0.05*ce
 
 Font fitting is automatic; no font selector or saved font code is exposed. Candidates: FONT_XTINY/TINY/SMALL/MEDIUM/LARGE; largest complete-block fit by measured height, tie lowest constant. No extra atlas or scaling. Unfit nonempty text shows !, then blank if ! cannot fit, without truncation/replacement glyphs.
 
-Color binding reuses current watts/HR classification even with its numeric field hidden. Missing/unqualified/None source uses selected neutral coverage without hiding text; ordinary shared coverage regions apply. Shared text/binding survive hidden, duplicate and reassigned slots. Retired slot_N_team_font and slot_N_team_color_source values, including second_ copies, never override the shared selections.
+Color binding reuses the globally selected power/HR profile under [SPEC-663](#spec-663) / [SPEC-664](#spec-664) and classifies current watts/HR even with its numeric field hidden. Missing/unqualified/None source uses selected neutral coverage without hiding text; ordinary shared coverage regions apply. Shared text/binding survive hidden, duplicate and reassigned slots. Retired slot_N_team_font and slot_N_team_color_source values, including second_ copies, never override the shared selections.
 
 Native text widths are measured only during layout using the current callback Dc, which is released before return. After a setting or bank change, defer any needed Team fitting to the next layout before drawing; no measurement through a saved Dc in settings/compute/lap callbacks.
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [SPEC-246](#spec-246)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [SPEC-246](#spec-246), [SPEC-663](#spec-663), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="spec-249"></a>
 ## SPEC-249 — Fall back without discarding a valid metric
 
-Type: requirement | State: approved | Revision: 20
+Type: requirement | State: approved | Revision: 21
 
 Known fields with enabled coverage use valid declared semantic colors, otherwise #CCCCCC in effective Day or #333333 in Night, including inversion. Invalid/expired/unsupported/unqualified sources preserve independently valid values. Recover semantic coloring on the next valid snapshot. None and unknown fields keep ordinary backgrounds.
 
@@ -1185,7 +1221,7 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 <a id="func-7"></a>
 ## FUNC-7 — Lap power
 
-Type: requirement | State: approved | Revision: 47
+Type: requirement | State: approved | Revision: 53
 
 | Attribute | Value |
 | --- | --- |
@@ -1204,12 +1240,12 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="func-6"></a>
 ## FUNC-6 — Lap heart rate
 
-Type: requirement | State: approved | Revision: 48
+Type: requirement | State: approved | Revision: 54
 
 | Attribute | Value |
 | --- | --- |
@@ -1228,7 +1264,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="func-5"></a>
 ## FUNC-5 — Lap speed
@@ -1328,10 +1364,10 @@ Missing prerequisites, timeout, zero tests, required skips and compiler/test fai
 <a id="spec-155"></a>
 ## SPEC-155 — Publish one typed settings catalogue shared by XML, runtime and tests
 
-Type: requirement | State: approved | Revision: 117
+Type: requirement | State: approved | Revision: 123
 
 Generate one current catalogue shared by settings XML, runtime and tests from [SPEC-300](#spec-300). Field owners retain codes 0..32, identifiers, labels, units and precision as typed item attributes in [DVS-1](#dvs-1). Each property owner defines its key, type, allowed values, default and applicable field links; those option contracts override generic shared behavior. XML defaults and runtime fallbacks must agree. Counts are generated; settings captions/dividers are not extra properties.
-Corresponding a/b properties have identical types/ranges and their own defaults. Team, cadence and activation properties are global. Missing second-set values never copy current first-set choices. Validate without rewriting saved values under [APP-31](#app-31).
+Corresponding a/b properties have identical types/ranges and their own defaults. Team, HR/power/cadence training zones and activation properties are global. Missing second-set values never copy current first-set choices. Validate without rewriting saved values under [APP-31](#app-31).
 
 **Relations**
 
@@ -1353,7 +1389,7 @@ Coverage preserves geometry/alignment/acquisition; only changed halo clearance m
 <a id="dvs-47"></a>
 ## DVS-47 — Display three-second average heart rate
 
-Type: requirement | State: approved | Revision: 85
+Type: requirement | State: approved | Revision: 91
 
 | Attribute | Value |
 | --- | --- |
@@ -1373,7 +1409,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-41](#dvs-41), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-41](#dvs-41), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-41"></a>
 ## DVS-41 — Compute shared three-second windows
@@ -1765,7 +1801,7 @@ Normal display ranges: 0–1000. All supported devices, regular/enlarged cells, 
 <a id="dvs-24"></a>
 ## DVS-24 — Power zone
 
-Type: requirement | State: approved | Revision: 52
+Type: requirement | State: approved | Revision: 60
 
 | Attribute | Value |
 | --- | --- |
@@ -1776,7 +1812,7 @@ Type: requirement | State: approved | Revision: 52
 | PRECISION | 0 |
 | UNIT | "" |
 
-Source: Classify currentPower against a qualified cycling personal power profile; show its integral 1-based zone, including values above five. Unqualified metadata or out-of-domain input is unavailable.
+Source: Classify currentPower using the global power source [SPEC-663](#spec-663); show its integral 1-based zone. Custom profiles yield 1..7; qualified device profiles retain their actual indices, including above seven. Invalid selected profile or invalid/out-of-domain reading is unavailable.
 
 Color source: power.
 
@@ -1785,12 +1821,12 @@ Normal display ranges: 1–7. All supported devices, regular/enlarged cells, hea
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-23"></a>
 ## DVS-23 — Average power
 
-Type: requirement | State: approved | Revision: 60
+Type: requirement | State: approved | Revision: 66
 
 | Attribute | Value |
 | --- | --- |
@@ -1809,12 +1845,12 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-22"></a>
 ## DVS-22 — Three-second average power
 
-Type: requirement | State: approved | Revision: 72
+Type: requirement | State: approved | Revision: 78
 
 | Attribute | Value |
 | --- | --- |
@@ -1835,12 +1871,12 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-41](#dvs-41), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-41](#dvs-41), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-21"></a>
 ## DVS-21 — Current power
 
-Type: requirement | State: approved | Revision: 61
+Type: requirement | State: approved | Revision: 67
 
 | Attribute | Value |
 | --- | --- |
@@ -1859,12 +1895,12 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-20"></a>
 ## DVS-20 — Heart rate zone
 
-Type: requirement | State: approved | Revision: 52
+Type: requirement | State: approved | Revision: 60
 
 | Attribute | Value |
 | --- | --- |
@@ -1875,7 +1911,7 @@ Type: requirement | State: approved | Revision: 52
 | PRECISION | 0 |
 | UNIT | "" |
 
-Source: Classify currentHeartRate against the cycling personal HR profile; show integral zone 1..5. Unsupported profile or out-of-domain reading is unavailable.
+Source: Classify currentHeartRate using the global HR source [SPEC-664](#spec-664); show its integral zone 1..5. Invalid selected profile or invalid/out-of-domain reading is unavailable.
 
 Color source: heart rate.
 
@@ -1884,12 +1920,12 @@ Normal display ranges: 1–5. All supported devices, regular/enlarged cells, hea
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-19"></a>
 ## DVS-19 — Average heart rate
 
-Type: requirement | State: approved | Revision: 62
+Type: requirement | State: approved | Revision: 68
 
 | Attribute | Value |
 | --- | --- |
@@ -1908,12 +1944,12 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-18"></a>
 ## DVS-18 — Current heart rate
 
-Type: requirement | State: approved | Revision: 65
+Type: requirement | State: approved | Revision: 71
 
 | Attribute | Value |
 | --- | --- |
@@ -1932,7 +1968,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
-- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248)
+- uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-12"></a>
 ## DVS-12 — Define field headers and their common band height
@@ -2853,14 +2889,14 @@ Global cadence upper bounds: [SPEC-331](#spec-331), [SPEC-332](#spec-332), [SPEC
 <a id="spec-248"></a>
 ## SPEC-248 — Color each metric from its own value
 
-Type: requirement | State: approved | Revision: 50
+Type: requirement | State: approved | Revision: 58
 
-Color numeric metrics from their own displayed whole-unit value using the declared HR/power/cadence source, including rolling/activity/lap averages. Numeric HR/power-zone fields reuse the derived index; never classify an index as bpm/watts.
+Color numeric metrics from their own displayed whole-unit value using the declared HR/power/cadence source, including rolling/activity/lap averages. Numeric HR/power-zone fields reuse the derived index; never classify an index as bpm/watts. HR and power use their independently selected global sources [SPEC-664](#spec-664) and [SPEC-663](#spec-663). Cadence retains [SPEC-252](#spec-252).
 
 **Relations**
 
 - allocated_to: [APP-3](#app-3), [APP-4](#app-4)
-- uses: [DVS-7](#dvs-7), [SPEC-246](#spec-246)
+- uses: [DVS-7](#dvs-7), [SPEC-246](#spec-246), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-247"></a>
 ## SPEC-247 — Classify cadence using five disjoint zones
@@ -2874,16 +2910,16 @@ For finite nonnegative displayed whole rpm, zone 1 is 0..t1; zones 2..4 are >pre
 - uses: [DVS-7](#dvs-7), [SPEC-252](#spec-252)
 
 <a id="spec-246"></a>
-## SPEC-246 — Use five explicit training colors
+## SPEC-246 — Use seven explicit training colors
 
-Type: requirement | State: approved | Revision: 18
+Type: requirement | State: approved | Revision: 24
 
-Training zones: 1 blue #00AAFF; 2 green #00FF00; 3 yellow #FFAA00; 4 orange #FF5500; 5 red #FF0000. Qualified native power zones >5 use magenta #FF00FF, preserving numeric index, including Power-bound text. Unsupported/out-of-domain metadata is not magenta. Theme/enlargement never alters semantic RGB.
+Training zone colors: 1 blue #00AAFF; 2 green #00FF00; 3 yellow #FFAA00; 4 orange #FF5500; 5 red #FF0000; 6 magenta #FF00FF; 7 and above dark magenta #AA00AA. Preserve the actual numeric zone index. Unsupported/out-of-domain metadata uses neutral fallback. Theme and enlargement never alter semantic RGB. Dark magenta uses white label text; Whole cell also uses white value text, while Label coverage retains the ordinary value area and value text. HR and cadence retain their five-zone domains.
 
 <a id="spec-245"></a>
 ## SPEC-245 — Bound the serialized settings dictionary
 
-Type: requirement | State: approved | Revision: 11
+Type: requirement | State: approved | Revision: 12
 
 Before app/test compilation, serialize the complete current property dictionary with the installed Garmin SDK. Require both defaults and the largest allowed values to be at most 8000 bytes. Include every key and serialization overhead; use 32 printable ASCII characters for maximum Team text. Fail compilation on excess or serializer failure and record both measured sizes. No runtime memory qualification is implied.
 
@@ -3386,13 +3422,15 @@ Suite: Core (host prerequisite). Run scripts/test-sdk-runner.ps1. Exercise succe
 <a id="tstfunc-4"></a>
 ## TSTFUNC-4 — Core: compact properties, defaults and field applicability
 
-Type: test | State: approved | Revision: 8
+Type: test | State: approved | Revision: 29
 
-Suite: Core. Compare all 63 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.
+Suite: Core. Compare all 75 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.
+
+Extend the catalogue by the twelve custom-zone properties in [SPEC-300](#spec-300) (75 total); the native save/reload/restart and SDK serialized-size cases are defined in [TSTFUNC-10](#tstfunc-10).
 
 **Relations**
 
-- verifies: [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245), [SPEC-301](#spec-301), [SPEC-302](#spec-302), [SPEC-303](#spec-303), [SPEC-304](#spec-304), [SPEC-305](#spec-305), [SPEC-306](#spec-306), [SPEC-307](#spec-307), [SPEC-308](#spec-308), [SPEC-310](#spec-310), [SPEC-311](#spec-311), [SPEC-312](#spec-312), [SPEC-313](#spec-313), [SPEC-314](#spec-314), [SPEC-315](#spec-315), [SPEC-316](#spec-316), [SPEC-317](#spec-317), [SPEC-318](#spec-318), [SPEC-319](#spec-319), [SPEC-320](#spec-320), [SPEC-321](#spec-321), [SPEC-322](#spec-322), [SPEC-323](#spec-323), [SPEC-324](#spec-324), [SPEC-325](#spec-325), [SPEC-326](#spec-326), [SPEC-327](#spec-327), [SPEC-328](#spec-328), [SPEC-329](#spec-329), [SPEC-330](#spec-330), [SPEC-331](#spec-331), [SPEC-332](#spec-332), [SPEC-333](#spec-333), [SPEC-334](#spec-334), [SPEC-335](#spec-335), [SPEC-336](#spec-336), [SPEC-337](#spec-337), [SPEC-338](#spec-338), [SPEC-339](#spec-339), [SPEC-340](#spec-340), [SPEC-341](#spec-341), [SPEC-342](#spec-342), [SPEC-343](#spec-343), [SPEC-344](#spec-344), [SPEC-345](#spec-345), [SPEC-346](#spec-346), [SPEC-347](#spec-347), [SPEC-348](#spec-348), [SPEC-349](#spec-349), [SPEC-350](#spec-350), [SPEC-351](#spec-351), [SPEC-352](#spec-352), [SPEC-353](#spec-353), [SPEC-354](#spec-354), [SPEC-355](#spec-355), [SPEC-356](#spec-356), [SPEC-357](#spec-357), [SPEC-358](#spec-358), [SPEC-359](#spec-359), [SPEC-360](#spec-360), [SPEC-361](#spec-361), [SPEC-362](#spec-362), [SPEC-363](#spec-363), [SPEC-364](#spec-364), [SPEC-365](#spec-365)
+- verifies: [FR-16431](#fr-16431), [FR-16432](#fr-16432), [FR-16433](#fr-16433), [FR-16434](#fr-16434), [FR-16435](#fr-16435), [FR-16436](#fr-16436), [FR-16437](#fr-16437), [FR-16438](#fr-16438), [FR-16439](#fr-16439), [FR-16440](#fr-16440), [FR-16441](#fr-16441), [FR-16442](#fr-16442), [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245), [SPEC-301](#spec-301), [SPEC-302](#spec-302), [SPEC-303](#spec-303), [SPEC-304](#spec-304), [SPEC-305](#spec-305), [SPEC-306](#spec-306), [SPEC-307](#spec-307), [SPEC-308](#spec-308), [SPEC-310](#spec-310), [SPEC-311](#spec-311), [SPEC-312](#spec-312), [SPEC-313](#spec-313), [SPEC-314](#spec-314), [SPEC-315](#spec-315), [SPEC-316](#spec-316), [SPEC-317](#spec-317), [SPEC-318](#spec-318), [SPEC-319](#spec-319), [SPEC-320](#spec-320), [SPEC-321](#spec-321), [SPEC-322](#spec-322), [SPEC-323](#spec-323), [SPEC-324](#spec-324), [SPEC-325](#spec-325), [SPEC-326](#spec-326), [SPEC-327](#spec-327), [SPEC-328](#spec-328), [SPEC-329](#spec-329), [SPEC-330](#spec-330), [SPEC-331](#spec-331), [SPEC-332](#spec-332), [SPEC-333](#spec-333), [SPEC-334](#spec-334), [SPEC-335](#spec-335), [SPEC-336](#spec-336), [SPEC-337](#spec-337), [SPEC-338](#spec-338), [SPEC-339](#spec-339), [SPEC-340](#spec-340), [SPEC-341](#spec-341), [SPEC-342](#spec-342), [SPEC-343](#spec-343), [SPEC-344](#spec-344), [SPEC-345](#spec-345), [SPEC-346](#spec-346), [SPEC-347](#spec-347), [SPEC-348](#spec-348), [SPEC-349](#spec-349), [SPEC-350](#spec-350), [SPEC-351](#spec-351), [SPEC-352](#spec-352), [SPEC-353](#spec-353), [SPEC-354](#spec-354), [SPEC-355](#spec-355), [SPEC-356](#spec-356), [SPEC-357](#spec-357), [SPEC-358](#spec-358), [SPEC-359](#spec-359), [SPEC-360](#spec-360), [SPEC-361](#spec-361), [SPEC-362](#spec-362), [SPEC-363](#spec-363), [SPEC-364](#spec-364), [SPEC-365](#spec-365), [SPEC-669](#spec-669)
 
 <a id="tstfunc-3"></a>
 ## TSTFUNC-3 — Native properties persistence and settings callback
@@ -3491,17 +3529,17 @@ Suite: Core. Render None, Label and Whole cell with semantic/neutral colors in b
 <a id="spec-293"></a>
 ## SPEC-293 — Verify Team source binding and fallback
 
-Type: test | State: approved | Revision: 9
+Type: test | State: approved | Revision: 14
 
 Suite: Core. Definition; execution evidence is separate.
 
 Hide all numeric power/HR fields, bind Team to each source, vary zones and verify shared classifications. Test None, zero watts, invalid HR/profile, recovery and all coverage modes while text stays unchanged.
 
-For a qualified Power binding above zone 5, assert magenta #FF00FF under [SPEC-246](#spec-246) with black text; retain the Team string and selected coverage. HR and cadence retain five-zone classification.
+For qualified Power binding zone 6 assert magenta #FF00FF with black text; zones >=7 use dark magenta #AA00AA with white text over the fill under [SPEC-246](#spec-246). Label coverage retains ordinary value text. Retain Team string and selected coverage. HR and cadence retain five-zone classification.
 
 **Relations**
 
-- verifies: [SPEC-253](#spec-253)
+- verifies: [SPEC-253](#spec-253), [SPEC-665](#spec-665)
 
 <a id="spec-292"></a>
 ## SPEC-292 — Verify native Team font selection
@@ -3639,13 +3677,13 @@ For defaults and edited thresholds test below/equal/above every bound, rounding 
 - verifies: [SPEC-247](#spec-247)
 
 <a id="spec-279"></a>
-## SPEC-279 — Verify exact five-zone colors
+## SPEC-279 — Verify exact seven-zone colors
 
-Type: test | State: approved | Revision: 7
+Type: test | State: approved | Revision: 11
 
 Suite: Core. Definition; execution evidence is separate.
 
-Assert the exact zone-1..5 RGB values for HR/power/cadence across both themes, inversion and modes. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.
+Assert exact shared RGB values for HR/cadence zones 1..5 and power zones 1..7 plus native zone 10 across both themes, inversion and coverage modes. Include white foreground on dark magenta and unchanged value foreground for Label coverage. Verify grade dark-red/black and temperature cyan/white remain available and are not training zones.
 
 **Relations**
 
@@ -3665,9 +3703,9 @@ Suite: Core build checks. Invoke scripts/check-properties.ps1 with the installed
 <a id="spec-277"></a>
 ## SPEC-277 — Verify read-only compact property loading
 
-Type: test | State: approved | Revision: 7
+Type: test | State: approved | Revision: 11
 
-Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 63 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.
+Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 75 unique keys <=8 characters, complete read-only loading, no undeclared keys, zero/false/None preservation, per-bank invalid-mode fallbacks and no writes. Verify generated XML/default/caption parity and property/field description links plus uses relations. Build guard serializes defaults and maximum valid values with the Garmin SDK and requires each <=8000 bytes. No legacy migration or schema marker is required.
 
 **Relations**
 
@@ -3827,9 +3865,9 @@ Power startup and recovery follow [DVS-22](#dvs-22): a first 300 W sample activa
 <a id="spec-226"></a>
 ## SPEC-226 — Core: verify second-set settings, defaults
 
-Type: test | State: approved | Revision: 25
+Type: test | State: approved | Revision: 29
 
-Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 63-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.
+Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/HR/power/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 75-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.
 
 Retain existing activation/threshold contracts under [SPEC-211](#spec-211)/[SPEC-212](#spec-212): Manual lap factory selection, first-set startup, first/second qualifying lap toggles, explicit None preservation, typed filtering and legacy Auto Lap restriction. Cover every threshold type/range, return>activation safe behavior and unused-invalid-pair isolation; adding presentation options must not change switching. No runtime Memory/Placement probes belong here.
 
@@ -4531,13 +4569,13 @@ Garmin devices SDK library to use device function APIs.
 <a id="trgr-1"></a>
 ## TRGR-1 — Core
 
-Type: test_suite | State: draft | Revision: 12
+Type: test_suite | State: approved | Revision: 15
 
 Default fast UI correctness, values/calculations, formatting, settings, acquisition/lifecycle and cache/draw regressions under [SPEC-157](#spec-157). Contains all 37 named Core Monkey C cases plus four separately identified host build/resource/publication prerequisites; these host checks are not extra Monkey C cases. Run Core after app changes. Never run Memory or Placement implicitly. Repository authority: tests/suites.json, tests.jungle and tests/service-cases.json. Linked definitions assert scope, not current execution or hardware qualification.
 
 **Relations**
 
-- includes_test: [SPEC-167](#spec-167), [SPEC-168](#spec-168), [SPEC-226](#spec-226), [SPEC-227](#spec-227), [SPEC-228](#spec-228), [SPEC-229](#spec-229), [SPEC-230](#spec-230), [SPEC-267](#spec-267), [SPEC-268](#spec-268), [SPEC-269](#spec-269), [SPEC-270](#spec-270), [SPEC-271](#spec-271), [SPEC-272](#spec-272), [SPEC-273](#spec-273), [SPEC-274](#spec-274), [SPEC-275](#spec-275), [SPEC-276](#spec-276), [SPEC-277](#spec-277), [SPEC-278](#spec-278), [SPEC-279](#spec-279), [SPEC-280](#spec-280), [SPEC-281](#spec-281), [SPEC-282](#spec-282), [SPEC-283](#spec-283), [SPEC-284](#spec-284), [SPEC-285](#spec-285), [SPEC-286](#spec-286), [SPEC-287](#spec-287), [SPEC-288](#spec-288), [SPEC-289](#spec-289), [SPEC-290](#spec-290), [SPEC-291](#spec-291), [SPEC-292](#spec-292), [SPEC-293](#spec-293), [SPEC-294](#spec-294), [SPEC-297](#spec-297), [SPEC-298](#spec-298), [SPEC-299](#spec-299), [TCOM-1](#tcom-1), [TFNC-1](#tfnc-1), [TFNC-10](#tfnc-10), [TFNC-11](#tfnc-11), [TFNC-12](#tfnc-12), [TFNC-13](#tfnc-13), [TFNC-14](#tfnc-14), [TFNC-15](#tfnc-15), [TFNC-16](#tfnc-16), [TFNC-17](#tfnc-17), [TFNC-18](#tfnc-18), [TFNC-19](#tfnc-19), [TFNC-2](#tfnc-2), [TFNC-20](#tfnc-20), [TFNC-22](#tfnc-22), [TFNC-23](#tfnc-23), [TFNC-24](#tfnc-24), [TFNC-25](#tfnc-25), [TFNC-26](#tfnc-26), [TFNC-3](#tfnc-3), [TFNC-4](#tfnc-4), [TFNC-5](#tfnc-5), [TFNC-6](#tfnc-6), [TFNC-8](#tfnc-8), [TFNC-9](#tfnc-9), [TINT-1](#tint-1), [TPRF-4](#tprf-4), [TPRF-5](#tprf-5), [TPRF-6](#tprf-6), [TSEC-1](#tsec-1), [TSTFUNC-1](#tstfunc-1), [TSTFUNC-2](#tstfunc-2), [TSTFUNC-3](#tstfunc-3), [TSTFUNC-4](#tstfunc-4), [TSTFUNC-5](#tstfunc-5), [TUI-1](#tui-1), [TUI-10](#tui-10), [TUI-11](#tui-11), [TUI-2](#tui-2), [TUI-3](#tui-3), [TUI-4](#tui-4), [TUI-5](#tui-5), [TUI-6](#tui-6), [TUI-7](#tui-7), [TUI-8](#tui-8), [TUI-9](#tui-9)
+- includes_test: [SPEC-167](#spec-167), [SPEC-168](#spec-168), [SPEC-226](#spec-226), [SPEC-227](#spec-227), [SPEC-228](#spec-228), [SPEC-229](#spec-229), [SPEC-230](#spec-230), [SPEC-267](#spec-267), [SPEC-268](#spec-268), [SPEC-269](#spec-269), [SPEC-270](#spec-270), [SPEC-271](#spec-271), [SPEC-272](#spec-272), [SPEC-273](#spec-273), [SPEC-274](#spec-274), [SPEC-275](#spec-275), [SPEC-276](#spec-276), [SPEC-277](#spec-277), [SPEC-278](#spec-278), [SPEC-279](#spec-279), [SPEC-280](#spec-280), [SPEC-281](#spec-281), [SPEC-282](#spec-282), [SPEC-283](#spec-283), [SPEC-284](#spec-284), [SPEC-285](#spec-285), [SPEC-286](#spec-286), [SPEC-287](#spec-287), [SPEC-288](#spec-288), [SPEC-289](#spec-289), [SPEC-290](#spec-290), [SPEC-291](#spec-291), [SPEC-292](#spec-292), [SPEC-293](#spec-293), [SPEC-294](#spec-294), [SPEC-297](#spec-297), [SPEC-298](#spec-298), [SPEC-299](#spec-299), [TCOM-1](#tcom-1), [TFNC-1](#tfnc-1), [TFNC-10](#tfnc-10), [TFNC-11](#tfnc-11), [TFNC-12](#tfnc-12), [TFNC-13](#tfnc-13), [TFNC-14](#tfnc-14), [TFNC-15](#tfnc-15), [TFNC-16](#tfnc-16), [TFNC-17](#tfnc-17), [TFNC-18](#tfnc-18), [TFNC-19](#tfnc-19), [TFNC-2](#tfnc-2), [TFNC-20](#tfnc-20), [TFNC-22](#tfnc-22), [TFNC-23](#tfnc-23), [TFNC-24](#tfnc-24), [TFNC-25](#tfnc-25), [TFNC-26](#tfnc-26), [TFNC-3](#tfnc-3), [TFNC-4](#tfnc-4), [TFNC-5](#tfnc-5), [TFNC-6](#tfnc-6), [TFNC-8](#tfnc-8), [TFNC-9](#tfnc-9), [TINT-1](#tint-1), [TPRF-4](#tprf-4), [TPRF-5](#tprf-5), [TPRF-6](#tprf-6), [TSEC-1](#tsec-1), [TSTFUNC-1](#tstfunc-1), [TSTFUNC-10](#tstfunc-10), [TSTFUNC-11](#tstfunc-11), [TSTFUNC-2](#tstfunc-2), [TSTFUNC-3](#tstfunc-3), [TSTFUNC-4](#tstfunc-4), [TSTFUNC-5](#tstfunc-5), [TSTFUNC-6](#tstfunc-6), [TSTFUNC-7](#tstfunc-7), [TSTFUNC-8](#tstfunc-8), [TSTFUNC-9](#tstfunc-9), [TUI-1](#tui-1), [TUI-10](#tui-10), [TUI-11](#tui-11), [TUI-2](#tui-2), [TUI-3](#tui-3), [TUI-4](#tui-4), [TUI-5](#tui-5), [TUI-6](#tui-6), [TUI-7](#tui-7), [TUI-8](#tui-8), [TUI-9](#tui-9)
 
 <a id="app-42"></a>
 ## APP-42 — Toybox.UserProfile.getHeartRateZones(...)
@@ -5056,3 +5094,335 @@ Toybox.Application.AppBase.onStart(state) is called at application startup befor
 Type: data_item | State: approved | Revision: 4
 
 Toybox.Application.AppBase.getInitialView() returns the initial view array, containing this application's WatchUi.DataField instance. That view receives layout/update and activity-compute callbacks. An input delegate is optional when supported/needed; do not require an on-device settings editor under [APP-46](#app-46). Initialize a complete safe display state under [APP-33](#app-33) before returning the view. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/Application/AppBase.html#getInitialView-instance_function
+
+<a id="spec-660"></a>
+## SPEC-660 — Custom training zones
+
+Type: document | State: approved | Revision: 13
+
+Global custom HR and power zone selection. Individual property definitions belong in [SPEC-300](#spec-300); selectable fields remain in [DVS-1](#dvs-1). Shared palette belongs in [SPEC-246](#spec-246).
+
+<a id="spec-661"></a>
+## SPEC-661 — Classify custom heart rate into five zones
+
+Type: requirement | State: approved | Revision: 4
+
+A usable custom HR profile has four integer upper limits, each 30..250 bpm, strictly increasing. For a finite positive raw reading, round to whole bpm using the metric rounding rule; assign the first zone whose upper limit is >= the rounded value, or zone 5 above the fourth limit. Equality stays in the lower zone. Missing, zero, negative and non-finite raw readings have no zone. Positive readings above 250 bpm still classify; do not clamp readings.
+
+<a id="spec-662"></a>
+## SPEC-662 — Classify custom power into seven zones
+
+Type: requirement | State: approved | Revision: 4
+
+A usable custom power profile has six integer upper limits, each 1..3000 W, strictly increasing. For a finite nonnegative raw reading, round to whole watts using the metric rounding rule; assign the first zone whose upper limit is >= the rounded value, or zone 7 above the sixth limit. Equality stays in the lower zone; zero watts is valid. Missing, negative and non-finite raw readings have no zone. Values above 3000 W still classify. Fixed zone names, in order: Active Recovery, Endurance, Tempo, Threshold, VO2 Max, Anaerobic, Neuromuscular.
+
+<a id="spec-663"></a>
+## SPEC-663 — Select the global power zone source
+
+Type: requirement | State: approved | Revision: 7
+
+[FR-16431](#fr-16431) Off selects qualified device power zones under [DVS-42](#dvs-42); On selects only the custom profile under [SPEC-662](#spec-662). This source is global across both field sets. Device-profile qualification and its numeric zone domain remain unchanged; custom selection works without device power-zone metadata.
+
+**Relations**
+
+- uses: [DVS-42](#dvs-42), [FR-16431](#fr-16431), [SPEC-662](#spec-662)
+
+<a id="spec-664"></a>
+## SPEC-664 — Select the global heart rate zone source
+
+Type: requirement | State: approved | Revision: 7
+
+[FR-16438](#fr-16438) Off selects qualified device HR zones under [DVS-42](#dvs-42); On selects only the custom profile under [SPEC-661](#spec-661). This source is global across both field sets. Custom selection works without device HR-zone metadata.
+
+**Relations**
+
+- uses: [DVS-42](#dvs-42), [FR-16438](#fr-16438), [SPEC-661](#spec-661)
+
+<a id="spec-665"></a>
+## SPEC-665 — Share the selected zone profile with all consumers
+
+Type: requirement | State: approved | Revision: 7
+
+All current, rolling-three-second, activity-average and lap-average HR/power metrics classify their own value under [SPEC-248](#spec-248) using the selected family profile. Numeric zone fields use current HR/power and display the resulting index. Team binds current HR/power even when numeric source slots are hidden. Both sets and regular/enlarged/duplicate slots share each family profile; coverage affects drawing only. Colors come exclusively from [SPEC-246](#spec-246).
+
+**Relations**
+
+- uses: [SPEC-246](#spec-246), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
+
+<a id="spec-666"></a>
+## SPEC-666 — Keep invalid custom zone profiles unavailable
+
+Type: requirement | State: approved | Revision: 4
+
+When a selected custom tuple is missing, malformed, non-integer, non-finite, out of its usable range or not strictly increasing, expose no family zone. Never fall back to device zones, sort, clamp or rewrite the tuple. Preserve valid metric values and Team text; zone-number fields are unavailable and enabled effects use [SPEC-249](#spec-249). A later valid edit restores classification without restarting the activity.
+
+**Relations**
+
+- uses: [SPEC-249](#spec-249), [SPEC-661](#spec-661), [SPEC-662](#spec-662)
+
+<a id="spec-667"></a>
+## SPEC-667 — Prepare zone profiles outside compute and drawing
+
+Type: requirement | State: approved | Revision: 6
+
+Validate immutable shared HR/power profiles at initialization and settings reload under [APP-26](#app-26). Query device metadata only for families selecting device mode, at the existing metadata lifecycle boundary. Do not parse properties, validate tuples or query profiles in ordinary compute/onUpdate drawing. Source or limit edits invalidate affected zone/color/prepared-cell caches for both sets before their next display; retain shared references rather than copies per slot. Reuse the unchanged family profile and its classifications after unrelated settings edits.
+
+**Relations**
+
+- uses: [APP-26](#app-26), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
+
+<a id="spec-668"></a>
+## SPEC-668 — Preserve activity state when editing zone settings
+
+Type: requirement | State: approved | Revision: 3
+
+Zone-source and threshold edits must not change numeric metric values, rolling samples, lap history, trigger thresholds or the active field set. Persist custom limits while their switch is Off and use them when it is turned On. Loading and classification never rewrite saved properties or device training zones; settings saving follows the existing platform persistence contract.
+
+**Relations**
+
+- uses: [SPEC-663](#spec-663), [SPEC-664](#spec-664)
+
+<a id="spec-669"></a>
+## SPEC-669 — Group global training zone options
+
+Type: requirement | State: approved | Revision: 6
+
+Provide one Training zones group outside both slot banks: custom power switch then six named power upper limits, custom HR switch then four HR upper limits, followed by the existing cadence options. Prompts state units and that limits apply only while their switch is On; describe open-ended final zones without editable upper limits. Power prompts use names under [SPEC-662](#spec-662). Keep shared Team name before all slot options; headings are not properties and conditional visibility is not required.
+
+**Relations**
+
+- uses: [SPEC-155](#spec-155), [SPEC-662](#spec-662)
+
+<a id="fr-16431"></a>
+## FR-16431 — Use custom power zones (cpz)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `cpz`. Caption: Use custom power zones. Type/values: Boolean. Default: `false`. Only Boolean true enables custom power zones; missing or malformed values read as false without rewriting storage.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-663](#spec-663)
+
+<a id="fr-16432"></a>
+## FR-16432 — Power zone 1 (Active Recovery): upper W (pw1)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `pw1`. Caption: Power zone 1 (Active Recovery): upper W. Type/values: Integer 0..3000. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 1; validate the complete tuple under [SPEC-662](#spec-662). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
+
+<a id="fr-16433"></a>
+## FR-16433 — Power zone 2 (Endurance): upper W (pw2)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `pw2`. Caption: Power zone 2 (Endurance): upper W. Type/values: Integer 0..3000. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 2; validate the complete tuple under [SPEC-662](#spec-662). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
+
+<a id="fr-16434"></a>
+## FR-16434 — Power zone 3 (Tempo): upper W (pw3)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `pw3`. Caption: Power zone 3 (Tempo): upper W. Type/values: Integer 0..3000. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 3; validate the complete tuple under [SPEC-662](#spec-662). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
+
+<a id="fr-16435"></a>
+## FR-16435 — Power zone 4 (Threshold): upper W (pw4)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `pw4`. Caption: Power zone 4 (Threshold): upper W. Type/values: Integer 0..3000. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 4; validate the complete tuple under [SPEC-662](#spec-662). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
+
+<a id="fr-16436"></a>
+## FR-16436 — Power zone 5 (VO2 Max): upper W (pw5)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `pw5`. Caption: Power zone 5 (VO2 Max): upper W. Type/values: Integer 0..3000. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 5; validate the complete tuple under [SPEC-662](#spec-662). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
+
+<a id="fr-16437"></a>
+## FR-16437 — Power zone 6 (Anaerobic): upper W (pw6)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `pw6`. Caption: Power zone 6 (Anaerobic): upper W. Type/values: Integer 0..3000. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 6; validate the complete tuple under [SPEC-662](#spec-662). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [FUNC-7](#func-7), [DVS-24](#dvs-24), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
+
+<a id="fr-16438"></a>
+## FR-16438 — Use custom heart rate zones (chz)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `chz`. Caption: Use custom heart rate zones. Type/values: Boolean. Default: `false`. Only Boolean true enables custom heart rate zones; missing or malformed values read as false without rewriting storage.
+
+Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-47](#dvs-47), [FUNC-6](#func-6), [DVS-20](#dvs-20), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-664](#spec-664)
+
+<a id="fr-16439"></a>
+## FR-16439 — Heart rate zone 1: upper bpm (hr1)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `hr1`. Caption: Heart rate zone 1: upper bpm. Type/values: Integer 0..250. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 1; validate the complete tuple under [SPEC-661](#spec-661). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-47](#dvs-47), [FUNC-6](#func-6), [DVS-20](#dvs-20), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
+
+<a id="fr-16440"></a>
+## FR-16440 — Heart rate zone 2: upper bpm (hr2)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `hr2`. Caption: Heart rate zone 2: upper bpm. Type/values: Integer 0..250. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 2; validate the complete tuple under [SPEC-661](#spec-661). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-47](#dvs-47), [FUNC-6](#func-6), [DVS-20](#dvs-20), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
+
+<a id="fr-16441"></a>
+## FR-16441 — Heart rate zone 3: upper bpm (hr3)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `hr3`. Caption: Heart rate zone 3: upper bpm. Type/values: Integer 0..250. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 3; validate the complete tuple under [SPEC-661](#spec-661). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-47](#dvs-47), [FUNC-6](#func-6), [DVS-20](#dvs-20), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
+
+<a id="fr-16442"></a>
+## FR-16442 — Heart rate zone 4: upper bpm (hr4)
+
+Type: requirement | State: approved | Revision: 16
+
+Key: `hr4`. Caption: Heart rate zone 4: upper bpm. Type/values: Integer 0..250. Default: `0`. Zero is unset, never a valid cutoff. Global upper limit for zone 4; validate the complete tuple under [SPEC-661](#spec-661). Missing input reads as 0; present invalid input invalidates the profile without rewriting storage. Retain the stored value while custom mode is Off.
+
+Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-47](#dvs-47), [FUNC-6](#func-6), [DVS-20](#dvs-20), [SPEC-253](#spec-253).
+
+**Relations**
+
+- uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
+
+<a id="tstfunc-6"></a>
+## TSTFUNC-6 — Core: custom HR boundaries and validation
+
+Type: test | State: approved | Revision: 3
+
+Suite: Core. Definition for implementation; no execution result.
+
+Use limits 100/120/140/160 bpm. Assert 99/100 ->1, 101/120 ->2, 121/140 ->3, 141/160 ->4, 161/251 ->5; include half-unit rounding carries. Reject raw zero, negative, missing and non-finite readings. Cover valid edge limits 30 and 250, repeated/descending/missing/zero/fractional/string/non-finite/out-of-range cutoffs; invalid tuples expose no zone. Positive raw values rounding to zero remain zone 1.
+
+**Relations**
+
+- verifies: [SPEC-661](#spec-661), [SPEC-666](#spec-666)
+
+<a id="tstfunc-7"></a>
+## TSTFUNC-7 — Core: custom power boundaries and names
+
+Type: test | State: approved | Revision: 3
+
+Suite: Core. Definition for implementation; no execution result.
+
+Use limits 100/150/200/250/300/350 W. Check each boundary minus/at/plus one and half-unit rounding carries; zero ->1 and 351/3001 ->7. Reject negative/missing/non-finite raw input. Verify all seven exact names and open final zone. Cover valid limit edges 1/3000, repeated/descending/missing/zero/fractional/string/non-finite/out-of-range cutoffs.
+
+**Relations**
+
+- verifies: [SPEC-662](#spec-662), [SPEC-666](#spec-666)
+
+<a id="tstfunc-8"></a>
+## TSTFUNC-8 — Core: independent zone selection and recovery
+
+Type: test | State: approved | Revision: 3
+
+Suite: Core. Definition for implementation; no execution result.
+
+Exercise Off/Off, On/Off, Off/On, On/On with disagreeing device/custom fixtures. Check absent device profiles and older-API absence do not block valid custom classification. Invalid selected custom profiles never fall back; valid edits recover. Missing/malformed switch reads Off. Switch Off then On retains edited limits. Verify device mode retains native bounds and indices, including 10.
+
+**Relations**
+
+- verifies: [FR-16431](#fr-16431), [FR-16438](#fr-16438), [SPEC-663](#spec-663), [SPEC-664](#spec-664), [SPEC-666](#spec-666), [SPEC-668](#spec-668)
+
+<a id="tstfunc-9"></a>
+## TSTFUNC-9 — Core: selected profiles and seven exact colors
+
+Type: test | State: approved | Revision: 8
+
+Suite: Core. Definition for implementation; no execution result.
+
+For HR/power current, 3s, activity/lap averages, numeric zone and Team, give different metric values and assert each uses its own selected profile/value. Hide numeric sources; cover both sets, regular/enlarged/duplicate slots, themes/inversion, None/Label/Whole cell. Assert palette zones 1..7 and native 10; dark magenta uses white label text, white value text only for Whole cell, Label retains normal value area. Invalid/recovered zones retain valid values/text and use neutral/recovered effects. Cadence, grade and temperature classification remain unchanged.
+
+**Relations**
+
+- verifies: [DVS-20](#dvs-20), [DVS-24](#dvs-24), [SPEC-246](#spec-246), [SPEC-248](#spec-248), [SPEC-253](#spec-253), [SPEC-663](#spec-663), [SPEC-664](#spec-664), [SPEC-665](#spec-665), [SPEC-666](#spec-666)
+
+<a id="tstfunc-10"></a>
+## TSTFUNC-10 — Core: custom zone properties and settings persistence
+
+Type: test | State: approved | Revision: 6
+
+Suite: Core. Definition for implementation; no execution result.
+
+Compare twelve new keys/types/defaults/captions/ranges with property owners and generated catalogue; require 75 total unique properties, no schema or migration keys. Verify Training zones order, named power limits, units, open-final prompts and Team-before-slots. Save nondefault switches/limits through native settings callback, reload and app restart; test false/zero preservation and zero runtime writes. Serialize complete defaults and maximum allowed dictionary with Garmin SDK; both must be <=8000 bytes. Do not substitute XML byte length.
+
+**Relations**
+
+- verifies: [FR-16431](#fr-16431), [FR-16432](#fr-16432), [FR-16433](#fr-16433), [FR-16434](#fr-16434), [FR-16435](#fr-16435), [FR-16436](#fr-16436), [FR-16437](#fr-16437), [FR-16438](#fr-16438), [FR-16439](#fr-16439), [FR-16440](#fr-16440), [FR-16441](#fr-16441), [FR-16442](#fr-16442), [SPEC-155](#spec-155), [SPEC-245](#spec-245), [SPEC-668](#spec-668), [SPEC-669](#spec-669)
+
+<a id="tstfunc-11"></a>
+## TSTFUNC-11 — Core: zone preparation and activity isolation
+
+Type: test | State: approved | Revision: 4
+
+Suite: Core. Definition for implementation; no execution result.
+
+Instrument init, settings reload, compute and drawing. Count one shared validation per changed family at preparation, no property parsing/profile validation/device-zone query in ordinary compute/draw, and no device lookup for custom-selected families. Reload source/limits while both banks contain duplicate, hidden and enlarged consumers; require next display updated and no stale cached zone/color/packet. Compare metric snapshots, rolling samples, lap history, active bank and trigger thresholds before/after: unchanged. Custom profiles share identity across consumers.
+
+**Relations**
+
+- verifies: [APP-26](#app-26), [SPEC-665](#spec-665), [SPEC-667](#spec-667), [SPEC-668](#spec-668)

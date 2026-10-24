@@ -11,6 +11,7 @@ class DisplaySettings {
     var modes;
     var teamText;var teamSource;
     var cadenceBounds=[60,80,100,120];
+    var heartProfile=null;var powerProfile=null;
     var hideValueUnits;
     var inverseEnlargedTheme;
     var gridType;
@@ -35,8 +36,12 @@ class DisplaySettings {
     function booleanValue(values, key) {
         var value=get(values,key); return value instanceof Lang.Boolean ? value : true;
     }
-    function apply(values as Lang.Dictionary) {
-        revision+=1;var nextBounds=CadenceZones.configured(values);
+    function applySharedBank(values,prefix,shared) { _prefix=prefix;applySettings(values,shared); }
+    function apply(values as Lang.Dictionary) { applySettings(values,null); }
+    function applySettings(values,shared) {
+        revision+=1;var nextBounds=shared==null?CadenceZones.configured(values):shared.cadenceBounds;
+        heartProfile=shared==null?TrainingZones.configured(values,false,heartProfile):shared.heartProfile;
+        powerProfile=shared==null?TrainingZones.configured(values,true,powerProfile):shared.powerProfile;
         // All Team slots in both sets share these two properties.
         teamText=TeamOptions.text(values.hasKey("team")?values["team"]:null);
         teamSource=TeamOptions.code(values.hasKey("tsrc")?values["tsrc"]:null,2);

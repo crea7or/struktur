@@ -2100,6 +2100,150 @@
         "SPEC-253"
       ],
       "shared": "APP-49"
+    },
+    "cpz": {
+      "requirement": "FR-16431",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "pw1": {
+      "requirement": "FR-16432",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "pw2": {
+      "requirement": "FR-16433",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "pw3": {
+      "requirement": "FR-16434",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "pw4": {
+      "requirement": "FR-16435",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "pw5": {
+      "requirement": "FR-16436",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "pw6": {
+      "requirement": "FR-16437",
+      "fields": [
+        "DVS-21",
+        "DVS-22",
+        "DVS-23",
+        "FUNC-7",
+        "DVS-24",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-663"
+    },
+    "chz": {
+      "requirement": "FR-16438",
+      "fields": [
+        "DVS-18",
+        "DVS-19",
+        "DVS-47",
+        "FUNC-6",
+        "DVS-20",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-664"
+    },
+    "hr1": {
+      "requirement": "FR-16439",
+      "fields": [
+        "DVS-18",
+        "DVS-19",
+        "DVS-47",
+        "FUNC-6",
+        "DVS-20",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-664"
+    },
+    "hr2": {
+      "requirement": "FR-16440",
+      "fields": [
+        "DVS-18",
+        "DVS-19",
+        "DVS-47",
+        "FUNC-6",
+        "DVS-20",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-664"
+    },
+    "hr3": {
+      "requirement": "FR-16441",
+      "fields": [
+        "DVS-18",
+        "DVS-19",
+        "DVS-47",
+        "FUNC-6",
+        "DVS-20",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-664"
+    },
+    "hr4": {
+      "requirement": "FR-16442",
+      "fields": [
+        "DVS-18",
+        "DVS-19",
+        "DVS-47",
+        "FUNC-6",
+        "DVS-20",
+        "SPEC-253"
+      ],
+      "shared": "SPEC-664"
     }
   }
 }

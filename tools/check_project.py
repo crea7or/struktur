@@ -75,7 +75,7 @@ def main():
     assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==len({p['key'] for p in props})==63
+    assert len(props)==len({p['key'] for p in props})==75
     assert all(re.fullmatch('[a-z][a-z0-9_]{0,7}',p['key']) and not p.get('hidden') for p in props)
     by_key={p['key']:p for p in props}
     for first in [p for p in props if re.match(r'a(?:_|[0-9])',p['key'])]:
@@ -87,11 +87,17 @@ def main():
     assert set(xml)==set(by_key)
     settings=ET.parse(ROOT/'resources/settings/settings.xml');controls=settings.findall('.//setting')
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in controls}
-    assert len(controls)==63 and set(configured)==set(by_key)
+    assert len(controls)==75 and set(configured)==set(by_key)
     group=settings.find('.//group[@id="second_field_set"]')
     assert [s.attrib['propertyKey'].split('.')[-1] for s in group.findall('setting')]==[p['key'] for p in props if p['key'] in ['trig','p_on','p_off','hr_on','hr_off'] or p['key'].startswith('b')]
+    training=settings.find('.//group[@id="training_zones"]')
+    assert training is not None
+    assert [x.attrib['propertyKey'].split('.')[-1] for x in training.findall('setting')]==['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]+[f'cad{i}' for i in range(1,5)]
+    names=['Active Recovery','Endurance','Tempo','Threshold','VO2 Max','Anaerobic']
+    assert all(name in by_key[f'pw{i}']['title'] for i,name in enumerate(names,1))
+    assert 'Neuromuscular' in by_key['pw6']['prompt'] and 'Zone 5' in by_key['hr4']['prompt']
     shared=['team','tsrc'];order=list(configured)
-    assert [p['key'] for p in props if p.get('shared')]==shared
+    assert [p['key'] for p in props if p.get('shared')]==shared+['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]
     assert order[6:8]==shared and all(order.index(k)<order.index('a1') for k in shared)
     assert [p['key'] for p in props if p['type']=='string']==['team']
     strings={x.attrib['id']:x.text for x in ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')}
