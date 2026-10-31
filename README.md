@@ -23,6 +23,8 @@ The default dashboard shows speed, distance, timer, time, heart rate, 3s power, 
 
 ## Settings guide
 
+All options appear on one settings page. Make your changes and use Save on that page; second-dashboard options are identified by Second field set or Second set: in their captions. Training-zone options stay together on the same page.
+
 Layout and slot options are independent for the first and second dashboards. Team settings and training zones are shared. Units and the 12-/24-hour clock follow your Garmin device preferences; Struktur has no separate selector for them.
 
 ### Layout and appearance

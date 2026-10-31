@@ -172,9 +172,9 @@
       ],
       "procedure": "Purpose: Fixed-font caption fitting.\n\nRequirement references: [[APP-21]], [[APP-24]], [[APP-25]], [[APP-34]], [[DVS-3]], [[DVS-13]].\n\nProcedure and expected results: Measure complete headers and primary/secondary ink bounds in both alignments. Use exactly the three fixed profile fonts; required content must fit or use the defined overflow/fallback state. Long durations do not select another font size or drop required hour digits. Check label-height vertical inset and omitted-secondary width.\n\nSuite: Placement. Explicit user request only.\n\nExecutable source: `tests/PlacementTests.mc`; named test `proportionalCaptionFit`.\n\nEvidence follows [[SPEC-162]]. This definition asserts no execution; historical results retain their captured scope.\n",
       "requirement_revisions": {
-        "APP-21": 99,
+        "APP-21": 100,
         "APP-24": 83,
-        "APP-25": 43,
+        "APP-25": 52,
         "DVS-13": 68,
         "DVS-3": 89
       },
@@ -303,9 +303,9 @@
         "SPEC-249",
         "SPEC-253"
       ],
-      "procedure": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
+      "procedure": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.\n\nSeparate build prerequisite: tools/test_settings_layout.py verifies [[SPEC-210]]/[[SPEC-669]] with all current properties exactly once and in catalogue order directly on the main settings page; reject nested/empty groups, missing or duplicate controls and changed order. Report this host check separately from the named drawing test. Mobile Save/reopen persistence still requires phone verification; a simulator drawing PASS is not evidence of the phone's Save UI.",
       "requirement_revisions": {
-        "APP-21": 99,
+        "APP-21": 100,
         "APP-24": 83,
         "APP-26": 105,
         "APP-32": 81,
@@ -349,12 +349,12 @@
         "FUNC-8": 44,
         "SPEC-157": 73,
         "SPEC-249": 21,
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
-      "definition": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.",
+      "definition": "Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.\nRun the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.\nCheck the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.\nExercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.\nExact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.\n\nSeparate build prerequisite: tools/test_settings_layout.py verifies [[SPEC-210]]/[[SPEC-669]] with all current properties exactly once and in catalogue order directly on the main settings page; reject nested/empty groups, missing or duplicate controls and changed order. Report this host check separately from the named drawing test. Mobile Save/reopen persistence still requires phone verification; a simulator drawing PASS is not evidence of the phone's Save UI.",
       "stable_id": "TUI-1",
-      "revision": 99,
-      "status": "approved",
+      "revision": 101,
+      "status": "draft",
       "additional_sources": [
         "tests/NormalRangeTests.mc",
         "tests/limits"
@@ -843,7 +843,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-24": 83,
-        "APP-25": 43
+        "APP-25": 52
       },
       "suite_stable_id": "TRGR-1"
     },
@@ -899,8 +899,8 @@
         "APP-22": 68,
         "APP-26": 105,
         "APP-32": 81,
-        "HFER-7": 25,
-        "HFER-8": 25,
+        "HFER-7": 29,
+        "HFER-8": 29,
         "SPEC-155": 123
       },
       "suite_stable_id": "TRGR-1"
@@ -1223,7 +1223,7 @@
       "revision": 12,
       "status": "approved",
       "requirement_revisions": {
-        "APP-25": 43,
+        "APP-25": 52,
         "SPEC-177": 36
       },
       "suite_stable_id": "TPER-1"
@@ -1249,7 +1249,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-24": 83,
-        "APP-25": 43,
+        "APP-25": 52,
         "APP-26": 105,
         "APP-34": 104
       },
@@ -1278,7 +1278,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-20": 95,
-        "APP-21": 99,
+        "APP-21": 100,
         "APP-34": 104,
         "APP-36": 83,
         "DVS-51": 78,
@@ -1364,7 +1364,7 @@
         "APP-31": 115,
         "SPEC-155": 123,
         "SPEC-208": 26,
-        "SPEC-210": 27,
+        "SPEC-210": 29,
         "SPEC-211": 21,
         "SPEC-212": 14,
         "SPEC-243": 26
@@ -1541,8 +1541,8 @@
       "requirement_revisions": {
         "APP-46": 73,
         "SPEC-155": 123,
-        "SPEC-210": 27,
-        "SPEC-253": 51
+        "SPEC-210": 29,
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-286"
     },
@@ -1846,7 +1846,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-287"
     },
@@ -1866,7 +1866,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-288"
     },
@@ -1912,7 +1912,7 @@
         "DVS-12": 114,
         "DVS-50": 66,
         "SPEC-156": 23,
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-289"
     },
@@ -1934,7 +1934,7 @@
       ],
       "requirement_revisions": {
         "SPEC-208": 26,
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-290",
       "additional_executable_checks": [
@@ -1964,9 +1964,9 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "APP-21": 99,
+        "APP-21": 100,
         "APP-34": 104,
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-291"
     },
@@ -1987,8 +1987,8 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "APP-25": 43,
-        "SPEC-253": 51
+        "APP-25": 52,
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-292"
     },
@@ -2008,7 +2008,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-293"
     },
@@ -2028,7 +2028,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-294"
     },
@@ -2054,7 +2054,7 @@
         "APP-38": 57,
         "SPEC-176": 28,
         "SPEC-177": 36,
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-297"
     },
@@ -2074,7 +2074,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-298"
     },
@@ -2342,7 +2342,7 @@
         "SPEC-253"
       ],
       "requirement_revisions": {
-        "SPEC-253": 51
+        "SPEC-253": 55
       },
       "stable_id": "SPEC-295"
     },
@@ -2367,7 +2367,7 @@
         "APP-26": 105,
         "SPEC-217": 14,
         "SPEC-218": 11,
-        "SPEC-253": 51
+        "SPEC-253": 55
       }
     },
     {
@@ -2387,7 +2387,7 @@
       "status": "approved",
       "requirement_revisions": {
         "APP-32": 81,
-        "SPEC-253": 51
+        "SPEC-253": 55
       }
     },
     {
@@ -2664,7 +2664,7 @@
         "DVS-24": 60,
         "SPEC-246": 24,
         "SPEC-248": 58,
-        "SPEC-253": 51,
+        "SPEC-253": 55,
         "SPEC-663": 7,
         "SPEC-664": 7,
         "SPEC-665": 7,
@@ -2718,7 +2718,7 @@
         "SPEC-155": 123,
         "SPEC-245": 12,
         "SPEC-668": 3,
-        "SPEC-669": 6
+        "SPEC-669": 8
       }
     },
     {

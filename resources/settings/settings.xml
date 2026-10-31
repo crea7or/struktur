@@ -484,551 +484,547 @@
         <listEntry value="2">@Strings.Choice_a10_bg_2</listEntry>
       </settingConfig>
     </setting>
-    <group id="training_zones" title="@Strings.TrainingZonesTitle">
-      <setting propertyKey="@Properties.cpz" title="@Strings.Setting_cpz" prompt="@Strings.Prompt_cpz">
-        <settingConfig type="boolean" />
-      </setting>
-      <setting propertyKey="@Properties.pw1" title="@Strings.Setting_pw1" prompt="@Strings.Prompt_pw1">
-        <settingConfig type="numeric" min="0" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.pw2" title="@Strings.Setting_pw2" prompt="@Strings.Prompt_pw2">
-        <settingConfig type="numeric" min="0" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.pw3" title="@Strings.Setting_pw3" prompt="@Strings.Prompt_pw3">
-        <settingConfig type="numeric" min="0" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.pw4" title="@Strings.Setting_pw4" prompt="@Strings.Prompt_pw4">
-        <settingConfig type="numeric" min="0" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.pw5" title="@Strings.Setting_pw5" prompt="@Strings.Prompt_pw5">
-        <settingConfig type="numeric" min="0" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.pw6" title="@Strings.Setting_pw6" prompt="@Strings.Prompt_pw6">
-        <settingConfig type="numeric" min="0" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.chz" title="@Strings.Setting_chz" prompt="@Strings.Prompt_chz">
-        <settingConfig type="boolean" />
-      </setting>
-      <setting propertyKey="@Properties.hr1" title="@Strings.Setting_hr1" prompt="@Strings.Prompt_hr1">
-        <settingConfig type="numeric" min="0" max="250" />
-      </setting>
-      <setting propertyKey="@Properties.hr2" title="@Strings.Setting_hr2" prompt="@Strings.Prompt_hr2">
-        <settingConfig type="numeric" min="0" max="250" />
-      </setting>
-      <setting propertyKey="@Properties.hr3" title="@Strings.Setting_hr3" prompt="@Strings.Prompt_hr3">
-        <settingConfig type="numeric" min="0" max="250" />
-      </setting>
-      <setting propertyKey="@Properties.hr4" title="@Strings.Setting_hr4" prompt="@Strings.Prompt_hr4">
-        <settingConfig type="numeric" min="0" max="250" />
-      </setting>
-      <setting propertyKey="@Properties.cad1" title="@Strings.Setting_cad1" prompt="@Strings.Prompt_cad1">
-        <settingConfig type="numeric" min="0" max="300" />
-      </setting>
-      <setting propertyKey="@Properties.cad2" title="@Strings.Setting_cad2" prompt="@Strings.Prompt_cad2">
-        <settingConfig type="numeric" min="0" max="300" />
-      </setting>
-      <setting propertyKey="@Properties.cad3" title="@Strings.Setting_cad3" prompt="@Strings.Prompt_cad3">
-        <settingConfig type="numeric" min="0" max="300" />
-      </setting>
-      <setting propertyKey="@Properties.cad4" title="@Strings.Setting_cad4" prompt="@Strings.Prompt_cad4">
-        <settingConfig type="numeric" min="0" max="300" />
-      </setting>
-    </group>
-    <group id="second_field_set" title="@Strings.SecondSetTitle" description="@Strings.SecondSetDescription">
-      <setting propertyKey="@Properties.trig" title="@Strings.Setting_trig" prompt="@Strings.Prompt_trig">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_trig_trigger_none</listEntry>
-          <listEntry value="1">@Strings.Choice_trig_trigger_power_3s</listEntry>
-          <listEntry value="2">@Strings.Choice_trig_trigger_heart_rate</listEntry>
-          <listEntry value="3">@Strings.Choice_trig_trigger_manual_lap</listEntry>
-          <listEntry value="4">@Strings.Choice_trig_trigger_workout</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.p_on" title="@Strings.Setting_p_on" prompt="@Strings.Prompt_p_on">
-        <settingConfig type="numeric" min="1" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.p_off" title="@Strings.Setting_p_off" prompt="@Strings.Prompt_p_off">
-        <settingConfig type="numeric" min="1" max="3000" />
-      </setting>
-      <setting propertyKey="@Properties.hr_on" title="@Strings.Setting_hr_on" prompt="@Strings.Prompt_hr_on">
-        <settingConfig type="numeric" min="30" max="250" />
-      </setting>
-      <setting propertyKey="@Properties.hr_off" title="@Strings.Setting_hr_off" prompt="@Strings.Prompt_hr_off">
-        <settingConfig type="numeric" min="30" max="250" />
-      </setting>
-      <setting propertyKey="@Properties.b_big" title="@Strings.Setting_b_big">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_0</listEntry>
-          <listEntry value="1">@Strings.Choice_1</listEntry>
-          <listEntry value="2">@Strings.Choice_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b_align" title="@Strings.Setting_b_align">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_center</listEntry>
-          <listEntry value="1">@Strings.Choice_right</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b_theme" title="@Strings.Setting_b_theme">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_auto</listEntry>
-          <listEntry value="1">@Strings.Choice_day</listEntry>
-          <listEntry value="2">@Strings.Choice_night</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b_hideu" title="@Strings.Setting_b_hideu">
-        <settingConfig type="boolean" />
-      </setting>
-      <setting propertyKey="@Properties.b_inv" title="@Strings.Setting_b_inv">
-        <settingConfig type="boolean" />
-      </setting>
-      <setting propertyKey="@Properties.b_grid" title="@Strings.Setting_b_grid">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b_grid_none</listEntry>
-          <listEntry value="1">@Strings.Choice_b_grid_horizontal</listEntry>
-          <listEntry value="2">@Strings.Choice_b_grid_full</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b1" title="@Strings.Setting_b1">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b1_bg" title="@Strings.Setting_b1_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b1_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b1_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b1_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b2" title="@Strings.Setting_b2">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b2_bg" title="@Strings.Setting_b2_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b2_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b2_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b2_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b3" title="@Strings.Setting_b3">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b3_bg" title="@Strings.Setting_b3_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b3_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b3_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b3_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b4" title="@Strings.Setting_b4">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b4_bg" title="@Strings.Setting_b4_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b4_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b4_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b4_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b5" title="@Strings.Setting_b5">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b5_bg" title="@Strings.Setting_b5_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b5_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b5_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b5_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b6" title="@Strings.Setting_b6">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b6_bg" title="@Strings.Setting_b6_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b6_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b6_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b6_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b7" title="@Strings.Setting_b7">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b7_bg" title="@Strings.Setting_b7_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b7_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b7_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b7_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b8" title="@Strings.Setting_b8">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b8_bg" title="@Strings.Setting_b8_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b8_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b8_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b8_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b9" title="@Strings.Setting_b9">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b9_bg" title="@Strings.Setting_b9_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b9_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b9_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b9_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b10" title="@Strings.Setting_b10">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_current_speed</listEntry>
-          <listEntry value="1">@Strings.Choice_average_speed</listEntry>
-          <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
-          <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
-          <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
-          <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
-          <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
-          <listEntry value="7">@Strings.Choice_current_power</listEntry>
-          <listEntry value="8">@Strings.Choice_power_3s</listEntry>
-          <listEntry value="9">@Strings.Choice_average_power</listEntry>
-          <listEntry value="10">@Strings.Choice_power_zone</listEntry>
-          <listEntry value="11">@Strings.Choice_distance</listEntry>
-          <listEntry value="12">@Strings.Choice_elevation</listEntry>
-          <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
-          <listEntry value="14">@Strings.Choice_total_descent</listEntry>
-          <listEntry value="15">@Strings.Choice_grade</listEntry>
-          <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
-          <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
-          <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
-          <listEntry value="19">@Strings.Choice_calories</listEntry>
-          <listEntry value="20">@Strings.Choice_temperature</listEntry>
-          <listEntry value="21">@Strings.Choice_battery</listEntry>
-          <listEntry value="22">@Strings.Choice_heading</listEntry>
-          <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
-          <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
-          <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
-          <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
-          <listEntry value="27">@Strings.Choice_lap_time</listEntry>
-          <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
-          <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
-          <listEntry value="30">@Strings.Choice_lap_power</listEntry>
-          <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
-          <listEntry value="32">@Strings.Choice_team</listEntry>
-        </settingConfig>
-      </setting>
-      <setting propertyKey="@Properties.b10_bg" title="@Strings.Setting_b10_bg">
-        <settingConfig type="list">
-          <listEntry value="0">@Strings.Choice_b10_bg_0</listEntry>
-          <listEntry value="1">@Strings.Choice_b10_bg_1</listEntry>
-          <listEntry value="2">@Strings.Choice_b10_bg_2</listEntry>
-        </settingConfig>
-      </setting>
-    </group>
+    <setting propertyKey="@Properties.cpz" title="@Strings.Setting_cpz" prompt="@Strings.Prompt_cpz">
+      <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.pw1" title="@Strings.Setting_pw1" prompt="@Strings.Prompt_pw1">
+      <settingConfig type="numeric" min="0" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.pw2" title="@Strings.Setting_pw2" prompt="@Strings.Prompt_pw2">
+      <settingConfig type="numeric" min="0" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.pw3" title="@Strings.Setting_pw3" prompt="@Strings.Prompt_pw3">
+      <settingConfig type="numeric" min="0" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.pw4" title="@Strings.Setting_pw4" prompt="@Strings.Prompt_pw4">
+      <settingConfig type="numeric" min="0" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.pw5" title="@Strings.Setting_pw5" prompt="@Strings.Prompt_pw5">
+      <settingConfig type="numeric" min="0" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.pw6" title="@Strings.Setting_pw6" prompt="@Strings.Prompt_pw6">
+      <settingConfig type="numeric" min="0" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.chz" title="@Strings.Setting_chz" prompt="@Strings.Prompt_chz">
+      <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.hr1" title="@Strings.Setting_hr1" prompt="@Strings.Prompt_hr1">
+      <settingConfig type="numeric" min="0" max="250" />
+    </setting>
+    <setting propertyKey="@Properties.hr2" title="@Strings.Setting_hr2" prompt="@Strings.Prompt_hr2">
+      <settingConfig type="numeric" min="0" max="250" />
+    </setting>
+    <setting propertyKey="@Properties.hr3" title="@Strings.Setting_hr3" prompt="@Strings.Prompt_hr3">
+      <settingConfig type="numeric" min="0" max="250" />
+    </setting>
+    <setting propertyKey="@Properties.hr4" title="@Strings.Setting_hr4" prompt="@Strings.Prompt_hr4">
+      <settingConfig type="numeric" min="0" max="250" />
+    </setting>
+    <setting propertyKey="@Properties.cad1" title="@Strings.Setting_cad1" prompt="@Strings.Prompt_cad1">
+      <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.cad2" title="@Strings.Setting_cad2" prompt="@Strings.Prompt_cad2">
+      <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.cad3" title="@Strings.Setting_cad3" prompt="@Strings.Prompt_cad3">
+      <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.cad4" title="@Strings.Setting_cad4" prompt="@Strings.Prompt_cad4">
+      <settingConfig type="numeric" min="0" max="300" />
+    </setting>
+    <setting propertyKey="@Properties.trig" title="@Strings.Setting_trig" prompt="@Strings.Prompt_trig">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_trig_trigger_none</listEntry>
+        <listEntry value="1">@Strings.Choice_trig_trigger_power_3s</listEntry>
+        <listEntry value="2">@Strings.Choice_trig_trigger_heart_rate</listEntry>
+        <listEntry value="3">@Strings.Choice_trig_trigger_manual_lap</listEntry>
+        <listEntry value="4">@Strings.Choice_trig_trigger_workout</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.p_on" title="@Strings.Setting_p_on" prompt="@Strings.Prompt_p_on">
+      <settingConfig type="numeric" min="1" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.p_off" title="@Strings.Setting_p_off" prompt="@Strings.Prompt_p_off">
+      <settingConfig type="numeric" min="1" max="3000" />
+    </setting>
+    <setting propertyKey="@Properties.hr_on" title="@Strings.Setting_hr_on" prompt="@Strings.Prompt_hr_on">
+      <settingConfig type="numeric" min="30" max="250" />
+    </setting>
+    <setting propertyKey="@Properties.hr_off" title="@Strings.Setting_hr_off" prompt="@Strings.Prompt_hr_off">
+      <settingConfig type="numeric" min="30" max="250" />
+    </setting>
+    <setting propertyKey="@Properties.b_big" title="@Strings.Setting_b_big">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_0</listEntry>
+        <listEntry value="1">@Strings.Choice_1</listEntry>
+        <listEntry value="2">@Strings.Choice_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b_align" title="@Strings.Setting_b_align">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_center</listEntry>
+        <listEntry value="1">@Strings.Choice_right</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b_theme" title="@Strings.Setting_b_theme">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_auto</listEntry>
+        <listEntry value="1">@Strings.Choice_day</listEntry>
+        <listEntry value="2">@Strings.Choice_night</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b_hideu" title="@Strings.Setting_b_hideu">
+      <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.b_inv" title="@Strings.Setting_b_inv">
+      <settingConfig type="boolean" />
+    </setting>
+    <setting propertyKey="@Properties.b_grid" title="@Strings.Setting_b_grid">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b_grid_none</listEntry>
+        <listEntry value="1">@Strings.Choice_b_grid_horizontal</listEntry>
+        <listEntry value="2">@Strings.Choice_b_grid_full</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b1" title="@Strings.Setting_b1">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b1_bg" title="@Strings.Setting_b1_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b1_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b1_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b1_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b2" title="@Strings.Setting_b2">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b2_bg" title="@Strings.Setting_b2_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b2_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b2_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b2_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b3" title="@Strings.Setting_b3">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b3_bg" title="@Strings.Setting_b3_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b3_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b3_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b3_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b4" title="@Strings.Setting_b4">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b4_bg" title="@Strings.Setting_b4_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b4_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b4_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b4_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b5" title="@Strings.Setting_b5">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b5_bg" title="@Strings.Setting_b5_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b5_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b5_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b5_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b6" title="@Strings.Setting_b6">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b6_bg" title="@Strings.Setting_b6_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b6_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b6_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b6_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b7" title="@Strings.Setting_b7">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b7_bg" title="@Strings.Setting_b7_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b7_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b7_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b7_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b8" title="@Strings.Setting_b8">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b8_bg" title="@Strings.Setting_b8_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b8_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b8_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b8_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b9" title="@Strings.Setting_b9">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b9_bg" title="@Strings.Setting_b9_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b9_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b9_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b9_bg_2</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b10" title="@Strings.Setting_b10">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_current_speed</listEntry>
+        <listEntry value="1">@Strings.Choice_average_speed</listEntry>
+        <listEntry value="2">@Strings.Choice_current_cadence</listEntry>
+        <listEntry value="3">@Strings.Choice_average_cadence</listEntry>
+        <listEntry value="4">@Strings.Choice_current_heart_rate</listEntry>
+        <listEntry value="5">@Strings.Choice_average_heart_rate</listEntry>
+        <listEntry value="6">@Strings.Choice_heart_rate_zone</listEntry>
+        <listEntry value="7">@Strings.Choice_current_power</listEntry>
+        <listEntry value="8">@Strings.Choice_power_3s</listEntry>
+        <listEntry value="9">@Strings.Choice_average_power</listEntry>
+        <listEntry value="10">@Strings.Choice_power_zone</listEntry>
+        <listEntry value="11">@Strings.Choice_distance</listEntry>
+        <listEntry value="12">@Strings.Choice_elevation</listEntry>
+        <listEntry value="13">@Strings.Choice_total_ascent</listEntry>
+        <listEntry value="14">@Strings.Choice_total_descent</listEntry>
+        <listEntry value="15">@Strings.Choice_grade</listEntry>
+        <listEntry value="16">@Strings.Choice_activity_timer</listEntry>
+        <listEntry value="17">@Strings.Choice_elapsed_time</listEntry>
+        <listEntry value="18">@Strings.Choice_time_of_day</listEntry>
+        <listEntry value="19">@Strings.Choice_calories</listEntry>
+        <listEntry value="20">@Strings.Choice_temperature</listEntry>
+        <listEntry value="21">@Strings.Choice_battery</listEntry>
+        <listEntry value="22">@Strings.Choice_heading</listEntry>
+        <listEntry value="23">@Strings.Choice_distance_next_waypoint</listEntry>
+        <listEntry value="24">@Strings.Choice_completed_laps</listEntry>
+        <listEntry value="25">@Strings.Choice_heart_rate_3s</listEntry>
+        <listEntry value="26">@Strings.Choice_lap_distance</listEntry>
+        <listEntry value="27">@Strings.Choice_lap_time</listEntry>
+        <listEntry value="28">@Strings.Choice_lap_speed</listEntry>
+        <listEntry value="29">@Strings.Choice_lap_heart_rate</listEntry>
+        <listEntry value="30">@Strings.Choice_lap_power</listEntry>
+        <listEntry value="31">@Strings.Choice_lap_cadence</listEntry>
+        <listEntry value="32">@Strings.Choice_team</listEntry>
+      </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.b10_bg" title="@Strings.Setting_b10_bg">
+      <settingConfig type="list">
+        <listEntry value="0">@Strings.Choice_b10_bg_0</listEntry>
+        <listEntry value="1">@Strings.Choice_b10_bg_1</listEntry>
+        <listEntry value="2">@Strings.Choice_b10_bg_2</listEntry>
+      </settingConfig>
+    </setting>
   </settings>
 </resources>

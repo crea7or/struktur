@@ -9,6 +9,7 @@ from font_glyphs import glyph_contract
 from validate_fonts import validate_manifest
 from check_test_suites import validate_suites
 from check_properties import validate_properties
+from settings_layout import validate_settings_layout
 from check_requirement_ownership import validate_ownership
 from generate_display_limits import outputs as display_limit_outputs
 
@@ -88,11 +89,11 @@ def main():
     settings=ET.parse(ROOT/'resources/settings/settings.xml');controls=settings.findall('.//setting')
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in controls}
     assert len(controls)==75 and set(configured)==set(by_key)
-    group=settings.find('.//group[@id="second_field_set"]')
-    assert [s.attrib['propertyKey'].split('.')[-1] for s in group.findall('setting')]==[p['key'] for p in props if p['key'] in ['trig','p_on','p_off','hr_on','hr_off'] or p['key'].startswith('b')]
-    training=settings.find('.//group[@id="training_zones"]')
-    assert training is not None
-    assert [x.attrib['propertyKey'].split('.')[-1] for x in training.findall('setting')]==['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]+[f'cad{i}' for i in range(1,5)]
+    order=validate_settings_layout(settings.getroot(),props)
+    second_keys=['trig','p_on','p_off','hr_on','hr_off']+[p['key'] for p in props if p['key'].startswith('b')]
+    assert order[order.index('trig'):]==second_keys
+    training_keys=['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]+[f'cad{i}' for i in range(1,5)]
+    assert order[order.index('cpz'):order.index('trig')]==training_keys
     names=['Active Recovery','Endurance','Tempo','Threshold','VO2 Max','Anaerobic']
     assert all(name in by_key[f'pw{i}']['title'] for i,name in enumerate(names,1))
     assert 'Neuromuscular' in by_key['pw6']['prompt'] and 'Zone 5' in by_key['hr4']['prompt']

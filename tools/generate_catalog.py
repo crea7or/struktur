@@ -93,7 +93,7 @@ def main():
     props += [dict(key='second_set_trigger',type='number',default=3,choices=[0,1,2,3,4],
                    identifiers=['trigger_none','trigger_power_3s','trigger_heart_rate','trigger_manual_lap','trigger_workout'],
                    choice_labels=['None','3s power','Heart rate','Manual lap','Workout started'],title='Second field set - activation event',
-                   prompt='Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.'),
+                   prompt='Used only while the selected activation event is active. None keeps the first set. Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.'),
               dict(key='second_power_activate_w',type='number',default=250,min=1,max=3000,title='Power: activate at (W)',prompt='3s power mode only. Return threshold must be less than or equal to activation.'),
               dict(key='second_power_return_w',type='number',default=220,min=1,max=3000,title='Power: return below (W)',prompt='3s power mode only. Return threshold must be less than or equal to activation.'),
               dict(key='second_hr_activate_bpm',type='number',default=160,min=30,max=250,title='Heart rate: activate at (bpm)',prompt='Heart rate mode only. Return threshold must be less than or equal to activation.'),
@@ -134,16 +134,12 @@ def main():
     ET.SubElement(strings,'string',id='SecondSetTitle').text='Second field set'
     ET.SubElement(strings,'string',id='SecondSetDescription').text='Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.'
     ET.SubElement(strings,'string',id='TrainingZonesTitle').text='Training zones'
-    second_group=None
+    # SPEC-210/669: one main Save page. Native groups lose edits in affected phone clients.
     for p in props:
-        if p['key']=='cpz':
-            second_group=ET.SubElement(settings,'group',id='training_zones',title='@Strings.TrainingZonesTitle')
-        if p['key']=='trig':
-            second_group=ET.SubElement(settings,'group',id='second_field_set',title='@Strings.SecondSetTitle',description='@Strings.SecondSetDescription')
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])
         if p.get('hidden'):continue
         sid='Setting_'+p['key']; ET.SubElement(strings,'string',id=sid).text=p.get('title',p['key'].replace('_',' ').capitalize())
-        setting=ET.SubElement(second_group if second_group is not None else settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
+        setting=ET.SubElement(settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
         if p.get('prompt'):
             prompt='Prompt_'+p['key'];ET.SubElement(strings,'string',id=prompt).text=p['prompt'];setting.set('prompt','@Strings.'+prompt)
         ctype='list' if 'choices' in p else ('boolean' if p['type']=='boolean' else ('alphaNumeric' if p['type']=='string' else 'numeric'))

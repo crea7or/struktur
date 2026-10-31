@@ -178,7 +178,7 @@
     <string id="Setting_cad4" scope="settings">Cadence zone 4: upper rpm</string>
     <string id="Prompt_cad4" scope="settings">Four increasing upper bounds define five coloring zones; both field sets share these values.</string>
     <string id="Setting_trig" scope="settings">Second field set - activation event</string>
-    <string id="Prompt_trig" scope="settings">Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.</string>
+    <string id="Prompt_trig" scope="settings">Used only while the selected activation event is active. None keeps the first set. Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.</string>
     <string id="Choice_trig_trigger_none" scope="settings">None</string>
     <string id="Choice_trig_trigger_power_3s" scope="settings">3s power</string>
     <string id="Choice_trig_trigger_heart_rate" scope="settings">Heart rate</string>

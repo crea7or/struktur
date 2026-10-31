@@ -1545,7 +1545,7 @@
         "Workout started"
       ],
       "title": "Second field set - activation event",
-      "prompt": "Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.",
+      "prompt": "Used only while the selected activation event is active. None keeps the first set. Only the selected mode controls the second set. Edge 530/830/1030: disable Auto Lap. This device cannot distinguish manual from automatic lap events. Other automatic/workout lap sources must also be absent on those devices.",
       "requirement": "SPEC-335"
     },
     {

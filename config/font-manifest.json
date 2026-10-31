@@ -3,10 +3,10 @@
   "pillow": "12.2.0",
   "python": "3.14.7",
   "inventory_inputs": {
-    "config/catalogue.json": "9be9ef388a80b22052ac615f9e9bae1bbf5730cf4fd21f546a9bdc0f4f377cad",
+    "config/catalogue.json": "cda0e71fcd8392ca55f792c13766c07c0e3b4498fe90cd04cedc5d944abde2af",
     "config/decisions.json": "4f690b8dbf8b2dbc2096b7e34c57736f8374586cc8ad7af735716707bcddea0b",
     "config/devices.json": "b01276258fd6433d5e19d3f644bd50481f19ed50b8f6b990972b069d3900c9de",
-    "requirements/workspace-snapshot.json": "b8a2d18279ddc9b632af5f6e66b6d8f5ddc175d71c9c7252ac03c117f6241616",
+    "requirements/workspace-snapshot.json": "649c136716be8425a2e084b953c67723df51fc2b3dc84e47a079736632bf8db7",
     "source/Snapshot.mc": "dc4b796515a345ee23a42f1682325aa36f559446348ca225225411bb7af667b4",
     "source/FieldRenderer.mc": "119f99fe54dcee34c1f5d0764f039afda95d368ed572e44064a76129b2e65886",
     "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
@@ -17,7 +17,7 @@
     "tools/generate_fonts.py": "ce8e2202238a58be66dde5f611b68265a2cc14e1fcfb1cf9476862941216fcdc",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "f5f1ed981b8233ce443382cf65c6d408500a792c3427933b578299fccf6c7af8",
+    "tools/generate_catalog.py": "7c5a0da8c98756796adad672b302d3630274a7e672b324bbc9f04f2b38a35895",
     "source/Catalog.mc": "cc43c1fced689a51535b66171174520127b8f77972a13f140cd66a749c7bb0ea",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
@@ -36,8 +36,8 @@
       "description_sha256": "15a96ab6dd1cea8e44aaf8532d6a73cf96a488c1ec8a9908fa4daf05fb9cf445"
     },
     "APP-25": {
-      "revision": 43,
-      "description_sha256": "4107c1c620c85e0fbbac34c94111a3b68ff95ab09637f8a630f8e6a1077ddc1f"
+      "revision": 52,
+      "description_sha256": "7da34147b28d96bc8c2e113001e500c5636c0bb914129c4628cadb809d76756f"
     },
     "APP-34": {
       "revision": 104,
