@@ -1,6 +1,6 @@
 # Struktur — current requirements snapshot
 
-Captured: **24 October 2026**. This specification preserves current review states. Test definitions are separate from execution results.
+Working specification updated: **31 October 2026**. This specification preserves current review states. Test definitions are separate from execution results.
 
 Field identity, labels, units, header templates and precision are stored as typed attributes. Conditional precision uses PRECISION_RULE rather than numeric PRECISION.
 
@@ -61,7 +61,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-249 — Fall back without discarding a valid metric](#spec-249)
 - [SPEC-243 — Use compact property keys](#spec-243)
 - [SPEC-214 — Evaluate the power event from the shared three-second average](#spec-214)
-- [SPEC-210 — Separate and order second-set controls in settings](#spec-210)
+- [SPEC-210 — Keep all dashboard controls on one savable settings page](#spec-210)
 - [SPEC-208 — Configure two independent field sets](#spec-208)
 - [FUNC-8 — Lap cadence](#func-8)
 - [FUNC-7 — Lap power](#func-7)
@@ -328,7 +328,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-666 — Keep invalid custom zone profiles unavailable](#spec-666)
 - [SPEC-667 — Prepare zone profiles outside compute and drawing](#spec-667)
 - [SPEC-668 — Preserve activity state when editing zone settings](#spec-668)
-- [SPEC-669 — Group global training zone options](#spec-669)
+- [SPEC-669 — Keep shared training zone controls contiguous on the main settings page](#spec-669)
 - [FR-16431 — Use custom power zones (cpz)](#fr-16431)
 - [FR-16432 — Power zone 1 (Active Recovery): upper W (pw1)](#fr-16432)
 - [FR-16433 — Power zone 2 (Endurance): upper W (pw2)](#fr-16433)
@@ -380,6 +380,7 @@ Keep the installed device library unchanged. For store packaging, copy device de
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [SPEC-151](#spec-151), [SPEC-152](#spec-152)
 
 <a id="spec-152"></a>
@@ -393,6 +394,7 @@ Build all ten profiles with pinned SDK 9.2.0. Use config/firmware-compatibility.
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-24](#app-24), [SPEC-151](#spec-151)
 
 <a id="tprf-5"></a>
@@ -439,6 +441,7 @@ On full properties reload, release outgoing presentation, geometry and font hand
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [APP-1](#app-1)
 - uses: [APP-12](#app-12), [APP-7](#app-7), [APP-8](#app-8)
 
 <a id="tprf-9"></a>
@@ -477,6 +480,7 @@ Memory sampling shall retain fixed counters and stage identifiers without consol
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-37](#app-37), [APP-47](#app-47)
 
 <a id="spec-229"></a>
@@ -488,17 +492,19 @@ Verification definition; implementation and execution evidence are recorded sepa
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [SPEC-211](#spec-211), [SPEC-219](#spec-219), [SPEC-220](#spec-220)
 
 <a id="spec-232"></a>
 ## SPEC-232 — Placement: verify compact fallback independently for both field sets
 
-Type: test | State: approved | Revision: 12
+Type: test | State: approved | Revision: 16
 
 Verification definition; implementation and execution evidence are recorded separately. Run only when Placement is explicitly requested. On all ten profiles, give one bank a fitting supported layout and the other an intentionally insufficient assigned area/header combination, then switch both ways. Verify the existing exact compact fallback in the failing bank and recovery to the preferred fitting capacity in the other, with no pinned fallback, mixed set or silent partial grid. Repeat for enlarged layout, both alignments, unit-header visibility and each grid type; evaluate resource/glyph bounds and expected overflow markers only in deliberately unsupported contexts. Preserve active trigger state during repeated layout notifications. Record assigned bounds, both configurations and observed messages. These deliberate compact-message cases shall not enter the default Core inventory.
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [APP-33](#app-33), [SPEC-208](#spec-208)
 
 <a id="spec-170"></a>
@@ -513,6 +519,7 @@ Explicitly verify [APP-23](#app-23) capacity selection, [APP-26](#app-26) cached
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [APP-21](#app-21), [APP-23](#app-23), [APP-26](#app-26), [APP-37](#app-37), [DVS-12](#dvs-12), [HFER-7](#hfer-7), [HFER-8](#hfer-8), [SPEC-158](#spec-158), [SPEC-248](#spec-248)
 
 <a id="tfnc-21"></a>
@@ -529,6 +536,7 @@ On all ten profiles, separately record compiler capability, callback order/captu
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - verifies: [FUNC-10](#func-10), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [FUNC-9](#func-9), [SPEC-155](#spec-155)
 
 <a id="spec-228"></a>
@@ -541,6 +549,7 @@ After native layout, exercise onTimerLap2 itself with mixed Team/metric banks, 0
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [APP-26](#app-26), [SPEC-217](#spec-217), [SPEC-218](#spec-218)
 
 <a id="spec-231"></a>
@@ -556,6 +565,7 @@ Dispatch bounded batches of transitions/settings changes across native drawing c
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [APP-26](#app-26)
 
 <a id="spec-291"></a>
@@ -567,6 +577,7 @@ Suite: Core. On all ten profiles verify fitting native Team lines below the shar
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-21](#app-21), [APP-34](#app-34), [SPEC-253](#spec-253)
 
 <a id="spec-296"></a>
@@ -580,6 +591,7 @@ Explicit-request Memory: run the normal Data Field runtime on all ten profiles w
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-48](#app-48)
 
 <a id="spec-163"></a>
@@ -591,6 +603,7 @@ On a clean checkout on the documented host, follow only the guide, verify tool v
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [SPEC-151](#spec-151)
 
 <a id="spec-164"></a>
@@ -602,6 +615,7 @@ Inspect the manifest and build inputs; compile all ten candidates as Data Fields
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [SPEC-152](#spec-152)
 
 <a id="spec-219"></a>
@@ -617,6 +631,7 @@ API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.h
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-211](#spec-211), [SPEC-220](#spec-220)
 
 <a id="spec-217"></a>
@@ -632,6 +647,7 @@ API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.h
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [FUNC-9](#func-9), [SPEC-211](#spec-211)
 
 <a id="app-34"></a>
@@ -646,6 +662,7 @@ Normal ranges are inclusive after conversion/presentation rounding in displayed 
 **Relations**
 
 - allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-20](#app-20), [APP-21](#app-21), [APP-24](#app-24), [APP-35](#app-35), [DVS-3](#dvs-3), [DVS-6](#dvs-6)
 
 <a id="app-24"></a>
@@ -673,6 +690,10 @@ The table defines font sizes without percentage scaling. Assigned drawing bounds
 
 At full-screen bounds, both numeric roles shall fit the complete primary text `00:00` and the timer group with primary `0:00` plus label-role `.00` secondary text and its two-pixel gap. Reserve the [APP-34](#app-34) four-pixel horizontal margins plus the largest applicable one-pixel halo; retain the header-height inset and vertical gap. Use these fixed sizes for all values in each role; this is a generation/verification constraint, not runtime font scaling. Other numeric values and complete headers retain their field-specific normal ranges under [APP-34](#app-34).
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="spec-284"></a>
 ## SPEC-284 — Verify native power-zone mapping
 
@@ -686,6 +707,7 @@ Synthetic fixtures do not confirm the native device layout. Execution evidence i
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [DVS-42](#dvs-42), [SPEC-246](#spec-246), [SPEC-663](#spec-663)
 
 <a id="tfnc-24"></a>
@@ -718,6 +740,7 @@ Classify displayed whole-unit v: zone 1 b0<=v<=b1; zone i>1 b[i-1]<v<=b[i]. Outs
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-42](#app-42), [APP-43](#app-43), [DVS-7](#dvs-7)
 
 <a id="app-20"></a>
@@ -740,6 +763,22 @@ No independent count selector or partial grid.
 **Relations**
 
 - allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
+
+**Attachments**
+
+- [center-ui-2.png](attachments/center-ui-2.png) — illustrates
+- [center-ui-4.png](attachments/center-ui-4.png) — illustrates
+- [center-ui-10.png](attachments/center-ui-10.png) — illustrates
+- [center-ui-5.png](attachments/center-ui-5.png) — illustrates
+- [center-ui-7.png](attachments/center-ui-7.png) — illustrates
+- [center-ui-8.png](attachments/center-ui-8.png) — illustrates
+- [right-ui-2.png](attachments/right-ui-2.png) — illustrates
+- [right-ui-4.png](attachments/right-ui-4.png) — illustrates
+- [right-ui-10.png](attachments/right-ui-10.png) — illustrates
+- [right-ui-5.png](attachments/right-ui-5.png) — illustrates
+- [right-ui-7.png](attachments/right-ui-7.png) — illustrates
+- [right-ui-8.png](attachments/right-ui-8.png) — illustrates
 
 <a id="tprf-6"></a>
 ## TPRF-6 — Optional battery clock and diagnostic work
@@ -794,16 +833,16 @@ Custom profile identity/invalidation and unchanged activity state are additional
 <a id="dvs-34"></a>
 ## DVS-34 — Temperature
 
-Type: requirement | State: approved | Revision: 168
+Type: requirement | State: approved | Revision: 172
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 20 |
-| IDENTIFIER | temperature |
-| LABEL | temperature |
-| LABEL_AND_UNIT | `temp \| {unit}` |
-| PRECISION | 1 |
 | UNIT | °c (Celsius) or °f (Fahrenheit) |
+| LABEL | temperature |
+| PRECISION | 1 |
+| IDENTIFIER | temperature |
+| LABEL_AND_UNIT | `temp \| {unit}` |
 
 Source: native Sensor.getInfo().temperature (Celsius), only in background ServiceDelegate.onTemporalEvent with Background/Sensor permissions. No foreground sensor reads/enabling or weather/phone/history substitutes. Device temperature is not guaranteed ambient air temperature.
 Source guard: enumerate registered SENSOR_TEMPERATURE sensors before/after reading. Accept empty iterator or numeric matching type and SENSOR_TECHNOLOGY_ONBOARD. Reject null/unavailable/malformed metadata, exceptions, wrong/unknown type/technology, ANT/BLE registrations or >32 entries. Remote registration blocks even if disconnected/disabled. Finite zero is valid.
@@ -815,6 +854,7 @@ Normal display ranges: °c: -40–60; °f: -40–140. All supported devices, reg
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-45](#dvs-45), [DVS-50](#dvs-50)
 
 <a id="spec-300"></a>
@@ -860,12 +900,20 @@ Type: document | State: approved | Revision: 150
 Single authoritative catalogue of selectable fields. Each field owns source/validity, labels/units, precision, normal ranges and specific options. Shared rules apply through explicit relations.
 Field identity/presentation metadata is stored in CODE, IDENTIFIER, LABEL, UNIT, LABEL_AND_UNIT and numeric PRECISION attributes. Conditional/non-decimal precision uses PRECISION_RULE instead of PRECISION. Empty UNIT means no physical unit; empty LABEL_AND_UNIT uses the shared header fallback. Descriptions retain acquisition, validity, normal ranges and field-specific rendering behavior.
 
+**Relations**
+
+- allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+
 <a id="app-1"></a>
 ## APP-1 — Application Design
 
 Type: document | State: approved | Revision: 87
 
 Shared layout/options, lifecycle and resource budgets. Field behavior belongs to the single field catalogue.
+
+**Relations**
+
+- allocated_to: [APP-2](#app-2), [APP-3](#app-3), [APP-4](#app-4)
 
 <a id="spec-324"></a>
 ## SPEC-324 — Slot 7: background (a7_bg)
@@ -880,6 +928,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-323"></a>
@@ -895,6 +944,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-322"></a>
@@ -910,6 +960,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-321"></a>
@@ -925,6 +976,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-320"></a>
@@ -940,6 +992,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-319"></a>
@@ -955,6 +1008,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-318"></a>
@@ -970,6 +1024,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-317"></a>
@@ -985,6 +1040,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-316"></a>
@@ -1000,6 +1056,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-315"></a>
@@ -1015,6 +1072,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-314"></a>
@@ -1030,6 +1088,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-313"></a>
@@ -1045,6 +1104,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-312"></a>
@@ -1060,6 +1120,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-311"></a>
@@ -1075,6 +1136,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-310"></a>
@@ -1090,6 +1152,7 @@ Fields: [SPEC-253](#spec-253).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [SPEC-253](#spec-253), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-308"></a>
@@ -1105,21 +1168,22 @@ Fields: [SPEC-253](#spec-253).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [SPEC-253](#spec-253)
 
 <a id="spec-253"></a>
 ## SPEC-253 — Team
 
-Type: requirement | State: approved | Revision: 51
+Type: requirement | State: approved | Revision: 59
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 32 |
-| IDENTIFIER | team |
-| LABEL | team |
-| LABEL_AND_UNIT | "" |
-| PRECISION_RULE | not applicable (text) |
 | UNIT | "" |
+| LABEL | team |
+| IDENTIFIER | team |
+| LABEL_AND_UNIT | "" |
+| PRECISION_RULE | not applicable |
 
 Value: user text below the normal header; preserve case/within-line spaces. Empty leaves the header visible; unit visibility has no effect.
 
@@ -1135,6 +1199,7 @@ Native text widths are measured only during layout using the current callback Dc
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [SPEC-246](#spec-246), [SPEC-663](#spec-663), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="spec-249"></a>
@@ -1146,17 +1211,19 @@ Known fields with enabled coverage use valid declared semantic colors, otherwise
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - uses: [APP-45](#app-45), [DVS-51](#dvs-51)
 
 <a id="spec-243"></a>
 ## SPEC-243 — Use compact property keys
 
-Type: requirement | State: approved | Revision: 26
+Type: requirement | State: approved | Revision: 30
 
 Persist only the keys defined in [SPEC-300](#spec-300). Keys are unique lowercase ASCII letters/digits/underscores, begin with a letter and contain at most eight characters. a denotes the default set; b denotes the second set. Captions remain readable and use Slot N. No legacy key aliases are required.
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - uses: [APP-49](#app-49), [SPEC-155](#spec-155), [SPEC-244](#spec-244)
 
 <a id="spec-214"></a>
@@ -1168,19 +1235,23 @@ For 3s power mode, compare the unrounded watts from the same shared three-second
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [DVS-22](#dvs-22), [SPEC-213](#spec-213)
 
 <a id="spec-210"></a>
-## SPEC-210 — Separate and order second-set controls in settings
+## SPEC-210 — Keep all dashboard controls on one savable settings page
 
-Type: requirement | State: approved | Revision: 27
+Type: requirement | State: draft | Revision: 29
 
-Order default general controls, the two global Team controls (Team name, Team color source), default slot controls, shared Cadence zones, then real SDK group Second field set with description Used only while the selected activation event is active. None keeps the default set.
-Second group: Second field set - activation event; Power: activate at (W); Power: return below (W); Heart rate: activate at (bpm); Heart rate: return below (bpm); then presentation/slots in first-bank order. Prefix latter captions Second set: for flat-client clarity.
-Per-slot order: Slot N: value, Slot N: background. Prefix second-set captions Second set:. Use Slot N in every slot-specific option caption; never Field N. Do not repeat Team options in a slot or the second-set group. Keep unused controls editable/saved; only selected event thresholds act. No dummy editable divider or duplicated global cadence controls; conditional hiding not required.
+Render every application setting directly on the main Garmin settings page as a child of the SDK settings element. Do not emit SDK group elements or secondary settings pages, including for Second field set or Training zones; grouped clients can lose edits or the Save action. Garmin's main settings page owns Save; do not add a dummy editable divider or save property.
+
+Retain the existing property keys, types, choice codes, defaults and catalogue order: first-set general controls, the two shared Team controls, first-set slot controls, shared training zones under [SPEC-669](#spec-669), then second-set activation, thresholds, presentation and slots. Activation order is Second field set - activation event; Power: activate at (W); Power: return below (W); Heart rate: activate at (bpm); Heart rate: return below (bpm). Put the section explanation in the activation prompt: the selected event alone controls the second set and None keeps the first set.
+
+Prefix second-set presentation/slot captions Second set:. Per-slot order remains Slot N: value then Slot N: background; never Field N. Do not duplicate shared Team or zone properties. Keep inactive controls editable and saved; only the selected trigger's thresholds act. Saved selections must survive main-page Save, reopening settings and app restart under [APP-32](#app-32). Conditional hiding is not required.
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-208](#spec-208), [SPEC-211](#spec-211), [SPEC-212](#spec-212), [SPEC-252](#spec-252), [SPEC-253](#spec-253)
 
 <a id="spec-208"></a>
@@ -1192,21 +1263,22 @@ Retain independent default/second saved banks with ten ordered slots each, the s
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [APP-20](#app-20), [APP-30](#app-30)
 
 <a id="func-8"></a>
 ## FUNC-8 — Lap cadence
 
-Type: requirement | State: approved | Revision: 44
+Type: requirement | State: approved | Revision: 48
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 31 |
-| IDENTIFIER | lap_cadence |
-| LABEL | lap cadence |
-| LABEL_AND_UNIT | `lap cad \| rpm` |
-| PRECISION | 0 |
 | UNIT | rpm |
+| LABEL | lap cadence |
+| PRECISION | 0 |
+| IDENTIFIER | lap_cadence |
+| LABEL_AND_UNIT | `lap cad \| rpm` |
 
 Source: Observed-lap time-weighted mean of currentCadence; finite values >=0 including coasting zero contribute independently of native zero-averaging preference. No covered active time is unavailable; never substitute activity averages.
 
@@ -1216,21 +1288,22 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-247](#spec-247), [SPEC-248](#spec-248)
 
 <a id="func-7"></a>
 ## FUNC-7 — Lap power
 
-Type: requirement | State: approved | Revision: 53
+Type: requirement | State: approved | Revision: 57
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 30 |
-| IDENTIFIER | lap_power |
-| LABEL | lap watts |
-| LABEL_AND_UNIT | `lap watts` |
-| PRECISION | 0 |
 | UNIT | w |
+| LABEL | lap watts |
+| PRECISION | 0 |
+| IDENTIFIER | lap_power |
+| LABEL_AND_UNIT | `lap watts` |
 
 Source: Observed-lap time-weighted mean of currentPower; finite values >=0 including measured zeros contribute. Missing intervals add neither time nor fabricated zero; no covered active time is unavailable.
 
@@ -1240,21 +1313,22 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="func-6"></a>
 ## FUNC-6 — Lap heart rate
 
-Type: requirement | State: approved | Revision: 54
+Type: requirement | State: approved | Revision: 58
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 29 |
-| IDENTIFIER | lap_heart_rate |
-| LABEL | lap heart rate |
-| LABEL_AND_UNIT | `lap hr \| bpm` |
-| PRECISION | 0 |
 | UNIT | bpm |
+| LABEL | lap heart rate |
+| PRECISION | 0 |
+| IDENTIFIER | lap_heart_rate |
+| LABEL_AND_UNIT | `lap hr \| bpm` |
 
 Source: Observed-lap time-weighted mean of currentHeartRate; finite values >0 contribute. No covered active time is unavailable. Retain raw accumulation; never substitute activity averages.
 
@@ -1264,21 +1338,22 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [FUNC-10](#func-10), [FUNC-9](#func-9), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="func-5"></a>
 ## FUNC-5 — Lap speed
 
-Type: requirement | State: approved | Revision: 50
+Type: requirement | State: approved | Revision: 54
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 28 |
-| IDENTIFIER | lap_speed |
+| UNIT | km/h (metric), mph (statute) |
 | LABEL | lap speed |
+| IDENTIFIER | lap_speed |
 | LABEL_AND_UNIT | `lap \| {unit}` |
 | PRECISION_RULE | magnitude-based |
-| UNIT | km/h (metric), mph (statute) |
 
 Source: D_lap_metres / (T_lap_ms/1000). Require valid known lap distance/active-time baselines and T_lap>0; zero distance yields zero speed. Never substitute current, activity-average, moving-time or sample-mean speed.
 
@@ -1288,21 +1363,22 @@ Normal display ranges: 0–200. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-9](#func-9)
 
 <a id="func-4"></a>
 ## FUNC-4 — Lap time
 
-Type: requirement | State: approved | Revision: 38
+Type: requirement | State: approved | Revision: 42
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 27 |
-| IDENTIFIER | lap_time |
+| UNIT | "" |
 | LABEL | lap time |
+| IDENTIFIER | lap_time |
 | LABEL_AND_UNIT | "" |
 | PRECISION_RULE | 1 second below 10 h; 1 minute from 10 h |
-| UNIT | "" |
 
 Source: T_lap = timerTime - known lap-start active timer baseline, in milliseconds. Require valid nonnegative counters and a known baseline; pause adds no active time. Missing/regressing counters are unavailable.
 
@@ -1312,21 +1388,22 @@ Normal display ranges: 0:00:00–99:59:59 elapsed h:mm:ss. All supported devices
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-13](#dvs-13), [DVS-40](#dvs-40), [FUNC-9](#func-9)
 
 <a id="func-3"></a>
 ## FUNC-3 — Lap distance
 
-Type: requirement | State: approved | Revision: 49
+Type: requirement | State: approved | Revision: 53
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 26 |
-| IDENTIFIER | lap_distance |
+| UNIT | km (metric), mi (statute) |
 | LABEL | lap distance |
+| IDENTIFIER | lap_distance |
 | LABEL_AND_UNIT | `lap dist \| {unit}` |
 | PRECISION_RULE | magnitude-based |
-| UNIT | km (metric), mi (statute) |
 
 Source: D_lap = elapsedDistance - known lap-start distance, in metres. Require finite nonnegative totals and a known baseline; zero is valid at a known new lap. Counter regression invalidates distance/speed until a proven boundary. Use host-recorded distance, including any host-recorded stopped movement; never whole-activity distance.
 
@@ -1336,6 +1413,7 @@ Normal display ranges: 0–1000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50), [FUNC-9](#func-9)
 
 <a id="dvs-50"></a>
@@ -1347,6 +1425,7 @@ Options: [SPEC-305](#spec-305), [SPEC-343](#spec-343). True or empty UNIT -> LAB
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [DVS-4](#dvs-4)
 
 <a id="spec-160"></a>
@@ -1359,24 +1438,26 @@ Missing prerequisites, timeout, zero tests, required skips and compiler/test fai
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [SPEC-151](#spec-151), [SPEC-153](#spec-153), [SPEC-157](#spec-157), [SPEC-162](#spec-162)
 
 <a id="spec-155"></a>
 ## SPEC-155 — Publish one typed settings catalogue shared by XML, runtime and tests
 
-Type: requirement | State: approved | Revision: 123
+Type: requirement | State: approved | Revision: 127
 
 Generate one current catalogue shared by settings XML, runtime and tests from [SPEC-300](#spec-300). Field owners retain codes 0..32, identifiers, labels, units and precision as typed item attributes in [DVS-1](#dvs-1). Each property owner defines its key, type, allowed values, default and applicable field links; those option contracts override generic shared behavior. XML defaults and runtime fallbacks must agree. Counts are generated; settings captions/dividers are not extra properties.
 Corresponding a/b properties have identical types/ranges and their own defaults. Team, HR/power/cadence training zones and activation properties are global. Missing second-set values never copy current first-set choices. Validate without rewriting saved values under [APP-31](#app-31).
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-20](#app-20), [APP-21](#app-21), [APP-22](#app-22), [APP-30](#app-30), [APP-31](#app-31), [APP-45](#app-45), [APP-49](#app-49), [DVS-50](#dvs-50), [DVS-51](#dvs-51), [SPEC-208](#spec-208), [SPEC-211](#spec-211), [SPEC-212](#spec-212), [SPEC-244](#spec-244), [SPEC-252](#spec-252), [SPEC-253](#spec-253)
 
 <a id="app-49"></a>
 ## APP-49 — Select background coverage independently per field slot
 
-Type: requirement | State: approved | Revision: 134
+Type: requirement | State: approved | Revision: 138
 
 Coverage is selected independently for each saved slot; property contracts are in [SPEC-300](#spec-300), with validation under [APP-31](#app-31). Retain valid choices through hiding/reassignment; binding a color source does not enable coverage.
 0 None adds no effect fill. 1 Label fills the full-width common padded header band under [DVS-12](#dvs-12). 2 Whole cell fills the clipped cell. Apply equally to regular/enlarged cells; declared field-specific geometry, including slope, overrides the generic fill.
@@ -1384,21 +1465,22 @@ Coverage preserves geometry/alignment/acquisition; only changed halo clearance m
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-31](#app-31), [APP-36](#app-36), [DVS-12](#dvs-12), [DVS-6](#dvs-6), [SPEC-155](#spec-155), [SPEC-244](#spec-244), [SPEC-249](#spec-249)
 
 <a id="dvs-47"></a>
 ## DVS-47 — Display three-second average heart rate
 
-Type: requirement | State: approved | Revision: 91
+Type: requirement | State: approved | Revision: 95
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 25 |
-| IDENTIFIER | heart_rate_3s |
-| LABEL | 3s heart rate |
-| LABEL_AND_UNIT | `3s hr \| {unit}` |
-| PRECISION | 0 |
 | UNIT | bpm |
+| LABEL | 3s heart rate |
+| PRECISION | 0 |
+| IDENTIFIER | heart_rate_3s |
+| LABEL_AND_UNIT | `3s hr \| {unit}` |
 
 Source: Shared three-second arithmetic mean of currentHeartRate (bpm), finite samples >0; incomplete window is unavailable.
 
@@ -1409,6 +1491,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-41](#dvs-41), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-41"></a>
@@ -1421,6 +1504,7 @@ Keep a three-sample rolling window per declared source, keyed by floor(elapsedTi
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [DVS-1](#dvs-1)
 
 <a id="app-36"></a>
 ## APP-36 — Keep text readable when effects and themes change
@@ -1432,6 +1516,7 @@ Ordinary Day: black on white; Night: white on black. Over fills: black on white/
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-45](#app-45), [DVS-45](#dvs-45), [DVS-51](#dvs-51)
 
 <a id="app-33"></a>
@@ -1445,6 +1530,7 @@ On field-set switches, prepare assignments/layout/labels/values/alignment/units/
 **Relations**
 
 - allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-26](#app-26), [APP-34](#app-34), [APP-35](#app-35), [SPEC-208](#spec-208)
 
 <a id="app-31"></a>
@@ -1457,6 +1543,7 @@ Validate each property independently using its owning type/range/bank default; s
 **Relations**
 
 - allocated_to: [APP-2](#app-2)
+- part_of: [APP-1](#app-1)
 
 <a id="app-30"></a>
 ## APP-30 — Configure visible count and value of each grid field
@@ -1468,21 +1555,22 @@ Slot selection options are owned in [SPEC-300](#spec-300). Draw the first capaci
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [APP-1](#app-1)
 - uses: [APP-20](#app-20), [APP-31](#app-31)
 
 <a id="dvs-39"></a>
 ## DVS-39 — Completed laps
 
-Type: requirement | State: approved | Revision: 126
+Type: requirement | State: approved | Revision: 130
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 24 |
-| IDENTIFIER | completed_laps |
-| LABEL | laps |
-| LABEL_AND_UNIT | "" |
-| PRECISION | 0 |
 | UNIT | "" |
+| LABEL | laps |
+| PRECISION | 0 |
+| IDENTIFIER | completed_laps |
+| LABEL_AND_UNIT | "" |
 
 Source: exact app-observed completed-lap count, excluding the unfinished lap; no invented native total or inferred missing history.
 States: UNKNOWN, FRESH_READY, TRACKING. A reset or complete pre-activity snapshot arms FRESH_READY; start TRACKING at zero only after the shared fresh-session proof in [FUNC-9](#func-9). Bind available startTime.value().
@@ -1495,21 +1583,22 @@ Normal display ranges: 0–999. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-7](#dvs-7), [FUNC-9](#func-9)
 
 <a id="dvs-37"></a>
 ## DVS-37 — Distance to next waypoint
 
-Type: requirement | State: approved | Revision: 49
+Type: requirement | State: approved | Revision: 53
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 23 |
-| IDENTIFIER | distance_next_waypoint |
+| UNIT | km (metric) or mi (imperial) |
 | LABEL | next waypoint |
+| IDENTIFIER | distance_next_waypoint |
 | LABEL_AND_UNIT | `next \| {unit}` |
 | PRECISION_RULE | magnitude-based |
-| UNIT | km (metric) or mi (imperial) |
 
 Source: Activity.Info.distanceToNextPoint (m); Finite numeric, zero valid.
 
@@ -1519,21 +1608,22 @@ Normal display ranges: 0–1000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50)
 
 <a id="dvs-36"></a>
 ## DVS-36 — Heading
 
-Type: requirement | State: approved | Revision: 89
+Type: requirement | State: approved | Revision: 93
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 22 |
-| IDENTIFIER | heading |
-| LABEL | heading |
-| LABEL_AND_UNIT | `heading \| {unit}` |
-| PRECISION | 0 |
 | UNIT | ° |
+| LABEL | heading |
+| PRECISION | 0 |
+| IDENTIFIER | heading |
+| LABEL_AND_UNIT | `heading \| {unit}` |
 
 Source: true-north device heading Activity.Info.currentHeading (radians), not GPS course. Convert to degrees, normalize [0,360), round to whole degrees and map rounded 360 to 0.
 Optional secondary: N/NE/E/SE/S/SW/W/NW from floor((degrees+22.5)/45) modulo 8. Omit only if the complete group cannot fit; retain degrees. Cardinal direction is value information, not a removable physical unit.
@@ -1544,21 +1634,22 @@ Normal display ranges: 0–359. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-3](#dvs-3), [DVS-40](#dvs-40), [DVS-50](#dvs-50), [DVS-7](#dvs-7)
 
 <a id="dvs-35"></a>
 ## DVS-35 — Device battery level
 
-Type: requirement | State: approved | Revision: 53
+Type: requirement | State: approved | Revision: 57
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 21 |
-| IDENTIFIER | battery |
-| LABEL | battery |
-| LABEL_AND_UNIT | `battery \| {unit}` |
-| PRECISION | 0 |
 | UNIT | % |
+| LABEL | battery |
+| PRECISION | 0 |
+| IDENTIFIER | battery |
+| LABEL_AND_UNIT | `battery \| {unit}` |
 
 Source: System.getSystemStats().battery; finite 0..100 inclusive only, without clamping invalid values. Read once per delivered compute only if any active-bank retained slot needs battery, including hidden slots. Otherwise make no battery-only stats query. Reassignment/bank activation gets a fresh reading before its next frame.
 
@@ -1569,21 +1660,22 @@ Normal display ranges: 0–100. All supported devices, regular/enlarged cells, h
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-17](#app-17), [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-50](#dvs-50), [DVS-7](#dvs-7)
 
 <a id="dvs-33"></a>
 ## DVS-33 — Calories
 
-Type: requirement | State: approved | Revision: 48
+Type: requirement | State: approved | Revision: 52
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 19 |
-| IDENTIFIER | calories |
-| LABEL | calories |
-| LABEL_AND_UNIT | `kcal` |
-| PRECISION | 0 |
 | UNIT | kcal |
+| LABEL | calories |
+| PRECISION | 0 |
+| IDENTIFIER | calories |
+| LABEL_AND_UNIT | `kcal` |
 
 Source: Activity.Info.calories (kcal); Finite numeric, zero valid.
 
@@ -1593,21 +1685,22 @@ Normal display ranges: 0–9999. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-50](#dvs-50), [DVS-7](#dvs-7)
 
 <a id="dvs-32"></a>
 ## DVS-32 — Time of day
 
-Type: requirement | State: approved | Revision: 63
+Type: requirement | State: approved | Revision: 67
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 18 |
-| IDENTIFIER | time_of_day |
+| UNIT | "" |
 | LABEL | time |
+| IDENTIFIER | time_of_day |
 | LABEL_AND_UNIT | "" |
 | PRECISION_RULE | 1 minute |
-| UNIT | "" |
 
 Source: valid local System.getClockTime(), using device is24Hour (missing -> 24-hour). Show HH:MM, hours 00..23, or h:MM, hours 1..12 without hour padding; minutes always two digits.
 In 12-hour mode append ` | am` to the header before noon, ` | pm` thereafter; midnight/noon show 12:00. In 24-hour mode no indicator. This nonphysical indicator ignores unit visibility; invalid local time has no guessed indicator.
@@ -1619,21 +1712,22 @@ Normal display ranges: 24h: 00:00–23:59; 12h: 00:00–23:59. All supported dev
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12)
 
 <a id="dvs-31"></a>
 ## DVS-31 — Elapsed time
 
-Type: requirement | State: approved | Revision: 57
+Type: requirement | State: approved | Revision: 61
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 17 |
-| IDENTIFIER | elapsed_time |
+| UNIT | "" |
 | LABEL | elapsed |
+| IDENTIFIER | elapsed_time |
 | LABEL_AND_UNIT | "" |
 | PRECISION_RULE | 1 second below 10 h; 1 minute from 10 h |
-| UNIT | "" |
 
 Source: Activity.Info.elapsedTime (ms), nonnegative elapsed duration including pauses.
 
@@ -1643,21 +1737,22 @@ Normal display ranges: 0:00:00–99:59:59 elapsed h:mm:ss. All supported devices
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-13](#dvs-13), [DVS-40](#dvs-40)
 
 <a id="dvs-30"></a>
 ## DVS-30 — Activity timer
 
-Type: requirement | State: approved | Revision: 57
+Type: requirement | State: approved | Revision: 61
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 16 |
-| IDENTIFIER | activity_timer |
+| UNIT | "" |
 | LABEL | timer |
+| IDENTIFIER | activity_timer |
 | LABEL_AND_UNIT | "" |
 | PRECISION_RULE | 1 second below 10 h; 1 minute from 10 h |
-| UNIT | "" |
 
 Source: Activity.Info.timerTime (ms), nonnegative active duration excluding stopped time.
 
@@ -1667,21 +1762,22 @@ Normal display ranges: 0:00:00–99:59:59 elapsed h:mm:ss. All supported devices
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-13](#dvs-13), [DVS-40](#dvs-40)
 
 <a id="dvs-29"></a>
 ## DVS-29 — Grade
 
-Type: requirement | State: approved | Revision: 170
+Type: requirement | State: approved | Revision: 174
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 15 |
-| IDENTIFIER | grade |
-| LABEL | slope |
-| LABEL_AND_UNIT | `slope \| %` |
-| PRECISION | 1 |
 | UNIT | % |
+| LABEL | slope |
+| PRECISION | 1 |
+| IDENTIFIER | grade |
+| LABEL_AND_UNIT | `slope \| %` |
 
 Source: app slope estimate from running Activity.Info altitude/distance (m), elapsedTime (ms), timerState and available startTime.value(); no sensor polling or invented native grade member.
 Sampling: Admit at most one new point per elapsedTime second; duplicate timestamps are ignored. Retain up to five distinct distances FIFO. At unchanged distance, replace only the newest point's altitude; do not change its admission time, point count, published grade or average slots. This replacement does not consume a new sampling step. At the next admitted distance increase, add one point and calculate once. The window contains distinct positions, not necessarily five seconds.
@@ -1700,21 +1796,22 @@ Normal display ranges: -99.9–99.9. All supported devices, regular/enlarged cel
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-44](#app-44), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-45](#dvs-45), [DVS-50](#dvs-50)
 
 <a id="dvs-28"></a>
 ## DVS-28 — Total descent
 
-Type: requirement | State: approved | Revision: 44
+Type: requirement | State: approved | Revision: 48
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 14 |
-| IDENTIFIER | total_descent |
-| LABEL | descent |
-| LABEL_AND_UNIT | `descent \| {unit}` |
-| PRECISION | 0 |
 | UNIT | m (metric) or ft (imperial) |
+| LABEL | descent |
+| PRECISION | 0 |
+| IDENTIFIER | total_descent |
+| LABEL_AND_UNIT | `descent \| {unit}` |
 
 Source: Activity.Info.totalDescent (m); Finite numeric, zero valid.
 
@@ -1724,21 +1821,22 @@ Normal display ranges: 0–9999. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50), [DVS-7](#dvs-7)
 
 <a id="dvs-27"></a>
 ## DVS-27 — Total ascent
 
-Type: requirement | State: approved | Revision: 44
+Type: requirement | State: approved | Revision: 48
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 13 |
-| IDENTIFIER | total_ascent |
-| LABEL | ascent |
-| LABEL_AND_UNIT | `ascent \| {unit}` |
-| PRECISION | 0 |
 | UNIT | m (metric) or ft (imperial) |
+| LABEL | ascent |
+| PRECISION | 0 |
+| IDENTIFIER | total_ascent |
+| LABEL_AND_UNIT | `ascent \| {unit}` |
 
 Source: Activity.Info.totalAscent (m); Finite numeric, zero valid.
 
@@ -1748,21 +1846,22 @@ Normal display ranges: 0–9999. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50), [DVS-7](#dvs-7)
 
 <a id="dvs-26"></a>
 ## DVS-26 — Elevation
 
-Type: requirement | State: approved | Revision: 54
+Type: requirement | State: approved | Revision: 58
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 12 |
-| IDENTIFIER | elevation |
-| LABEL | elevation |
-| LABEL_AND_UNIT | `elevation \| {unit}` |
-| PRECISION | 0 |
 | UNIT | m (metric) or ft (imperial) |
+| LABEL | elevation |
+| PRECISION | 0 |
+| IDENTIFIER | elevation |
+| LABEL_AND_UNIT | `elevation \| {unit}` |
 
 Source: Activity.Info.altitude (m); Finite numeric, zero valid.
 
@@ -1772,21 +1871,22 @@ Normal display ranges:  -999–9999.
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50), [DVS-7](#dvs-7)
 
 <a id="dvs-25"></a>
 ## DVS-25 — Distance
 
-Type: requirement | State: approved | Revision: 50
+Type: requirement | State: approved | Revision: 54
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 11 |
-| IDENTIFIER | distance |
+| UNIT | km (metric) or mi (imperial) |
 | LABEL | distance |
+| IDENTIFIER | distance |
 | LABEL_AND_UNIT | `distance \| {unit}` |
 | PRECISION_RULE | magnitude-based |
-| UNIT | km (metric) or mi (imperial) |
 
 Source: Activity.Info.elapsedDistance (m); Finite numeric, zero valid.
 
@@ -1796,21 +1896,22 @@ Normal display ranges: 0–1000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50)
 
 <a id="dvs-24"></a>
 ## DVS-24 — Power zone
 
-Type: requirement | State: approved | Revision: 60
+Type: requirement | State: approved | Revision: 64
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 10 |
-| IDENTIFIER | power_zone |
-| LABEL | power zone |
-| LABEL_AND_UNIT | "" |
-| PRECISION | 0 |
 | UNIT | "" |
+| LABEL | power zone |
+| PRECISION | 0 |
+| IDENTIFIER | power_zone |
+| LABEL_AND_UNIT | "" |
 
 Source: Classify currentPower using the global power source [SPEC-663](#spec-663); show its integral 1-based zone. Custom profiles yield 1..7; qualified device profiles retain their actual indices, including above seven. Invalid selected profile or invalid/out-of-domain reading is unavailable.
 
@@ -1821,21 +1922,22 @@ Normal display ranges: 1–7. All supported devices, regular/enlarged cells, hea
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-23"></a>
 ## DVS-23 — Average power
 
-Type: requirement | State: approved | Revision: 66
+Type: requirement | State: approved | Revision: 70
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 9 |
-| IDENTIFIER | average_power |
-| LABEL | avg watts |
-| LABEL_AND_UNIT | `avg watts` |
-| PRECISION | 0 |
 | UNIT | w |
+| LABEL | avg watts |
+| PRECISION | 0 |
+| IDENTIFIER | average_power |
+| LABEL_AND_UNIT | `avg watts` |
 
 Source: Activity.Info.averagePower (watts); Finite numeric, zero valid.
 
@@ -1845,21 +1947,22 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-22"></a>
 ## DVS-22 — Three-second average power
 
-Type: requirement | State: approved | Revision: 78
+Type: requirement | State: approved | Revision: 82
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 8 |
-| IDENTIFIER | power_3s |
-| LABEL | 3s watts |
-| LABEL_AND_UNIT | `3s watts` |
-| PRECISION | 0 |
 | UNIT | w |
+| LABEL | 3s watts |
+| PRECISION | 0 |
+| IDENTIFIER | power_3s |
+| LABEL_AND_UNIT | `3s watts` |
 
 Source: Shared three-second arithmetic mean of currentPower (W), finite samples >=0 including measured zero.
 
@@ -1871,21 +1974,22 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-41](#dvs-41), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-21"></a>
 ## DVS-21 — Current power
 
-Type: requirement | State: approved | Revision: 67
+Type: requirement | State: approved | Revision: 71
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 7 |
-| IDENTIFIER | current_power |
-| LABEL | watts |
-| LABEL_AND_UNIT | `watts` |
-| PRECISION | 0 |
 | UNIT | w |
+| LABEL | watts |
+| PRECISION | 0 |
+| IDENTIFIER | current_power |
+| LABEL_AND_UNIT | `watts` |
 
 Source: Activity.Info.currentPower (watts); Finite numeric, zero valid.
 
@@ -1895,21 +1999,22 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-665](#spec-665)
 
 <a id="dvs-20"></a>
 ## DVS-20 — Heart rate zone
 
-Type: requirement | State: approved | Revision: 60
+Type: requirement | State: approved | Revision: 64
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 6 |
-| IDENTIFIER | heart_rate_zone |
-| LABEL | hr zone |
-| LABEL_AND_UNIT | "" |
-| PRECISION | 0 |
 | UNIT | "" |
+| LABEL | hr zone |
+| PRECISION | 0 |
+| IDENTIFIER | heart_rate_zone |
+| LABEL_AND_UNIT | "" |
 
 Source: Classify currentHeartRate using the global HR source [SPEC-664](#spec-664); show its integral zone 1..5. Invalid selected profile or invalid/out-of-domain reading is unavailable.
 
@@ -1920,21 +2025,22 @@ Normal display ranges: 1–5. All supported devices, regular/enlarged cells, hea
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-19"></a>
 ## DVS-19 — Average heart rate
 
-Type: requirement | State: approved | Revision: 68
+Type: requirement | State: approved | Revision: 72
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 5 |
-| IDENTIFIER | average_heart_rate |
-| LABEL | average hr |
-| LABEL_AND_UNIT | `avg hr \| bpm` |
-| PRECISION | 0 |
 | UNIT | bpm |
+| LABEL | average hr |
+| PRECISION | 0 |
+| IDENTIFIER | average_heart_rate |
+| LABEL_AND_UNIT | `avg hr \| bpm` |
 
 Source: Activity.Info.averageHeartRate (bpm); Finite numeric, zero valid.
 
@@ -1944,21 +2050,22 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-18"></a>
 ## DVS-18 — Current heart rate
 
-Type: requirement | State: approved | Revision: 71
+Type: requirement | State: approved | Revision: 75
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 4 |
-| IDENTIFIER | current_heart_rate |
-| LABEL | heart rate |
-| LABEL_AND_UNIT | `hr \| {unit}` |
-| PRECISION | 0 |
 | UNIT | bpm |
+| LABEL | heart rate |
+| PRECISION | 0 |
+| IDENTIFIER | current_heart_rate |
+| LABEL_AND_UNIT | `hr \| {unit}` |
 
 Source: Activity.Info.currentHeartRate (bpm); Finite numeric, zero valid.
 
@@ -1968,6 +2075,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-42](#dvs-42), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-248](#spec-248), [SPEC-664](#spec-664), [SPEC-665](#spec-665)
 
 <a id="dvs-12"></a>
@@ -1982,21 +2090,22 @@ Cache H for the catalogue/font revision. All regular/enlarged Label bands are fu
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-25](#app-25), [DVS-50](#dvs-50), [DVS-6](#dvs-6)
 
 <a id="dvs-11"></a>
 ## DVS-11 — Average Cadence
 
-Type: requirement | State: approved | Revision: 51
+Type: requirement | State: approved | Revision: 55
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 3 |
-| IDENTIFIER | average_cadence |
-| LABEL | avg cadence |
-| LABEL_AND_UNIT | `avg cad \| rpm` |
-| PRECISION | 0 |
 | UNIT | rpm |
+| LABEL | avg cadence |
+| PRECISION | 0 |
+| IDENTIFIER | average_cadence |
+| LABEL_AND_UNIT | `avg cad \| rpm` |
 
 Source: Activity.Info.averageCadence (rpm); Finite numeric, zero valid.
 
@@ -2006,21 +2115,22 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-247](#spec-247), [SPEC-248](#spec-248)
 
 <a id="dvs-10"></a>
 ## DVS-10 — Current Cadence
 
-Type: requirement | State: approved | Revision: 51
+Type: requirement | State: approved | Revision: 55
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 2 |
-| IDENTIFIER | current_cadence |
-| LABEL | cadence |
-| LABEL_AND_UNIT | `cad \| rpm` |
-| PRECISION | 0 |
 | UNIT | rpm |
+| LABEL | cadence |
+| PRECISION | 0 |
+| IDENTIFIER | current_cadence |
+| LABEL_AND_UNIT | `cad \| rpm` |
 
 Source: Activity.Info.currentCadence (rpm); Finite numeric, zero valid.
 
@@ -2030,21 +2140,22 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-50](#dvs-50), [DVS-7](#dvs-7), [SPEC-247](#spec-247), [SPEC-248](#spec-248)
 
 <a id="dvs-9"></a>
 ## DVS-9 — Average speed
 
-Type: requirement | State: approved | Revision: 58
+Type: requirement | State: approved | Revision: 62
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 1 |
-| IDENTIFIER | average_speed |
+| UNIT | `km/h` (metric) or `mph` (imperial) |
 | LABEL | avg speed |
+| IDENTIFIER | average_speed |
 | LABEL_AND_UNIT | `avg \| {unit}` |
 | PRECISION_RULE | magnitude-based |
-| UNIT | `km/h` (metric) or `mph` (imperial) |
 
 Source: Activity.Info.averageSpeed (m/s); Finite numeric, zero valid.
 
@@ -2054,21 +2165,22 @@ Normal display ranges: 0–200
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50)
 
 <a id="dvs-8"></a>
 ## DVS-8 — Current speed
 
-Type: requirement | State: approved | Revision: 61
+Type: requirement | State: approved | Revision: 65
 
 | Attribute | Value |
 | --- | --- |
 | CODE | 0 |
-| IDENTIFIER | current_speed |
+| UNIT | km/h (metric) or mph (imperial) |
 | LABEL | speed |
+| IDENTIFIER | current_speed |
 | LABEL_AND_UNIT | `speed \| {unit}` |
 | PRECISION_RULE | magnitude-based |
-| UNIT | km/h (metric) or mph (imperial) |
 
 Source: Activity.Info.currentSpeed (m/s); Finite numeric, zero valid.
 
@@ -2078,6 +2190,7 @@ Normal display ranges: 0–200. All supported devices, regular/enlarged cells, h
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-34](#app-34), [APP-35](#app-35), [APP-49](#app-49), [DVS-12](#dvs-12), [DVS-2](#dvs-2), [DVS-4](#dvs-4), [DVS-40](#dvs-40), [DVS-50](#dvs-50)
 
 <a id="dvs-6"></a>
@@ -2091,6 +2204,7 @@ Clip glyphs/halos to their painted region and cell. Label-mode halos remain in t
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-36](#app-36)
 
 <a id="dvs-4"></a>
@@ -2103,11 +2217,12 @@ Select distance/elevation/temperature units independently from System.getDeviceS
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [DVS-1](#dvs-1)
 
 <a id="app-25"></a>
 ## APP-25 — Use the three specified Roboto Condensed font roles
 
-Type: requirement | State: approved | Revision: 43
+Type: requirement | State: approved | Revision: 52
 
 Bundle exactly three metric roles at fixed profile sizes, without per-value sizes/fitting ladders:
 
@@ -2121,7 +2236,13 @@ Native-text fields use their own system-font policy without adding atlases.
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-24](#app-24)
+
+**Attachments**
+
+- [Roboto_Condensed_Black.ttf](attachments/Roboto_Condensed_Black.ttf) — design_asset: Source font for enlarged and regular metric values: Roboto Condensed Black.
+- [Roboto_Condensed_SemiBold.ttf](attachments/Roboto_Condensed_SemiBold.ttf) — design_asset: Source font for headers and numeric secondary text: Roboto Condensed SemiBold.
 
 <a id="spec-365"></a>
 ## SPEC-365 — Second set: Slot 10: background (b10_bg)
@@ -2136,6 +2257,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-364"></a>
@@ -2151,6 +2273,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-363"></a>
@@ -2166,6 +2289,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-362"></a>
@@ -2181,6 +2305,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-361"></a>
@@ -2196,6 +2321,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-360"></a>
@@ -2211,6 +2337,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-359"></a>
@@ -2226,6 +2353,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-358"></a>
@@ -2241,6 +2369,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-357"></a>
@@ -2256,6 +2385,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-356"></a>
@@ -2271,6 +2401,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-355"></a>
@@ -2286,6 +2417,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-354"></a>
@@ -2301,6 +2433,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-353"></a>
@@ -2316,6 +2449,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-352"></a>
@@ -2331,6 +2465,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-351"></a>
@@ -2346,6 +2481,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-350"></a>
@@ -2361,6 +2497,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-349"></a>
@@ -2376,6 +2513,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-348"></a>
@@ -2391,6 +2529,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-347"></a>
@@ -2406,6 +2545,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-346"></a>
@@ -2421,6 +2561,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-345"></a>
@@ -2436,6 +2577,7 @@ Behavior: [APP-22](#app-22). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-22](#app-22), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-344"></a>
@@ -2451,6 +2593,7 @@ Behavior: [DVS-51](#dvs-51). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-51](#dvs-51), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-343"></a>
@@ -2466,6 +2609,7 @@ Behavior: [DVS-50](#dvs-50). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-47](#dvs-47), [DVS-50](#dvs-50), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8)
 
 <a id="spec-342"></a>
@@ -2481,6 +2625,7 @@ Behavior: [APP-45](#app-45). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-45](#app-45), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-341"></a>
@@ -2496,6 +2641,7 @@ Behavior: [APP-21](#app-21). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-21](#app-21), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-340"></a>
@@ -2511,6 +2657,7 @@ Behavior: [APP-20](#app-20). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-20](#app-20), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-339"></a>
@@ -2526,6 +2673,7 @@ Behavior: [SPEC-212](#spec-212). Fields: [DVS-18](#dvs-18).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [SPEC-212](#spec-212)
 
 <a id="spec-338"></a>
@@ -2541,6 +2689,7 @@ Behavior: [SPEC-212](#spec-212). Fields: [DVS-18](#dvs-18).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [SPEC-212](#spec-212)
 
 <a id="spec-337"></a>
@@ -2556,6 +2705,7 @@ Behavior: [SPEC-212](#spec-212). Fields: [DVS-22](#dvs-22).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-22](#dvs-22), [SPEC-212](#spec-212)
 
 <a id="spec-336"></a>
@@ -2571,6 +2721,7 @@ Behavior: [SPEC-212](#spec-212). Fields: [DVS-22](#dvs-22).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-22](#dvs-22), [SPEC-212](#spec-212)
 
 <a id="spec-335"></a>
@@ -2586,6 +2737,7 @@ Behavior: [SPEC-211](#spec-211). Fields: [DVS-22](#dvs-22), [DVS-18](#dvs-18).
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [DVS-22](#dvs-22), [SPEC-211](#spec-211)
 
 <a id="spec-334"></a>
@@ -2601,6 +2753,7 @@ Behavior: [SPEC-252](#spec-252). Fields: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [FUNC-8](#func-8), [SPEC-252](#spec-252)
 
 <a id="spec-333"></a>
@@ -2616,6 +2769,7 @@ Behavior: [SPEC-252](#spec-252). Fields: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [FUNC-8](#func-8), [SPEC-252](#spec-252)
 
 <a id="spec-332"></a>
@@ -2631,6 +2785,7 @@ Behavior: [SPEC-252](#spec-252). Fields: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [FUNC-8](#func-8), [SPEC-252](#spec-252)
 
 <a id="spec-331"></a>
@@ -2646,6 +2801,7 @@ Behavior: [SPEC-252](#spec-252). Fields: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [FUNC-8](#func-8), [SPEC-252](#spec-252)
 
 <a id="spec-330"></a>
@@ -2661,6 +2817,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-329"></a>
@@ -2676,6 +2833,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-328"></a>
@@ -2691,6 +2849,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-327"></a>
@@ -2706,6 +2865,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-326"></a>
@@ -2721,6 +2881,7 @@ Behavior: [APP-49](#app-49). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-49](#app-49), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-325"></a>
@@ -2736,6 +2897,7 @@ Behavior: [APP-30](#app-30). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-30](#app-30), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253), [SPEC-301](#spec-301)
 
 <a id="spec-307"></a>
@@ -2751,6 +2913,7 @@ Behavior: [APP-22](#app-22). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-22](#app-22), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-306"></a>
@@ -2766,6 +2929,7 @@ Behavior: [DVS-51](#dvs-51). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-51](#dvs-51), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-305"></a>
@@ -2781,6 +2945,7 @@ Behavior: [DVS-50](#dvs-50). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-47](#dvs-47), [DVS-50](#dvs-50), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8)
 
 <a id="spec-304"></a>
@@ -2796,6 +2961,7 @@ Behavior: [APP-45](#app-45). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-45](#app-45), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-303"></a>
@@ -2811,6 +2977,7 @@ Behavior: [APP-21](#app-21). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-21](#app-21), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-302"></a>
@@ -2826,6 +2993,7 @@ Behavior: [APP-20](#app-20). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [APP-20](#app-20), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-301"></a>
@@ -2873,6 +3041,7 @@ Field selectors store integer codes 0..32. The mapping below is independent of d
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="spec-252"></a>
@@ -2884,6 +3053,7 @@ Global cadence upper bounds: [SPEC-331](#spec-331), [SPEC-332](#spec-332), [SPEC
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - uses: [APP-31](#app-31), [SPEC-249](#spec-249)
 
 <a id="spec-248"></a>
@@ -2896,6 +3066,7 @@ Color numeric metrics from their own displayed whole-unit value using the declar
 **Relations**
 
 - allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+- part_of: [SPEC-233](#spec-233)
 - uses: [DVS-7](#dvs-7), [SPEC-246](#spec-246), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-247"></a>
@@ -2907,6 +3078,7 @@ For finite nonnegative displayed whole rpm, zone 1 is 0..t1; zones 2..4 are >pre
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - uses: [DVS-7](#dvs-7), [SPEC-252](#spec-252)
 
 <a id="spec-246"></a>
@@ -2915,6 +3087,10 @@ For finite nonnegative displayed whole rpm, zone 1 is 0..t1; zones 2..4 are >pre
 Type: requirement | State: approved | Revision: 24
 
 Training zone colors: 1 blue #00AAFF; 2 green #00FF00; 3 yellow #FFAA00; 4 orange #FF5500; 5 red #FF0000; 6 magenta #FF00FF; 7 and above dark magenta #AA00AA. Preserve the actual numeric zone index. Unsupported/out-of-domain metadata uses neutral fallback. Theme and enlargement never alter semantic RGB. Dark magenta uses white label text; Whole cell also uses white value text, while Label coverage retains the ordinary value area and value text. HR and cadence retain their five-zone domains.
+
+**Relations**
+
+- part_of: [SPEC-233](#spec-233)
 
 <a id="spec-245"></a>
 ## SPEC-245 — Bound the serialized settings dictionary
@@ -2925,6 +3101,7 @@ Before app/test compilation, serialize the complete current property dictionary 
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - uses: [SPEC-244](#spec-244)
 
 <a id="spec-244"></a>
@@ -2936,6 +3113,7 @@ Load only the current property catalogue. Do not declare legacy switches, schema
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - uses: [SPEC-155](#spec-155)
 
 <a id="spec-221"></a>
@@ -2949,6 +3127,7 @@ Changes limited to either set's presentation/assignments, or an unused threshold
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [APP-32](#app-32), [SPEC-211](#spec-211), [SPEC-212](#spec-212)
 
 <a id="spec-220"></a>
@@ -2964,6 +3143,7 @@ After onTimerReset(), ignore lap/workout-step notifications for switching until 
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-211](#spec-211), [SPEC-216](#spec-216)
 
 <a id="spec-218"></a>
@@ -2977,6 +3157,7 @@ The API exposes neither the cause through this callback nor a reliable Auto Lap 
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [FUNC-9](#func-9), [SPEC-211](#spec-211)
 
 <a id="spec-216"></a>
@@ -2988,6 +3169,7 @@ During threshold evaluation, a missing or invalid selected source immediately se
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-220](#spec-220)
 
 <a id="spec-215"></a>
@@ -2999,6 +3181,7 @@ For Heart rate mode, compare the current Activity.Info.currentHeartRate reading 
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [DVS-18](#dvs-18), [SPEC-213](#spec-213)
 
 <a id="spec-213"></a>
@@ -3010,6 +3193,7 @@ For the selected power or heart-rate mode, let x be the valid unrounded source v
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-212](#spec-212), [SPEC-216](#spec-216), [SPEC-220](#spec-220)
 
 <a id="spec-212"></a>
@@ -3023,6 +3207,7 @@ For each pair, return shall be less than or equal to activation. Settings prompt
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-213](#spec-213)
 
 <a id="spec-211"></a>
@@ -3034,6 +3219,7 @@ Activation option: [SPEC-335](#spec-335). Exactly one mode applies; events belon
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - uses: [SPEC-218](#spec-218), [SPEC-221](#spec-221)
 
 <a id="func-10"></a>
@@ -3047,6 +3233,7 @@ Never bridge lap boundaries, pause/resume or >2000 ms gaps. Duplicates add no we
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [FUNC-9](#func-9)
 
 <a id="func-9"></a>
@@ -3062,6 +3249,7 @@ Pause/stop preserve baselines/sums but clear endpoints; resume seeds a new activ
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-16](#app-16)
 
 <a id="dvs-51"></a>
@@ -3073,6 +3261,7 @@ Options: [SPEC-306](#spec-306), [SPEC-344](#spec-344). True gives enlarged cells
 
 **Relations**
 
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-45](#app-45)
 
 <a id="spec-177"></a>
@@ -3084,6 +3273,7 @@ Record traced inputs/revisions/hashes, role/size/language, expected/generated co
 
 **Relations**
 
+- part_of: [SPEC-175](#spec-175)
 - uses: [SPEC-154](#spec-154), [SPEC-176](#spec-176)
 
 <a id="spec-176"></a>
@@ -3095,6 +3285,7 @@ For each bundled role/language, RequiredGlyphs is the union of reachable code po
 
 **Relations**
 
+- part_of: [SPEC-175](#spec-175)
 - uses: [APP-25](#app-25)
 
 <a id="spec-162"></a>
@@ -3107,6 +3298,7 @@ Executions record time, captured baseline Test/target versions, environment/prod
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [SPEC-159](#spec-159), [SPEC-160](#spec-160), [SPEC-161](#spec-161)
 
 <a id="spec-161"></a>
@@ -3115,6 +3307,10 @@ Executions record time, captured baseline Test/target versions, environment/prod
 Type: requirement | State: approved | Revision: 22
 
 Maintain a versioned decision register identifying each unresolved decision, owner, affected requirements, selected rule/rationale and review state. An unresolved decision blocks only its dependent acceptance. Record specification approval, implementation and qualification separately; do not claim source provenance or measured results from guesses.
+
+**Relations**
+
+- part_of: [SPEC-150](#spec-150)
 
 <a id="spec-159"></a>
 ## SPEC-159 — Provide physical-device and memory-performance qualification procedures
@@ -3126,6 +3322,7 @@ Temperature requires per-model/firmware onboard-source and external-pairing evid
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-37](#app-37), [APP-38](#app-38), [APP-48](#app-48), [DVS-34](#dvs-34)
 
 <a id="spec-158"></a>
@@ -3138,6 +3335,7 @@ Report each missing product/compiler/runtime failure independently and bind evid
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-24](#app-24), [APP-38](#app-38), [SPEC-157](#spec-157), [SPEC-162](#spec-162)
 
 <a id="spec-157"></a>
@@ -3153,6 +3351,7 @@ Core must never invoke the other suites or memory instrumentation. Cover unchang
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-24](#app-24), [APP-26](#app-26), [APP-34](#app-34), [SPEC-162](#spec-162)
 
 <a id="spec-156"></a>
@@ -3161,6 +3360,10 @@ Core must never invoke the other suites or memory instrumentation. Cover unchang
 Type: requirement | State: approved | Revision: 23
 
 Generate the acquisition/code/fixture traceability table from canonical field and shared acquisition owners. Record source member/algorithm, context, raw type/unit, validity, clock/update/reset authority and qualification state; do not maintain a second normative field catalogue. Use anonymized timestamped fixtures for missing/non-finite/zero, gaps, units, pause/resume and boundaries; fixture success is not source qualification.
+
+**Relations**
+
+- part_of: [SPEC-150](#spec-150)
 
 <a id="spec-154"></a>
 ## SPEC-154 — Reproduce Garmin-compatible Roboto Condensed resources within the memory budget
@@ -3171,6 +3374,7 @@ Generate the three exact profile roles/sizes from versioned licensed source font
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-24](#app-24), [APP-25](#app-25), [SPEC-176](#spec-176), [SPEC-177](#spec-177)
 
 <a id="spec-151"></a>
@@ -3183,6 +3387,7 @@ Document Garmin-supported dependency/account provisioning for fresh developers a
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - uses: [APP-24](#app-24)
 
 <a id="app-47"></a>
@@ -3194,6 +3399,7 @@ Every declared candidate Data Field has a ceiling of 131072 bytes (128 KiB). Thi
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-24](#app-24)
 
 <a id="dvs-45"></a>
@@ -3206,6 +3412,7 @@ Additional semantic colors: dark red #AA0000, black #000000, cyan #00FFFF, white
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [SPEC-246](#spec-246)
 
 <a id="app-46"></a>
@@ -3218,6 +3425,7 @@ Expose the owned typed settings through Garmin Connect for both banks and every 
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [APP-1](#app-1)
 - uses: [SPEC-155](#spec-155), [SPEC-210](#spec-210)
 
 <a id="app-45"></a>
@@ -3230,6 +3438,7 @@ Options: [SPEC-304](#spec-304), [SPEC-342](#spec-342). Auto uses supported devic
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-39](#app-39), [APP-40](#app-40)
 
 <a id="dvs-40"></a>
@@ -3242,6 +3451,7 @@ Normalize raw SDK units exactly once before formatting: m/s to selected speed un
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [DVS-1](#dvs-1)
 - uses: [DVS-4](#dvs-4)
 
 <a id="app-38"></a>
@@ -3254,6 +3464,7 @@ Qualify each declared target independently: APIs/resources, full-screen/compact 
 **Relations**
 
 - allocated_to: [APP-2](#app-2)
+- part_of: [APP-1](#app-1)
 - uses: [APP-24](#app-24), [APP-47](#app-47), [APP-48](#app-48), [SPEC-159](#spec-159)
 
 <a id="app-37"></a>
@@ -3266,6 +3477,7 @@ Process each delivered compute once and prepare its snapshot in <1000 ms without
 **Relations**
 
 - allocated_to: [APP-3](#app-3), [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-26](#app-26)
 
 <a id="app-35"></a>
@@ -3278,6 +3490,7 @@ Missing/unsupported/invalid-type/out-of-domain/non-finite numeric readings show 
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [APP-1](#app-1)
 
 <a id="app-32"></a>
 ## APP-32 — Apply changed settings without restarting an activity
@@ -3290,12 +3503,13 @@ Saved selections and shared Team text must survive restart. Settings serializati
 **Relations**
 
 - allocated_to: [APP-2](#app-2)
+- part_of: [APP-1](#app-1)
 - uses: [APP-26](#app-26), [APP-41](#app-41)
 
 <a id="hfer-8"></a>
 ## HFER-8 — Draw the Horizontal lines pattern
 
-Type: requirement | State: approved | Revision: 25
+Type: requirement | State: approved | Revision: 29
 
 Apply this pattern only when Grid type is Horizontal lines under [APP-22](#app-22), independently of text alignment.
 
@@ -3305,12 +3519,13 @@ For segment index i=0..15, q = floor(96*(i+1)/16). Night uses RGB(q,q,q); Day us
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-34](#app-34), [APP-45](#app-45)
 
 <a id="hfer-7"></a>
 ## HFER-7 — Draw the Full grid pattern
 
-Type: requirement | State: approved | Revision: 25
+Type: requirement | State: approved | Revision: 29
 
 Apply this pattern only when Grid type is Full grid under [APP-22](#app-22), independently of text alignment.
 
@@ -3322,6 +3537,7 @@ Place horizontal lines at each regular row's bottom pixel except the last displa
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-34](#app-34), [APP-45](#app-45)
 
 <a id="dvs-13"></a>
@@ -3335,6 +3551,7 @@ Examples: 0 s -> 00 + .00; 65 s -> 01 + .05; 9:59:59 -> 9:59 + .59; 10 h -> 10:0
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-35](#app-35), [DVS-3](#dvs-3)
 
 <a id="dvs-7"></a>
@@ -3347,6 +3564,7 @@ Round finite integral-format values to the nearest whole number, exact halves aw
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 
 <a id="dvs-3"></a>
 ## DVS-3 — Position numeric secondary text beside the primary value
@@ -3358,6 +3576,7 @@ Draw numeric secondary text in the label font two pixels after the primary, with
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 - uses: [APP-21](#app-21), [APP-25](#app-25)
 
 <a id="dvs-2"></a>
@@ -3370,6 +3589,7 @@ Use declared fixed precision, or magnitude precision on abs(converted value): <1
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [DVS-1](#dvs-1)
 
 <a id="app-23"></a>
 ## APP-23 — Choose grid row capacity from the assigned drawing area
@@ -3381,6 +3601,7 @@ Try the profile's row capacity in actual assigned bounds. Only five-row profiles
 **Relations**
 
 - allocated_to: [APP-3](#app-3)
+- part_of: [APP-1](#app-1)
 - uses: [APP-20](#app-20), [APP-24](#app-24), [APP-34](#app-34)
 
 <a id="app-22"></a>
@@ -3393,12 +3614,18 @@ Options: [SPEC-307](#spec-307), [SPEC-345](#spec-345). Independent of alignment;
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [HFER-7](#hfer-7), [HFER-8](#hfer-8)
+
+**Attachments**
+
+- [center-delimiters.png](attachments/center-delimiters.png) — illustrates
+- [right-delimiters.png](attachments/right-delimiters.png) — illustrates
 
 <a id="app-21"></a>
 ## APP-21 — Align field labels and values at center or right
 
-Type: requirement | State: approved | Revision: 99
+Type: requirement | State: draft | Revision: 100
 
 Options: [SPEC-303](#spec-303), [SPEC-341](#spec-341). Independently centre complete header/value-plus-secondary groups, or align both to the usable right edge; preserve cell order/size.
 Reserve R=max(label line height, shared band height) in every cell, including effects-off. Centre primary visible bounds at y+R+(h-R)/2 with <=1 px error. Header/preferences/colors never alter R; positions change only for changed bounds. Fields may declare native value-block fitting within this same header reservation.
@@ -3406,7 +3633,13 @@ Reserve R=max(label line height, shared band height) in every cell, including ef
 **Relations**
 
 - allocated_to: [APP-4](#app-4)
+- part_of: [APP-1](#app-1)
 - uses: [APP-25](#app-25), [DVS-12](#dvs-12)
+
+**Attachments**
+
+- [center-ui-8-2.png](attachments/center-ui-8-2.png) — illustrates
+- [right-ui-8-2.png](attachments/right-ui-8-2.png) — illustrates
 
 <a id="tstfunc-5"></a>
 ## TSTFUNC-5 — SDK runner process ownership and cleanup
@@ -3467,6 +3700,7 @@ Through the production formatter verify [DVS-35](#dvs-35): 0, 50 and 100 remain 
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [DVS-35](#dvs-35)
 
 <a id="spec-299"></a>
@@ -3480,6 +3714,7 @@ Instrument fitting, capability discovery, compute and drawing with unchanged inp
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-26](#app-26)
 
 <a id="spec-298"></a>
@@ -3491,6 +3726,7 @@ Suite: Core. Verify automatic font fitting never rewrites shared Team text, sour
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-253](#spec-253)
 
 <a id="spec-297"></a>
@@ -3502,6 +3738,7 @@ Suite: Core. Verify the fixed native FONT_XTINY/TINY/SMALL/MEDIUM/LARGE candidat
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-38](#app-38), [SPEC-176](#spec-176), [SPEC-177](#spec-177), [SPEC-253](#spec-253)
 
 <a id="spec-295"></a>
@@ -3513,6 +3750,7 @@ Suite: Placement. On explicit request, test Team values with overlong words, ove
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-253](#spec-253)
 
 <a id="spec-294"></a>
@@ -3524,6 +3762,7 @@ Suite: Core. Render None, Label and Whole cell with semantic/neutral colors in b
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-253](#spec-253)
 
 <a id="spec-293"></a>
@@ -3539,6 +3778,7 @@ For qualified Power binding zone 6 assert magenta #FF00FF with black text; zones
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-253](#spec-253), [SPEC-665](#spec-665)
 
 <a id="spec-292"></a>
@@ -3550,6 +3790,7 @@ Suite: Core. Verify greedy space-only wrapping with repeated spaces, one-line an
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-25](#app-25), [SPEC-253](#spec-253)
 
 <a id="spec-290"></a>
@@ -3561,6 +3802,7 @@ Suite: Core. Set one shared Team text and color source. Hide/reassign duplicate 
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-208](#spec-208), [SPEC-253](#spec-253)
 
 <a id="spec-289"></a>
@@ -3572,6 +3814,7 @@ Suite: Core. Render TEAM, mixed case, digits, punctuation, repeated spaces and e
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [DVS-12](#dvs-12), [DVS-50](#dvs-50), [SPEC-156](#spec-156), [SPEC-253](#spec-253)
 
 <a id="spec-288"></a>
@@ -3585,6 +3828,7 @@ Check keys/types/captions/defaults for all 20 slots, each valid code and invalid
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-253](#spec-253)
 
 <a id="spec-287"></a>
@@ -3596,6 +3840,7 @@ Suite: Core. Check exactly two shared Team controls before every slot control: T
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-253](#spec-253)
 
 <a id="spec-286"></a>
@@ -3609,6 +3854,7 @@ Check generated/runtime choices 0..32, exact team identifier/caption and all old
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-46](#app-46), [SPEC-155](#spec-155), [SPEC-210](#spec-210), [SPEC-253](#spec-253)
 
 <a id="spec-285"></a>
@@ -3622,6 +3868,7 @@ Check types/keys/defaults, all boundary limits, Boolean/fractional/negative/>300
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-252](#spec-252)
 
 <a id="spec-283"></a>
@@ -3635,6 +3882,7 @@ Instrument source/classifier calls across duplicates, zone fields and Team bindi
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-26](#app-26)
 
 <a id="spec-282"></a>
@@ -3648,6 +3896,7 @@ Inject invalid readings/profiles separately and together, including malformed ca
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-249](#spec-249)
 
 <a id="spec-281"></a>
@@ -3661,6 +3910,7 @@ Provide simultaneous current, 3s, activity-average and lap values in different z
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-155](#spec-155), [SPEC-248](#spec-248)
 
 <a id="spec-280"></a>
@@ -3674,6 +3924,7 @@ For defaults and edited thresholds test below/equal/above every bound, rounding 
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-247](#spec-247)
 
 <a id="spec-279"></a>
@@ -3687,6 +3938,7 @@ Assert exact shared RGB values for HR/cadence zones 1..5 and power zones 1..7 pl
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [DVS-45](#dvs-45), [SPEC-246](#spec-246)
 
 <a id="spec-278"></a>
@@ -3698,6 +3950,7 @@ Suite: Core build checks. Invoke scripts/check-properties.ps1 with the installed
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-245](#spec-245)
 
 <a id="spec-277"></a>
@@ -3709,17 +3962,19 @@ Suite: Core. In typedSettingsAndHiddenSlots, verify exactly 75 unique keys <=8 c
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [SPEC-244](#spec-244)
 
 <a id="spec-276"></a>
 ## SPEC-276 — Verify current coverage settings without legacy declarations
 
-Type: test | State: approved | Revision: 13
+Type: test | State: approved | Revision: 17
 
 Suite: Core. Verify all twenty compact aN_bg/bN_bg controls expose integer 0 None, 1 Label and 2 Whole cell. Match the per-slot XML defaults and independent read fallbacks. Exercise every explicit mode, missing/null/Boolean/fractional/negative/unknown values, hidden slots and reassignment. Require no legacy switches, sentinel or schema marker. Execute typedSettingsAndHiddenSlots and secondSetSettings; preserve unrelated values without runtime writes.
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-31](#app-31), [SPEC-155](#spec-155), [SPEC-243](#spec-243)
 
 <a id="spec-275"></a>
@@ -3733,6 +3988,7 @@ Hold displayed text/bounds constant while changing thresholds, source validity, 
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-26](#app-26)
 
 <a id="spec-274"></a>
@@ -3746,6 +4002,7 @@ Compare cell commands/pixels before/after effects for zero/one/two enlarged layo
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-34](#app-34), [DVS-12](#dvs-12), [DVS-6](#dvs-6)
 
 <a id="spec-273"></a>
@@ -3759,12 +4016,13 @@ Exercise no custom source, missing/invalid/unsupported/expired/unqualified sourc
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [DVS-51](#dvs-51), [SPEC-249](#spec-249)
 
 <a id="spec-272"></a>
 ## SPEC-272 — Verify enlarged semantic label fill
 
-Type: test | State: approved | Revision: 10
+Type: test | State: approved | Revision: 14
 
 Suite: Core. Executable regression: tests/PresentationTests.mc, normalPresentationDrawAndAlignment with EnlargedLabelScenario. Execution evidence is recorded separately.
 
@@ -3772,6 +4030,7 @@ Use qualified HR/power fixtures and temperature bands with one/two enlarged slot
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-49](#app-49), [DVS-12](#dvs-12)
 
 <a id="spec-271"></a>
@@ -3785,6 +4044,7 @@ Change one mode with unchanged text, readings and bounds. Assert new production 
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-26](#app-26), [APP-32](#app-32)
 
 <a id="spec-270"></a>
@@ -3798,6 +4058,7 @@ Inject missing/null/Boolean/fractional/negative/unknown values in one slot. Veri
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-31](#app-31), [APP-49](#app-49)
 
 <a id="spec-269"></a>
@@ -3811,12 +4072,13 @@ Render all palette colors, including magenta #FF00FF with black text and an oppo
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-36](#app-36), [DVS-6](#dvs-6)
 
 <a id="spec-268"></a>
 ## SPEC-268 — Verify background coverage regions
 
-Type: test | State: approved | Revision: 13
+Type: test | State: approved | Revision: 17
 
 Suite: Core. Definition; execution evidence is separate.
 
@@ -3824,12 +4086,13 @@ For None/Label/Whole cell, compare production fill commands and pixels in regula
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-49](#app-49), [DVS-29](#dvs-29), [DVS-34](#dvs-34)
 
 <a id="spec-267"></a>
 ## SPEC-267 — Verify background mode choices
 
-Type: test | State: approved | Revision: 9
+Type: test | State: approved | Revision: 13
 
 Suite: Core. Definition; execution evidence is separate.
 
@@ -3837,17 +4100,19 @@ Check all 20 keys, exact captions/codes/types and both bank presets. Edit duplic
 
 **Relations**
 
+- part_of: [SPEC-233](#spec-233)
 - verifies: [APP-49](#app-49), [SPEC-155](#spec-155)
 
 <a id="spec-230"></a>
 ## SPEC-230 — Core: verify switching lifecycle, atomic frames and shared acquisition
 
-Type: test | State: approved | Revision: 11
+Type: test | State: approved | Revision: 15
 
 Verification definition; implementation and execution evidence are recorded separately. Use distinct first/second fields, enlarged count, alignment, theme, unit preference, effects and grid so mixed frames are observable. Verify startup/reset, pause retention, resume with an incomplete power window (first unavailable running sample returns default), post-reset finalizing laps ignored until rearmed, known activity-identity change, fresh-sample resume, page hide/show, late load, mode/selected-threshold edits, unused threshold edits and presentation-only edits. Validate the expected bank at every event and next frame. A switch publishes one bank consistently and never changes activity counters or rolling/grade/current-lap state. For N delivered samples with duplicate fields across both banks, assert N acquisition advances and one lap reset per delivered boundary. Trace clock/battery queries for active-set demand and correct values on activation; no trigger-only timer or draw-time acquisition. Inspect initialized/cached descriptors and ordinary draw replay using bounded fixture counters, not a runtime heap qualification. Include maximum supported normal layouts of each bank and prove no inherited first-set styles. This is Core; separate Memory and insufficient-area tests remain excluded.
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [APP-26](#app-26), [APP-33](#app-33), [SPEC-208](#spec-208), [SPEC-220](#spec-220), [SPEC-221](#spec-221)
 
 <a id="spec-227"></a>
@@ -3860,12 +4125,13 @@ Power startup and recovery follow [DVS-22](#dvs-22): a first 300 W sample activa
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [DVS-22](#dvs-22), [SPEC-211](#spec-211), [SPEC-212](#spec-212), [SPEC-213](#spec-213), [SPEC-214](#spec-214), [SPEC-215](#spec-215), [SPEC-216](#spec-216)
 
 <a id="spec-226"></a>
 ## SPEC-226 — Core: verify second-set settings, defaults
 
-Type: test | State: approved | Revision: 29
+Type: test | State: approved | Revision: 33
 
 Core definition; not executed here. Verify every bank-scoped property and its corresponding a/b counterpart, plus each global trigger/threshold/HR/power/cadence/Team text/color-source property, against the owning option requirements. Derive and compare complete current 75-property count, without legacy/hidden keys, without a second hardcoded inventory. Compare exact 33 choice codes, default assignments/enlargement/modes, selector captions, grouped/flat order and automatic native font fitting. Read current settings without migration or runtime writes.
 
@@ -3873,6 +4139,7 @@ Retain existing activation/threshold contracts under [SPEC-211](#spec-211)/[SPEC
 
 **Relations**
 
+- part_of: [SPEC-207](#spec-207)
 - verifies: [APP-31](#app-31), [SPEC-155](#spec-155), [SPEC-208](#spec-208), [SPEC-210](#spec-210), [SPEC-211](#spec-211), [SPEC-212](#spec-212), [SPEC-243](#spec-243)
 
 <a id="tui-12"></a>
@@ -4238,13 +4505,15 @@ Executable: tests/AcquisitionTests.mc, gradeRegression, gradeDistinctDistance an
 <a id="tui-1"></a>
 ## TUI-1 — Production drawing alignment and palettes
 
-Type: test | State: approved | Revision: 99
+Type: test | State: draft | Revision: 102
 
 Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.
 Run the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.
 Check the catalogue-wide minimum safe header-band formula against all header variants and retain one cached height through assignment, unit, theme and inversion changes. Check full-width regular/enlarged Label fills, ordinary value regions, semantic/neutral colors, white-temperature contrast, glyph halos and clean transitions between None/Label/Whole cell. Slope Whole cell retains its clipped ground and ordinary sky. Verify numeric families use their own valid color sources; invalid sources recover through neutral coverage without losing independent values.
 Exercise both banks and independent duplicate/hidden slots. Include Team's fixed header, wrapped user value and native-font fit scenarios. Coverage changes preserve geometry and unchanged fits as asserted by the executable.
 Exact grid-selector patterns, exhaustive normal-range endpoints, clock/duration capacity and complete callback/cache-query instrumentation are covered by their dedicated Test definitions. This test does not claim those named cases from its own PASS result. No Memory/Placement or physical qualification is implied.
+
+Separate build prerequisite: tools/test_settings_layout.py verifies [SPEC-210](#spec-210)/[SPEC-669](#spec-669) with all current properties exactly once and in catalogue order directly on the main settings page; reject nested/empty groups, missing or duplicate controls and changed order. Report this host check separately from the named drawing test. Mobile Save/reopen persistence still requires phone verification; a simulator drawing PASS is not evidence of the phone's Save UI.
 
 **Relations**
 
@@ -4416,6 +4685,7 @@ Construct an independently reviewed role inventory covering all configurable val
 
 **Relations**
 
+- part_of: [SPEC-175](#spec-175)
 - verifies: [SPEC-176](#spec-176)
 
 <a id="spec-169"></a>
@@ -4437,6 +4707,7 @@ Verify the Core default and disjoint Core/Memory/Placement compiler inventories.
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [DVS-2](#dvs-2), [DVS-42](#dvs-42), [DVS-45](#dvs-45), [DVS-7](#dvs-7), [SPEC-157](#spec-157)
 
 <a id="spec-168"></a>
@@ -4454,6 +4725,7 @@ Team has settings-sourced literal text and no numeric/sensor acquisition under [
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [APP-34](#app-34), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-33](#dvs-33), [DVS-35](#dvs-35), [DVS-37](#dvs-37), [DVS-40](#dvs-40), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [SPEC-156](#spec-156)
 
 <a id="spec-167"></a>
@@ -4467,6 +4739,7 @@ Check live changes preserve active recording and unrelated settings. Exercise ex
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [APP-46](#app-46), [SPEC-155](#spec-155)
 
 <a id="spec-166"></a>
@@ -4482,6 +4755,7 @@ Run resource/loaded-memory measurements only when Memory is explicitly requested
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [APP-25](#app-25), [SPEC-154](#spec-154)
 
 <a id="app-4"></a>
@@ -4493,6 +4767,7 @@ Consume the complete snapshot and drawing commands prepared by [APP-3](#app-3) t
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-2](#app-2), [APP-3](#app-3), [SWINT-1](#swint-1)
 
 <a id="app-3"></a>
@@ -4504,6 +4779,7 @@ Prepare the drawing parameters consumed by [APP-4](#app-4): resolved settings, a
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [APP-2](#app-2), [SWINT-1](#swint-1)
 
 <a id="app-2"></a>
@@ -4515,6 +4791,7 @@ Initialize settings, capability inputs and a safe snapshot for the drawing-param
 
 **Relations**
 
+- part_of: [APP-1](#app-1)
 - uses: [SWINT-1](#swint-1)
 
 <a id="app-44"></a>
@@ -4524,12 +4801,20 @@ Type: data_item | State: approved | Revision: 11
 
 Graphics.Dc.fillPolygon(points) paints a polygon using the selected color; this contract limits the input to the API's 64-point maximum. Supply prepared, cell-clipped points. [DVS-29](#dvs-29) owns slope geometry; [APP-26](#app-26) owns preparation before drawing.
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-43"></a>
 ## APP-43 — Toybox.UserProfile.getPowerZones(...)
 
 Type: data_item | State: approved | Revision: 11
 
 UserProfile.getPowerZones(Activity.SPORT_CYCLING) supplies cycling power thresholds when Connect IQ 5.2.2 and the method are supported. Guard optional availability. The API supplies thresholds, not colors; [DVS-42](#dvs-42) owns metadata interpretation/classification and [SPEC-249](#spec-249) owns unavailable-color fallback.
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="app-12"></a>
 ## APP-12 — onUpdate(dc)
@@ -4539,6 +4824,10 @@ Type: data_item | State: approved | Revision: 29
 Toybox.WatchUi.View.onUpdate(dc), inherited by DataField, is the drawing callback. [APP-26](#app-26) owns prepared-command rendering and the first/changed-bounds preparation exception; [APP-33](#app-33) owns the initial safe snapshot.
 API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/View.html#onUpdate-instance_function
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-8"></a>
 ## APP-8 — compute(info)
 
@@ -4547,6 +4836,10 @@ Type: data_item | State: approved | Revision: 43
 Toybox.WatchUi.DataField.compute(info) delivers Activity.Info once per second. Drawing is scheduled independently, so delivery does not establish drawing order. [APP-26](#app-26) owns sample processing and preparation; field acquisition contracts own source validity and reset rules.
 API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html#compute-instance_function
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-7"></a>
 ## APP-7 — onLayout(dc)
 
@@ -4554,6 +4847,10 @@ Type: data_item | State: approved | Revision: 19
 
 Toybox.WatchUi.View.onLayout(dc), inherited by DataField, supplies the drawing context assigned to the field. dc.getWidth()/getHeight() describe assigned bounds, which can differ from physical screen resolution. Application preparation and reuse rules are owned by [APP-26](#app-26).
 API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/View.html#onLayout-instance_function
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="swint-1"></a>
 ## SWINT-1 — Garmin SDK
@@ -4565,6 +4862,7 @@ Garmin devices SDK library to use device function APIs.
 **Relations**
 
 - contains: [APP-10](#app-10), [APP-11](#app-11), [APP-12](#app-12), [APP-13](#app-13), [APP-14](#app-14), [APP-15](#app-15), [APP-16](#app-16), [APP-17](#app-17), [APP-18](#app-18), [APP-19](#app-19), [APP-39](#app-39), [APP-40](#app-40), [APP-41](#app-41), [APP-42](#app-42), [APP-43](#app-43), [APP-44](#app-44), [APP-5](#app-5), [APP-6](#app-6), [APP-7](#app-7), [APP-8](#app-8), [APP-9](#app-9)
+- part_of: [APP-1](#app-1)
 
 <a id="trgr-1"></a>
 ## TRGR-1 — Core
@@ -4584,6 +4882,10 @@ Type: data_item | State: approved | Revision: 7
 
 Retrieve cycling heart-rate thresholds with `UserProfile.getHeartRateZones(UserProfile.HR_ZONE_SPORT_BIKING)` when available. The app needs UserProfile permission and shall validate the returned boundaries before assigning a zone; the API supplies thresholds, not display colors.
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-41"></a>
 ## APP-41 — Toybox.WatchUi.requestUpdate()
 
@@ -4591,12 +4893,20 @@ Type: data_item | State: approved | Revision: 9
 
 Request a redraw of the active data-field View after a Garmin Connect setting or supported night-mode change. The next [APP-12](#app-12) shall render one consistent settings and palette snapshot.
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-15"></a>
 ## APP-15 — Toybox.Application.Properties.getValue(key)
 
 Type: data_item | State: approved | Revision: 10
 
 Toybox.Application.Properties.getValue(key) retrieves an application property declared in the settings/properties resources. Read the keys/types/list mappings from [SPEC-155](#spec-155), validate each read independently under [APP-31](#app-31), and catch missing/unsupported/invalid reads to use that property's documented default. Load/cache values during initialization or [APP-6](#app-6), not each draw. Numeric list values map to stable internal identifiers; valid saved Center and hidden-slot selections/effects are preserved. Do not treat this settings API as a sensor source or as evidence of Garmin Connect transport qualification.
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="app-5"></a>
 ## APP-5 — initialize()
@@ -4607,12 +4917,20 @@ Constructor/initialization entry. The application class initializes its Toybox.A
 
 Initialize the bounded descriptor/presentation caches and resolved static modes required by [APP-26](#app-26). Bounds-dependent preparation remains in [APP-7](#app-7).
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-11"></a>
 ## APP-11 — onStop(state)
 
 Type: data_item | State: approved | Revision: 8
 
 Toybox.Application.AppBase.onStop(state) handles application termination and bounded resource cleanup. Preserve settings as required by [APP-31](#app-31)/[APP-46](#app-46), avoid rewriting valid persisted settings with temporary defaults, and release application-owned transient state as applicable. App termination does not authorize changing or deleting the host activity's recorded data. state may be null. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/Application/AppBase.html#onStop-instance_function
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="app-16"></a>
 ## APP-16 — Toybox.Activity.getActivityInfo()
@@ -4621,6 +4939,10 @@ Type: data_item | State: approved | Revision: 9
 
 Provides a snapshot of the current `Activity.Info` state outside `DataField.compute(info)` when needed, including during data-field initialization. Use `Toybox.Activity.getActivityInfo()`; `Activity.getInfo()` is not a Connect IQ method.
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-6"></a>
 ## APP-6 — onSettingsChanged()
 
@@ -4628,10 +4950,14 @@ Type: data_item | State: approved | Revision: 10
 
 Toybox.Application.AppBase.onSettingsChanged() is the running-application callback for delivered application setting changes, documented for Garmin Connect Mobile. Re-read each property through [APP-15](#app-15), validate independently under [APP-31](#app-31), apply one consistent configuration without clearing unrelated activity/rolling state under [APP-32](#app-32), invalidate affected presentation/layout caches and request [APP-41](#app-41). A later startup also loads saved properties; do not infer that every settings transport has an identical live-callback guarantee. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/Application/AppBase.html#onSettingsChanged-instance_function
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="tper-1"></a>
 ## TPER-1 — Memory
 
-Type: test_suite | State: draft | Revision: 7
+Type: test_suite | State: approved | Revision: 9
 
 Explicit user request only. Run the two isolated profile font probes and the separate normal Data Field runtime validation stage under [APP-47](#app-47)/[APP-48](#app-48). Source: tests/FontTests.mc, memory-tests.jungle and validation/memory/MemoryValidation.mc. A font probe alone cannot qualify peak runtime memory. Record per-product requested scenarios, source/binary/toolchain and actual used/free/total observations. Hardware evidence and unrun cases remain separate. A build or Core run never authorizes this suite.
 
@@ -4642,7 +4968,7 @@ Explicit user request only. Run the two isolated profile font probes and the sep
 <a id="trgr-2"></a>
 ## TRGR-2 — Placement
 
-Type: test_suite | State: draft | Revision: 7
+Type: test_suite | State: approved | Revision: 9
 
 Explicit user request only. Contains the four tests from tests/PlacementTests.mc / placement-tests.jungle: caption/duration fitting, overflow/compact-cache behavior, the unsupported/reduced-area drawing matrix, and documented unsupported combinations. Verify the full compact caption or bounded background-only behavior, clipping and recovery under [APP-34](#app-34). Do not treat fallback as a normal-value pass. No Memory work is implied; Core never launches this suite.
 
@@ -4895,6 +5221,7 @@ Simulator-only runtime Memory procedure is specified separately in [TPRF-9](#tpr
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [APP-47](#app-47), [APP-48](#app-48), [SPEC-159](#spec-159)
 
 <a id="tsec-1"></a>
@@ -4986,6 +5313,7 @@ Run the normal font validator on valid generated assets. In isolated fixture cop
 
 **Relations**
 
+- part_of: [SPEC-175](#spec-175)
 - verifies: [SPEC-177](#spec-177)
 
 <a id="spec-174"></a>
@@ -4997,6 +5325,7 @@ Review the milestone exit criteria and the traceability map. Verify every origin
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [SPEC-162](#spec-162)
 
 <a id="spec-173"></a>
@@ -5008,6 +5337,7 @@ Inspect all listed decisions and their affected requirements/tasks. Verify open 
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [SPEC-161](#spec-161)
 
 <a id="spec-172"></a>
@@ -5019,6 +5349,7 @@ Run a clean CI job and a cached job with declared inputs; change the SDK/device/
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [SPEC-160](#spec-160)
 
 <a id="spec-165"></a>
@@ -5030,6 +5361,7 @@ Build from two different checkout paths, including one with spaces, using the sa
 
 **Relations**
 
+- part_of: [SPEC-150](#spec-150)
 - verifies: [SPEC-153](#spec-153)
 
 <a id="app-40"></a>
@@ -5039,12 +5371,20 @@ Type: data_item | State: approved | Revision: 5
 
 The AppBase callback for a device switch between day and night mode on supported devices. Re-read `System.getDeviceSettings().isNightModeEnabled`, update the active palette and request a redraw without altering the configured fields or numeric values.
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-39"></a>
 ## APP-39 — Toybox.System.getDeviceSettings().isNightModeEnabled
 
 Type: data_item | State: approved | Revision: 5
 
 Read the current device night-color state through `System.getDeviceSettings().isNightModeEnabled` when this member is present. It is available on newer supported Edge devices but not every target in [APP-24](#app-24); use a capability check and the explicit theme fallback instead of assuming this property exists.
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="app-19"></a>
 ## APP-19 — Toybox.WatchUi.DataField.createField(...)
@@ -5053,12 +5393,20 @@ Type: data_item | State: approved | Revision: 5
 
 A DataField may call `Toybox.WatchUi.DataField.createField(...)` to create a `FitContributor.Field` for optional custom FIT recording. The returned field is updated with `setData(...)` when the data is valid. This is not required to display values on screen. Garmin API: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/DataField.html
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-18"></a>
 ## APP-18 — Toybox.UserProfile.getProfile()
 
 Type: data_item | State: approved | Revision: 6
 
 Retrieves the user's general profile data, such as body metrics, when the UserProfile permission is granted. Training-zone thresholds are retrieved separately through `Toybox.UserProfile.getHeartRateZones(...)` and, on supported devices, `getPowerZones(...)`; `getProfile()` alone is not a source of zone boundaries.
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="app-17"></a>
 ## APP-17 — Toybox.System.getSystemStats()
@@ -5067,12 +5415,20 @@ Type: data_item | State: approved | Revision: 5
 
 Toybox.System.getSystemStats() returns System.Stats, including battery percentage and application-runtime totalMemory, usedMemory and freeMemory in bytes. Validate battery under [DVS-35](#dvs-35); use the named memory members for the separate qualification measurements under [APP-48](#app-48). These are not device physical RAM or filesystem-free-storage values, and no free-storage member is documented by this contract. Label foreground/background/simulator/hardware measurement provenance separately; published limits alone are not measured free memory. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/System/Stats.html
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-14"></a>
 ## APP-14 — onHide()
 
 Type: data_item | State: approved | Revision: 4
 
 Toybox.WatchUi.View.onHide() is the inherited View hide callback when delivered by the system. It may suspend display-only work, but shall not stop required activity sample processing, clear rolling samples solely because the field is hidden or reset timer/settings state. Do not depend on an onHide callback for every Data Field visibility transition; the documented Data Field lifecycle primarily lists onLayout/onShow/onUpdate. Restore current rendering under [APP-13](#app-13) without inventing samples. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/View.html
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="app-13"></a>
 ## APP-13 — onShow()
@@ -5081,6 +5437,10 @@ Type: data_item | State: approved | Revision: 4
 
 Toybox.WatchUi.View.onShow(), inherited by DataField, is a visibility callback. When the view becomes visible, render/request the current complete snapshot using the current validated settings and rebuilt layout as needed. Becoming visible shall not reset activity timers, rolling samples, hidden assignments or saved settings. Do not assume visibility callbacks supply Activity.Info or replace [APP-8](#app-8) acquisition. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/WatchUi/View.html#onShow-instance_function
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-10"></a>
 ## APP-10 — onStart(state)
 
@@ -5088,12 +5448,20 @@ Type: data_item | State: approved | Revision: 4
 
 Toybox.Application.AppBase.onStart(state) is called at application startup before getInitialView(). Handle application startup and load/validate saved configuration without assuming state is non-null, an activity sample is already available or a final drawing area has been assigned. Layout preparation follows [APP-7](#app-7) and safe snapshot initialization follows [APP-33](#app-33). App startup is not an instruction to reset the host Garmin activity. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/Application/AppBase.html#onStart-instance_function
 
+**Relations**
+
+- part_of: [APP-1](#app-1)
+
 <a id="app-9"></a>
 ## APP-9 — getInitialView()
 
 Type: data_item | State: approved | Revision: 4
 
 Toybox.Application.AppBase.getInitialView() returns the initial view array, containing this application's WatchUi.DataField instance. That view receives layout/update and activity-compute callbacks. An input delegate is optional when supported/needed; do not require an on-device settings editor under [APP-46](#app-46). Initialize a complete safe display state under [APP-33](#app-33) before returning the view. Source: https://developer.garmin.com/connect-iq/api-docs/Toybox/Application/AppBase.html#getInitialView-instance_function
+
+**Relations**
+
+- part_of: [APP-1](#app-1)
 
 <a id="spec-660"></a>
 ## SPEC-660 — Custom training zones
@@ -5109,12 +5477,20 @@ Type: requirement | State: approved | Revision: 4
 
 A usable custom HR profile has four integer upper limits, each 30..250 bpm, strictly increasing. For a finite positive raw reading, round to whole bpm using the metric rounding rule; assign the first zone whose upper limit is >= the rounded value, or zone 5 above the fourth limit. Equality stays in the lower zone. Missing, zero, negative and non-finite raw readings have no zone. Positive readings above 250 bpm still classify; do not clamp readings.
 
+**Relations**
+
+- part_of: [SPEC-660](#spec-660)
+
 <a id="spec-662"></a>
 ## SPEC-662 — Classify custom power into seven zones
 
 Type: requirement | State: approved | Revision: 4
 
 A usable custom power profile has six integer upper limits, each 1..3000 W, strictly increasing. For a finite nonnegative raw reading, round to whole watts using the metric rounding rule; assign the first zone whose upper limit is >= the rounded value, or zone 7 above the sixth limit. Equality stays in the lower zone; zero watts is valid. Missing, negative and non-finite raw readings have no zone. Values above 3000 W still classify. Fixed zone names, in order: Active Recovery, Endurance, Tempo, Threshold, VO2 Max, Anaerobic, Neuromuscular.
+
+**Relations**
+
+- part_of: [SPEC-660](#spec-660)
 
 <a id="spec-663"></a>
 ## SPEC-663 — Select the global power zone source
@@ -5125,6 +5501,7 @@ Type: requirement | State: approved | Revision: 7
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [DVS-42](#dvs-42), [FR-16431](#fr-16431), [SPEC-662](#spec-662)
 
 <a id="spec-664"></a>
@@ -5136,6 +5513,7 @@ Type: requirement | State: approved | Revision: 7
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [DVS-42](#dvs-42), [FR-16438](#fr-16438), [SPEC-661](#spec-661)
 
 <a id="spec-665"></a>
@@ -5147,6 +5525,7 @@ All current, rolling-three-second, activity-average and lap-average HR/power met
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [SPEC-246](#spec-246), [SPEC-248](#spec-248), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-666"></a>
@@ -5158,6 +5537,7 @@ When a selected custom tuple is missing, malformed, non-integer, non-finite, out
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [SPEC-249](#spec-249), [SPEC-661](#spec-661), [SPEC-662](#spec-662)
 
 <a id="spec-667"></a>
@@ -5169,6 +5549,7 @@ Validate immutable shared HR/power profiles at initialization and settings reloa
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [APP-26](#app-26), [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-668"></a>
@@ -5180,17 +5561,21 @@ Zone-source and threshold edits must not change numeric metric values, rolling s
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [SPEC-663](#spec-663), [SPEC-664](#spec-664)
 
 <a id="spec-669"></a>
-## SPEC-669 — Group global training zone options
+## SPEC-669 — Keep shared training zone controls contiguous on the main settings page
 
-Type: requirement | State: approved | Revision: 6
+Type: requirement | State: draft | Revision: 8
 
-Provide one Training zones group outside both slot banks: custom power switch then six named power upper limits, custom HR switch then four HR upper limits, followed by the existing cadence options. Prompts state units and that limits apply only while their switch is On; describe open-ended final zones without editable upper limits. Power prompts use names under [SPEC-662](#spec-662). Keep shared Team name before all slot options; headings are not properties and conditional visibility is not required.
+Keep shared training zone options in one contiguous section on the main settings page under [SPEC-210](#spec-210), outside both slot banks: custom power switch, six named power upper limits, custom HR switch, four HR upper limits, then the existing cadence options. Use direct setting elements, without an SDK group or nested page. Preserve all existing property keys, types, defaults and saved values.
+
+Prompts state units and that limits apply only while their switch is On; describe open-ended final zones without editable upper limits. Power prompts use names under [SPEC-662](#spec-662). Keep the shared Team name before all slot options. Do not add editable heading/divider properties; conditional visibility is not required.
 
 **Relations**
 
+- part_of: [SPEC-660](#spec-660)
 - uses: [SPEC-155](#spec-155), [SPEC-662](#spec-662)
 
 <a id="fr-16431"></a>
@@ -5204,6 +5589,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-663](#spec-663)
 
 <a id="fr-16432"></a>
@@ -5217,6 +5603,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
 
 <a id="fr-16433"></a>
@@ -5230,6 +5617,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
 
 <a id="fr-16434"></a>
@@ -5243,6 +5631,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
 
 <a id="fr-16435"></a>
@@ -5256,6 +5645,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
 
 <a id="fr-16436"></a>
@@ -5269,6 +5659,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
 
 <a id="fr-16437"></a>
@@ -5282,6 +5673,7 @@ Behavior: [SPEC-663](#spec-663). Fields: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [FUNC-7](#func-7), [SPEC-253](#spec-253), [SPEC-662](#spec-662), [SPEC-663](#spec-663)
 
 <a id="fr-16438"></a>
@@ -5295,6 +5687,7 @@ Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-664](#spec-664)
 
 <a id="fr-16439"></a>
@@ -5308,6 +5701,7 @@ Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
 
 <a id="fr-16440"></a>
@@ -5321,6 +5715,7 @@ Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
 
 <a id="fr-16441"></a>
@@ -5334,6 +5729,7 @@ Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
 
 <a id="fr-16442"></a>
@@ -5347,6 +5743,7 @@ Behavior: [SPEC-664](#spec-664). Fields: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [
 
 **Relations**
 
+- part_of: [SPEC-300](#spec-300)
 - uses: [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-47](#dvs-47), [FUNC-6](#func-6), [SPEC-253](#spec-253), [SPEC-661](#spec-661), [SPEC-664](#spec-664)
 
 <a id="tstfunc-6"></a>
@@ -5412,7 +5809,7 @@ Compare twelve new keys/types/defaults/captions/ranges with property owners and 
 
 **Relations**
 
-- verifies: [FR-16431](#fr-16431), [FR-16432](#fr-16432), [FR-16433](#fr-16433), [FR-16434](#fr-16434), [FR-16435](#fr-16435), [FR-16436](#fr-16436), [FR-16437](#fr-16437), [FR-16438](#fr-16438), [FR-16439](#fr-16439), [FR-16440](#fr-16440), [FR-16441](#fr-16441), [FR-16442](#fr-16442), [SPEC-155](#spec-155), [SPEC-245](#spec-245), [SPEC-668](#spec-668), [SPEC-669](#spec-669)
+- verifies: [FR-16431](#fr-16431), [FR-16432](#fr-16432), [FR-16433](#fr-16433), [FR-16434](#fr-16434), [FR-16435](#fr-16435), [FR-16436](#fr-16436), [FR-16437](#fr-16437), [FR-16438](#fr-16438), [FR-16439](#fr-16439), [FR-16440](#fr-16440), [FR-16441](#fr-16441), [FR-16442](#fr-16442), [SPEC-155](#spec-155), [SPEC-245](#spec-245), [SPEC-300](#spec-300), [SPEC-668](#spec-668), [SPEC-669](#spec-669)
 
 <a id="tstfunc-11"></a>
 ## TSTFUNC-11 — Core: zone preparation and activity isolation
