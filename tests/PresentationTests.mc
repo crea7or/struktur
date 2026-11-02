@@ -9,7 +9,7 @@ function presentationSettingsAndUnits(logger) {
     var settings=new DisplaySettings();settings.apply({});
     verifyTeamOptions();
     Test.assert(settings.hideValueUnits && settings.inverseEnlargedTheme);
-    Test.assertEqual(75,SettingsCatalogue.keys().size());
+    Test.assertEqual(76,SettingsCatalogue.keys().size());
     Test.assertEqual("average hr",Catalog.LABELS[5]);Test.assertEqual("hr zone",Catalog.LABELS[6]);
     var metric=["km/h","km/h","rpm","rpm","bpm","bpm","","w","w","w","","km","m","m","m","%","","","","kcal","°c","%","°","km","","bpm","km","","km/h","bpm","w","rpm"];
     var imperial=["mph","mph","rpm","rpm","bpm","bpm","","w","w","w","","mi","ft","ft","ft","%","","","","kcal","°f","%","°","mi","","bpm","mi","","mph","bpm","w","rpm"];
@@ -229,7 +229,7 @@ function fixedThreeRoleFonts(logger) {
                 Test.assertEqual(renderer._cells[i][Cell.ENLARGED]?DeviceProfile.BIG_SIZE:DeviceProfile.REGULAR_SIZE,renderer._runs[i].size);
             }
             Test.assertEqual(FontSelection.height(DeviceProfile.LABEL_SIZE,true),renderer._labelHeight);
-            Test.assert(renderer._fonts.size()<=3 && renderer._metrics.size()<=3);
+            Test.assert(renderer._fonts.size()<=(haloDraws()==2?6:3) && renderer._metrics.size()<=3);
         }
     }
     return true;
@@ -409,6 +409,23 @@ class CoverageScenario {
         for(var i=0;i<10;i+=1) { dc.paintEffects.add(snapshot[:values][i][ValueRecord.BAND]!=null);dc.wholeEffects.add(snapshot[:values][i][ValueRecord.COVERAGE]==2); }
         renderer.draw(dc,snapshot,settings);Test.assert(renderer._cells.size()>0);
     }
+    // DVS-6/SPEC-670: outline-font halo on API 4+, eight shifts on API 3; Off drops only the contour.
+    function verifyHaloOption() {
+        var packet=renderer._packets[0];
+        Test.assertEqual(haloDraws()==2?2:5,packet.primary[6].size());Test.assertEqual(haloDraws()==2?2:5,packet.label[6].size());
+        props["halo"]=false;settings.apply(props);Test.assertEqual(haloDraws()==2,settings.halo);
+        renderer.releaseForSettingsReload();renderer.prepare(snapshot);renderer.layout(dc,settings);
+        var plain=renderer._packets[0];
+        if(haloDraws()==2) { Test.assertEqual(2,plain.primary[6].size());Test.assertEqual(2,plain.label[6].size()); }
+        else { Test.assert(plain.primary[6]==null && plain.label[6]==null); }
+        Test.assertEqual(packet.primary[0],plain.primary[0]);Test.assertEqual(packet.primary[1],plain.primary[1]);
+        Test.assertEqual(packet.label[0],plain.label[0]);Test.assertEqual(packet.label[1],plain.label[1]);
+        var shared=new DisplaySettings();shared.halo=false;settings.applySharedBank(props,"a",shared);
+        Test.assertEqual(haloDraws()==2,settings.halo);
+        props.remove("halo");settings.apply(props);Test.assert(settings.halo);
+        renderer.releaseForSettingsReload();renderer.prepare(snapshot);renderer.layout(dc,settings);
+        Test.assert(renderer._packets[0].primary[6]!=null);
+    }
     function run() {
         prepare();old=snapshot[:values][0];fits=renderer.fitCount;geometry=renderer.geometryBuilds;
         Test.assert(renderer._packets[0].labelEffect);Test.assertEqual(1,dc.records[0][:rectangles].size()-1);
@@ -422,5 +439,6 @@ class CoverageScenario {
         Test.assert(snapshot[:values][0][ValueRecord.ANGLE]==null);Test.assert(renderer._packets[0].labelEffect);
         props["a1_bg"]=0;prepare();Test.assert(snapshot[:values][0][ValueRecord.BAND]==null);
         Test.assertEqual(1,dc.records[0][:rectangles].size());Test.assertEqual(geometry,renderer.geometryBuilds);
+        props["a1_bg"]=2;prepare();verifyHaloOption();
     }
 }

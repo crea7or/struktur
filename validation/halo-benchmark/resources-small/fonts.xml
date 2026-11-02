@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources><fonts>
+<font id="Big" filename="../../../resources/fonts/Value100.fnt" antialias="false"/>
+<font id="Regular" filename="../../../resources/fonts/Value45.fnt" antialias="false"/>
+<font id="Label" filename="../../../resources/fonts/Label21.fnt" antialias="false"/>
+<font id="BigOutline" filename="../resources/fonts/Value100Outline.fnt" antialias="false"/>
+<font id="RegularOutline" filename="../resources/fonts/Value45Outline.fnt" antialias="false"/>
+<font id="LabelOutline" filename="../resources/fonts/Label21Outline.fnt" antialias="false"/>
+</fonts></resources>

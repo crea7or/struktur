@@ -7,6 +7,7 @@
     <property id="a_hideu" type="boolean">true</property>
     <property id="a_inv" type="boolean">true</property>
     <property id="a_grid" type="number">1</property>
+    <property id="halo" type="boolean">true</property>
     <property id="team" type="string">TEAM</property>
     <property id="tsrc" type="number">0</property>
     <property id="a1" type="number">0</property>

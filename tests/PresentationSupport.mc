@@ -110,8 +110,9 @@ class PresentationDrawDc {
             var effect=_cellIndex<paintEffects.size() && paintEffects[_cellIndex];
             var grade=_record[:polygons].size()>0;
             var whole=(_cellIndex<wholeEffects.size() && wholeEffects[_cellIndex]) || (effect && !grade && _record[:rectangles].size()==1);
-            var count=effect && (grade || whole || _drawCount<9)?9:1;
-            var logical=grade || whole?_drawCount/count:(effect?(_drawCount<9?0:_drawCount-8):_drawCount);
+            var draws=haloDraws();
+            var count=effect && (grade || whole || _drawCount<draws)?draws:1;
+            var logical=grade || whole?_drawCount/count:(effect?(_drawCount<draws?0:_drawCount-draws+1):_drawCount);
             var height=Graphics.getFontHeight(font);
             var metrics=logical==1?FontMetrics.numeric(height):FontMetrics.label(height);
             var ink=FontMetrics.bounds(text,metrics);
@@ -319,10 +320,14 @@ function verifyDrawRecords(dc,renderer,snapshot,cells,baseNight,inverse,align) {
     }
 }
 
+// DVS-6: API 4+ profiles draw one outline-font halo; API 3 profiles draw eight shifted copies.
+(:testSupport)
+function haloDraws() { return FontSelection.info(DeviceProfile.LABEL_SIZE,true).size()>2?2:9; }
+
 (:testSupport)
 function verifyGlyphHalo(record,radius,grade) {
     var groups=grade?record[:texts].size():1;
-    Test.assertEqual(radius==1?groups*8:0,record[:halos].size());
+    Test.assertEqual(radius==1?groups*(haloDraws()-1):0,record[:halos].size());
     for(var group=0;group<groups && radius==1;group+=1) {
         var main=record[:texts][group]; var offsets=[];
         for(var i=0;i<record[:halos].size();i+=1) {
@@ -332,12 +337,13 @@ function verifyGlyphHalo(record,radius,grade) {
             Test.assertEqual(main[:clip][3],halo[:clip][3]);
             Test.assertEqual(main[:color]==Graphics.COLOR_BLACK?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,halo[:color]);
             var dx=halo[Cell.X]-main[Cell.X];var dy=halo[Cell.Y]-main[Cell.Y];
+            if(haloDraws()==2) { Test.assert(dx==0 && dy==0);offsets.add(0);continue; }
             Test.assert(dx.abs()<=1 && dy.abs()<=1 && (dx!=0 || dy!=0));
             var key=(dx+1)*3+dy+1;
             for(var j=0;j<offsets.size();j+=1) { Test.assert(offsets[j]!=key); }
             offsets.add(key);
         }
-        Test.assertEqual(8,offsets.size());
+        Test.assertEqual(haloDraws()-1,offsets.size());
     }
 }
 
@@ -384,9 +390,10 @@ class ColoredFieldScenario {
             renderer.prepare(snapshot);
             dc=new PresentationDrawDc(dc.getWidth(),dc.getHeight());
             for(var p=0;p<snapshot[:values].size();p+=1) { dc.paintEffects.add(snapshot[:values][p][ValueRecord.BAND]!=null || snapshot[:values][p][ValueRecord.ANGLE]!=null); }
+            if(renderer.needsLayout()) { renderer.layout(dc,settings); }
             renderer.draw(dc,snapshot,settings);
             verifyDrawRecords(dc,renderer,snapshot,cells,night,inverse,align);
-            Test.assertEqual(state==0?0:8,dc.records[0][:halos].size());
+            Test.assertEqual(state==0?0:haloDraws()-1,dc.records[0][:halos].size());
             Test.assertEqual(state==0?1:2,dc.records[0][:rectangles].size());
         }
     }
@@ -529,7 +536,8 @@ class NeutralBandScenario {
             dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
             for(var n=0;n<snapshot[:values].size();n+=1) { dc.paintEffects.add(snapshot[:values][n][ValueRecord.BAND]!=null || snapshot[:values][n][ValueRecord.ANGLE]!=null); }
             renderer.prepare(snapshot);
-            if(state==0) { renderer.layout(dc,settings); }
+            // Like StrukturField.onUpdate: lay out first whenever the renderer requests it.
+            if(state==0 || renderer.needsLayout()) { renderer.layout(dc,settings); }
             renderer.draw(dc,snapshot,settings);
             Test.assertEqual(fixedBand,renderer._labelBandHeight);
             cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
@@ -631,7 +639,8 @@ class TeamScenario {
             Test.assertEqual(cell[Cell.W],dc.records[0][:rectangles][1][2]);Test.assertEqual(run.labelBand,dc.records[0][:rectangles][1][3]);
             Test.assertEqual(packet.night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK,packet.primary[5]);
         }
-        Test.assertEqual(settings.modes[0]==0?1+packet.lines.size():(settings.modes[0]==1?9+packet.lines.size():9+9*packet.lines.size()),dc.records[0][:texts].size());
+        // The Team header uses the outline font on API 4+; native Team lines keep eight shifted halo draws.
+        Test.assertEqual(settings.modes[0]==0?1+packet.lines.size():(settings.modes[0]==1?haloDraws()+packet.lines.size():haloDraws()+9*packet.lines.size()),dc.records[0][:texts].size());
     }
     function run() {
         sample(110);automatic=renderer._runs[0].font;check();Test.assertEqual("green",snapshot[:values][0][ValueRecord.BAND]);old=snapshot;fits=renderer.fitCount;geometry=renderer.geometryBuilds;measures=renderer._nativeFonts.measurements;

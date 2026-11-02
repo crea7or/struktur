@@ -12,12 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 class SettingsPageTests(unittest.TestCase):
     def setUp(self):
         self.props = json.loads((ROOT/'config/catalogue.json').read_text('utf-8'))['properties']
-        self.resources = ET.parse(ROOT/'resources/settings/settings.xml').getroot()
+        self.resources = ET.parse(ROOT/'resources/settings-api3/settings.xml').getroot()
         self.page = self.resources.find('settings')
 
     def test_generated_page_keeps_every_property_in_order(self):
         self.assertEqual([p['key'] for p in self.props], validate_settings_layout(self.resources,self.props))
-        self.assertEqual(75, len(self.page))
+        self.assertEqual(76, len(self.page))
 
     def test_rejects_nested_second_set(self):
         control = next(s for s in self.page if s.get('propertyKey') == '@Properties.b1')

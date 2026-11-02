@@ -3,22 +3,22 @@
   "pillow": "12.2.0",
   "python": "3.14.7",
   "inventory_inputs": {
-    "config/catalogue.json": "cda0e71fcd8392ca55f792c13766c07c0e3b4498fe90cd04cedc5d944abde2af",
+    "config/catalogue.json": "c4b5824851bacbb27a6942e489f27e228792178fd5cb6df9c6aaa7a02ec07a16",
     "config/decisions.json": "4f690b8dbf8b2dbc2096b7e34c57736f8374586cc8ad7af735716707bcddea0b",
-    "config/devices.json": "b01276258fd6433d5e19d3f644bd50481f19ed50b8f6b990972b069d3900c9de",
-    "requirements/workspace-snapshot.json": "649c136716be8425a2e084b953c67723df51fc2b3dc84e47a079736632bf8db7",
+    "config/devices.json": "06dc46d069b49ca5fca2f29ab5b0567c2347a4412f64e08cc791eb31fa499ca3",
+    "requirements/workspace-snapshot.json": "4ee6601618308b189ad558a4fcb1b6228ffae239279b518c6c0088cdcc47ecb2",
     "source/Snapshot.mc": "dc4b796515a345ee23a42f1682325aa36f559446348ca225225411bb7af667b4",
-    "source/FieldRenderer.mc": "119f99fe54dcee34c1f5d0764f039afda95d368ed572e44064a76129b2e65886",
-    "source/MaskedText.mc": "eb66a7ee979f00e59591f97a8934eb29227bbb5cc3da8c390adc600859267857",
+    "source/FieldRenderer.mc": "39f4fc3c83c20b97e935b597a8cacf06104ef01b2918b6a0d0780be40625ca54",
+    "source/MaskedText.mc": "42c2bf4ea09732f6f500503b00ad372989ea3472e656736c3d83946e0e4527e2",
     "source/Policy.mc": "ac108943550289229b45ddce5f73bd42b36bf96e6b613bade14ff1a70ab03316",
     "source/Formatting.mc": "b16ffbdad83a032a5319ac08e96f560c110d01d074bb4e2753514a00df8e02e3",
     "source/FieldPresentation.mc": "b60532192c787f1a762f483629c9d1fca2af02b24cc0328cc35aedc8792c8eb6",
     "tools/font_glyphs.py": "ae714fc43149844c642609d6c61a7eb1cd13cd590dd036bf9eaf810d6f4cd94a",
-    "tools/generate_fonts.py": "ce8e2202238a58be66dde5f611b68265a2cc14e1fcfb1cf9476862941216fcdc",
+    "tools/generate_fonts.py": "059e048abad74b58ab820f9a199238c26fa00ada5f8fe4ff7cf71c14b5ab4f75",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "7c5a0da8c98756796adad672b302d3630274a7e672b324bbc9f04f2b38a35895",
-    "source/Catalog.mc": "cc43c1fced689a51535b66171174520127b8f77972a13f140cd66a749c7bb0ea",
+    "tools/generate_catalog.py": "df5c4004fa9078ce654e84bb68868375d3c1260eca828c7928b76edb71cf1676",
+    "source/Catalog.mc": "4d0407347aa302bf1e20808099c96d89789c7028b830761a3a4a7fd950f64e53",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
     "profiles/edge550/DeviceProfile.mc": "ca9e89b8aa44ec279d5519489ef25b0db56650075831f48cb7eab374b3f801c3",
@@ -36,16 +36,16 @@
       "description_sha256": "15a96ab6dd1cea8e44aaf8532d6a73cf96a488c1ec8a9908fa4daf05fb9cf445"
     },
     "APP-25": {
-      "revision": 52,
-      "description_sha256": "7da34147b28d96bc8c2e113001e500c5636c0bb914129c4628cadb809d76756f"
+      "revision": 56,
+      "description_sha256": "ab8815c29f13117137ca4dffbbe5ea8fba93ecc10a82270888290b9c8b93262c"
     },
     "APP-34": {
       "revision": 104,
       "description_sha256": "4ffce1f5815a6af34028b23cd985524f75617fb786f08eb56dcd7f4278996c40"
     },
     "SPEC-154": {
-      "revision": 43,
-      "description_sha256": "909931774c7b9782bf0602c9adbd9c62070880f4a6243d3e6bf3159f952e6469"
+      "revision": 47,
+      "description_sha256": "c4635b9db9a4b3dc2b8dbfdcb23103b37c4e0353169d323715021db73067291a"
     }
   },
   "status": "generated; compiler and runtime evidence tracked separately",
@@ -401,7 +401,15 @@
       "one_bit_atlas_bytes": 1360,
       "glyph_bitmap_one_bit_bytes": 1066,
       "fnt_sha256": "d093d7824be9bc3cdc34f4be2636f395e8a89f900d215219531da8b6b105e4e4",
-      "png_sha256": "faa18727671a734d970fbf08a105ef3cc807aef1a341f48920789e1d821c335b"
+      "png_sha256": "faa18727671a734d970fbf08a105ef3cc807aef1a341f48920789e1d821c335b",
+      "outline": {
+        "id": "Value45Outline",
+        "width": 344,
+        "height": 36,
+        "one_bit_atlas_bytes": 1548,
+        "fnt_sha256": "88d24bccf6fbbbd365ff298f2d915b6c39bd6d0315fcb242daac2ab5a60cdc94",
+        "png_sha256": "7afdf07ed8e58d50c68b2621a8631ea2fb614af18c31b19cb5d6c448560f1a1f"
+      }
     },
     {
       "id": "Value55",
@@ -507,7 +515,15 @@
       "one_bit_atlas_bytes": 2064,
       "glyph_bitmap_one_bit_bytes": 1623,
       "fnt_sha256": "6963eac2bec7ca6fd61898a509400086ff245ab10c165cc4942c537a26a60777",
-      "png_sha256": "bb5be86e0a2b3f520710128d1d3e05e3ee4de5a6ddd1e377c75d0e0819dfb1d0"
+      "png_sha256": "bb5be86e0a2b3f520710128d1d3e05e3ee4de5a6ddd1e377c75d0e0819dfb1d0",
+      "outline": {
+        "id": "Value55Outline",
+        "width": 32,
+        "height": 558,
+        "one_bit_atlas_bytes": 2232,
+        "fnt_sha256": "3a401532b27ab05692d2e76c157e8bf9d47f704d0924445529e91d4f98ac8022",
+        "png_sha256": "80ba59ea87e85f10990aa1b0bff7c80af6db37430c3a969900096b82eaf56be5"
+      }
     },
     {
       "id": "Value83",
@@ -613,7 +629,15 @@
       "one_bit_atlas_bytes": 4455,
       "glyph_bitmap_one_bit_bytes": 3636,
       "fnt_sha256": "055714f70d72dd55a65277acbc645f6793de3374b62e2cb45c9005afbf1df792",
-      "png_sha256": "35183f334b93e8e8392dbde2475575933ce95b28f423e099df82a1d0923fc151"
+      "png_sha256": "35183f334b93e8e8392dbde2475575933ce95b28f423e099df82a1d0923fc151",
+      "outline": {
+        "id": "Value83Outline",
+        "width": 46,
+        "height": 807,
+        "one_bit_atlas_bytes": 4842,
+        "fnt_sha256": "e0e193936a5e54b73411a9037b96cafc677203397d6bccd57e8d2b944c3ff6b2",
+        "png_sha256": "4dfd167474b77581ab903820c05ebe4ec80ebf79a42e472143c43b31e15b0c6b"
+      }
     },
     {
       "id": "Value95",
@@ -719,7 +743,15 @@
       "one_bit_atlas_bytes": 6006,
       "glyph_bitmap_one_bit_bytes": 4870,
       "fnt_sha256": "1ff677e5176d5df9d2f05f4f2eb73dc4069cc874b4b6a764d1ecbdd7aa75e9d5",
-      "png_sha256": "a2de20af274ddb9aeed1f1dd22ada0d890ae6de65b3a8caec14cb8e9ecfc23eb"
+      "png_sha256": "a2de20af274ddb9aeed1f1dd22ada0d890ae6de65b3a8caec14cb8e9ecfc23eb",
+      "outline": {
+        "id": "Value95Outline",
+        "width": 53,
+        "height": 920,
+        "one_bit_atlas_bytes": 6440,
+        "fnt_sha256": "e440d0cfbd374c7066c82d3e77dd98d2b8995655a9d84a0bbdf101a446f69e95",
+        "png_sha256": "7cb98ebca7d53466a2e1ee16f0769821c235fa9f301618159cc30e15f9d62022"
+      }
     },
     {
       "id": "Value100",
@@ -825,7 +857,15 @@
       "one_bit_atlas_bytes": 6510,
       "glyph_bitmap_one_bit_bytes": 5289,
       "fnt_sha256": "67bd38b92fd42ce366d6ad81f93784d36aaf8ecc4de477c3fcec3d7c9d25a14f",
-      "png_sha256": "5d4ccf953eae0933f1d555b57ee2884f2fb5cfb2152f7fd5dc1820a7fa14b83a"
+      "png_sha256": "5d4ccf953eae0933f1d555b57ee2884f2fb5cfb2152f7fd5dc1820a7fa14b83a",
+      "outline": {
+        "id": "Value100Outline",
+        "width": 55,
+        "height": 958,
+        "one_bit_atlas_bytes": 6706,
+        "fnt_sha256": "aad4ce8b3736114bd767cdeb42f096547f50fd46b466e2613fe19a632d4fe31e",
+        "png_sha256": "b73f9aa77514aa5727f088f0cbabe801b037ebec206d228537cf9df61ee1c8bf"
+      }
     },
     {
       "id": "Value116",
@@ -931,7 +971,15 @@
       "one_bit_atlas_bytes": 8640,
       "glyph_bitmap_one_bit_bytes": 7155,
       "fnt_sha256": "399e61b4611537f3fa16ab5c7d72321922bc87a5aad7555f3729670a8fe61714",
-      "png_sha256": "60c24393a11ba83f8678df60ea1d2ed790dcd686661f49f895bac6a0aa4bbc09"
+      "png_sha256": "60c24393a11ba83f8678df60ea1d2ed790dcd686661f49f895bac6a0aa4bbc09",
+      "outline": {
+        "id": "Value116Outline",
+        "width": 63,
+        "height": 1108,
+        "one_bit_atlas_bytes": 8864,
+        "fnt_sha256": "0b724cffc0186e0d5518c4dcb5599d2fbb61e243f6bf5a3398574cf27fb12357",
+        "png_sha256": "5b9d4f2b057b762cc30c09b7b85b97da43a17e799c155f7f19e17ad27451dc9d"
+      }
     },
     {
       "id": "Value175",
@@ -1037,7 +1085,15 @@
       "one_bit_atlas_bytes": 19205,
       "glyph_bitmap_one_bit_bytes": 16171,
       "fnt_sha256": "60c8323267d1063e87c57bec50d54fcbcfacacbc5abd36726861f4a4c960d964",
-      "png_sha256": "4e371a34dcede3cac01328c2367e972dd11cc2f2034539b829998a7388efd0de"
+      "png_sha256": "4e371a34dcede3cac01328c2367e972dd11cc2f2034539b829998a7388efd0de",
+      "outline": {
+        "id": "Value175Outline",
+        "width": 93,
+        "height": 1635,
+        "one_bit_atlas_bytes": 19620,
+        "fnt_sha256": "0ff5d8cd08a36f5ef5feb8895d39405cad9a37e03011879905507a81b0bf2fd3",
+        "png_sha256": "6968c3ab0905937994fa2f7a0904a3ab015f1f9e59ad8efce0629ad22f99e95f"
+      }
     },
     {
       "id": "Value200",
@@ -1143,7 +1199,15 @@
       "one_bit_atlas_bytes": 23829,
       "glyph_bitmap_one_bit_bytes": 21177,
       "fnt_sha256": "c4e4a69e9c8d73bae3610c28640faa8e5eaa290623be1644571e763643b4fb18",
-      "png_sha256": "8776dd2ba1d3c9acf5ba70ecec50cfd1bcec146624202d2cb85748fe45966cd3"
+      "png_sha256": "8776dd2ba1d3c9acf5ba70ecec50cfd1bcec146624202d2cb85748fe45966cd3",
+      "outline": {
+        "id": "Value200Outline",
+        "width": 106,
+        "height": 1861,
+        "one_bit_atlas_bytes": 26054,
+        "fnt_sha256": "796ce199987fcf1fa604bdb9a7224a99665c790bd53e02cb204427a3b90ae48b",
+        "png_sha256": "05ba16d5e5c8ded195fca334504010f91c67f4b31fd41e995542f23b51b3e869"
+      }
     },
     {
       "id": "Label21",
@@ -1429,7 +1493,15 @@
       "one_bit_atlas_bytes": 1139,
       "glyph_bitmap_one_bit_bytes": 744,
       "fnt_sha256": "b1044f401c7a8269546b076c1fa9117df2ad065644838245f2d2606f860fe194",
-      "png_sha256": "8fb5c0c0b95ace4a654d8e26f7830b48e4d25c1e67c614536dda3179b302392b"
+      "png_sha256": "8fb5c0c0b95ace4a654d8e26f7830b48e4d25c1e67c614536dda3179b302392b",
+      "outline": {
+        "id": "Label21Outline",
+        "width": 207,
+        "height": 56,
+        "one_bit_atlas_bytes": 1456,
+        "fnt_sha256": "06618f98360eae4a8cbef7c88411552a71372b71ab8cb115fded726e9110ebe1",
+        "png_sha256": "e5bf6a3bb5dd498edcbf40b74999f0fbeadb96b4040916392ebca47a2d53e1a8"
+      }
     },
     {
       "id": "Label35",
@@ -1715,7 +1787,15 @@
       "one_bit_atlas_bytes": 2745,
       "glyph_bitmap_one_bit_bytes": 2045,
       "fnt_sha256": "23e3ad75b7ce247db78ef14ced244f98af754d450ca2136c6db7a075883d091c",
-      "png_sha256": "107e263cfd15ec56de251c7e65135772b53593b4c84029fb3508ad9b12689cc6"
+      "png_sha256": "107e263cfd15ec56de251c7e65135772b53593b4c84029fb3508ad9b12689cc6",
+      "outline": {
+        "id": "Label35Outline",
+        "width": 304,
+        "height": 85,
+        "one_bit_atlas_bytes": 3230,
+        "fnt_sha256": "cf86e964179526ec4476d390d00ee9fa61bc95501daf1d09e6b17ad5980b05d1",
+        "png_sha256": "118579580fbc97cd0c6d7cb9d63ee053e2b31dbab2cf8d50f2e2f6c385330b87"
+      }
     }
   ],
   "profile_metrics": {
@@ -1731,11 +1811,13 @@
       ],
       "resource_path": "profiles/edge530/fonts/fonts.xml",
       "resource_sha256": "4a8fef0ffe37535426fa1a58c8b3d8e75652ce71eb017048c1b75fe33fa456d8",
+      "outline_fonts": false,
+      "halo_sha256": "e4bec5176b0f936dfc8d5cd443305c31e57ab5e9cb202ce114b33b6b26fc6960",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge540": {
       "path": "profiles/edge540/FontData.mc",
-      "sha256": "ff78b00f1ee9c0d36ab64633ac52736fd88b09412127ea775a522095f9a6120c",
+      "sha256": "e85296bea0f158e064ac0e3589d0ede027d9ca20c58a77042d79eadb4460c0d3",
       "numeric_sizes": [
         45,
         100
@@ -1744,12 +1826,14 @@
         21
       ],
       "resource_path": "profiles/edge540/fonts/fonts.xml",
-      "resource_sha256": "4a8fef0ffe37535426fa1a58c8b3d8e75652ce71eb017048c1b75fe33fa456d8",
+      "resource_sha256": "6d991f485517f336baa56bd272da2e0e9b8b64dddbd3c48b9cc08ccd8e798a01",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge550": {
       "path": "profiles/edge550/FontData.mc",
-      "sha256": "25ecbcf834e82d8b85188e2dfafe01a44b96fed3a0757d9151172fe30141008f",
+      "sha256": "d3d2e8fc3175c1e72e6aabcd7f68b4c4099dcc04ec397c79ce6ab48a3953bde8",
       "numeric_sizes": [
         83,
         175
@@ -1758,7 +1842,9 @@
         35
       ],
       "resource_path": "profiles/edge550/fonts/fonts.xml",
-      "resource_sha256": "0905643550c6a44e599bbe0378ebef8e25dc3ec5e3481d47a176f4a12b54d626",
+      "resource_sha256": "3b14621300b258f7101b4293a222c42285b01dace7b753a5773209f01eb70860",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge830": {
@@ -1773,11 +1859,13 @@
       ],
       "resource_path": "profiles/edge830/fonts/fonts.xml",
       "resource_sha256": "4a8fef0ffe37535426fa1a58c8b3d8e75652ce71eb017048c1b75fe33fa456d8",
+      "outline_fonts": false,
+      "halo_sha256": "e4bec5176b0f936dfc8d5cd443305c31e57ab5e9cb202ce114b33b6b26fc6960",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge840": {
       "path": "profiles/edge840/FontData.mc",
-      "sha256": "ff78b00f1ee9c0d36ab64633ac52736fd88b09412127ea775a522095f9a6120c",
+      "sha256": "e85296bea0f158e064ac0e3589d0ede027d9ca20c58a77042d79eadb4460c0d3",
       "numeric_sizes": [
         45,
         100
@@ -1786,12 +1874,14 @@
         21
       ],
       "resource_path": "profiles/edge840/fonts/fonts.xml",
-      "resource_sha256": "4a8fef0ffe37535426fa1a58c8b3d8e75652ce71eb017048c1b75fe33fa456d8",
+      "resource_sha256": "6d991f485517f336baa56bd272da2e0e9b8b64dddbd3c48b9cc08ccd8e798a01",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge850": {
       "path": "profiles/edge850/FontData.mc",
-      "sha256": "25ecbcf834e82d8b85188e2dfafe01a44b96fed3a0757d9151172fe30141008f",
+      "sha256": "d3d2e8fc3175c1e72e6aabcd7f68b4c4099dcc04ec397c79ce6ab48a3953bde8",
       "numeric_sizes": [
         83,
         175
@@ -1800,7 +1890,9 @@
         35
       ],
       "resource_path": "profiles/edge850/fonts/fonts.xml",
-      "resource_sha256": "0905643550c6a44e599bbe0378ebef8e25dc3ec5e3481d47a176f4a12b54d626",
+      "resource_sha256": "3b14621300b258f7101b4293a222c42285b01dace7b753a5773209f01eb70860",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1030": {
@@ -1815,11 +1907,13 @@
       ],
       "resource_path": "profiles/edge1030/fonts/fonts.xml",
       "resource_sha256": "0a8d5fb07ce977767b2c22a34953bfb9eb1b3f3c051a4c6529d3d20de053659e",
+      "outline_fonts": false,
+      "halo_sha256": "e4bec5176b0f936dfc8d5cd443305c31e57ab5e9cb202ce114b33b6b26fc6960",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1040": {
       "path": "profiles/edge1040/FontData.mc",
-      "sha256": "9df618d4f078ea40d33a38727850fd806baaea62fc726e26d52be0507f32397d",
+      "sha256": "26b3f668674e1a0f2dc1b084a37d73995723516f921aaa5c0ef4baf4621b2e41",
       "numeric_sizes": [
         55,
         116
@@ -1828,12 +1922,14 @@
         21
       ],
       "resource_path": "profiles/edge1040/fonts/fonts.xml",
-      "resource_sha256": "0a8d5fb07ce977767b2c22a34953bfb9eb1b3f3c051a4c6529d3d20de053659e",
+      "resource_sha256": "094dadcf9bab1d4f47bd87510b5bce7d3e7e0bf8e149544ba04999d9ce76fe65",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1050": {
       "path": "profiles/edge1050/FontData.mc",
-      "sha256": "ff4fb6c914af6afeacf7acbca1dfe0a9b68f97accf644bb2db7df4febcd1f8cd",
+      "sha256": "03431aa720f11c0cff65f24fe7f242a00cd350b2a5c5dc3941600546621acb63",
       "numeric_sizes": [
         95,
         200
@@ -1842,12 +1938,14 @@
         35
       ],
       "resource_path": "profiles/edge1050/fonts/fonts.xml",
-      "resource_sha256": "490cfcad3ffdfe4734b3232e44a0ee2cfa46872ca865d1ad5adda804fd35d23b",
+      "resource_sha256": "d528ef79ac638896af0795f45f423fbe6667ede302e759c5f30925f40e7c8f63",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1060": {
       "path": "profiles/edge1060/FontData.mc",
-      "sha256": "ff4fb6c914af6afeacf7acbca1dfe0a9b68f97accf644bb2db7df4febcd1f8cd",
+      "sha256": "03431aa720f11c0cff65f24fe7f242a00cd350b2a5c5dc3941600546621acb63",
       "numeric_sizes": [
         95,
         200
@@ -1856,7 +1954,9 @@
         35
       ],
       "resource_path": "profiles/edge1060/fonts/fonts.xml",
-      "resource_sha256": "490cfcad3ffdfe4734b3232e44a0ee2cfa46872ca865d1ad5adda804fd35d23b",
+      "resource_sha256": "d528ef79ac638896af0795f45f423fbe6667ede302e759c5f30925f40e7c8f63",
+      "outline_fonts": true,
+      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     }
   }

@@ -329,6 +329,7 @@ Field identity, labels, units, header templates and precision are stored as type
 - [SPEC-667 — Prepare zone profiles outside compute and drawing](#spec-667)
 - [SPEC-668 — Preserve activity state when editing zone settings](#spec-668)
 - [SPEC-669 — Keep shared training zone controls contiguous on the main settings page](#spec-669)
+- [SPEC-670 — Text outline on colored backgrounds (halo)](#spec-670)
 - [FR-16431 — Use custom power zones (cpz)](#fr-16431)
 - [FR-16432 — Power zone 1 (Active Recovery): upper W (pw1)](#fr-16432)
 - [FR-16433 — Power zone 2 (Endurance): upper W (pw2)](#fr-16433)
@@ -424,11 +425,11 @@ Custom source/threshold edits must invalidate affected prepared colors before ne
 <a id="app-26"></a>
 ## APP-26 — Prepare geometry and sensor values outside the drawing path
 
-Type: requirement | State: approved | Revision: 105
+Type: requirement | State: approved | Revision: 109
 
 Prepare bounded caches when inputs become available:
 - Init/settings: validate both banks; resolve descriptors/conversions/formats/effects/channels and unavailable-safe values. Cache three metric roles, native candidates and header metrics. Keep at most two configuration banks, one acquisition state and one active prepared presentation; release outgoing fits/packets/headers before replacements. Reuse valid active geometry/fonts across switches. Retain only the selected geometry/separator plan; release failed/unselected plans and release obsolete geometry before replacing it.
-- Layout: cache geometry, selected fonts, header width/ink, separators and repeated segment tables. Identical layouts reuse state; grid-only edits refresh separators. Retain only assigned header variants.
+- Layout: cache geometry, selected fonts (on API 4+ profiles plus [DVS-6](#dvs-6) halo outline fonts only for roles a visible slot's coverage can paint), header width/ink, separators and repeated segment tables. Identical layouts reuse state; grid-only edits refresh separators. Retain only assigned header variants.
 - Refit only for changed displayed text/secondary/header, native face, bounds or halo clearance. Reuse wrapped lines/runs/packets/equal-angle polygons. Reconsider preferred capacity after fallback when candidates change; slots beyond preferred capacity never refit visible cells.
 - Validate zone bounds on metadata refresh, cache by channel/reading/profile revision, and share current-source classification across duplicates/zone fields/text bindings. Invalidate only affected channels/packets; equal cadence bounds preserve cache.
 - Advance readings/rolling/grade/lap/lifecycle once per delivered compute, including hidden sources/triggers. Never duplicate sampling by slot/bank. Clock/battery queries follow active retained needs; newly active banks obtain required current values before their frame. Validate nonempty temperature caches on every delivered compute and presentation refresh, even without an assigned temperature slot; skip age/clock queries only while empty. Read device unit, clock-format and automatic-theme preferences on each delivered compute and presentation refresh; apply changes to that snapshot without sample-count throttling.
@@ -833,7 +834,7 @@ Custom profile identity/invalidation and unchanged activity state are additional
 <a id="dvs-34"></a>
 ## DVS-34 — Temperature
 
-Type: requirement | State: approved | Revision: 172
+Type: requirement | State: approved | Revision: 173
 
 | Attribute | Value |
 | --- | --- |
@@ -860,9 +861,9 @@ Normal display ranges: °c: -40–60; °f: -40–140. All supported devices, reg
 <a id="spec-300"></a>
 ## SPEC-300 — Application properties
 
-Type: document | State: approved | Revision: 102
+Type: document | State: approved | Revision: 108
 
-Current compact settings schema: 75 properties, no compatibility aliases or migration. Property requirements own keys, types, ranges and defaults; shared behavior is linked. a = default set; b = second set. Field definitions remain only in [DVS-1](#dvs-1). Key/storage policy: [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245).
+Current compact settings schema: 76 properties, no compatibility aliases or migration. Property requirements own keys, types, ranges and defaults; shared behavior is linked. a = default set; b = second set. Field definitions remain only in [DVS-1](#dvs-1). Key/storage policy: [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245).
 
 <a id="spec-233"></a>
 ## SPEC-233 — Shared Coloring and Settings Migration
@@ -1174,7 +1175,7 @@ Fields: [SPEC-253](#spec-253).
 <a id="spec-253"></a>
 ## SPEC-253 — Team
 
-Type: requirement | State: approved | Revision: 59
+Type: requirement | State: approved | Revision: 60
 
 | Attribute | Value |
 | --- | --- |
@@ -1241,11 +1242,11 @@ For 3s power mode, compare the unrounded watts from the same shared three-second
 <a id="spec-210"></a>
 ## SPEC-210 — Keep all dashboard controls on one savable settings page
 
-Type: requirement | State: draft | Revision: 29
+Type: requirement | State: approved | Revision: 35
 
 Render every application setting directly on the main Garmin settings page as a child of the SDK settings element. Do not emit SDK group elements or secondary settings pages, including for Second field set or Training zones; grouped clients can lose edits or the Save action. Garmin's main settings page owns Save; do not add a dummy editable divider or save property.
 
-Retain the existing property keys, types, choice codes, defaults and catalogue order: first-set general controls, the two shared Team controls, first-set slot controls, shared training zones under [SPEC-669](#spec-669), then second-set activation, thresholds, presentation and slots. Activation order is Second field set - activation event; Power: activate at (W); Power: return below (W); Heart rate: activate at (bpm); Heart rate: return below (bpm). Put the section explanation in the activation prompt: the selected event alone controls the second set and None keeps the first set.
+Retain the existing property keys, types, choice codes, defaults and catalogue order: first-set general controls, the shared text-outline control on API 3 profiles only ([SPEC-670](#spec-670)), the two shared Team controls, first-set slot controls, shared training zones under [SPEC-669](#spec-669), then second-set activation, thresholds, presentation and slots. Activation order is Second field set - activation event; Power: activate at (W); Power: return below (W); Heart rate: activate at (bpm); Heart rate: return below (bpm). Put the section explanation in the activation prompt: the selected event alone controls the second set and None keeps the first set.
 
 Prefix second-set presentation/slot captions Second set:. Per-slot order remains Slot N: value then Slot N: background; never Field N. Do not duplicate shared Team or zone properties. Keep inactive controls editable and saved; only the selected trigger's thresholds act. Saved selections must survive main-page Save, reopening settings and app restart under [APP-32](#app-32). Conditional hiding is not required.
 
@@ -1269,7 +1270,7 @@ Retain independent default/second saved banks with ten ordered slots each, the s
 <a id="func-8"></a>
 ## FUNC-8 — Lap cadence
 
-Type: requirement | State: approved | Revision: 48
+Type: requirement | State: approved | Revision: 49
 
 | Attribute | Value |
 | --- | --- |
@@ -1294,7 +1295,7 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 <a id="func-7"></a>
 ## FUNC-7 — Lap power
 
-Type: requirement | State: approved | Revision: 57
+Type: requirement | State: approved | Revision: 58
 
 | Attribute | Value |
 | --- | --- |
@@ -1319,7 +1320,7 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 <a id="func-6"></a>
 ## FUNC-6 — Lap heart rate
 
-Type: requirement | State: approved | Revision: 58
+Type: requirement | State: approved | Revision: 59
 
 | Attribute | Value |
 | --- | --- |
@@ -1344,7 +1345,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 <a id="func-5"></a>
 ## FUNC-5 — Lap speed
 
-Type: requirement | State: approved | Revision: 54
+Type: requirement | State: approved | Revision: 55
 
 | Attribute | Value |
 | --- | --- |
@@ -1369,7 +1370,7 @@ Normal display ranges: 0–200. All supported devices, regular/enlarged cells, h
 <a id="func-4"></a>
 ## FUNC-4 — Lap time
 
-Type: requirement | State: approved | Revision: 42
+Type: requirement | State: approved | Revision: 43
 
 | Attribute | Value |
 | --- | --- |
@@ -1394,7 +1395,7 @@ Normal display ranges: 0:00:00–99:59:59 elapsed h:mm:ss. All supported devices
 <a id="func-3"></a>
 ## FUNC-3 — Lap distance
 
-Type: requirement | State: approved | Revision: 53
+Type: requirement | State: approved | Revision: 54
 
 | Attribute | Value |
 | --- | --- |
@@ -1471,7 +1472,7 @@ Coverage preserves geometry/alignment/acquisition; only changed halo clearance m
 <a id="dvs-47"></a>
 ## DVS-47 — Display three-second average heart rate
 
-Type: requirement | State: approved | Revision: 95
+Type: requirement | State: approved | Revision: 96
 
 | Attribute | Value |
 | --- | --- |
@@ -1561,7 +1562,7 @@ Slot selection options are owned in [SPEC-300](#spec-300). Draw the first capaci
 <a id="dvs-39"></a>
 ## DVS-39 — Completed laps
 
-Type: requirement | State: approved | Revision: 130
+Type: requirement | State: approved | Revision: 131
 
 | Attribute | Value |
 | --- | --- |
@@ -1589,7 +1590,7 @@ Normal display ranges: 0–999. All supported devices, regular/enlarged cells, h
 <a id="dvs-37"></a>
 ## DVS-37 — Distance to next waypoint
 
-Type: requirement | State: approved | Revision: 53
+Type: requirement | State: approved | Revision: 54
 
 | Attribute | Value |
 | --- | --- |
@@ -1614,7 +1615,7 @@ Normal display ranges: 0–1000. All supported devices, regular/enlarged cells, 
 <a id="dvs-36"></a>
 ## DVS-36 — Heading
 
-Type: requirement | State: approved | Revision: 93
+Type: requirement | State: approved | Revision: 94
 
 | Attribute | Value |
 | --- | --- |
@@ -1640,7 +1641,7 @@ Normal display ranges: 0–359. All supported devices, regular/enlarged cells, h
 <a id="dvs-35"></a>
 ## DVS-35 — Device battery level
 
-Type: requirement | State: approved | Revision: 57
+Type: requirement | State: approved | Revision: 58
 
 | Attribute | Value |
 | --- | --- |
@@ -1666,7 +1667,7 @@ Normal display ranges: 0–100. All supported devices, regular/enlarged cells, h
 <a id="dvs-33"></a>
 ## DVS-33 — Calories
 
-Type: requirement | State: approved | Revision: 52
+Type: requirement | State: approved | Revision: 53
 
 | Attribute | Value |
 | --- | --- |
@@ -1691,7 +1692,7 @@ Normal display ranges: 0–9999. All supported devices, regular/enlarged cells, 
 <a id="dvs-32"></a>
 ## DVS-32 — Time of day
 
-Type: requirement | State: approved | Revision: 67
+Type: requirement | State: approved | Revision: 68
 
 | Attribute | Value |
 | --- | --- |
@@ -1718,7 +1719,7 @@ Normal display ranges: 24h: 00:00–23:59; 12h: 00:00–23:59. All supported dev
 <a id="dvs-31"></a>
 ## DVS-31 — Elapsed time
 
-Type: requirement | State: approved | Revision: 61
+Type: requirement | State: approved | Revision: 62
 
 | Attribute | Value |
 | --- | --- |
@@ -1743,7 +1744,7 @@ Normal display ranges: 0:00:00–99:59:59 elapsed h:mm:ss. All supported devices
 <a id="dvs-30"></a>
 ## DVS-30 — Activity timer
 
-Type: requirement | State: approved | Revision: 61
+Type: requirement | State: approved | Revision: 62
 
 | Attribute | Value |
 | --- | --- |
@@ -1768,7 +1769,7 @@ Normal display ranges: 0:00:00–99:59:59 elapsed h:mm:ss. All supported devices
 <a id="dvs-29"></a>
 ## DVS-29 — Grade
 
-Type: requirement | State: approved | Revision: 174
+Type: requirement | State: approved | Revision: 175
 
 | Attribute | Value |
 | --- | --- |
@@ -1802,7 +1803,7 @@ Normal display ranges: -99.9–99.9. All supported devices, regular/enlarged cel
 <a id="dvs-28"></a>
 ## DVS-28 — Total descent
 
-Type: requirement | State: approved | Revision: 48
+Type: requirement | State: approved | Revision: 49
 
 | Attribute | Value |
 | --- | --- |
@@ -1827,7 +1828,7 @@ Normal display ranges: 0–9999. All supported devices, regular/enlarged cells, 
 <a id="dvs-27"></a>
 ## DVS-27 — Total ascent
 
-Type: requirement | State: approved | Revision: 48
+Type: requirement | State: approved | Revision: 49
 
 | Attribute | Value |
 | --- | --- |
@@ -1852,7 +1853,7 @@ Normal display ranges: 0–9999. All supported devices, regular/enlarged cells, 
 <a id="dvs-26"></a>
 ## DVS-26 — Elevation
 
-Type: requirement | State: approved | Revision: 58
+Type: requirement | State: approved | Revision: 59
 
 | Attribute | Value |
 | --- | --- |
@@ -1877,7 +1878,7 @@ Normal display ranges:  -999–9999.
 <a id="dvs-25"></a>
 ## DVS-25 — Distance
 
-Type: requirement | State: approved | Revision: 54
+Type: requirement | State: approved | Revision: 55
 
 | Attribute | Value |
 | --- | --- |
@@ -1902,7 +1903,7 @@ Normal display ranges: 0–1000. All supported devices, regular/enlarged cells, 
 <a id="dvs-24"></a>
 ## DVS-24 — Power zone
 
-Type: requirement | State: approved | Revision: 64
+Type: requirement | State: approved | Revision: 65
 
 | Attribute | Value |
 | --- | --- |
@@ -1928,7 +1929,7 @@ Normal display ranges: 1–7. All supported devices, regular/enlarged cells, hea
 <a id="dvs-23"></a>
 ## DVS-23 — Average power
 
-Type: requirement | State: approved | Revision: 70
+Type: requirement | State: approved | Revision: 71
 
 | Attribute | Value |
 | --- | --- |
@@ -1953,7 +1954,7 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 <a id="dvs-22"></a>
 ## DVS-22 — Three-second average power
 
-Type: requirement | State: approved | Revision: 82
+Type: requirement | State: approved | Revision: 83
 
 | Attribute | Value |
 | --- | --- |
@@ -1980,7 +1981,7 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 <a id="dvs-21"></a>
 ## DVS-21 — Current power
 
-Type: requirement | State: approved | Revision: 71
+Type: requirement | State: approved | Revision: 72
 
 | Attribute | Value |
 | --- | --- |
@@ -2005,7 +2006,7 @@ Normal display ranges: 0–3000. All supported devices, regular/enlarged cells, 
 <a id="dvs-20"></a>
 ## DVS-20 — Heart rate zone
 
-Type: requirement | State: approved | Revision: 64
+Type: requirement | State: approved | Revision: 65
 
 | Attribute | Value |
 | --- | --- |
@@ -2031,7 +2032,7 @@ Normal display ranges: 1–5. All supported devices, regular/enlarged cells, hea
 <a id="dvs-19"></a>
 ## DVS-19 — Average heart rate
 
-Type: requirement | State: approved | Revision: 72
+Type: requirement | State: approved | Revision: 73
 
 | Attribute | Value |
 | --- | --- |
@@ -2056,7 +2057,7 @@ Normal display ranges: 30–250. All supported devices, regular/enlarged cells, 
 <a id="dvs-18"></a>
 ## DVS-18 — Current heart rate
 
-Type: requirement | State: approved | Revision: 75
+Type: requirement | State: approved | Revision: 76
 
 | Attribute | Value |
 | --- | --- |
@@ -2096,7 +2097,7 @@ Cache H for the catalogue/font revision. All regular/enlarged Label bands are fu
 <a id="dvs-11"></a>
 ## DVS-11 — Average Cadence
 
-Type: requirement | State: approved | Revision: 55
+Type: requirement | State: approved | Revision: 56
 
 | Attribute | Value |
 | --- | --- |
@@ -2121,7 +2122,7 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 <a id="dvs-10"></a>
 ## DVS-10 — Current Cadence
 
-Type: requirement | State: approved | Revision: 55
+Type: requirement | State: approved | Revision: 56
 
 | Attribute | Value |
 | --- | --- |
@@ -2146,7 +2147,7 @@ Normal display ranges: 0–250. All supported devices, regular/enlarged cells, h
 <a id="dvs-9"></a>
 ## DVS-9 — Average speed
 
-Type: requirement | State: approved | Revision: 62
+Type: requirement | State: approved | Revision: 63
 
 | Attribute | Value |
 | --- | --- |
@@ -2171,7 +2172,7 @@ Normal display ranges: 0–200
 <a id="dvs-8"></a>
 ## DVS-8 — Current speed
 
-Type: requirement | State: approved | Revision: 65
+Type: requirement | State: approved | Revision: 66
 
 | Attribute | Value |
 | --- | --- |
@@ -2196,10 +2197,11 @@ Normal display ranges: 0–200. All supported devices, regular/enlarged cells, h
 <a id="dvs-6"></a>
 ## DVS-6 — Render transparent text with contrast halos on effect backgrounds
 
-Type: requirement | State: approved | Revision: 104
+Type: requirement | State: approved | Revision: 109
 
 Composite text with transparent glyph masks, without rectangular text panels. Over colored regions, draw a one-pixel opposite black/white halo: the union of eight one-pixel-shifted glyph masks minus the original mask.
 Clip glyphs/halos to their painted region and cell. Label-mode halos remain in the colored header; Whole cell applies them to all overlaid text. Use the shared foreground-contrast rule and erase obsolete fills/halos before repaint.
+Produce the halo by profile: API 4+ profiles draw a build-time outline font whose glyphs are the one-pixel eight-neighbour dilation of the role glyphs (offset -1 px, same advance), then the text; this is pixel-identical to the eight shifted masks. API 3 profiles (Edge 530/830/1030) draw the eight shifted masks at runtime, and their global [SPEC-670](#spec-670) option may turn halos off to save battery: overlaid text keeps its contrast color without a halo and geometry/clearance stay unchanged. Native Team text always uses the eight shifted masks.
 
 **Relations**
 
@@ -2222,7 +2224,7 @@ Select distance/elevation/temperature units independently from System.getDeviceS
 <a id="app-25"></a>
 ## APP-25 — Use the three specified Roboto Condensed font roles
 
-Type: requirement | State: approved | Revision: 52
+Type: requirement | State: approved | Revision: 56
 
 Bundle exactly three metric roles at fixed profile sizes, without per-value sizes/fitting ladders:
 
@@ -2232,6 +2234,7 @@ Bundle exactly three metric roles at fixed profile sizes, without per-value size
 | Regular primary | [Roboto Condensed Black](attachments/Roboto_Condensed_Black.ttf)  |
 | Header/numeric secondary | [Roboto Condensed SemiBold](attachments/Roboto_Condensed_SemiBold.ttf) |
 Native-text fields use their own system-font policy without adding atlases.
+API 4+ profiles also bundle one [DVS-6](#dvs-6) halo outline companion for each role; it is not an additional metric role or size.
 
 **Relations**
 
@@ -3267,9 +3270,9 @@ Options: [SPEC-306](#spec-306), [SPEC-344](#spec-344). True gives enlarged cells
 <a id="spec-177"></a>
 ## SPEC-177 — Reject missing or surplus font glyphs during generation and verification
 
-Type: requirement | State: approved | Revision: 36
+Type: requirement | State: approved | Revision: 40
 
-Record traced inputs/revisions/hashes, role/size/language, expected/generated code points, encoding, source ink/advance metrics and output hashes in a reproducible manifest. Fail generation/build for missing/surplus/duplicate glyphs, opaque undeclared pixels, bad/overlapping rectangles, source mask/metric mismatch or nonreproducibility; identify role/size/code points. Negative fixtures reject missing f in ft, an unused numeric letter and opaque padding. Reachable-text changes require regeneration; compile/load all profiles. Native-font qualification and runtime memory remain separate.
+Record traced inputs/revisions/hashes, role/size/language, expected/generated code points, encoding, source ink/advance metrics and output hashes in a reproducible manifest. Fail generation/build for missing/surplus/duplicate glyphs, opaque undeclared pixels, bad/overlapping rectangles, source mask/metric mismatch or nonreproducibility; identify role/size/code points. Negative fixtures reject missing f in ft, an unused numeric letter and opaque padding. Reachable-text changes require regeneration; compile/load all profiles. Each outline glyph must equal the one-pixel eight-neighbour dilation of its base glyph, offset -1 px with the same advance and no other opaque pixels. Native-font qualification and runtime memory remain separate.
 
 **Relations**
 
@@ -3368,9 +3371,9 @@ Generate the acquisition/code/fixture traceability table from canonical field an
 <a id="spec-154"></a>
 ## SPEC-154 — Reproduce Garmin-compatible Roboto Condensed resources within the memory budget
 
-Type: requirement | State: approved | Revision: 43
+Type: requirement | State: approved | Revision: 47
 
-Generate the three exact profile roles/sizes from versioned licensed source fonts. Record source/license and generator/dependency versions/hashes; provide a deterministic regeneration command with matching outputs. Use the exact-glyph validation contract and compile/load resources for every profile; compilation is not runtime memory qualification.
+Generate the three exact profile roles/sizes, plus their [DVS-6](#dvs-6) halo outline companions for API 4+ profiles, from versioned licensed source fonts. Record source/license and generator/dependency versions/hashes; provide a deterministic regeneration command with matching outputs. Use the exact-glyph validation contract and compile/load resources for every profile; compilation is not runtime memory qualification.
 
 **Relations**
 
@@ -3625,7 +3628,7 @@ Options: [SPEC-307](#spec-307), [SPEC-345](#spec-345). Independent of alignment;
 <a id="app-21"></a>
 ## APP-21 — Align field labels and values at center or right
 
-Type: requirement | State: draft | Revision: 100
+Type: requirement | State: approved | Revision: 102
 
 Options: [SPEC-303](#spec-303), [SPEC-341](#spec-341). Independently centre complete header/value-plus-secondary groups, or align both to the usable right edge; preserve cell order/size.
 Reserve R=max(label line height, shared band height) in every cell, including effects-off. Centre primary visible bounds at y+R+(h-R)/2 with <=1 px error. Header/preferences/colors never alter R; positions change only for changed bounds. Fields may declare native value-block fitting within this same header reservation.
@@ -3655,7 +3658,7 @@ Suite: Core (host prerequisite). Run scripts/test-sdk-runner.ps1. Exercise succe
 <a id="tstfunc-4"></a>
 ## TSTFUNC-4 — Core: compact properties, defaults and field applicability
 
-Type: test | State: approved | Revision: 29
+Type: test | State: approved | Revision: 33
 
 Suite: Core. Compare all 75 property keys/types/defaults/limits against generated XML and their individual requirements. Require unique lowercase keys <=8 characters, one shared Team option set and no hidden/legacy/schema properties. Verify complete numeric field mapping, both presets, editable captions and read-only per-bank fallbacks. Validate every property description field link and uses relation against its applicability list. Run typedSettingsAndHiddenSlots, secondSetSettings, presentationSettingsAndUnits and nativeSettingsCallbacks; restore native saved values. Before compilation, serialize defaults and maximum valid values with the installed Garmin SDK and require both <=8000 bytes. Record exact byte counts, current source and product. Do not infer Memory, Placement or hardware results.
 
@@ -3663,7 +3666,7 @@ Extend the catalogue by the twelve custom-zone properties in [SPEC-300](#spec-30
 
 **Relations**
 
-- verifies: [FR-16431](#fr-16431), [FR-16432](#fr-16432), [FR-16433](#fr-16433), [FR-16434](#fr-16434), [FR-16435](#fr-16435), [FR-16436](#fr-16436), [FR-16437](#fr-16437), [FR-16438](#fr-16438), [FR-16439](#fr-16439), [FR-16440](#fr-16440), [FR-16441](#fr-16441), [FR-16442](#fr-16442), [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245), [SPEC-301](#spec-301), [SPEC-302](#spec-302), [SPEC-303](#spec-303), [SPEC-304](#spec-304), [SPEC-305](#spec-305), [SPEC-306](#spec-306), [SPEC-307](#spec-307), [SPEC-308](#spec-308), [SPEC-310](#spec-310), [SPEC-311](#spec-311), [SPEC-312](#spec-312), [SPEC-313](#spec-313), [SPEC-314](#spec-314), [SPEC-315](#spec-315), [SPEC-316](#spec-316), [SPEC-317](#spec-317), [SPEC-318](#spec-318), [SPEC-319](#spec-319), [SPEC-320](#spec-320), [SPEC-321](#spec-321), [SPEC-322](#spec-322), [SPEC-323](#spec-323), [SPEC-324](#spec-324), [SPEC-325](#spec-325), [SPEC-326](#spec-326), [SPEC-327](#spec-327), [SPEC-328](#spec-328), [SPEC-329](#spec-329), [SPEC-330](#spec-330), [SPEC-331](#spec-331), [SPEC-332](#spec-332), [SPEC-333](#spec-333), [SPEC-334](#spec-334), [SPEC-335](#spec-335), [SPEC-336](#spec-336), [SPEC-337](#spec-337), [SPEC-338](#spec-338), [SPEC-339](#spec-339), [SPEC-340](#spec-340), [SPEC-341](#spec-341), [SPEC-342](#spec-342), [SPEC-343](#spec-343), [SPEC-344](#spec-344), [SPEC-345](#spec-345), [SPEC-346](#spec-346), [SPEC-347](#spec-347), [SPEC-348](#spec-348), [SPEC-349](#spec-349), [SPEC-350](#spec-350), [SPEC-351](#spec-351), [SPEC-352](#spec-352), [SPEC-353](#spec-353), [SPEC-354](#spec-354), [SPEC-355](#spec-355), [SPEC-356](#spec-356), [SPEC-357](#spec-357), [SPEC-358](#spec-358), [SPEC-359](#spec-359), [SPEC-360](#spec-360), [SPEC-361](#spec-361), [SPEC-362](#spec-362), [SPEC-363](#spec-363), [SPEC-364](#spec-364), [SPEC-365](#spec-365), [SPEC-669](#spec-669)
+- verifies: [FR-16431](#fr-16431), [FR-16432](#fr-16432), [FR-16433](#fr-16433), [FR-16434](#fr-16434), [FR-16435](#fr-16435), [FR-16436](#fr-16436), [FR-16437](#fr-16437), [FR-16438](#fr-16438), [FR-16439](#fr-16439), [FR-16440](#fr-16440), [FR-16441](#fr-16441), [FR-16442](#fr-16442), [SPEC-243](#spec-243), [SPEC-244](#spec-244), [SPEC-245](#spec-245), [SPEC-301](#spec-301), [SPEC-302](#spec-302), [SPEC-303](#spec-303), [SPEC-304](#spec-304), [SPEC-305](#spec-305), [SPEC-306](#spec-306), [SPEC-307](#spec-307), [SPEC-308](#spec-308), [SPEC-310](#spec-310), [SPEC-311](#spec-311), [SPEC-312](#spec-312), [SPEC-313](#spec-313), [SPEC-314](#spec-314), [SPEC-315](#spec-315), [SPEC-316](#spec-316), [SPEC-317](#spec-317), [SPEC-318](#spec-318), [SPEC-319](#spec-319), [SPEC-320](#spec-320), [SPEC-321](#spec-321), [SPEC-322](#spec-322), [SPEC-323](#spec-323), [SPEC-324](#spec-324), [SPEC-325](#spec-325), [SPEC-326](#spec-326), [SPEC-327](#spec-327), [SPEC-328](#spec-328), [SPEC-329](#spec-329), [SPEC-330](#spec-330), [SPEC-331](#spec-331), [SPEC-332](#spec-332), [SPEC-333](#spec-333), [SPEC-334](#spec-334), [SPEC-335](#spec-335), [SPEC-336](#spec-336), [SPEC-337](#spec-337), [SPEC-338](#spec-338), [SPEC-339](#spec-339), [SPEC-340](#spec-340), [SPEC-341](#spec-341), [SPEC-342](#spec-342), [SPEC-343](#spec-343), [SPEC-344](#spec-344), [SPEC-345](#spec-345), [SPEC-346](#spec-346), [SPEC-347](#spec-347), [SPEC-348](#spec-348), [SPEC-349](#spec-349), [SPEC-350](#spec-350), [SPEC-351](#spec-351), [SPEC-352](#spec-352), [SPEC-353](#spec-353), [SPEC-354](#spec-354), [SPEC-355](#spec-355), [SPEC-356](#spec-356), [SPEC-357](#spec-357), [SPEC-358](#spec-358), [SPEC-359](#spec-359), [SPEC-360](#spec-360), [SPEC-361](#spec-361), [SPEC-362](#spec-362), [SPEC-363](#spec-363), [SPEC-364](#spec-364), [SPEC-365](#spec-365), [SPEC-669](#spec-669), [SPEC-670](#spec-670)
 
 <a id="tstfunc-3"></a>
 ## TSTFUNC-3 — Native properties persistence and settings callback
@@ -4505,7 +4508,7 @@ Executable: tests/AcquisitionTests.mc, gradeRegression, gradeDistinctDistance an
 <a id="tui-1"></a>
 ## TUI-1 — Production drawing alignment and palettes
 
-Type: test | State: draft | Revision: 102
+Type: test | State: approved | Revision: 104
 
 Suite: Core. Executable: tests/PresentationTests.mc, normalPresentationDrawAndAlignment. Execution evidence is separate.
 Run the production normal-layout scenarios across all native enlargement counts, both alignments and Day/Night. Assert complete headers/values, centered value bounds, shared header reservation, cell clipping and no overflow/compact substitution in guaranteed contexts.
@@ -5567,7 +5570,7 @@ Zone-source and threshold edits must not change numeric metric values, rolling s
 <a id="spec-669"></a>
 ## SPEC-669 — Keep shared training zone controls contiguous on the main settings page
 
-Type: requirement | State: draft | Revision: 8
+Type: requirement | State: approved | Revision: 10
 
 Keep shared training zone options in one contiguous section on the main settings page under [SPEC-210](#spec-210), outside both slot banks: custom power switch, six named power upper limits, custom HR switch, four HR upper limits, then the existing cadence options. Use direct setting elements, without an SDK group or nested page. Preserve all existing property keys, types, defaults and saved values.
 
@@ -5577,6 +5580,20 @@ Prompts state units and that limits apply only while their switch is On; describ
 
 - part_of: [SPEC-660](#spec-660)
 - uses: [SPEC-155](#spec-155), [SPEC-662](#spec-662)
+
+<a id="spec-670"></a>
+## SPEC-670 — Text outline on colored backgrounds (halo)
+
+Type: requirement | State: approved | Revision: 38
+
+Key: `halo`. Caption: Text outline on colored backgrounds. Type/values: Boolean. Default: `true`. Global setting shown only on Edge 530/830/1030 (API 3 profiles). True draws the [DVS-6](#dvs-6) halo; false saves battery by drawing overlaid text in its contrast color without a halo, keeping layout, margins and halo clearance unchanged. API 4+ profiles hide this control and always draw halos. Missing or malformed values read as true without rewriting storage.
+
+Behavior: [DVS-6](#dvs-6). Fields: [DVS-8](#dvs-8), [DVS-9](#dvs-9), [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253).
+
+**Relations**
+
+- part_of: [SPEC-300](#spec-300)
+- uses: [DVS-10](#dvs-10), [DVS-11](#dvs-11), [DVS-18](#dvs-18), [DVS-19](#dvs-19), [DVS-20](#dvs-20), [DVS-21](#dvs-21), [DVS-22](#dvs-22), [DVS-23](#dvs-23), [DVS-24](#dvs-24), [DVS-25](#dvs-25), [DVS-26](#dvs-26), [DVS-27](#dvs-27), [DVS-28](#dvs-28), [DVS-29](#dvs-29), [DVS-30](#dvs-30), [DVS-31](#dvs-31), [DVS-32](#dvs-32), [DVS-33](#dvs-33), [DVS-34](#dvs-34), [DVS-35](#dvs-35), [DVS-36](#dvs-36), [DVS-37](#dvs-37), [DVS-39](#dvs-39), [DVS-47](#dvs-47), [DVS-6](#dvs-6), [DVS-8](#dvs-8), [DVS-9](#dvs-9), [FUNC-3](#func-3), [FUNC-4](#func-4), [FUNC-5](#func-5), [FUNC-6](#func-6), [FUNC-7](#func-7), [FUNC-8](#func-8), [SPEC-253](#spec-253)
 
 <a id="fr-16431"></a>
 ## FR-16431 — Use custom power zones (cpz)

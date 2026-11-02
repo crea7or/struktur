@@ -76,7 +76,7 @@ def main():
     assert [f['id'] for f in fields[26:32]]==['lap_distance','lap_time','lap_speed','lap_heart_rate','lap_power','lap_cadence']
     assert fields[22]['format']=='integer'
     assert {f['requirement'] for f in fields}==expected
-    assert len(props)==len({p['key'] for p in props})==75
+    assert len(props)==len({p['key'] for p in props})==76
     assert all(re.fullmatch('[a-z][a-z0-9_]{0,7}',p['key']) and not p.get('hidden') for p in props)
     by_key={p['key']:p for p in props}
     for first in [p for p in props if re.match(r'a(?:_|[0-9])',p['key'])]:
@@ -86,10 +86,14 @@ def main():
     assert by_key['trig']['choices']==[0,1,2,3,4] and by_key['trig']['default']==3
     tree=ET.parse(ROOT/'resources/settings/properties.xml');xml={p.attrib['id']:p for p in tree.findall('.//property')}
     assert set(xml)==set(by_key)
-    settings=ET.parse(ROOT/'resources/settings/settings.xml');controls=settings.findall('.//setting')
+    # API 3 profiles show the DVS-6 halo option; API 4+ profiles hide it and always draw outline-font halos.
+    assert [p['key'] for p in props if p.get('legacy_only')]==['halo'] and not (ROOT/'resources/settings/settings.xml').exists()
+    settings=ET.parse(ROOT/'resources/settings-api3/settings.xml');controls=settings.findall('.//setting')
     configured={s.attrib['propertyKey'].split('.')[-1]:s for s in controls}
-    assert len(controls)==75 and set(configured)==set(by_key)
+    assert len(controls)==76 and set(configured)==set(by_key)
     order=validate_settings_layout(settings.getroot(),props)
+    modern=ET.parse(ROOT/'resources/settings-api4/settings.xml')
+    assert validate_settings_layout(modern.getroot(),[p for p in props if not p.get('legacy_only')])==[k for k in order if k!='halo']
     second_keys=['trig','p_on','p_off','hr_on','hr_off']+[p['key'] for p in props if p['key'].startswith('b')]
     assert order[order.index('trig'):]==second_keys
     training_keys=['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]+[f'cad{i}' for i in range(1,5)]
@@ -98,8 +102,9 @@ def main():
     assert all(name in by_key[f'pw{i}']['title'] for i,name in enumerate(names,1))
     assert 'Neuromuscular' in by_key['pw6']['prompt'] and 'Zone 5' in by_key['hr4']['prompt']
     shared=['team','tsrc'];order=list(configured)
-    assert [p['key'] for p in props if p.get('shared')]==shared+['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]
-    assert order[6:8]==shared and all(order.index(k)<order.index('a1') for k in shared)
+    assert [p['key'] for p in props if p.get('shared')]==['halo']+shared+['cpz']+[f'pw{i}' for i in range(1,7)]+['chz']+[f'hr{i}' for i in range(1,5)]
+    assert order[6:9]==['halo']+shared and all(order.index(k)<order.index('a1') for k in shared)
+    assert by_key['halo']['type']=='boolean' and by_key['halo']['default'] is True
     assert [p['key'] for p in props if p['type']=='string']==['team']
     strings={x.attrib['id']:x.text for x in ET.parse(ROOT/'resources/strings/strings.xml').findall('.//string')}
     for p in props:
@@ -117,6 +122,12 @@ def main():
     app=manifest.find('iq:application',ns);assert app.attrib['type']=='datafield'
     assert {p.attrib['id'] for p in app.findall('iq:products/iq:product',ns)}=={p['id'] for p in devices}
     assert len(devices)==10 and all(d['datafield_ceiling_bytes']==131072 and not d['release_supported'] for d in devices)
+    for jungle in ROOT.glob('*.jungle'):
+        lines=dict(re.findall(r'^(edge\d+)\.resourcePath = ([^\n]*)$',jungle.read_text(encoding='utf-8'),re.M))
+        assert set(lines)=={d['id'] for d in devices},jungle.name
+        for d in devices:
+            screen='resources/settings-api4' if d['outline_fonts'] else 'resources/settings-api3'
+            assert lines[d['id']].split(';')[-1]==screen,(jungle.name,d['id'])
     for d in devices:
         assert (ROOT/'profiles'/d['id']/'DeviceProfile.mc').exists()
         profile=(ROOT/'profiles'/d['id']/'DeviceProfile.mc').read_text(encoding='utf-8')

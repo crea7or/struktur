@@ -10,6 +10,7 @@ class DisplaySettings {
     var effects;
     var modes;
     var teamText;var teamSource;
+    var halo=true; // DVS-6/SPEC-670: API 3 profiles may turn runtime halos off
     var cadenceBounds=[60,80,100,120];
     var heartProfile=null;var powerProfile=null;
     var hideValueUnits;
@@ -45,6 +46,7 @@ class DisplaySettings {
         // All Team slots in both sets share these two properties.
         teamText=TeamOptions.text(values.hasKey("team")?values["team"]:null);
         teamSource=TeamOptions.code(values.hasKey("tsrc")?values["tsrc"]:null,2);
+        halo=HaloFonts.enabled(values,shared); // API 4+ ignores the legacy-only stored option.
         if(!CadenceZones.same(cadenceBounds,nextBounds)) { cadenceBounds=nextBounds; }
         var second="b".equals(_prefix);
         var big = get(values, "a_big");

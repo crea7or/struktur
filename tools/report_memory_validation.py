@@ -32,6 +32,14 @@ def allocation(metrics, limit):
     # calibration delta or estimated observer cost to manufacture a passing value.
 
 
+def validate_outline_coverage(metrics, outlined):
+    """The maximal matrix must draw every base/outline role, not just fit a cap."""
+    expected_fonts = 6 if outlined else 3
+    expected_roles = 7 if outlined else 0
+    assert metrics.get('max_fonts') == expected_fonts, 'Maximum base/outline font coverage missing'
+    assert metrics.get('outline_roles') == expected_roles, 'Drawn label/regular/enlarged outline coverage missing'
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('-Product',required=True);parser.add_argument('--scenario',choices=['native','matrix','switching'],default='matrix')
     args=parser.parse_args();product=args.Product;scenario=args.scenario
@@ -53,6 +61,9 @@ def main():
     log=ROOT/'artifacts'/(product+'-'+stem+'.log')
     text=log.read_text(encoding='utf-8-sig')
     metrics=completion(text,product,scenario)
+    # DVS-6: API 4+ profiles may also cache one halo outline font per role.
+    outlined=next(d for d in read('config/devices.json') if d['id']==product).get('outline_fonts') is True
+    fonts_allowed=range(3,7) if outlined else (3,)
     package=Path.home()/'AppData/Roaming/Garmin/ConnectIQ/Devices'/product/'compiler.json'
     package_data=json.loads(package.read_text(encoding='utf-8-sig'))
     limit=next(item['memoryLimit'] for item in package_data['appTypes'] if item['type']=='datafield')
@@ -91,7 +102,7 @@ def main():
         for before,after in zip(settings_returns,settings_returns[1:]):
             growth=growth+1 if after['used']>before['used'] else 0
             assert growth<2, 'Sustained retained settings growth'
-        assert metrics['max_fonts']==3
+        assert metrics['max_fonts'] in fonts_allowed
         assert 0<metrics['total_low']<=metrics['total_high']<=limit
         assert metrics['max_used']<=metrics['total_low'] and metrics['min_free']>=0
         row=dict(product=product,status='passed',scenario=scenario,source_revision=source['source_revision'],published_limit_bytes=limit,runtime='normal simulator Data Field; no --unit-test or /t',max_sampled_used_bytes=metrics['max_used'],min_sampled_free_bytes=metrics['min_free'],runtime_total_min_bytes=metrics['total_low'],runtime_total_max_bytes=metrics['total_high'],second_set_switches=metrics['transitions'],second_set_settings_changes=metrics['settings'],samples=metrics['samples'],maximum_cached_font_roles=metrics['max_fonts'],native_compute_callbacks=metrics['native_compute'],native_draw_callbacks=metrics['native_draw'],elapsed_ms=metrics['elapsed_ms'],binary_sha256=digest(ROOT/'bin'/(product+'-'+stem+'.prg')),log_sha256=digest(log),physical_device_memory='unrun',sampling='Observed stages; transient peaks between samples not proven absent; driver overhead included.')
@@ -101,7 +112,8 @@ def main():
         return
     assert metrics['cycles']==3 and metrics['cases']==648 and metrics['samples']>=2592
     assert metrics['native_compute']>=10 and metrics['native_draw']>=3 and metrics['elapsed_ms']>=30000
-    assert metrics['full_grids']>=54 and metrics['max_fonts']==3, 'Fixed font/full grid coverage missing'
+    assert metrics['full_grids']>=54, 'Full grid coverage missing'
+    validate_outline_coverage(metrics,outlined)
     assert metrics['fields_seen']==len(read('config/catalogue.json')['fields']), 'Not all selectable fields were drawn in fitting roles'
     assert 0<metrics['total_low']<=metrics['total_high']<=limit, 'Not the bounded normal Data Field allocation'
     assert metrics['max_used']<=min(metrics['total_low'],limit) and metrics['min_free']>=0
@@ -117,6 +129,7 @@ def main():
              headroom_to_published_limit_bytes=limit-metrics['max_used'],
              samples=metrics['samples'],matrix_cases=metrics['cases'],matrix_cycles=metrics['cycles'],
              full_native_grid_cases=metrics['full_grids'],maximum_cached_font_roles=metrics['max_fonts'],
+             drawn_outline_role_mask=metrics['outline_roles'],
              visible_field_types=metrics['fields_seen'],unsupported_regular_header_substitutions=metrics['unsupported_headers'],
              native_compute_callbacks=metrics['native_compute'],native_draw_callbacks=metrics['native_draw'],
              elapsed_ms=metrics['elapsed_ms'],native_drawing_bounds=[dict(width=int(w),height=int(h)) for w,h in sorted(set(bounds))],

@@ -7,7 +7,7 @@ import re
 import shutil
 import tempfile
 from pathlib import Path
-from PIL import Image, ImageChops, ImageDraw, ImageFont, __version__ as pillow_version
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, __version__ as pillow_version
 from font_glyphs import ROOT, glyph_contract, input_inventory
 from generate_fonts import HASHES, generate
 
@@ -138,6 +138,50 @@ def validate_font(root, item, contract, baseline=None):
                 metrics_and_pixels='exact source-font match'),comparison
 
 
+def validate_outline(root, item):
+    """DVS-6 halo font: each glyph is the base mask grown one pixel in all eight directions."""
+    record = item.get('outline') or {}
+    name = record.get('id')
+    context = f"outline/{item['id']}"
+    require(name == item['id']+'Outline', 'inventory', context, 'missing halo outline font record')
+    base_fnt = root/'resources/fonts'/(item['id']+'.fnt')
+    fnt = root/'resources/fonts'/(name+'.fnt')
+    png = fnt.with_suffix('.png')
+    require(fnt.is_file() and png.is_file(), 'inventory', context, 'missing outline atlas resources')
+    base, rows = characters(base_fnt, context), characters(fnt, context)
+    require(set(rows) == set(base), 'coverage', context, 'outline glyphs differ from base glyphs')
+    data = png.read_bytes()
+    require(data[:8] == b'\x89PNG\r\n\x1a\n' and data[24:26] == bytes([1,3]), 'encoding', context, 'expected one-bit indexed PNG')
+    with Image.open(base_fnt.with_suffix('.png')) as image:
+        base_alpha = image.convert('RGBA').getchannel('A')
+    with Image.open(png) as image:
+        alpha = image.convert('RGBA').getchannel('A')
+    require(alpha.size == (record['width'],record['height']), 'bounds', context, 'PNG dimensions differ from manifest')
+    common = lambda path:[line for line in path.read_text().splitlines() if line.startswith('common ')][0]
+    strip = lambda line:re.sub(r' scaleW=\d+ scaleH=\d+','',line)
+    require(strip(common(fnt)) == strip(common(base_fnt)), 'header', context, 'line metrics differ from base font')
+    coverage = Image.new('L',alpha.size,0)
+    covered = ImageDraw.Draw(coverage)
+    for code,row in rows.items():
+        glyph = f'{context} {codepoints([code])}'
+        old = base[code]
+        if old['width'] and old['height']:
+            require((row['width'],row['height'],row['xoffset'],row['yoffset'],row['xadvance']) ==
+                    (old['width']+2,old['height']+2,old['xoffset']-1,old['yoffset']-1,old['xadvance']),
+                    'metrics', glyph, 'outline glyph must be base glyph +1 px on every side with the same advance')
+            padded = Image.new('L',(old['width']+2,old['height']+2),0)
+            padded.paste(base_alpha.crop((old['x'],old['y'],old['x']+old['width'],old['y']+old['height'])),(1,1))
+            x,y = row['x'],row['y']
+            require(alpha.crop((x,y,x+row['width'],y+row['height'])).tobytes() == padded.filter(ImageFilter.MaxFilter(3)).tobytes(),
+                    'mask', glyph, 'outline pixels are not the one-pixel dilation of the base glyph')
+            covered.rectangle((x,y,x+row['width']-1,y+row['height']-1),fill=255)
+        else:
+            require((row['width'],row['height'],row['xadvance']) == (0,0,old['xadvance']), 'metrics', glyph, 'empty glyph must stay empty')
+    require(ImageChops.subtract(alpha,coverage).getbbox() is None, 'opaque_padding', context, 'opaque pixels outside outline glyph rectangles')
+    require(sha256(fnt) == record['fnt_sha256'] and sha256(png) == record['png_sha256'], 'output_hash', context, 'outline hashes differ from manifest')
+    return dict(font=name, glyphs=len(rows), width=record['width'], height=record['height'], pixels='exact one-pixel dilation of base glyphs')
+
+
 def validate_manifest(root=ROOT, baseline=None):
     manifest = json.loads((root/'config/font-manifest.json').read_text(encoding='utf-8-sig'))
     contract = glyph_contract(root)
@@ -175,18 +219,27 @@ def validate_manifest(root=ROOT, baseline=None):
         declaration=root/record['resource_path']
         require(declaration.is_file() and sha256(declaration)==record['resource_sha256'],'output_hash',profile,'profile font declaration changed')
         names=re.findall(r'<font id="([^"]+)"',declaration.read_text())
-        require(len(names)==3 and set(names)=={f"Value{sizes['BIG_SIZE']}",f"Value{sizes['REGULAR_SIZE']}",f"Label{sizes['LABEL_SIZE']}"},
-                'inventory',profile,'expected exactly three declared resources')
+        roles={f"Value{sizes['BIG_SIZE']}",f"Value{sizes['REGULAR_SIZE']}",f"Label{sizes['LABEL_SIZE']}"}
+        outlined=next(d for d in profiles if d['id']==profile).get('outline_fonts') is True
+        halo=root/'profiles'/profile/'HaloFonts.mc'
+        require(halo.is_file() and sha256(halo)==record.get('halo_sha256'),'output_hash',profile,'HaloFonts module differs from generated output')
+        require(('Rez.Fonts' in (root/record['path']).read_text())==True and ('loadResource' in halo.read_text())==outlined,
+                'inventory',profile,'outline-font loader must exist only in API 4+ profiles')
+        expected=roles|{role+'Outline' for role in roles} if outlined else roles
+        require(record.get('outline_fonts')==outlined and len(names)==len(expected) and set(names)==expected,
+                'inventory',profile,'expected the three role fonts, plus halo outlines only on API 4+ profiles')
     names = [item['id'] for item in manifest['fonts']]
     require(len(names) == len(set(names)) and not (root/'resources/fonts/fonts.xml').exists(),
             'inventory', 'manifest', 'duplicate or shared font declarations bypass three-font profile policy')
-    require({path.stem for path in (root/'resources/fonts').glob('*.fnt')} == set(names)
-            and {path.stem for path in (root/'resources/fonts').glob('*.png')} == set(names),
+    atlases = set(names)|{name+'Outline' for name in names}
+    require({path.stem for path in (root/'resources/fonts').glob('*.fnt')} == atlases
+            and {path.stem for path in (root/'resources/fonts').glob('*.png')} == atlases,
             'inventory', 'manifest', 'undeclared/missing atlas resources')
     results,comparison = [],[]
     for item in manifest['fonts']:
         result,compared = validate_font(root,item,contract,baseline)
         results.append(result)
+        results.append(validate_outline(root,item))
         if compared:comparison.append(compared)
     return dict(status='passed',glyph_contract=contract,inventory_inputs=manifest['inventory_inputs'],
                 fonts=results,baseline_comparison=comparison,

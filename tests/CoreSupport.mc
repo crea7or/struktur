@@ -126,7 +126,7 @@ class PropertyReadStore {
 (:testSupport)
 function verifyCompactProperties() {
     var store=new PropertyReadStore();store.values={"a1"=>32,"team"=>"SAVED TEAM","b1_bg"=>0,"unrelated"=>42};
-    var data=SettingsStore.read(store);Test.assertEqual(75,store.reads);Test.assertEqual(75,data.size());
+    var data=SettingsStore.read(store);Test.assertEqual(76,store.reads);Test.assertEqual(76,data.size());
     Test.assertEqual(32,data["a1"]);Test.assertEqual("SAVED TEAM",data["team"]);Test.assertEqual(0,data["b1_bg"]);
     Test.assert(!data.hasKey("unrelated"));Test.assertEqual(4,store.values.size());
     var keys=SettingsCatalogue.keys();var seen={};

@@ -383,6 +383,16 @@
       "requirement": "SPEC-307"
     },
     {
+      "key": "halo",
+      "type": "boolean",
+      "default": true,
+      "shared": true,
+      "legacy_only": true,
+      "title": "Text outline on colored backgrounds",
+      "prompt": "Edge 530/830/1030. Off saves battery: text over colored backgrounds is drawn without its one-pixel contrast outline.",
+      "requirement": "SPEC-670"
+    },
+    {
       "key": "team",
       "type": "string",
       "default": "TEAM",

@@ -76,6 +76,9 @@ def main():
            dict(key='hide_value_units',type='boolean',default=True,title='Hide physical units in headers'),
            dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged slots'),
            dict(key='grid_type',type='number',default=1,choices=[0,1,2],identifiers=['none','horizontal','full'],choice_labels=['None','Horizontal lines','Full grid'],title='Grid type')]
+    # DVS-6: API 3 profiles draw halos at runtime; riders there may turn them off to save battery.
+    props.append(dict(key='halo',type='boolean',default=True,shared=True,legacy_only=True,title='Text outline on colored backgrounds',
+                      prompt='Edge 530/830/1030. Off saves battery: text over colored backgrounds is drawn without its one-pixel contrast outline.'))
     props.append(dict(key='slot_1_team_text',type='string',default='TEAM',maxLength=32,shared=True,title='Team name',prompt='Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.'))
     props.extend([dict(key='team_color_source',type='number',default=0,shared=True,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title='Team color source',prompt='Shared by all Team slots in both sets.')])
     for i in range(10):
@@ -107,7 +110,7 @@ def main():
         elif coverage:second['default']=1 if int(coverage[1])<=4 else 0
         props.append(second)
     # Authoring names stay readable; only compact keys enter resources/runtime.
-    compact={'slot_1_team_text':'team','team_color_source':'tsrc',
+    compact={'halo':'halo','slot_1_team_text':'team','team_color_source':'tsrc',
              'second_set_trigger':'trig','second_power_activate_w':'p_on','second_power_return_w':'p_off',
              'second_hr_activate_bpm':'hr_on','second_hr_return_bpm':'hr_off'}
     layout_keys={'enlarged_field_count':'_big','alignment':'_align','theme_mode':'_theme',
@@ -130,7 +133,9 @@ def main():
     ET.SubElement(strings,'string',id='AppName').text='Struktur'
     for f in fields: ET.SubElement(strings,'string',id='Field_'+f['id']).text=f['label']
     properties_root=ET.Element('resources'); properties=ET.SubElement(properties_root,'properties')
-    settings_root=ET.Element('resources'); settings=ET.SubElement(settings_root,'settings')
+    # API 4+ profiles always draw halos with outline fonts; only API 3 profiles show legacy_only controls.
+    screens={'api3':ET.Element('resources'),'api4':ET.Element('resources')}
+    pages={name:ET.SubElement(root,'settings') for name,root in screens.items()}
     ET.SubElement(strings,'string',id='SecondSetTitle').text='Second field set'
     ET.SubElement(strings,'string',id='SecondSetDescription').text='Used only while the selected activation event is active. None keeps the default set. Power thresholds apply only to 3s power; heart-rate thresholds only to Heart rate. Neither pair applies to Manual lap, Workout started or None.'
     ET.SubElement(strings,'string',id='TrainingZonesTitle').text='Training zones'
@@ -139,25 +144,34 @@ def main():
         ET.SubElement(properties,'property',id=p['key'],type=p['type']).text=str(p['default']).lower() if p['type']=='boolean' else str(p['default'])
         if p.get('hidden'):continue
         sid='Setting_'+p['key']; ET.SubElement(strings,'string',id=sid).text=p.get('title',p['key'].replace('_',' ').capitalize())
-        setting=ET.SubElement(settings,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
         if p.get('prompt'):
-            prompt='Prompt_'+p['key'];ET.SubElement(strings,'string',id=prompt).text=p['prompt'];setting.set('prompt','@Strings.'+prompt)
+            prompt='Prompt_'+p['key'];ET.SubElement(strings,'string',id=prompt).text=p['prompt']
         ctype='list' if 'choices' in p else ('boolean' if p['type']=='boolean' else ('alphaNumeric' if p['type']=='string' else 'numeric'))
-        config=ET.SubElement(setting,'settingConfig',type=ctype)
-        if 'maxLength' in p:config.set('maxLength',str(p['maxLength']))
-        if 'min' in p:config.set('min',str(p['min']));config.set('max',str(p['max']))
         for index,value in enumerate(p.get('choices',[])):
             identifier=p.get('identifiers',p.get('choices',[]))[index]
             label='Choice_'+(p['key']+'_' if p.get('choice_labels') else '')+str(identifier)
             field=next((f for f in fields if f['id']==identifier),None)
             if not any(s.attrib.get('id')==label for s in strings):ET.SubElement(strings,'string',id=label).text=p.get('choice_labels',[])[index] if p.get('choice_labels') else (field['label'] if field else str(identifier).replace('_',' ').capitalize())
-            ET.SubElement(config,'listEntry',value=str(value)).text='@Strings.'+label
+        for name,page in pages.items():
+            if name=='api4' and p.get('legacy_only'):continue
+            setting=ET.SubElement(page,'setting',propertyKey='@Properties.'+p['key'],title='@Strings.'+sid)
+            if p.get('prompt'):setting.set('prompt','@Strings.Prompt_'+p['key'])
+            config=ET.SubElement(setting,'settingConfig',type=ctype)
+            if 'maxLength' in p:config.set('maxLength',str(p['maxLength']))
+            if 'min' in p:config.set('min',str(p['min']));config.set('max',str(p['max']))
+            for index,value in enumerate(p.get('choices',[])):
+                identifier=p.get('identifiers',p.get('choices',[]))[index]
+                label='Choice_'+(p['key']+'_' if p.get('choice_labels') else '')+str(identifier)
+                ET.SubElement(config,'listEntry',value=str(value)).text='@Strings.'+label
     # Settings text is not runtime UI. Legacy VMs cap a module at 254 members.
     for entry in strings:
         if entry.attrib['id']!='AppName':entry.set('scope','settings')
     write_xml(ROOT/'resources/strings/strings.xml',resources)
     write_xml(ROOT/'resources/settings/properties.xml',properties_root)
-    write_xml(ROOT/'resources/settings/settings.xml',settings_root)
+    (ROOT/'resources/settings/settings.xml').unlink(missing_ok=True)
+    for name,root in screens.items():
+        (ROOT/f'resources/settings-{name}').mkdir(parents=True,exist_ok=True)
+        write_xml(ROOT/f'resources/settings-{name}/settings.xml',root)
     mc=['// Generated by tools/generate_catalog.py from the versioned selectable DVS list and user-authorized presentation supplement.','module Catalog {',
         '    const IDS = '+json.dumps([f['id'] for f in fields])+';',
         '    const LABELS = '+json.dumps([f['label'] for f in fields])+';',

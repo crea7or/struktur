@@ -27,7 +27,7 @@ def main():
             'base.excludeAnnotations = test;testSupport']
     devices=json.loads((ROOT/'config/devices.json').read_text('utf-8'))
     for device in devices:
-        jungle.extend([device['id']+'.sourcePath = $(base.sourcePath);../profiles/'+device['id'],device['id']+'.resourcePath = $(base.resourcePath);../profiles/'+device['id']+'/fonts'])
+        jungle.extend([device['id']+'.sourcePath = $(base.sourcePath);../profiles/'+device['id'],device['id']+'.resourcePath = $(base.resourcePath);../profiles/'+device['id']+'/fonts;../resources/'+('settings-api4' if device.get('outline_fonts') else 'settings-api3')])
     # Isolate the simulator's app/resource caches across devices and revisions.
     seed=''.join(r['sample_sha256'] for r in records)+(ROOT/'config/font-manifest.json').read_text('utf-8')
     seed+=(ROOT/'validation/visual/SamplePreview.mc').read_text('utf-8')

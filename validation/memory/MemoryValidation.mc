@@ -27,6 +27,7 @@ class MemoryValidationField extends StrukturField {
     var _nativeDraws=0;
     var _fullGrids=0;
     var _maximumFonts=0;
+    var _outlineRoles=0; // drawn label=1, regular=2, enlarged=4
     var _reference;
     var _fixtureHeart=ZoneMetadata.heart([90,110,130,150,170,190]);
     var _fixturePower=ZoneMetadata.power([0,100,200,300,400,500],true);
@@ -166,7 +167,8 @@ class MemoryValidationField extends StrukturField {
         var width=dc.getWidth();var height=dc.getHeight();
         _renderer.prepare(_snapshot);_renderer.layout(dc,_settings);_renderer.prepare(_snapshot);_layoutDirty=false;
         if(_renderer._cells.size()==0) { failedPrecondition(index,width,height); }
-        if(_renderer._fonts.size()>3 || _renderer._metrics.size()>3) { throw new Lang.InvalidValueException("More than three font roles retained"); }
+        // DVS-6: API 4+ profiles may also retain one halo outline font per role.
+        if(_renderer._fonts.size()>(FontSelection.info(DeviceProfile.LABEL_SIZE,true).size()>2?6:3) || _renderer._metrics.size()>3) { throw new Lang.InvalidValueException("More than three font roles (plus outlines) retained"); }
         recordCoverage();
         if(_renderer._fonts.size()>_maximumFonts) { _maximumFonts=_renderer._fonts.size(); }
         if(index%12==0) {
@@ -175,6 +177,7 @@ class MemoryValidationField extends StrukturField {
         }
         MemoryObservation.sample("fixture_layout");
         _renderer.draw(dc,_snapshot,_settings);
+        recordOutlineCoverage();
         MemoryObservation.sample("fixture_draw");
         if(index%37==0) { StrukturField.onTimerPause();StrukturField.onTimerResume(); }
         if(index%41==0) { StrukturField.onTimerReset();StrukturField.onTimerStart(); }
@@ -189,6 +192,17 @@ class MemoryValidationField extends StrukturField {
                 System.println("DF_MEMORY_PREFLIGHT case="+index.toString()+" slot="+field.toString()+" id="+_settings.slots[field]+" header="+v[ValueRecord.LABEL]+" text="+_renderer.displayText(v)+" unit="+v[ValueRecord.UNIT]+" cell="+cell[Cell.W].toString()+"x"+cell[Cell.H].toString());
             }
             throw new Lang.InvalidValueException("Memory precondition: native grid must fit; compact-area checks belong to Placement");
+    }
+    function outlined(packet) { return packet!=null && packet[6]!=null && packet[6].size()==2; }
+    function recordOutlineCoverage() {
+        for(var i=0;i<_renderer._packets.size();i+=1) {
+            var packet=_renderer._packets[i];
+            if(outlined(packet.label) || outlined(packet.unit)) { _outlineRoles=_outlineRoles|1; }
+            if(!packet.team && outlined(packet.primary)) {
+                if(packet.run.size==DeviceProfile.REGULAR_SIZE) { _outlineRoles=_outlineRoles|2; }
+                if(packet.run.size==DeviceProfile.BIG_SIZE) { _outlineRoles=_outlineRoles|4; }
+            }
+        }
     }
     function recordCoverage() {
         for(var visible=0;visible<_renderer._cells.size();visible+=1) {
@@ -234,7 +248,7 @@ class MemoryValidationField extends StrukturField {
                 " total_low="+MemoryObservation.totalLow.toString()+" total_high="+MemoryObservation.totalHigh.toString()+
                 " native_compute="+_nativeComputes.toString()+" native_draw="+_nativeDraws.toString()+
                 " full_grids="+_fullGrids.toString()+" max_fonts="+_maximumFonts.toString()+
-                " fields_seen="+_fieldsSeen.toString()+" unsupported_headers="+_unsupportedHeaders.toString()+
+                " outline_roles="+_outlineRoles.toString()+" fields_seen="+_fieldsSeen.toString()+" unsupported_headers="+_unsupportedHeaders.toString()+
                 " growth_returns="+_growthReturns.toString()+" elapsed_ms="+(System.getTimer()-_started).toString());
         }
         WatchUi.requestUpdate();

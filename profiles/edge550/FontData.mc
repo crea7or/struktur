@@ -1,9 +1,9 @@
 // Generated profile-only metadata and selectors; packed exact glyph metrics.
 module FontData {
 function info(size,labelRole) {
-if(size==83 && labelRole==false) { return [Rez.Fonts.Value83,98]; }
-if(size==175 && labelRole==false) { return [Rez.Fonts.Value175,206]; }
-if(size==35 && labelRole==true) { return [Rez.Fonts.Label35,42]; }
+if(size==83 && labelRole==false) { return [Rez.Fonts.Value83,98,Rez.Fonts.Value83Outline]; }
+if(size==175 && labelRole==false) { return [Rez.Fonts.Value175,206,Rez.Fonts.Value175Outline]; }
+if(size==35 && labelRole==true) { return [Rez.Fonts.Label35,42,Rez.Fonts.Label35Outline]; }
 return null;
 }
 function height(size,labelRole) {

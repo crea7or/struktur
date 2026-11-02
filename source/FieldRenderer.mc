@@ -4,7 +4,7 @@ using Toybox.Math;
 // Fixed-shape fitting state avoids a separate symbol hash table for every cell.
 class FittedRun {
     var size;var text;var unit;var width;var unitWidth;var total;var top;
-    var lines;var isNative=false;var inner;var ink;var unitInk;var margin;var radius;var labelBand;var font=null;
+    var lines;var isNative=false;var inner;var ink;var unitInk;var margin;var radius;var labelBand;var font=null;var outline=null;
     function initialize(s,t,u,w,uw,all,y,bounds,ubounds) {
         size=s;text=t;unit=u;width=w;unitWidth=uw;total=all;top=y;
         ink=bounds;unitInk=ubounds;
@@ -36,7 +36,7 @@ class FieldRenderer {
     var _metrics={};
     var _headerFits={};var headerMeasures=0;
     var _regularMetrics;var _bigMetrics;
-    var _labels=null;
+    var _labels=null;var _labelOutline=null;var _outlinesStale=false;
     var _labelHeight=0;
     var _labelTop=3;
     var _labelBandHeight=0;
@@ -96,9 +96,9 @@ class FieldRenderer {
     // bank switches still reuse the active geometry and loaded fixed font roles.
     function releaseForSettingsReload() {
         discardPresentation();_gridPlans={};_separatorPlans={};_geometryDirty=true;
-        _fonts={};_labels=null;_compactFont=null;_compactPackets=[];_compactLines=[];
+        _fonts={};_labels=null;_labelOutline=null;_compactFont=null;_compactPackets=[];_compactLines=[];
     }
-    function needsLayout() { return _needsLayout; }
+    function needsLayout() { return _needsLayout || _outlinesStale; }
     function coverage(value) { return value.size()>ValueRecord.COVERAGE?value[ValueRecord.COVERAGE]:(value[ValueRecord.ANGLE]!=null?2:1); }
     function isTeam(value) { return "text".equals(value[ValueRecord.FORMAT]); }
     function painted(value) { return value[ValueRecord.BAND]!=null || value[ValueRecord.ANGLE]!=null; }
@@ -181,6 +181,12 @@ class FieldRenderer {
             if(_width!=width || _height!=height) { _geometryDirty=true;_needsLayout=true; }
             _width=width;_height=height;configure(settings);
             if(_needsLayout) { rebuild();prepareGeometry(); }
+            else if(_outlinesStale) {
+                // Coverage-only change: load the missing outline fonts and replace painted packets without refitting.
+                HaloFonts.select(self,_fonts);
+                for(var i=0;i<_packets.size();i+=1) { if(painted(_preparedValues[i])) { _packets[i]=null; } }
+                prepareGeometry();
+            }
         } finally { _nativeFonts.setContext(null); }
     }
     function configure(settings) {
@@ -226,7 +232,7 @@ class FieldRenderer {
         // If the complete message cannot fit, preserve the bounds with background only.
     }
     function rebuild() {
-        layoutCount+=1;_cells=[];_runs=[];_separators=[];_polygons=[];_polygonAngles=[];_cellNights=[];_packets=[];
+        layoutCount+=1;_labelOutline=null;_cells=[];_runs=[];_separators=[];_polygons=[];_polygonAngles=[];_cellNights=[];_packets=[];
         if(_geometryDirty) { _gridPlans={};_separatorPlans={};_geometryDirty=false; }
         _labelMetrics=metric(DeviceProfile.LABEL_SIZE,true);
         _labelHeight=FontSelection.height(DeviceProfile.LABEL_SIZE,true);
@@ -249,6 +255,7 @@ class FieldRenderer {
             _labels=selectFont(labelSize,true,nextFonts);_labelHeight=FontSelection.height(labelSize,true);
             _labelMetrics=metric(labelSize,true);
             for(var i=0;i<_runs.size();i+=1) { if(!_runs[i].isNative) { _runs[i].font=selectFont(_runs[i].size,false,nextFonts); } }
+            HaloFonts.select(self,nextFonts); // DVS-6 outline fonts: profile-specific (stub on API 3)
             prepareSeparators();
         }
         _fonts=nextFonts; // discard unused handles, bounded by visible selected variants
@@ -316,7 +323,11 @@ class FieldRenderer {
             else { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,text,PresentationPolicy.OVERFLOW.equals(text)?"":value[ValueRecord.UNIT]); }
             if(run==null) { run=fitRun(_cells[i],value,DeviceProfile.LABEL_SIZE,PresentationPolicy.OVERFLOW,""); }
             if(run==null) { _needsLayout=true;return; }
-            if(!run.isNative) { run.font=_runs[i].isNative?selectFont(run.size,false,_fonts):_runs[i].font; } _runs[i]=run;
+            if(!run.isNative) {
+                run.font=_runs[i].isNative?selectFont(run.size,false,_fonts):_runs[i].font;
+                run.outline=_runs[i].outline; // a previously native slot asks for layout through HaloFonts.missing
+            }
+            _runs[i]=run;
         }
     }
     function prepareGeometry() {
@@ -334,6 +345,7 @@ class FieldRenderer {
             _cellNights[i]=night;
             if(packet==null || packet.run!=_runs[i] || packet.night!=night ||
                 (packet.band==null?value[ValueRecord.BAND]!=null:(value[ValueRecord.BAND]==null || !packet.band.equals(value[ValueRecord.BAND]))) || packet.angle!=value[ValueRecord.ANGLE] || packet.coverage!=coverage(value)) {
+                if(HaloFonts.missing(self,i,value)) { _outlinesStale=true; }
                 if(_polygonAngles[i]!=value[ValueRecord.ANGLE]) {
                     _polygons[i]=value[ValueRecord.ANGLE]==null?null:Geometry.ground(_cells[i],value[ValueRecord.ANGLE]);
                     _polygonAngles[i]=value[ValueRecord.ANGLE];
@@ -360,9 +372,9 @@ class FieldRenderer {
         // A value-only refresh keeps the header command: its position, font and contrast depend only on these inputs.
         var label=old!=null && !old.team && old.night==night && old.coverage==mode && old.angle==v[ValueRecord.ANGLE] &&
             (old.band==null?band==null:(band!=null && old.band.equals(band))) && old.label[3].equals(v[ValueRecord.LABEL])?old.label:
-            MaskedText.prepare(_right?c[Cell.X]+c[Cell.W]-run.margin:c[Cell.X]+c[Cell.W]/2,c[Cell.Y]+_labelTop,_labels,v[ValueRecord.LABEL],_right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,run.radius);
-        var primary=MaskedText.prepare(x,c[Cell.Y]+run.top-run.ink[0],run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius);
-        var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[Cell.Y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,radius):null;
+            MaskedText.prepare(_right?c[Cell.X]+c[Cell.W]-run.margin:c[Cell.X]+c[Cell.W]/2,c[Cell.Y]+_labelTop,_labels,v[ValueRecord.LABEL],_right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,_settings.halo?run.radius:0,_labelOutline);
+        var primary=MaskedText.prepare(x,c[Cell.Y]+run.top-run.ink[0],run.font,run.text,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,_settings.halo?radius:0,run.outline);
+        var unit=run.unitWidth>0?MaskedText.prepare(x+run.width+2,c[Cell.Y]+run.top-run.unitInk[0],_labels,run.unit,Graphics.TEXT_JUSTIFY_LEFT,valueForeground,_settings.halo?radius:0,_labelOutline):null;
         var prepared=new PreparedCell(night,band,v[ValueRecord.ANGLE],background,labelEffect,bandColor,label,primary,unit);
         prepared.fillBase=background!=_clearBackground;prepared.coverage=mode;return prepared;
     }
@@ -373,11 +385,11 @@ class FieldRenderer {
         var headerForeground=dark?Graphics.COLOR_BLACK:Graphics.COLOR_WHITE;
         var valueForeground=band!=null && mode==2?headerForeground:(night?Graphics.COLOR_WHITE:Graphics.COLOR_BLACK);
         run.labelBand=band!=null && mode==1?_labelBandHeight:0;
-        var label=MaskedText.prepare(_right?cell[Cell.X]+cell[Cell.W]-4-(band==null?0:1):cell[Cell.X]+cell[Cell.W]/2,cell[Cell.Y]+_labelTop,_labels,value[ValueRecord.LABEL],_right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,band==null?0:1);
+        var label=MaskedText.prepare(_right?cell[Cell.X]+cell[Cell.W]-4-(band==null?0:1):cell[Cell.X]+cell[Cell.W]/2,cell[Cell.Y]+_labelTop,_labels,value[ValueRecord.LABEL],_right?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER,headerForeground,_settings.halo && band!=null?1:0,_labelOutline);
         var packet=new PreparedCell(night,band,null,band!=null && mode==2?bandColor:ordinary,band!=null && mode==1,bandColor,label,null,null);
         packet.fillBase=packet.background!=_clearBackground;packet.coverage=mode;packet.team=true;packet.lines=[];
         for(var line=0;line<run.lines[0].size();line+=1) {
-            packet.lines.add(MaskedText.prepare(_right?cell[Cell.X]+cell[Cell.W]-run.margin-run.lines[1][line]:cell[Cell.X]+(cell[Cell.W]-run.lines[1][line])/2,cell[Cell.Y]+run.top+line*run.size,run.font,run.lines[0][line],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,band!=null && mode==2?1:0));
+            packet.lines.add(MaskedText.prepare(_right?cell[Cell.X]+cell[Cell.W]-run.margin-run.lines[1][line]:cell[Cell.X]+(cell[Cell.W]-run.lines[1][line])/2,cell[Cell.Y]+run.top+line*run.size,run.font,run.lines[0][line],Graphics.TEXT_JUSTIFY_LEFT,valueForeground,_settings.halo && band!=null && mode==2?1:0,null));
         }
         if(packet.lines.size()>0) { packet.primary=packet.lines[0]; }
         packet.inner=[cell[Cell.X]+run.inner[0],cell[Cell.Y]+run.inner[1],run.inner[2],run.inner[3]];

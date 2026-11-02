@@ -1,6 +1,6 @@
 # Application properties
 
-All 75 properties use compact keys. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
+All 76 properties use compact keys. Edge 530/830/1030 (API 3) show the `halo` setting; API 4+ devices hide it and always draw text outlines with build-time outline fonts. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
 
 The SDK serialization check includes keys and overhead, with the maximum 32-character Team value. Both default and maximum dictionaries must fit 8,000 bytes.
 
@@ -12,6 +12,7 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `a_hideu` | Hide physical units in headers | boolean | `true` |
 | `a_inv` | Inverse theme for enlarged slots | boolean | `true` |
 | `a_grid` | Grid type | number: 0 None, 1 Horizontal lines, 2 Full grid | `1` |
+| `halo` | Text outline on colored backgrounds (Edge 530/830/1030 only) | boolean; false saves battery | `true` |
 | `team` | Team name | string: 0?32 printable ASCII characters | `TEAM` |
 | `tsrc` | Team color source | number: 0 None, 1 Power, 2 Heart rate | `0` |
 | `a1` | Slot 1: value | number: field codes 0?32 (below) | `0` |

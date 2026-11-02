@@ -35,7 +35,8 @@ def main():
             'base.resourcePath = resources/strings;resources/settings;resources/drawables','base.excludeAnnotations = test;'+{'native':'memoryMatrix;memorySwitch;memoryFixture','matrix':'memorySwitch;memoryNative','switching':'memoryMatrix;memoryNative'}[scenario]]
     for product in json.loads((ROOT/'config/devices.json').read_text(encoding='utf-8-sig')):
         jungle.append(f'{product["id"]}.sourcePath = $(base.sourcePath);profiles/{product["id"]}')
-        jungle.append(f'{product["id"]}.resourcePath = $(base.resourcePath);profiles/{product["id"]}/fonts')
+        screen='settings-api4' if product.get('outline_fonts') else 'settings-api3'
+        jungle.append(f'{product["id"]}.resourcePath = $(base.resourcePath);profiles/{product["id"]}/fonts;resources/{screen}')
     jungle_path=ROOT/{'native':'memory-native.jungle','matrix':'memory.jungle','switching':'memory-switching.jungle'}[scenario]
     jungle_path.write_text('\n'.join(jungle)+'\n',encoding='utf-8')
     record=dict(runtime='normal datafield; no unit-test compiler/runner flags',

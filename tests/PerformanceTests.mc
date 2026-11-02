@@ -135,7 +135,7 @@ class RendererCacheScenario {
         renderer.releaseForSettingsReload();Test.assertEqual(0,renderer._fonts.size());Test.assert(renderer._labels==null);Test.assert(renderer._compactFont==null);
         Test.assertEqual(0,renderer._compactPackets.size());Test.assertEqual(metricRoles,renderer._metrics.size());
         settings.enlarged=1;renderer.prepare(snapshot);renderer.layout(dc,settings);
-        Test.assert(renderer._fonts.size()>0 && renderer._fonts.size()<=3);Test.assert(renderer._cells.size()>0);
+        Test.assert(renderer._fonts.size()>0 && renderer._fonts.size()<=(haloDraws()==2?6:3));Test.assert(renderer._cells.size()>0);
     }
 }
 

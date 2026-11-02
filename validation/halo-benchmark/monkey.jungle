@@ -1,0 +1,8 @@
+# Halo benchmark: separate app ID and name; never part of the production build.
+project.manifest = manifest.xml
+base.sourcePath = source
+base.resourcePath = resources;../../resources/drawables
+edge1040.resourcePath = $(base.resourcePath);resources-wide
+edge1030.resourcePath = $(base.resourcePath);resources-wide
+edge530.resourcePath = $(base.resourcePath);resources-small
+edge830.resourcePath = $(base.resourcePath);resources-small

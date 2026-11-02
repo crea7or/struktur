@@ -13,7 +13,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 45,
-    "label_font_reference": 21
+    "label_font_reference": 21,
+    "outline_fonts": false
   },
   {
     "id": "edge540",
@@ -29,7 +30,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 45,
-    "label_font_reference": 21
+    "label_font_reference": 21,
+    "outline_fonts": true
   },
   {
     "id": "edge550",
@@ -45,7 +47,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 83,
-    "label_font_reference": 35
+    "label_font_reference": 35,
+    "outline_fonts": true
   },
   {
     "id": "edge830",
@@ -61,7 +64,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 45,
-    "label_font_reference": 21
+    "label_font_reference": 21,
+    "outline_fonts": false
   },
   {
     "id": "edge840",
@@ -77,7 +81,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 45,
-    "label_font_reference": 21
+    "label_font_reference": 21,
+    "outline_fonts": true
   },
   {
     "id": "edge850",
@@ -93,7 +98,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 83,
-    "label_font_reference": 35
+    "label_font_reference": 35,
+    "outline_fonts": true
   },
   {
     "id": "edge1030",
@@ -109,7 +115,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 55,
-    "label_font_reference": 21
+    "label_font_reference": 21,
+    "outline_fonts": false
   },
   {
     "id": "edge1040",
@@ -125,7 +132,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 55,
-    "label_font_reference": 21
+    "label_font_reference": 21,
+    "outline_fonts": true
   },
   {
     "id": "edge1050",
@@ -141,7 +149,8 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 95,
-    "label_font_reference": 35
+    "label_font_reference": 35,
+    "outline_fonts": true
   },
   {
     "id": "edge1060",
@@ -157,6 +166,7 @@
     "temperature": "Background path and 360-second cache; unavailable until model/firmware onboard-only source is physically qualified.",
     "release_supported": false,
     "regular_font_reference": 95,
-    "label_font_reference": 35
+    "label_font_reference": 35,
+    "outline_fonts": true
   }
 ]
