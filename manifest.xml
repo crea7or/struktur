@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
-  <iq:application id="876d6d50aa244f3fba991757c225b64d" type="datafield"
+  <iq:application id="876d6d50aa244f3fba991757c225b64d" type="datafield" version="0.1.13"
       name="@Strings.AppName" entry="StrukturApp" launcherIcon="@Drawables.LauncherIcon"
       minApiLevel="2.4.0">
     <iq:products>
