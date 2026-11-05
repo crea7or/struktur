@@ -49,7 +49,7 @@ def formatted(field, value, clock24=True):
     if fmt=='duration':
         seconds=int(value); hours=seconds//3600; minute=(seconds%3600)//60
         primary=f'{hours}:{minute:02}' if hours else f'{minute:02}'
-        return primary, f'.{seconds%60:02}' if hours<10 else ''
+        return primary, f'.{seconds%60:02}' if hours<1 else ''
     if fmt=='clock':
         hour=int(value)//60; minute=int(value)%60
         return (f'{hour:02}:{minute:02}' if clock24 else f'{hour%12 or 12}:{minute:02}'), ''
@@ -180,8 +180,43 @@ def field_table(record, field, groups):
     return '\n'.join(lines)
 
 
-def requirement_limits_match(description, record, field, groups):
-    """Validate the single terminal range property, without accepting extra claims."""
+def requirement_limits_match(description, record, field, groups, referenced_descriptions=None):
+    """Validate old tables or the current explicit single-range contract.
+
+    Field-specific range owners can be referenced once by the canonical field.
+    All generated contexts must satisfy the declaration; no first-match-only pass.
+    """
+    owner = re.search(r'normal display range is defined by \[\[([A-Z]+-\d+)\]\]', description, re.I)
+    if owner:
+        if referenced_descriptions is None or owner[1] not in referenced_descriptions:
+            return False
+        description = referenced_descriptions[owner[1]]
+    current = re.search(r'^Normal display range: (.+)$', description, re.M)
+    if current or (owner and field['id'] in {'grade', 'temperature'}):
+        text = current[1] if current else description.splitlines()[0]
+        number = r'-?\d+(?:\.\d+)?(?::\d{2}){0,2}'
+        pairs = re.findall(r'(' + number + r')\s+(?:to|through)\s+(' + number + r')', text)
+        expected_count = 2 if field['id'] == 'temperature' else 1
+        if len(pairs) != expected_count:
+            return False
+        def value(raw):
+            if ':' not in raw:
+                return float(raw)
+            parts = [int(v) for v in raw.split(':')]
+            if field['format'] == 'clock' and len(parts) == 2:
+                return parts[0]*60 + parts[1]
+            if field['format'] == 'duration' and len(parts) == 3:
+                return parts[0]*3600 + parts[1]*60 + parts[2]
+            raise ValueError('Unexpected time notation')
+        try:
+            ranges = [(value(a), value(b)) for a, b in pairs]
+        except ValueError:
+            return False
+        for context in record['contexts']:
+            low, high = ranges[int(context['statute'])] if expected_count == 2 else ranges[0]
+            if context['intervals'] != [dict(min=low, max=high)]:
+                return False
+        return bool(record['contexts'])
     parts = description.replace('\r', '').split('Normal display ranges:')
     if len(parts) != 2:
         return False
@@ -250,7 +285,7 @@ def generate():
                             else: fixture_by_group[group['id']].append([index,statute,not shown,clock24,enlarged,samples])
                             record['contexts'].append(context)
         records.append(record)
-    result=dict(scope='Current APP-24 fonts fit complete clocks and hour-plus-seconds timers. Conservative normal intervals, not maximum representable sets; none is an explicit limitation, never a passing fit assertion. Bounds apply after conversion and presentation rounding. Other values retain APP-34 fallback. Not sensor validity or hardware qualification.',
+    result=dict(scope='Current APP-24 fonts fit complete clocks and duration groups with seconds only below one hour. Conservative normal intervals, not maximum representable sets; none is an explicit limitation, never a passing fit assertion. Bounds apply after conversion and presentation rounding. Other values retain APP-34 fallback. Not sensor validity or hardware qualification.',
                 groups=groups,conditions='Full-screen dimensions; every native enlargement count, either alignment, Day/Night, worst applicable one-pixel halo. Regular role is absent from four-row/two-enlarged grids. Optional heading cardinal text may be omitted; required primary/secondary text may not.',fields=records)
     return result,fixture_by_group,missing_by_group
 
@@ -282,8 +317,8 @@ def main():
         for field in contract['fields']:
             description=rows[field['requirement']]['description']
             field_attributes(rows[field['requirement']])
-            assert 'Normal display ranges' in description, field['requirement']
-            assert requirement_limits_match(description, field, catalogue[field['field']], contract['groups']), ('Requirement ranges differ from executable limits',field['requirement'])
+            descriptions={key:row['description'] for key,row in rows.items()}
+            assert requirement_limits_match(description, field, catalogue[field['field']], contract['groups'], descriptions), ('Requirement ranges differ from executable limits',field['requirement'])
         fonts={font['id']:font for font in read('config/font-manifest.json')['fonts']}
         devices={device['id']:device for device in read('config/devices.json')}
         for group in contract['groups']:
@@ -292,7 +327,8 @@ def main():
                 size=group['sizes']['BIG_SIZE' if enlarged else 'REGULAR_SIZE']; nm=metrics(fonts['Value'+str(size)])
                 w,h=cell_minimum(devices[group['products'][0]],enlarged)
                 assert fits('00:00','','time',nm,lm,label['line_height'],w,h,1), (group['id'],size,'clock')
-                assert fits('0:00','.00','timer',nm,lm,label['line_height'],w,h,1), (group['id'],size,'timer')
+                assert fits('59','.59','timer',nm,lm,label['line_height'],w,h,1), (group['id'],size,'timer seconds')
+                assert fits('1:00','','timer',nm,lm,label['line_height'],w,h,1), (group['id'],size,'timer hours')
     print('Checked' if args.check else 'Generated','32 layout-specific display contracts at the pinned APP-24 fonts.')
 
 

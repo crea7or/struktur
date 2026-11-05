@@ -1,6 +1,6 @@
 # Application properties
 
-All 76 properties use compact keys. Edge 530/830/1030 (API 3) show the `halo` setting; API 4+ devices hide it and always draw text outlines with build-time outline fonts. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
+All 76 properties use compact keys. Edge 530/830/1030 (API 3) show the `halo` setting; API 4+ devices hide it and always enable required outlines. Bundled text uses build-time outline fonts; native Team values retain the shifted-draw method. `a` is the default set; `b` is the second set. UI captions remain readable. These names replace the previous schema without compatibility migration.
 
 The SDK serialization check includes keys and overhead, with the maximum 32-character Team value. Both default and maximum dictionaries must fit 8,000 bytes.
 
@@ -12,28 +12,28 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `a_hideu` | Hide physical units in headers | boolean | `true` |
 | `a_inv` | Inverse theme for enlarged slots | boolean | `true` |
 | `a_grid` | Grid type | number: 0 None, 1 Horizontal lines, 2 Full grid | `1` |
-| `halo` | Text outline on colored backgrounds (Edge 530/830/1030 only) | boolean; false saves battery | `true` |
-| `team` | Team name | string: 0?32 printable ASCII characters | `TEAM` |
+| `halo` | Text outline on colored backgrounds (Edge 530/830/1030 only) | boolean; false omits runtime outline draws | `true` |
+| `team` | Team name | string: 0 to 32 printable ASCII characters | `TEAM` |
 | `tsrc` | Team color source | number: 0 None, 1 Power, 2 Heart rate | `0` |
-| `a1` | Slot 1: value | number: field codes 0?32 (below) | `0` |
+| `a1` | Slot 1: value | number: field codes 0 to 32 (below) | `0` |
 | `a1_bg` | Slot 1: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a2` | Slot 2: value | number: field codes 0?32 (below) | `11` |
+| `a2` | Slot 2: value | number: field codes 0 to 32 (below) | `11` |
 | `a2_bg` | Slot 2: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a3` | Slot 3: value | number: field codes 0?32 (below) | `16` |
+| `a3` | Slot 3: value | number: field codes 0 to 32 (below) | `16` |
 | `a3_bg` | Slot 3: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a4` | Slot 4: value | number: field codes 0?32 (below) | `18` |
+| `a4` | Slot 4: value | number: field codes 0 to 32 (below) | `18` |
 | `a4_bg` | Slot 4: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a5` | Slot 5: value | number: field codes 0?32 (below) | `4` |
+| `a5` | Slot 5: value | number: field codes 0 to 32 (below) | `4` |
 | `a5_bg` | Slot 5: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a6` | Slot 6: value | number: field codes 0?32 (below) | `8` |
+| `a6` | Slot 6: value | number: field codes 0 to 32 (below) | `8` |
 | `a6_bg` | Slot 6: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a7` | Slot 7: value | number: field codes 0?32 (below) | `12` |
+| `a7` | Slot 7: value | number: field codes 0 to 32 (below) | `12` |
 | `a7_bg` | Slot 7: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a8` | Slot 8: value | number: field codes 0?32 (below) | `15` |
+| `a8` | Slot 8: value | number: field codes 0 to 32 (below) | `15` |
 | `a8_bg` | Slot 8: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a9` | Slot 9: value | number: field codes 0?32 (below) | `13` |
+| `a9` | Slot 9: value | number: field codes 0 to 32 (below) | `13` |
 | `a9_bg` | Slot 9: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `a10` | Slot 10: value | number: field codes 0?32 (below) | `20` |
+| `a10` | Slot 10: value | number: field codes 0 to 32 (below) | `20` |
 | `a10_bg` | Slot 10: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
 | `cpz` | Use custom power zones | boolean | `false` |
 | `pw1` | Power zone 1 (Active Recovery): upper W | number: 0..3000 | `0` |
@@ -62,25 +62,25 @@ The SDK serialization check includes keys and overhead, with the maximum 32-char
 | `b_hideu` | Second set: Hide physical units in headers | boolean | `true` |
 | `b_inv` | Second set: Inverse theme for enlarged slots | boolean | `true` |
 | `b_grid` | Second set: Grid type | number: 0 None, 1 Horizontal lines, 2 Full grid | `1` |
-| `b1` | Second set: Slot 1: value | number: field codes 0?32 (below) | `8` |
+| `b1` | Second set: Slot 1: value | number: field codes 0 to 32 (below) | `8` |
 | `b1_bg` | Second set: Slot 1: background | number: 0 None, 1 Label, 2 Whole cell | `1` |
-| `b2` | Second set: Slot 2: value | number: field codes 0?32 (below) | `4` |
+| `b2` | Second set: Slot 2: value | number: field codes 0 to 32 (below) | `4` |
 | `b2_bg` | Second set: Slot 2: background | number: 0 None, 1 Label, 2 Whole cell | `1` |
-| `b3` | Second set: Slot 3: value | number: field codes 0?32 (below) | `2` |
+| `b3` | Second set: Slot 3: value | number: field codes 0 to 32 (below) | `2` |
 | `b3_bg` | Second set: Slot 3: background | number: 0 None, 1 Label, 2 Whole cell | `1` |
-| `b4` | Second set: Slot 4: value | number: field codes 0?32 (below) | `15` |
+| `b4` | Second set: Slot 4: value | number: field codes 0 to 32 (below) | `15` |
 | `b4_bg` | Second set: Slot 4: background | number: 0 None, 1 Label, 2 Whole cell | `1` |
-| `b5` | Second set: Slot 5: value | number: field codes 0?32 (below) | `30` |
+| `b5` | Second set: Slot 5: value | number: field codes 0 to 32 (below) | `30` |
 | `b5_bg` | Second set: Slot 5: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `b6` | Second set: Slot 6: value | number: field codes 0?32 (below) | `0` |
+| `b6` | Second set: Slot 6: value | number: field codes 0 to 32 (below) | `0` |
 | `b6_bg` | Second set: Slot 6: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `b7` | Second set: Slot 7: value | number: field codes 0?32 (below) | `26` |
+| `b7` | Second set: Slot 7: value | number: field codes 0 to 32 (below) | `26` |
 | `b7_bg` | Second set: Slot 7: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `b8` | Second set: Slot 8: value | number: field codes 0?32 (below) | `27` |
+| `b8` | Second set: Slot 8: value | number: field codes 0 to 32 (below) | `27` |
 | `b8_bg` | Second set: Slot 8: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `b9` | Second set: Slot 9: value | number: field codes 0?32 (below) | `12` |
+| `b9` | Second set: Slot 9: value | number: field codes 0 to 32 (below) | `12` |
 | `b9_bg` | Second set: Slot 9: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
-| `b10` | Second set: Slot 10: value | number: field codes 0?32 (below) | `20` |
+| `b10` | Second set: Slot 10: value | number: field codes 0 to 32 (below) | `20` |
 | `b10_bg` | Second set: Slot 10: background | number: 0 None, 1 Label, 2 Whole cell | `0` |
 
 All Team slots share `team` and `tsrc`. They are configured before the slot controls. Team font fitting is automatic; no font selector is exposed.
@@ -126,3 +126,7 @@ Field codes:
 | 30 | lap_power |
 | 31 | lap_cadence |
 | 32 | team |
+
+Missing native properties remain absent in the read dictionary, so individual defaults apply. Explicit zero and false remain present. Malformed cadence limits make their profile unavailable.
+
+Temperature uses runtime onboard-sensor checks and a 360-second cache. Physical model/firmware evidence gates release and support claims, not runtime acquisition.

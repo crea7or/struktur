@@ -91,7 +91,7 @@ def glyph_contract(root=ROOT):
                 labels=labels,units=units,clock_header=clock_units,duration_secondary_glyphs=duration_glyphs,markers=markers,
                 formatting_rules=dict(modes=formats,patterns=patterns,
                     numeric_alphabet='0123456789-.:',
-                    trace='Formatting.mc: bounded decimal/integer outputs and colon-separated hours/minutes; Snapshot.mc uses lowercase clock-header indicators and .SS secondary below ten hours in the label role'),
+                    trace='Formatting.mc: bounded decimal/integer outputs and colon-separated hours/minutes; Snapshot.mc uses lowercase clock-header indicators and .SS secondary below one hour in the label role'),
                 expected_codepoints=dict(numeric=[ord(c) for c in numeric],label=[ord(c) for c in label_glyphs]),
                 marker_decision_status='specified by APP-35; review state tracked separately',
                 scope='Union of supported current UI text per font role; not the full source-font charset.')

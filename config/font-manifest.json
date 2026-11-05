@@ -3,21 +3,21 @@
   "pillow": "12.2.0",
   "python": "3.14.7",
   "inventory_inputs": {
-    "config/catalogue.json": "c4b5824851bacbb27a6942e489f27e228792178fd5cb6df9c6aaa7a02ec07a16",
-    "config/decisions.json": "4f690b8dbf8b2dbc2096b7e34c57736f8374586cc8ad7af735716707bcddea0b",
-    "config/devices.json": "06dc46d069b49ca5fca2f29ab5b0567c2347a4412f64e08cc791eb31fa499ca3",
-    "requirements/workspace-snapshot.json": "4ee6601618308b189ad558a4fcb1b6228ffae239279b518c6c0088cdcc47ecb2",
+    "config/catalogue.json": "b897007fff4c7a21e5437cb8024d22e69a62e41d9de8627ea15327d990298fe0",
+    "config/decisions.json": "99da147b78a63fb255ffec8ba16d4e06126e2c202872bce48afae5ea877d01a9",
+    "config/devices.json": "57f1fb4b277bc9892cec978b58aa4a4ccdcaa55cd7207e65eb0e89ce62cafc22",
+    "requirements/workspace-snapshot.json": "6bc8a7f9466ca9aae125e0bc2a5a427761064abb70bf6d68bff3c0bb6d280065",
     "source/Snapshot.mc": "dc4b796515a345ee23a42f1682325aa36f559446348ca225225411bb7af667b4",
     "source/FieldRenderer.mc": "39f4fc3c83c20b97e935b597a8cacf06104ef01b2918b6a0d0780be40625ca54",
     "source/MaskedText.mc": "42c2bf4ea09732f6f500503b00ad372989ea3472e656736c3d83946e0e4527e2",
     "source/Policy.mc": "ac108943550289229b45ddce5f73bd42b36bf96e6b613bade14ff1a70ab03316",
-    "source/Formatting.mc": "b16ffbdad83a032a5319ac08e96f560c110d01d074bb4e2753514a00df8e02e3",
+    "source/Formatting.mc": "42fb820835c2c82a13f8dc5cb44a2178977e428b235cd4f17cb66f6d45dd52fd",
     "source/FieldPresentation.mc": "b60532192c787f1a762f483629c9d1fca2af02b24cc0328cc35aedc8792c8eb6",
-    "tools/font_glyphs.py": "ae714fc43149844c642609d6c61a7eb1cd13cd590dd036bf9eaf810d6f4cd94a",
-    "tools/generate_fonts.py": "059e048abad74b58ab820f9a199238c26fa00ada5f8fe4ff7cf71c14b5ab4f75",
+    "tools/font_glyphs.py": "664d2dafb44caeb87c9523858ac6113f8cb19b761c54c94c907d296b93ed5898",
+    "tools/generate_fonts.py": "8c8efe3e301ac8268eaddb91470bfe257273f6c8dc3c20d31b2b3fd09fb85800",
     "tools/requirements.txt": "e2fe85b176ffadb6e1b3c300a6a40b327305d7d53b5cd3861b250ed1c05c3075",
     "tools/header_text.py": "6dfe474dc0ab3b1a76ec2f8e1b16adc32ecc60d19597812ec679a5fb70fc4932",
-    "tools/generate_catalog.py": "df5c4004fa9078ce654e84bb68868375d3c1260eca828c7928b76edb71cf1676",
+    "tools/generate_catalog.py": "392bff551a6973a13653607573592df1f2a7a8d7e880df43cea9e9a41a0cb559",
     "source/Catalog.mc": "4d0407347aa302bf1e20808099c96d89789c7028b830761a3a4a7fd950f64e53",
     "profiles/edge530/DeviceProfile.mc": "c616b3ce08a98ebb77f4b5101c7f4cc20264dba29dea546ca7c48de94ff7ea40",
     "profiles/edge540/DeviceProfile.mc": "b2b75b7c93602cd6da4c8b7641b7bb38b7ddd25d390502867961dc83914c2eca",
@@ -32,20 +32,20 @@
   },
   "requirement_refs": {
     "APP-24": {
-      "revision": 83,
-      "description_sha256": "15a96ab6dd1cea8e44aaf8532d6a73cf96a488c1ec8a9908fa4daf05fb9cf445"
+      "revision": 92,
+      "description_sha256": "71e67935ebed9ecc338726f93f6c24c7cfcc2d67c642d8cf6b7946f11d33139f"
     },
     "APP-25": {
-      "revision": 56,
-      "description_sha256": "ab8815c29f13117137ca4dffbbe5ea8fba93ecc10a82270888290b9c8b93262c"
+      "revision": 60,
+      "description_sha256": "de5727873f0d483de518b1d1863b647873d45ebfe467bf8bca0523f42d119875"
     },
     "APP-34": {
-      "revision": 104,
-      "description_sha256": "4ffce1f5815a6af34028b23cd985524f75617fb786f08eb56dcd7f4278996c40"
+      "revision": 111,
+      "description_sha256": "a98c0d991621d47544100719711fe745e22f534c8d00ea4e73f8a557a6956927"
     },
     "SPEC-154": {
-      "revision": 47,
-      "description_sha256": "c4635b9db9a4b3dc2b8dbfdcb23103b37c4e0353169d323715021db73067291a"
+      "revision": 51,
+      "description_sha256": "8208b8451859c404b19b07fd94b0136df90555a3450d9a97b65281fd011dd721"
     }
   },
   "status": "generated; compiler and runtime evidence tracked separately",
@@ -174,7 +174,7 @@
         "%d"
       ],
       "numeric_alphabet": "0123456789-.:",
-      "trace": "Formatting.mc: bounded decimal/integer outputs and colon-separated hours/minutes; Snapshot.mc uses lowercase clock-header indicators and .SS secondary below ten hours in the label role"
+      "trace": "Formatting.mc: bounded decimal/integer outputs and colon-separated hours/minutes; Snapshot.mc uses lowercase clock-header indicators and .SS secondary below one hour in the label role"
     },
     "expected_codepoints": {
       "numeric": [
@@ -1828,7 +1828,7 @@
       "resource_path": "profiles/edge540/fonts/fonts.xml",
       "resource_sha256": "6d991f485517f336baa56bd272da2e0e9b8b64dddbd3c48b9cc08ccd8e798a01",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge550": {
@@ -1844,7 +1844,7 @@
       "resource_path": "profiles/edge550/fonts/fonts.xml",
       "resource_sha256": "3b14621300b258f7101b4293a222c42285b01dace7b753a5773209f01eb70860",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge830": {
@@ -1876,7 +1876,7 @@
       "resource_path": "profiles/edge840/fonts/fonts.xml",
       "resource_sha256": "6d991f485517f336baa56bd272da2e0e9b8b64dddbd3c48b9cc08ccd8e798a01",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge850": {
@@ -1892,7 +1892,7 @@
       "resource_path": "profiles/edge850/fonts/fonts.xml",
       "resource_sha256": "3b14621300b258f7101b4293a222c42285b01dace7b753a5773209f01eb70860",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1030": {
@@ -1924,7 +1924,7 @@
       "resource_path": "profiles/edge1040/fonts/fonts.xml",
       "resource_sha256": "094dadcf9bab1d4f47bd87510b5bce7d3e7e0bf8e149544ba04999d9ce76fe65",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1050": {
@@ -1940,7 +1940,7 @@
       "resource_path": "profiles/edge1050/fonts/fonts.xml",
       "resource_sha256": "d528ef79ac638896af0795f45f423fbe6667ede302e759c5f30925f40e7c8f63",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     },
     "edge1060": {
@@ -1956,7 +1956,7 @@
       "resource_path": "profiles/edge1060/fonts/fonts.xml",
       "resource_sha256": "d528ef79ac638896af0795f45f423fbe6667ede302e759c5f30925f40e7c8f63",
       "outline_fonts": true,
-      "halo_sha256": "8551ea985ebb60d61636f98a20599fd868d5355fac518f35003a8f2b97f68666",
+      "halo_sha256": "450e5c9ca0e8dbfcb059549f831fa50e90d8f6cf18515298fc782c21e66f4baf",
       "encoding": "exact glyph tops/bottoms/advances as unsigned byte arrays"
     }
   }

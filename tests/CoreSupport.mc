@@ -126,12 +126,19 @@ class PropertyReadStore {
 (:testSupport)
 function verifyCompactProperties() {
     var store=new PropertyReadStore();store.values={"a1"=>32,"team"=>"SAVED TEAM","b1_bg"=>0,"unrelated"=>42};
-    var data=SettingsStore.read(store);Test.assertEqual(76,store.reads);Test.assertEqual(76,data.size());
+    var data=SettingsStore.read(store);Test.assertEqual(76,store.reads);Test.assertEqual(3,data.size());
     Test.assertEqual(32,data["a1"]);Test.assertEqual("SAVED TEAM",data["team"]);Test.assertEqual(0,data["b1_bg"]);
     Test.assert(!data.hasKey("unrelated"));Test.assertEqual(4,store.values.size());
     var keys=SettingsCatalogue.keys();var seen={};
     for(var i=0;i<keys.size();i+=1) { Test.assert(keys[i].length()<=8);Test.assert(!seen.hasKey(keys[i]));seen[keys[i]]=true; }
     var banks=new FieldSetsSettings();banks.apply(data);Test.assertEqual("team",banks.primary.slots[0]);Test.assertEqual(0,banks.secondary.modes[0]);
+    Test.assertEqual(60,banks.primary.cadenceBounds[0]);Test.assertEqual(80,banks.primary.cadenceBounds[1]);
+    Test.assertEqual(100,banks.primary.cadenceBounds[2]);Test.assertEqual(120,banks.primary.cadenceBounds[3]);
+    Test.assert(!data.hasKey("cad1") && !data.hasKey("cad2"));
+    store.values["cad2"]="broken";store.values["a_hideu"]=false;
+    var malformed=SettingsStore.read(store);banks.apply(malformed);
+    Test.assert(banks.primary.cadenceBounds==null);Test.assertEqual("broken",store.values["cad2"]);
+    Test.assert(malformed.hasKey("a_hideu"));Test.assertEqual(false,malformed["a_hideu"]);
     var invalid=[null,true,"1",1.0,-1,3];
     for(var j=0;j<invalid.size();j+=1) {
         banks.apply({"a1_bg"=>invalid[j],"b1_bg"=>invalid[j],"b2_bg"=>0});

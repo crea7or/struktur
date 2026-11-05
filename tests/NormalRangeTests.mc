@@ -32,7 +32,7 @@ function normalRangeFormatting(logger) {
                     var twelve=engine.prepareWithPreferences(raw,settings,true,new PresentationDevice(statute==1,false,false),clock)[:values][0];
                     Test.assertEqual(sample==0?"12:00":(sample==1?"8:05":"11:59"),twelve[ValueRecord.TEXT]);
                 }
-                if("duration".equals(Catalog.FORMATS[i])) { Test.assertEqual(sample==0?".00":(sample==1?".59":""),value[ValueRecord.UNIT]); }
+                if("duration".equals(Catalog.FORMATS[i])) { Test.assertEqual(sample==0?".00":"",value[ValueRecord.UNIT]); }
             }
         }
     }

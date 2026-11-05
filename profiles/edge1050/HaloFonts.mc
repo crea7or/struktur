@@ -7,13 +7,13 @@ function select(r,fonts) {
 r._outlinesStale=false;
 for(var i=0;i<r._runs.size();i+=1) {
 var value=r._preparedValues[i];
-if(r._settings.halo && r._labelOutline==null && (r._settings.modes[i]>0 || r.painted(value))) { r._labelOutline=load(r,DeviceProfile.LABEL_SIZE,true,fonts); }
-if(!r._runs[i].isNative && r._runs[i].outline==null && r._settings.halo && (r._settings.modes[i]==2 || r.coverage(value)==2 || value[ValueRecord.ANGLE]!=null)) { r._runs[i].outline=load(r,r._runs[i].size,false,fonts); }
+if(r._settings.halo && r._labelOutline==null && r.painted(value)) { r._labelOutline=load(r,DeviceProfile.LABEL_SIZE,true,fonts); }
+if(!r._runs[i].isNative && r._runs[i].outline==null && r._settings.halo && r.painted(value) && (r.coverage(value)==2 || value[ValueRecord.ANGLE]!=null)) { r._runs[i].outline=load(r,r._runs[i].size,false,fonts); }
 }
 }
 // A coverage change can need an outline font that only layout may load; shifted halos draw until then.
 function missing(r,i,value) {
-return r._settings.halo && ((r._labelOutline==null && r.painted(value)) || (!r._runs[i].isNative && r._runs[i].outline==null && (r.coverage(value)==2 || value[ValueRecord.ANGLE]!=null)));
+return r._settings.halo && r.painted(value) && (r._labelOutline==null || (!r._runs[i].isNative && r._runs[i].outline==null && (r.coverage(value)==2 || value[ValueRecord.ANGLE]!=null)));
 }
 function load(r,size,labelRole,fonts) {
 var key="o"+(labelRole?"l":"v")+size.toString();

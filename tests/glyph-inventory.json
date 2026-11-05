@@ -21,7 +21,7 @@
   "states": [
     "All 32 exact labels, including hidden slots",
     "Spaced vertical-bar header separators; retain the slash within km/h and lowercase clock-header indicators",
-    "Two-digit secondary seconds below ten hours; no secondary at ten hours or above",
+    "Two-digit secondary seconds below one hour; no secondary at one hour or above",
     "Unavailable -- and overflow ! in the numeric role",
     "Unknown field header and complete compact message",
     "Uppercase N/NE/E/SE/S/SW/W/NW cardinals in the label role"

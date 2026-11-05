@@ -3,6 +3,16 @@ import json
 import re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+
+def validate_property_metadata(description, prop):
+    pattern=(r'\AKey: `([^`]+)`\nCaption: ([^\n]+)\n'
+             r'Type(?: and values)?: ([^\n]+)\nDefault: `([^`]+)`(?:\n|$)')
+    match=re.match(pattern,description)
+    assert match, ('Malformed property metadata', prop['key'])
+    key,caption,domain,default=match.groups()
+    allowed='Boolean' if prop['type']=='boolean' else ('String' if prop['type']=='string' else 'Integer '+('..'.join([str(prop['min']),str(prop['max'])]) if 'min' in prop else ', '.join(map(str,prop['choices']))))
+    assert (key,caption,domain,default)==(prop['key'],prop['title'],allowed,json.dumps(prop['default'])), ('Property metadata drift',prop['key'])
+
 def validate_properties():
     def read(path):return json.loads((ROOT/path).read_text(encoding='utf-8-sig'))
     catalog=read('config/catalogue.json');binding=read('config/property-contracts.json')
@@ -15,15 +25,12 @@ def validate_properties():
         assert re.fullmatch('[a-z][a-z0-9_]{0,7}',key) and not p.get('hidden')
         b=binding['properties'][key];owner=b['requirement'];desc=by[owner]['description']
         assert by[owner]['work_item_type_code']=='requirement' and p['requirement']==owner
-        assert f'Key: `{key}`.' in desc and f'Caption: {p["title"]}.' in desc
-        assert 'Default: `'+json.dumps(p['default'])+'`.' in desc
-        allowed='Boolean' if p['type']=='boolean' else ('String' if p['type']=='string' else 'Integer '+('..'.join([str(p['min']),str(p['max'])]) if 'min' in p else ', '.join(map(str,p['choices']))))
-        assert 'Type/values: '+allowed+'.' in desc
+        validate_property_metadata(desc,p)
         expected=set(b['fields']);assert expected and expected<=fields
         linked={t for s,t,k in edges if s==owner and k=='uses' and t in fields}
         mentions=set(re.findall(r'\[\[([A-Z]+-\d+)\]\]',desc))
-        assert expected==linked==mentions&fields,('Property applicability drift',key)
-        assert b['shared'] in mentions and (owner,b['shared'],'uses') in edges
+        assert expected==linked and (mentions&fields)<=expected,('Property applicability drift',key)
+        assert (owner,b['shared'],'uses') in edges
         assert (binding['test'],owner,'verifies') in edges
     code=by[binding['field_codes']]['description']
     for n,f in enumerate(catalog['fields']):

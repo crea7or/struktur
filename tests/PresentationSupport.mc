@@ -682,3 +682,23 @@ function verifyTeamWrapping() {
     cell[Cell.W]=200;run=cache.fit(cell,value);Test.assertEqual(1,run.lines[0].size());Test.assertEqual("BLUE  TRAIN",run.lines[0][0]);
     value[ValueRecord.TEXT]="";run=cache.fit(cell,value);Test.assertEqual(0,run.lines[0].size());
 }
+
+// Selection regression only: no memory sampling or deliberately insufficient bounds.
+(:testSupport)
+function verifyUnknownOutlineResources() {
+    var settings=new DisplaySettings();settings.apply({"a1"=>"future_metric","a1_bg"=>2});
+    var engine=new SnapshotEngine();var renderer=new FieldRenderer();
+    var snapshot=engine.prepareWithPreferences({},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
+    renderer.prepare(snapshot);
+    var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());renderer.layout(dc,settings);
+    Test.assertEqual("field",snapshot[:values][0][ValueRecord.LABEL]);Test.assert(snapshot[:values][0][ValueRecord.BAND]==null);
+    Test.assert(renderer._labelOutline==null && renderer._runs[0].outline==null);
+    var keys=renderer._fonts.keys();
+    for(var i=0;i<keys.size();i+=1) { Test.assert(keys[i].find("o")!=0); }
+    settings.apply({"a1"=>0,"a1_bg"=>2});
+    snapshot=engine.prepareWithPreferences({"current_speed"=>3.0},settings,true,new PresentationDevice(false,true,false),new PresentationClock());
+    renderer.prepare(snapshot);renderer.layout(dc,settings);
+    Test.assert(snapshot[:values][0][ValueRecord.BAND]!=null);
+    if(haloDraws()==2) { Test.assert(renderer._labelOutline!=null && renderer._runs[0].outline!=null); }
+    Test.assert(!renderer.needsLayout());
+}

@@ -389,7 +389,7 @@
       "shared": true,
       "legacy_only": true,
       "title": "Text outline on colored backgrounds",
-      "prompt": "Edge 530/830/1030. Off saves battery: text over colored backgrounds is drawn without its one-pixel contrast outline.",
+      "prompt": "Edge 530/830/1030. Off omits the extra outline draws; text keeps its contrast color and layout.",
       "requirement": "SPEC-670"
     },
     {

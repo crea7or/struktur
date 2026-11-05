@@ -144,26 +144,28 @@ function unitsAndExplicitFormatPolicy(logger) {
     Test.assertEqual(32.0,Formatting.temperature(0,true));
     Test.assertEqual("00.00",Formatting.duration(0,true));Test.assertEqual("01.05",Formatting.duration(65000,true));
     Test.assertEqual("1.05",Formatting.duration(65000,false));Test.assert(Formatting.duration(65000,null)==null);
-    Test.assertEqual("1:00.00",Formatting.duration(3600000,true));
+    Test.assertEqual("1:00",Formatting.duration(3600000,true));
     // Exercise the actual settings-to-snapshot path: an unset production policy
     // previously turned valid timer/elapsed values below an hour into "pending".
     Test.assertEqual(true,PresentationPolicy.PAD_LEADING_MINUTES);
     var durationSettings=new DisplaySettings();
-    durationSettings.apply({"a1"=>16,"a2"=>17});
+    durationSettings.apply({"a1"=>16,"a2"=>17,"a3"=>"lap_time"});
     var durationEngine=new SnapshotEngine();
     var durationInputs=[0,999,1000,65000,3599999,3600000,3661000,35999999,36000000,86400000,360000000];
-    var durationExpected=["00.00","00.00","00.01","01.05","59.59","1:00.00","1:01.01","9:59.59","10:00","24:00","100:00"];
+    var durationExpected=["00.00","00.00","00.01","01.05","59.59","1:00","1:01","9:59","10:00","24:00","100:00"];
     for(var durationIndex=0;durationIndex<durationInputs.size();durationIndex+=1) {
         var durationSnapshot=durationEngine.prepare({"activity_timer"=>durationInputs[durationIndex],
-            "elapsed_time"=>durationInputs[durationIndex]},durationSettings,true);
+            "elapsed_time"=>durationInputs[durationIndex],"lap_time"=>durationInputs[durationIndex]},durationSettings,true);
         var expectedDuration=durationExpected[durationIndex];
-        var shortSeconds=durationInputs[durationIndex]<36000000;
+        var shortSeconds=durationInputs[durationIndex]<3600000;
         var expectedPrimary=shortSeconds?expectedDuration.substring(0,expectedDuration.length()-3):expectedDuration;
         var expectedSecondary=shortSeconds?expectedDuration.substring(expectedDuration.length()-3,expectedDuration.length()):"";
         Test.assertEqual(expectedPrimary,durationSnapshot[:values][0][ValueRecord.TEXT]);
         Test.assertEqual(expectedSecondary,durationSnapshot[:values][0][ValueRecord.UNIT]);
         Test.assertEqual(expectedPrimary,durationSnapshot[:values][1][ValueRecord.TEXT]);
         Test.assertEqual(expectedSecondary,durationSnapshot[:values][1][ValueRecord.UNIT]);
+        Test.assertEqual(expectedPrimary,durationSnapshot[:values][2][ValueRecord.TEXT]);
+        Test.assertEqual(expectedSecondary,durationSnapshot[:values][2][ValueRecord.UNIT]);
     }
     var pausedDuration=durationEngine.prepare({"activity_timer"=>65000,"elapsed_time"=>73000},durationSettings,true);
     Test.assertEqual("01",pausedDuration[:values][0][ValueRecord.TEXT]);

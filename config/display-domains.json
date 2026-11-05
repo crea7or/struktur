@@ -204,7 +204,7 @@
     {
       "field": "activity_timer",
       "requirement": "DVS-30",
-      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "precision": "1 second below 1 hour; 1 minute at 1 hour and above under DVS-13",
       "normal_range": {
         "milliseconds": [
           0,
@@ -215,7 +215,7 @@
     {
       "field": "elapsed_time",
       "requirement": "DVS-31",
-      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "precision": "1 second below 1 hour; 1 minute at 1 hour and above under DVS-13",
       "normal_range": {
         "milliseconds": [
           0,
@@ -337,7 +337,7 @@
     {
       "field": "lap_time",
       "requirement": "FUNC-4",
-      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "precision": "1 second below 1 hour; 1 minute at 1 hour and above under DVS-13",
       "normal_range": {
         "milliseconds": [
           0,

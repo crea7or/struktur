@@ -8,7 +8,11 @@ module SettingsStore {
     function load() { return read(new SettingsPropertyStore()); }
     function read(store) {
         var values={};var keys=SettingsCatalogue.keys();
-        for(var i=0;i<keys.size();i+=1) { values[keys[i]]=store.get(keys[i]); }
+        for(var i=0;i<keys.size();i+=1) {
+            var value=store.get(keys[i]);
+            // An unavailable native property is missing, not an explicitly malformed cutoff.
+            if(value!=null) { values[keys[i]]=value; }
+        }
         return values;
     }
 }

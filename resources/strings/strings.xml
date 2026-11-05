@@ -56,7 +56,7 @@
     <string id="Choice_a_grid_horizontal" scope="settings">Horizontal lines</string>
     <string id="Choice_a_grid_full" scope="settings">Full grid</string>
     <string id="Setting_halo" scope="settings">Text outline on colored backgrounds</string>
-    <string id="Prompt_halo" scope="settings">Edge 530/830/1030. Off saves battery: text over colored backgrounds is drawn without its one-pixel contrast outline.</string>
+    <string id="Prompt_halo" scope="settings">Edge 530/830/1030. Off omits the extra outline draws; text keeps its contrast color and layout.</string>
     <string id="Setting_team" scope="settings">Team name</string>
     <string id="Prompt_team" scope="settings">Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.</string>
     <string id="Setting_tsrc" scope="settings">Team color source</string>

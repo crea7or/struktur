@@ -74,7 +74,7 @@ def validate_ownership(root=ROOT):
         elif field['id'] in {'grade','temperature'}:
             assert attrs.get('PRECISION') == 1, ('Fixed precision drift', key)
         else:
-            precision_rule={'float':'magnitude-based','duration':'1 second below 10 h; 1 minute from 10 h','clock':'1 minute','text':'not applicable (text)'}[field['format']]
+            precision_rule={'float':'magnitude-based','duration':'1 second below 1 h; 1 minute from 1 h','clock':'1 minute','text':'not applicable'}[field['format']]
             assert attrs.get('PRECISION_RULE') == precision_rule, ('Precision rule drift', key)
         assert (attrs['LABEL_AND_UNIT'] or None) == field.get('header_with_units'), ('Field header drift', key)
         assert not re.search(r'^(Field code|Label text|Unit text|Header text with units|Precision):', description, re.M), ('Metadata duplicated in description', key)
@@ -86,7 +86,7 @@ def validate_ownership(root=ROOT):
             required.add('DVS-50')
         assert all((key, shared) in uses for shared in required), ('Missing applicable shared rule', key)
         if field['format'] != 'text':
-            assert requirement_limits_match(description, limit_by_field[field['id']], field, limits['groups']), ('Range contract mismatch', key)
+            assert requirement_limits_match(description, limit_by_field[field['id']], field, limits['groups'], {key:row['description'] for key,row in by_id.items()}), ('Range contract mismatch', key)
     return dict(fields=len(fields),active_requirements=sum(r['work_item_type_code']=='requirement' and r['status']!='obsolete' for r in rows),field_documents=['DVS-1'],status='passed')
 
 

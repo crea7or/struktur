@@ -1,5 +1,5 @@
 {
-  "scope": "Current APP-24 fonts fit complete clocks and hour-plus-seconds timers. Conservative normal intervals, not maximum representable sets; none is an explicit limitation, never a passing fit assertion. Bounds apply after conversion and presentation rounding. Other values retain APP-34 fallback. Not sensor validity or hardware qualification.",
+  "scope": "Current APP-24 fonts fit complete clocks and duration groups with seconds only below one hour. Conservative normal intervals, not maximum representable sets; none is an explicit limitation, never a passing fit assertion. Bounds apply after conversion and presentation rounding. Other values retain APP-34 fallback. Not sensor validity or hardware qualification.",
   "groups": [
     {
       "id": "small",
@@ -7353,7 +7353,7 @@
     {
       "field": "activity_timer",
       "requirement": "DVS-30",
-      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "precision": "1 second below 1 hour; 1 minute at 1 hour and above under DVS-13",
       "contexts": [
         {
           "group": "small",
@@ -7808,7 +7808,7 @@
     {
       "field": "elapsed_time",
       "requirement": "DVS-31",
-      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "precision": "1 second below 1 hour; 1 minute at 1 hour and above under DVS-13",
       "contexts": [
         {
           "group": "small",
@@ -12806,7 +12806,7 @@
     {
       "field": "lap_time",
       "requirement": "FUNC-4",
-      "precision": "1 second below 10 hours; 1 minute at 10 hours and above under DVS-13",
+      "precision": "1 second below 1 hour; 1 minute at 1 hour and above under DVS-13",
       "contexts": [
         {
           "group": "small",

@@ -24,7 +24,7 @@ if($LASTEXITCODE -ne 0){throw 'Temperature source qualification evidence/generat
 $provenance=& (Join-Path $PSScriptRoot 'source-provenance.ps1')
 if($Mode -in @('release','package')){
     $baseline=Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'requirements\baseline.json')|ConvertFrom-Json
-    if(@($baseline.requirements|Where-Object{$_.status -ne 'approved'}).Count){throw 'Release requires approval of all current requirements.'}
+    if(@($baseline.requirements|Where-Object{$_.status -notin @('approved','obsolete')}).Count){throw 'Release requires approval of all current requirements.'}
     $decisions=Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'config\decisions.json')|ConvertFrom-Json
     $open=@($decisions|Where-Object{$_.status -ne 'approved'})
     if($open.Count){throw ('Release is blocked by unresolved decisions: '+(($open|ForEach-Object{$_.id})-join ', '))}

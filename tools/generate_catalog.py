@@ -76,9 +76,9 @@ def main():
            dict(key='hide_value_units',type='boolean',default=True,title='Hide physical units in headers'),
            dict(key='inverse_enlarged_theme',type='boolean',default=True,title='Inverse theme for enlarged slots'),
            dict(key='grid_type',type='number',default=1,choices=[0,1,2],identifiers=['none','horizontal','full'],choice_labels=['None','Horizontal lines','Full grid'],title='Grid type')]
-    # DVS-6: API 3 profiles draw halos at runtime; riders there may turn them off to save battery.
+    # DVS-6: API 3 profiles draw halos at runtime; the option can omit those additional draw passes.
     props.append(dict(key='halo',type='boolean',default=True,shared=True,legacy_only=True,title='Text outline on colored backgrounds',
-                      prompt='Edge 530/830/1030. Off saves battery: text over colored backgrounds is drawn without its one-pixel contrast outline.'))
+                      prompt='Edge 530/830/1030. Off omits the extra outline draws; text keeps its contrast color and layout.'))
     props.append(dict(key='slot_1_team_text',type='string',default='TEAM',maxLength=32,shared=True,title='Team name',prompt='Shared by all Team fields in both field sets. Up to 32 printable ASCII characters; preserve spaces and case.'))
     props.extend([dict(key='team_color_source',type='number',default=0,shared=True,choices=[0,1,2],choice_labels=['None','Power','Heart rate'],title='Team color source',prompt='Shared by all Team slots in both sets.')])
     for i in range(10):

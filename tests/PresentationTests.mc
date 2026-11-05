@@ -270,6 +270,7 @@ function approvedForegroundAndMetricWidths(logger) {
 // Fast normal native-area drawing cases; fallback belongs to PlacementTests.
 (:test)
 function normalPresentationDrawAndAlignment(logger) {
+    verifyUnknownOutlineResources();
     verifyTeamWrapping();
     for(var teamCase=0;teamCase<12;teamCase+=1) { new TeamScenario(teamCase).run(); }
     for(var modeCase=0;modeCase<24;modeCase+=1) { new CoverageScenario(modeCase).run(); }
@@ -308,17 +309,17 @@ function gridTypeAndRepaint(logger) {
     return true;
 }
 
-// APP-24: full clock and hour-plus-seconds timer groups fit every native cell.
+// APP-24: full clock and below/above-hour duration groups fit every native cell.
 (:test)
 function clockAndDurationFitEveryLayout(logger) {
-    for(var kind=0;kind<3;kind+=1) {
+    for(var kind=0;kind<4;kind+=1) {
         for(var big=0;big<=2;big+=1) {
             for(var align=0;align<2;align+=1) {
                 var settings=new DisplaySettings();var props={"a_big"=>big,"a_align"=>align};
-                var id=kind==2?"activity_timer":"time_of_day";
+                var id=kind>=2?"activity_timer":"time_of_day";
                 for(var slot=1;slot<=10;slot+=1) { props["a"+slot.toString()]=id; }
                 settings.apply(props);var clock=new PresentationClock();clock.hour=kind==0?0:13;clock.min=kind==0?0:5;
-                var snapshot=new SnapshotEngine().prepareWithPreferences({"activity_timer"=>3600000},settings,true,new PresentationDevice(false,true,false),clock);
+                var snapshot=new SnapshotEngine().prepareWithPreferences({"activity_timer"=>kind==2?3599999:3600000},settings,true,new PresentationDevice(false,true,false),clock);
                 var dc=new PresentationDrawDc(profileDrawWidth(),profileDrawHeight());
                 for(var n=0;n<snapshot[:values].size();n+=1) {
                     // Capability fixture reserves the largest one-pixel contour.
@@ -328,8 +329,8 @@ function clockAndDurationFitEveryLayout(logger) {
                 var cells=Grid.plan(dc.getWidth(),dc.getHeight(),DeviceProfile.DESIGN_ROWS,big);
                 Test.assertEqual(cells.size(),renderer._runs.size());
                 for(var f=0;f<cells.size();f+=1) {
-                    Test.assertEqual(kind==0?"00:00":(kind==1?"13:05":"1:00"),renderer._runs[f].text);
-                    Test.assertEqual(kind==2?".00":"",renderer._runs[f].unit);
+                    Test.assertEqual(kind==0?"00:00":(kind==1?"13:05":(kind==2?"59":"1:00")),renderer._runs[f].text);
+                    Test.assertEqual(kind==2?".59":"",renderer._runs[f].unit);
                 }
                 verifyDrawRecords(dc,renderer,snapshot,cells,0,1,align);
             }

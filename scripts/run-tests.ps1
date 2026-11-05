@@ -26,6 +26,10 @@ if(!$Python){
 if($Suite -eq 'Core'){
     & $Python (Join-Path $projectRoot 'tools\test_settings_layout.py')
     if($LASTEXITCODE -ne 0){throw 'Single-page settings presentation regression failed.'}
+    & $Python (Join-Path $projectRoot 'tools\test_property_contracts.py')
+    if($LASTEXITCODE -ne 0){throw 'Property requirement parser regression failed.'}
+    & $Python (Join-Path $projectRoot 'tools\test_display_range_contracts.py')
+    if($LASTEXITCODE -ne 0){throw 'Normal-range requirement parser regression failed.'}
     & $Python (Join-Path $projectRoot 'tools\test_compile_package.py')
     if($LASTEXITCODE -ne 0){throw 'Package firmware/API compatibility regression failed.'}
     & (Join-Path $PSScriptRoot 'test-sdk-runner.ps1')

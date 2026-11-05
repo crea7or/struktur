@@ -42,12 +42,11 @@ module Formatting {
         var hours = seconds / 3600;
         var minutes = (seconds % 3600) / 60;
         var remainder = seconds % 60;
-        if (hours >= 10) { return hours.toString() + ":" + minutes.format("%02d"); }
-        if (hours > 0) { return hours.toString() + ":" + minutes.format("%02d") + "." + remainder.format("%02d"); }
+        if (hours > 0) { return hours.toString() + ":" + minutes.format("%02d"); }
         if (padLeadingMinutes == null) { return null; }
         return minutes.format(padLeadingMinutes ? "%02d" : "%d") + "." + remainder.format("%02d");
     }
-    // DVS-13: .SS uses LABELS_FONT only below ten hours.
+    // DVS-13: .SS uses LABELS_FONT only below one hour.
     function durationParts(milliseconds, padLeadingMinutes) {
         var text=duration(milliseconds,padLeadingMinutes);
         if(text==null) { return [text,""]; }
